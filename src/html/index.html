@@ -3,37 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>LANDWAR GDK v0.0.1</title>
-    <link rel="stylesheet" href="../css/base_responsive.css"/>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <link rel="stylesheet" href="../css/base_responsive.css"/>
+    <link rel="stylesheet" href="../css/styles.css"/>
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="offset-3 col-6 offset-l-1 col-l-8 row-center">LANDWAR - Game Development Kit</div>
-        </div>
-        <div class="row">
-            <div class="offset-2 col-10">
-                <p>This application is to allow players and game masters use the LANDWAR rules set to:</p>
-                <ul>
-                    <li>Generate custom unit cards.</li>
-                    <li>Calculate unit point costs.</li>
-                    <li>Create custom armies.</li>
-                </ul>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-3">
-                <button type="button">Core Rules</button>
-            </div>
-            <div class="col-3">
-                <button type="button">Tag Rules Library</button>
-            </div>
-            <div class="col-3">
-                <button type="button">New Custom Unit</button>
-            </div>
-            <div class="col-3">
-                <button type="button">Army List</button>
-            </div>
-        </div>
+    <div id="mainView" class="container">
+        <div id="tagNavBar"></div>
+        <div id="pageLanding"></div>
+        <div id="pageUnitBuild"></div>
     </div>
+
+</body>
+<script type="text/javascript" src="../js/util/unitCalculator.js"></script>
+<script type="text/javascript" src="../js/renderer.js"></script>
 </html>

@@ -1,0 +1,11 @@
+/*
+    All the style layering that goes on top of base_responsive.
+*/
+
+
+/*
+    Layout: navbar
+*/
+.navbar{
+    background-color: darkgray;
+}
