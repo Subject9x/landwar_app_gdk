@@ -1,0 +1,13 @@
+https://www.electron.build/#quick-setup-guide
+https://www.electron.build/configuration/win#WindowsConfiguration-target
+
+https://stevenklambert.com/writing/comprehensive-guide-building-packaging-electron-app/
+
+electron-forge commands
+	npm run make
+	npm run package
+
+electron-builder commands 
+	npm run dist
+	npm run package
+	
