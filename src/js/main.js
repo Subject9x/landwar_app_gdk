@@ -2,8 +2,10 @@
   Main entry for entire application's JS.
 
 */
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain} = require('electron')
 const path = require('path')
+
+if (require('electron-squirrel-startup')) return app.quit();
 
 //custom func to make a new 'default' window.
 function createWindow () {
@@ -12,10 +14,11 @@ function createWindow () {
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, '../js/preload.js'),
-      contextIsolation: true
+      contextIsolation: true,
+      devTools: false
     }
   })
-
+  win.removeMenu();
   win.loadFile('src/html/index.html')
 }
 
@@ -36,3 +39,5 @@ app.on('window-all-closed', () => {
     app.quit()
   }
 })
+
+ipcMain.on('quit-app', ()=> app.quit());
