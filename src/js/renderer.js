@@ -14,11 +14,11 @@ document.addEventListener('DOMContentLoaded',function(){
         Build index.html with everything needed.
 
     */
-    navBar.innerHTML = window.nodeFileSys.loadFile('src/html/layout/navbar_default.html');
+    navBar.innerHTML = window.nodeFileSys.loadHTML('layout/navbar_default.html');
 
-    pageLanding.innerHTML = window.nodeFileSys.loadFile('src/html/pages/landing.html');
+    pageLanding.innerHTML = window.nodeFileSys.loadHTML('pages/landing.html');
   
-    pageUnitBuild.innerHTML = window.nodeFileSys.loadFile('src/html/pages/unitBuilder.html');
+    pageUnitBuild.innerHTML = window.nodeFileSys.loadHTML('pages/unitBuilder.html');
     pageUnitBuild.setAttribute('hidden', 'true');
 
     /*

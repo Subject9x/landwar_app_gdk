@@ -1,7 +1,8 @@
 // preload.js
 
-const {contextBridge, ipcRenderer, remote} = require('electron')
+const {contextBridge, ipcRenderer} = require('electron')
 const fs = require('fs')
+const path = require('path')
 
 /*
   contextBridge -
@@ -25,10 +26,20 @@ contextBridge.exposeInMainWorld(
   'nodeFileSys',
   {
     loadFile(fileName){
-      return fs.readFileSync(fileName, 'utf-8')
+      let pathDir = path.join(__dirname, fileName);
+      return fs.readFileSync(pathDir, 'utf-8');
+    },
+    loadJS(fileName){
+      let pathDir = path.join(__dirname, fileName);
+      return fs.readFileSync(pathDir, 'utf-8');
+    },
+    loadHTML(fileName){
+      let pathDir = path.join(__dirname, '../html/'+fileName);
+      return fs.readFileSync(pathDir, 'utf-8');
     }
   }
 )
+
 
 // All of the Node.js APIs are available in the preload process.
 // It has the same sandbox as a Chrome extension.

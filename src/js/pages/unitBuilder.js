@@ -72,7 +72,7 @@ function ub_row_add_elms(rowData, celCount, tagType, rowId, celName){
 function ub_row_add(){
     let table = document.getElementById('unitTable');
     let newRow = table.insertRow();
-    let rowTemplate = window.nodeFileSys.loadFile('src/html/layout/pages/unitBuilder_unitRow.html');
+    let rowTemplate = window.nodeFileSys.loadHTML('layout/pages/unitBuilder_unitRow.html');
     newRow.innerHTML = rowTemplate;
     let newRowId = 'unitRow'+table.rows.length;
     newRow.setAttribute('id', newRowId);
