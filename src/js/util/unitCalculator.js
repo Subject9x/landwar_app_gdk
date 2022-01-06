@@ -1,7 +1,7 @@
 /*
     Core Unit cost calculator function.
 
-    Unit Builder Rules v0.036
+    Unit Builder Rules v0.037
 
         Core Stat Equations, TAGS are elsewhere.
 
@@ -12,18 +12,21 @@ function uc_calc_Size(sizeVal){
 }
 
 function uc_calc_Move(moveVal, sizeVal){
-    return (moveVal / 2) * sizeVal;
+    if(moveVal === 0){
+        return 0;
+    }
+    return (moveVal + sizeVal)/ 2;
 }
 
-function uc_calc_Evade(evadeVal){
-    return evadeVal * 2;
+function uc_calc_Evade(sizeVal, evadeVal, moveVal){
+    return ((sizeVal / 2) * evadeVal) + moveVal / 2;
 }
 
-function uc_calc_Damage_Melee(meleeDamageVal, moveVal, sizeVal){
+function uc_calc_Damage_Melee(meleeDamageVal, moveVal){
     if(meleeDamageVal === 0){
         return 0;
     }
-    return (meleeDamageVal * 2) + ( (moveVal/ 4)  - (sizeVal / 2));
+    return (meleeDamageVal * 2) + (moveVal / 4) ;
 }
 
 function uc_calc_Damage_Range(rangeDamageVal){
@@ -41,11 +44,11 @@ function uc_calc_Armor(armorVal, sizeVal){
     if(armorVal === 0){
         return 0;
     }
-    return (armorVal * 4) - sizeVal;
+    return Math.max(0, (armorVal * 4) - (sizeVal * 2));
 }
 
-function uc_calc_Structure(structVal){
-    return structVal;
+function uc_calc_Structure(structVal,sizeVal){
+    return Math.max(0, structVal - sizeVal);
 }
 
 function uc_calc_baseCost(sizeCost, moveCost, evadeCost, meleeCost, rangeDamageCost, rangeCost, armorCost, structCost){
