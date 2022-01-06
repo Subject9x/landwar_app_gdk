@@ -20,12 +20,12 @@ function ub_row_change_points(rowId){
 
     let sizeCost = uc_calc_Size(sizeVal);
     let moveCost = uc_calc_Move(moveVal, sizeVal);
-    let evadeCost = uc_calc_Evade(evadeVal);
-    let dmgMeleeCost = uc_calc_Damage_Melee(dmgMeleeVal, moveVal, sizeVal);
+    let evadeCost = uc_calc_Evade(sizeVal, evadeVal, moveVal);
+    let dmgMeleeCost = uc_calc_Damage_Melee(dmgMeleeVal, moveVal);
     let dmgRangeCost = uc_calc_Damage_Range(dmgRangeVal);
     let rangeCost = uc_calc_Range(moveVal, rangeVal, dmgRangeVal);
     let armorCost = uc_calc_Armor(armorVal, sizeVal);
-    let structCost = uc_calc_Structure(structVal);
+    let structCost = uc_calc_Structure(structVal,sizeVal);
     
     /*console.log('-------------change-------------------');
     console.log('sizeCost= ' + sizeCost);
@@ -39,7 +39,10 @@ function ub_row_change_points(rowId){
 
 
     let pointsVal = uc_calc_baseCost(sizeCost, moveCost, evadeCost, dmgMeleeCost, dmgRangeCost, rangeCost, armorCost, structCost);
-    document.getElementById(rowId+'_points').innerHTML =  Math.max(0, pointsVal);
+    pointsVal = Math.max(0, pointsVal);
+    pointsVal = Math.round(pointsVal);
+
+    document.getElementById(rowId+'_points').innerHTML = pointsVal;
 }
 
 function ub_row_on_change_event(event){
