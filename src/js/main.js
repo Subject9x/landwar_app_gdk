@@ -14,11 +14,13 @@ function createWindow () {
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, '../js/preload.js'),
-      contextIsolation: true,
-      devTools: false
+      contextIsolation: true
     }
   })
-  win.removeMenu();
+  //,
+  //devTools: false
+  //
+  //win.removeMenu();
   win.loadFile('src/html/index.html')
 }
 
