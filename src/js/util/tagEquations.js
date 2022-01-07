@@ -3,7 +3,11 @@
 
     Unit Builder Rules v0.037
 
-        Core Stat Equations, TAGS are elsewhere.
+        TAGS are special abilities with specific caveats
 
-        these are distinct from the unitbuilder bindings to make them accessible anywhere.
 */
+
+
+function tag_search(){
+    
+}
