@@ -3,7 +3,7 @@
     primarily based on W3schools tutorial.
 */
 
-@media (min-width: 601px){
+/*@media (min-width: 601px){
     .container{
         max-width: 1140px;
     }
@@ -19,7 +19,7 @@
     .container{
         max-width: 2000px;
     }
-}
+}*/
 
 [class*="col-*"]{
     width: 99%;
@@ -135,6 +135,12 @@
     }
 }
 
+.container{
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
 .offset-center{
     margin: 0 auto;
     max-width: 700px;
@@ -147,12 +153,6 @@
 
 body{
     margin: 0;
-}
-
-.container{
-    width: 100%;
-    margin-right: auto;
-    margin-left: auto;
 }
 
 .row{
