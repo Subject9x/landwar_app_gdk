@@ -49,3 +49,13 @@
 .unitTableHead>th{
     word-break: keep-all;
 }
+
+/*
+    Page: UnitBuilder
+        + tagWindow
+*/
+#tagWindow{
+    border-color: black;
+    border-radius: 4px;
+    border-style: solid;
+}
