@@ -46,10 +46,18 @@ function ub_row_change_points(rowId){
 }
 
 /*
+    row id without '_x'
+*/
+function ub_get_rowid(rowTagVal){
+    let rowId = rowTagVal.substring(0,rowTagVal.indexOf('_'));
+    return rowId;
+}
+
+/*
     TD <input> onChange binding.
 */
 function ub_row_on_change_event(event){
-    let pointsId = event.srcElement.id.substring(0,event.srcElement.id.indexOf('_'));
+    let pointsId = ub_get_rowid(event.srcElement.id);
     if(event.srcElement.max){
         let maxVal = parseInt(event.srcElement.max);
         let testVal = parseInt(event.srcElement.value);
@@ -61,13 +69,58 @@ function ub_row_on_change_event(event){
     event.preventDefault();
 }
 
+/*
+    tagModal window funcs
+*/
+function ub_tagModal_tagRow_click(tagRow){
+    let tagText = document.getElementById('tagWindow_descText');
+    let tagId = parseInt(tagRow.children[1].children[1].value);
+    tagText.innerHTML = '';
+
+    tagText.innerHTML = tagInfo.data[tagId].desc;
+}
+
+function ub_tagModal_tagRow_check(tagRow){
+    
+}
+/*
+    On-click - instantiate the tagModalWindow,
+        populate with tagInfo data, the source rowId, 
+*/
 function ub_row_tags_onclick(event){
-    let rowData = event.srcElement.parentElement;
+    let rowId = event.srcElement.id;
+
     let tagModal = document.getElementById('tagModal');
+
     tagModal.removeAttribute('hidden');
     tagModal.innerHTML = window.nodeFileSys.loadHTML('layout/pages/unitBuilder/tagWindow.html');
 
+    let tagWindow = document.getElementById('tagWindow');
+    
+    //set hidden input to parent rowId from the unit table
+    document.getElementById('tagWindow_RowId').value = ub_get_rowid(rowId);
+    tagWindow.style.display = 'block';
+
+    //build the complete TAG list in the tag table.
+    let tagId = 0;
+    let tagRuleList = document.getElementById('tagRulesListData').getElementsByTagName('tbody')[0];
+    for(let tag in tagInfo.data){
+        let tagRuleRow = tagRuleList.insertRow();
+
+        tagRuleRow.innerHTML = window.nodeFileSys.loadHTML('layout/pages/unitBuilder/tagRulesRow.html');
+        //set title and rollover for tag label.
+        tagRuleRow.children[0].innerHTML = tagInfo.data[tag].title;
+        tagRuleRow.children[0].classList.add('tagRuleLineHover');
+        tagRuleRow.children[0].addEventListener('click', ()=>{ub_tagModal_tagRow_click(tagRuleRow);});
+        //set tag id related to tagInfo[x]
+        tagRuleRow.children[1].children[1].value = tagId;
+
+        
+
+        tagId++;
+    }
     document.getElementById('tagWindowClose').addEventListener("click", (event) =>{
+        tagWindow.style.display = 'none';
         tagModal.setAttribute('hidden','true');
         tagModal.innerHTML = "";
         event.preventDefault();

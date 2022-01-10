@@ -1,28 +1,50 @@
 <div class="container" id="tagWindow">
+    <input type="hidden" id="tagWindow_RowId"></input>
     <div class="row">
         <div class="col-s-12 col-12 col-l-12">
             <h4>Unit TAG Options</h4>
         </div>
     </div>
     <div class="row">
-        <div class="col-s-6 col-4 col-l-2">
+        <div id="tagRulesListPanel" class="col-s-4 col-3 col-l-2">
             <div class="container">
                 <div class="row">
-                    <div class="col-s-11 col-11 col-l-11"><h3> TAG Rules</h3></div>
-                </div>
-                <div class="row">
-                    <div class="offset-s-2 offset-1 offset-l-1 col-s-8 col-6 col-l-4">
-                        <ul>
-                            <li>Hionk</li>
-                        </ul>
+                    <div class="offset-s-2 offset-1 col-s-9 col-10 col-l-11 tagRulesListDiv ">
+                        <table id="tagRulesListData">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Active</th>
+                                    <th>Cost</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-s-6 col-8 col-l-9">
+        <div id="tagRulesDescPanel" class="col-s-7 col-8 col-l-9">
             <div class="container">
                 <div class="row">
+                    <div class="col-s-4 col-3 col-l-2">
+                        Unit Base Total:<label></label>
+                    </div>
+                    <div class="col-s-4 col-3 col-l-2">
+                        TAG Total:<label></label>
+                    </div>
+                    <div class="col-s-4 col-3 col-l-2">
+                        Complete Total:<label></label>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-s-12 col-12 col-l-12"><h3> TAG Desc</h3></div>
+                </div>
+                <div class="row">
+                    <div id="tagWindow_descText" class="offset-s-2 offset-1 offset-l-1 col-s-9 col-10 col-l-10">
+
+                    </div>
                 </div>
             </div>
         </div>

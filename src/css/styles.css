@@ -55,7 +55,68 @@
         + tagWindow
 */
 #tagWindow{
+    background-color: lightgrey;
+    opacity:  100%;
+    border-color: black;
+    border-radius: 4px;
+    border-style: solid;
+    z-index: 100;
+    position: fixed;
+    width: 99.5%;
+    height: auto;
+    display: none;
+    top: 0;
+    left: 0;
+    widows: 50%;
+}
+#tagRulesListPanel{
+    background-color: white;
     border-color: black;
     border-radius: 4px;
     border-style: solid;
 }
+
+#tagRulesDescPanel{
+    background-color: white;
+    border-color: black;
+    border-radius: 4px;
+    border-style: solid;
+}
+
+.tagRulesListDiv{
+    max-height: 50em;
+    overflow-y: scroll;
+}
+
+#tagRulesListData>thead{
+    background-color: lightblue;
+}
+
+.tagRuleLineHover:hover{
+    border-color: blue;
+    border-radius: 4px;
+    border-style: solid;
+    cursor: pointer;
+}
+
+
+.tagRuleLineSelect{
+    background-color: lightsalmon;
+}
+
+
+.tagRuleLineActive{
+    background-color: lightgreen;
+}
+
+.tagRuleLineDisable{
+    background-color: lightcoral;
+}
+
+.tagRuleLineSelect{
+    border-color: lightblue;
+    border-radius: 6px;
+    border-style: solid;
+}
+
+
