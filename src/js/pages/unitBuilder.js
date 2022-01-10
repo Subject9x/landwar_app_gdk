@@ -3,6 +3,54 @@
 */
 const btnAddUnit = document.getElementById('btnAddUnit');
 
+
+/*
+    Row Data manipulation
+*/
+
+/*
+        check if #unitRow tag list has a given tag already.
+*/
+function ub_tags_checkExisting(tagArray, tagId){
+    
+    if(tagArray === undefined ||tagArray.length === 0){
+        return false;
+    }
+    let rowTagArray = tagArray.split(',');
+    for(let tag in rowTagArray){
+        if(parseInt(rowTagArray[tag]) === tagId){
+            return true;
+        }
+    }
+    return false;
+}
+
+/*
+    update the _tagBuffer value.
+*/
+function ub_tagModal_update_tagBuffer(newVal){
+    let tagBuffer = document.getElementById('tagWindow_tagBuffer').value;
+    if(ub_tags_checkExisting(tagBuffer, newVal)){
+        return;
+    }
+    if(tagBuffer.length === 0){
+        tagBuffer = newVal;
+    }
+    else{
+        tagBuffer = tagBuffer + ',' + newVal;
+    }
+    document.getElementById('tagWindow_tagBuffer').value = tagBuffer;
+}
+
+/*
+    row id without '_x'
+*/
+function ub_get_rowid(rowTagVal){
+    let rowId = rowTagVal.substring(0,rowTagVal.indexOf('_'));
+    return rowId;
+}
+
+
 /*
     Binder functions for unitBuilder
 */
@@ -44,15 +92,6 @@ function ub_row_change_points(rowId){
 
     document.getElementById(rowId+'_points').innerHTML = pointsVal;
 }
-
-/*
-    row id without '_x'
-*/
-function ub_get_rowid(rowTagVal){
-    let rowId = rowTagVal.substring(0,rowTagVal.indexOf('_'));
-    return rowId;
-}
-
 /*
     TD <input> onChange binding.
 */
@@ -76,21 +115,44 @@ function ub_tagModal_tagRow_click(tagRow){
     let tagText = document.getElementById('tagWindow_descText');
     let tagId = parseInt(tagRow.children[1].children[1].value);
     tagText.innerHTML = '';
-
     tagText.innerHTML = tagInfo.data[tagId].desc;
 }
 
+/*
+    tagModal/tagWindow/tagRow/Checkbox
+*/
 function ub_tagModal_tagRow_check(tagRow){
-    
+    let isCheck = tagRow.children[1].children[0].checked;
+    if(isCheck){
+        tagRow.classList.add('tagRuleLineActive');
+        ub_tagModal_update_tagBuffer(tagRow.children[1].children[1].value);
+    }
+    else{
+        tagRow.classList.remove('tagRuleLineActive');
+    }
+}
+/*
+    tagModal/close
+*/
+function ub_tagModal_close(){
+
+}
+/*
+    tagModal/Save
+*/
+function ub_tagModal_save(){
+    let unitRow = document.getElementById('tagWindow_rowId').value;
+    let unitTagList = document.getElementById(unitRow + '_tagList');
+    unitTagList.value = document.getElementById('tagWindow_tagBuffer').value;
 }
 /*
     On-click - instantiate the tagModalWindow,
         populate with tagInfo data, the source rowId, 
 */
 function ub_row_tags_onclick(event){
-    let rowId = event.srcElement.id;
-
+    let rowId = ub_get_rowid(event.srcElement.id);
     let tagModal = document.getElementById('tagModal');
+    let rowTags = document.getElementById(rowId+'_tagList').value;
 
     tagModal.removeAttribute('hidden');
     tagModal.innerHTML = window.nodeFileSys.loadHTML('layout/pages/unitBuilder/tagWindow.html');
@@ -98,8 +160,14 @@ function ub_row_tags_onclick(event){
     let tagWindow = document.getElementById('tagWindow');
     
     //set hidden input to parent rowId from the unit table
-    document.getElementById('tagWindow_RowId').value = ub_get_rowid(rowId);
+    document.getElementById('tagWindow_rowId').value = rowId;
     tagWindow.style.display = 'block';
+
+    //set base total display in tagWindow
+    document.getElementById('tagWindow_baseCost').innerHTML = document.getElementById(rowId+'_points').innerHTML;
+
+    //copy unitRow_tags input value to tagWindow_tagBuffer
+    document.getElementById('tagWindow_tagBuffer').value = document.getElementById(rowId+'_tagList').innerHTML;
 
     //build the complete TAG list in the tag table.
     let tagId = 0;
@@ -112,14 +180,26 @@ function ub_row_tags_onclick(event){
         tagRuleRow.children[0].innerHTML = tagInfo.data[tag].title;
         tagRuleRow.children[0].classList.add('tagRuleLineHover');
         tagRuleRow.children[0].addEventListener('click', ()=>{ub_tagModal_tagRow_click(tagRuleRow);});
+
+        //set tag checkbox callback
+        tagRuleRow.children[1].children[0].addEventListener('change', ()=>{ub_tagModal_tagRow_check(tagRuleRow);});
+
         //set tag id related to tagInfo[x]
         tagRuleRow.children[1].children[1].value = tagId;
-
-        
-
+        if(ub_tags_checkExisting(rowTags, tagId)){
+            tagRuleRow.classList.add('tagRuleLineActive');
+            tagRuleRow.children[1].children[0].checked = true;
+        }
         tagId++;
     }
     document.getElementById('tagWindowClose').addEventListener("click", (event) =>{
+        tagWindow.style.display = 'none';
+        tagModal.setAttribute('hidden','true');
+        tagModal.innerHTML = "";
+        event.preventDefault();
+    });
+    document.getElementById('tagWindowSave').addEventListener("click", (event) =>{
+        ub_tagModal_save();
         tagWindow.style.display = 'none';
         tagModal.setAttribute('hidden','true');
         tagModal.innerHTML = "";
@@ -160,7 +240,7 @@ function ub_row_add_element_input_points(rowData, celCount, tagType, rowId, celN
 
 function ub_row_add_element_tag(rowData, celCount, tagType, rowId, celName){
     rowData.cells[celCount].getElementsByTagName(tagType)[0].setAttribute('id', rowId + celName);
-    rowData.cells[celCount].children[1].setAttribute('id', rowId + '_tags');
+    rowData.cells[celCount].children[1].setAttribute('id', rowId + '_tagList');
     document.getElementById(rowId + '_tags').addEventListener("click", ub_row_tags_onclick);
     return celCount + 1;
 }
@@ -170,8 +250,10 @@ function ub_row_add(){
     let newRow = table.insertRow();
     let rowTemplate = window.nodeFileSys.loadHTML('layout/pages/unitBuilder/unitRow.html');
     newRow.innerHTML = rowTemplate;
+    
     let newRowId = 'unitRow'+table.rows.length;
     newRow.setAttribute('id', newRowId);
+    
     let cellCount = 0;
 
     cellCount = ub_row_add_element_input_name(newRow, cellCount, 'input', newRowId, '_name');

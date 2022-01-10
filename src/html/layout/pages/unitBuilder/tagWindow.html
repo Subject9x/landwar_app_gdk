@@ -1,5 +1,6 @@
 <div class="container" id="tagWindow">
-    <input type="hidden" id="tagWindow_RowId"></input>
+    <input type="hidden" id="tagWindow_rowId"></input>
+    <input type="hidden" id="tagWindow_tagBuffer"></input>
     <div class="row">
         <div class="col-s-12 col-12 col-l-12">
             <h4>Unit TAG Options</h4>
@@ -29,22 +30,22 @@
             <div class="container">
                 <div class="row">
                     <div class="col-s-4 col-3 col-l-2">
-                        Unit Base Total:<label></label>
+                        Unit Base Total:<label id="tagWindow_baseCost"></label>
                     </div>
                     <div class="col-s-4 col-3 col-l-2">
-                        TAG Total:<label></label>
+                        TAG Total:<label id="tagWindow_tagCost" ></label>
                     </div>
                     <div class="col-s-4 col-3 col-l-2">
-                        Complete Total:<label></label>
+                        Complete Total:<label id="tagWindow_totalCost"></label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-s-12 col-12 col-l-12"><h3> TAG Desc</h3></div>
                 </div>
                 <div class="row">
-                    <div id="tagWindow_descText" class="offset-s-2 offset-1 offset-l-1 col-s-9 col-10 col-l-10">
-
-                    </div>
+                    <div id="tagWindow_descText" class="offset-s-2 offset-1 offset-l-1 col-s-9 col-10 col-l-10"></div>
+                </div>
+                <div class="row row-fill-s row-fill row-fill-l">
                 </div>
             </div>
         </div>
