@@ -113,9 +113,14 @@ function ub_row_on_change_event(event){
 */
 function ub_tagModal_tagRow_click(tagRow){
     let tagText = document.getElementById('tagWindow_descText');
+    let tagTitle = document.getElementById('tagWindow_descTitle');
     let tagId = parseInt(tagRow.children[1].children[1].value);
+
     tagText.innerHTML = '';
     tagText.innerHTML = tagInfo.data[tagId].desc;
+
+    tagTitle.innerHTML = '';
+    tagTitle.innerHTML = '<h3>' + tagInfo.data[tagId].title + '</h3>';
 }
 
 /*
@@ -123,12 +128,16 @@ function ub_tagModal_tagRow_click(tagRow){
 */
 function ub_tagModal_tagRow_check(tagRow){
     let isCheck = tagRow.children[1].children[0].checked;
+    let tagId = tagRow.children[1].children[1].value;
+    let tagObj = tagInfo.data[tagId];
+
     if(isCheck){
         tagRow.classList.add('tagRuleLineActive');
         ub_tagModal_update_tagBuffer(tagRow.children[1].children[1].value);
     }
     else{
         tagRow.classList.remove('tagRuleLineActive');
+        tagRow.children[2].children[0].innerHTML = 0;
     }
 }
 /*
