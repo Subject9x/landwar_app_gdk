@@ -130,30 +130,43 @@ function ub_tagModal_tagRow_check(tagRow){
     let isCheck = tagRow.children[1].children[0].checked;
     let tagId = tagRow.children[1].children[1].value;
     let tagObj = tagInfo.data[tagId];
+    let rowId = document.getElementById('tagWindow_rowId').value;
+    let tagCost = parseFloat(document.getElementById('tagWindow_tagCost').innerHTML);
+    let unitTotal = parseFloat(document.getElementById('tagWindow_baseCost').innerHTML);
 
     if(isCheck){
         tagRow.classList.add('tagRuleLineActive');
         ub_tagModal_update_tagBuffer(tagRow.children[1].children[1].value);
+        let cost = tagObj.func(rowId);
+        tagRow.children[2].children[0].innerHTML = cost;
+        tagCost += cost;
     }
     else{
         tagRow.classList.remove('tagRuleLineActive');
-        tagRow.children[2].children[0].innerHTML = 0;
+        tagCost -= parseFloat(tagRow.children[2].children[0].innerHTML); 
+        tagRow.children[2].children[0].innerHTML = "0";
     }
+    document.getElementById('tagWindow_tagCost').innerHTML = tagCost;
+    document.getElementById('tagWindow_totalCost').innerHTML = unitTotal + tagCost;
 }
 /*
-    tagModal/close
+    tagModal/close-or-save
 */
-function ub_tagModal_close(){
+function ub_tagModal_close(doSave){
+    if(doSave){
+        let unitRow = document.getElementById('tagWindow_rowId').value;
+        let unitTagList = document.getElementById(unitRow + '_tagList');
+        let unitTagCost = document.getElementById(unitRow + '_tagTotal');
+        
+        unitTagList.value = document.getElementById('tagWindow_tagBuffer').value;
+        unitTagCost.innerHTML = document.getElementById('tagWindow_tagCost').innerHTML;
+    }
 
+    tagWindow.style.display = 'none';
+    tagModal.setAttribute('hidden','true');
+    tagModal.innerHTML = "";
 }
-/*
-    tagModal/Save
-*/
-function ub_tagModal_save(){
-    let unitRow = document.getElementById('tagWindow_rowId').value;
-    let unitTagList = document.getElementById(unitRow + '_tagList');
-    unitTagList.value = document.getElementById('tagWindow_tagBuffer').value;
-}
+
 /*
     On-click - instantiate the tagModalWindow,
         populate with tagInfo data, the source rowId, 
@@ -178,6 +191,10 @@ function ub_row_tags_onclick(event){
     //copy unitRow_tags input value to tagWindow_tagBuffer
     document.getElementById('tagWindow_tagBuffer').value = document.getElementById(rowId+'_tagList').innerHTML;
 
+    //zero-out cost totals first.
+    document.getElementById('tagWindow_tagCost').innerHTML = "0";
+    document.getElementById('tagWindow_totalCost').innerHTML = "0";
+
     //build the complete TAG list in the tag table.
     let tagId = 0;
     let tagRuleList = document.getElementById('tagRulesListData').getElementsByTagName('tbody')[0];
@@ -195,23 +212,21 @@ function ub_row_tags_onclick(event){
 
         //set tag id related to tagInfo[x]
         tagRuleRow.children[1].children[1].value = tagId;
-        if(ub_tags_checkExisting(rowTags, tagId)){
-            tagRuleRow.classList.add('tagRuleLineActive');
-            tagRuleRow.children[1].children[0].checked = true;
-        }
+
+        let isCheck = ub_tags_checkExisting(rowTags, tagId);
+ 
+        tagRuleRow.children[1].children[0].checked = isCheck;
+        tagRuleRow.children[2].children[0].innerHTML = "0";
+        ub_tagModal_tagRow_check(tagRuleRow);
+
         tagId++;
     }
     document.getElementById('tagWindowClose').addEventListener("click", (event) =>{
-        tagWindow.style.display = 'none';
-        tagModal.setAttribute('hidden','true');
-        tagModal.innerHTML = "";
+        ub_tagModal_close(false);
         event.preventDefault();
     });
     document.getElementById('tagWindowSave').addEventListener("click", (event) =>{
-        ub_tagModal_save();
-        tagWindow.style.display = 'none';
-        tagModal.setAttribute('hidden','true');
-        tagModal.innerHTML = "";
+        ub_tagModal_close(true)
         event.preventDefault();
     });
     event.preventDefault();
@@ -241,9 +256,9 @@ function ub_row_add_element_input_name(rowData, celCount, tagType, rowId, celNam
     return celCount + 1;
 }
 
-function ub_row_add_element_input_points(rowData, celCount, tagType, rowId, celName){
+function ub_row_add_element_label_points(rowData, celCount, tagType, rowId, celName){
     rowData.cells[celCount].getElementsByTagName(tagType)[0].setAttribute('id', rowId + celName);
-    rowData.cells[celCount].getElementsByTagName(tagType)[0].value = "0";
+    rowData.cells[celCount].getElementsByTagName(tagType)[0].innerHTML = "0";
     return celCount + 1;
 }
 
@@ -283,9 +298,9 @@ function ub_row_add(){
     
     cellCount = ub_row_add_element_input_num(newRow, cellCount, 'input', newRowId, '_structure');
     
-    cellCount = ub_row_add_element_input_points(newRow, cellCount, 'label', newRowId, '_points');
+    cellCount = ub_row_add_element_label_points(newRow, cellCount, 'label', newRowId, '_points');
 
     cellCount = ub_row_add_element_tag(newRow, cellCount, 'button', newRowId, '_tags');
 
-    cellCount = ub_row_add_element_input_points(newRow, cellCount, 'label', newRowId, '_tags');
+    cellCount = ub_row_add_element_label_points(newRow, cellCount, 'label', newRowId, '_tagTotal');
 }
