@@ -57,7 +57,7 @@
 #tagWindow{
     background-color: lightgrey;
     opacity:  100%;
-    border-color: black;
+    border-color: rgb(51, 51, 51);
     border-radius: 4px;
     border-style: solid;
     z-index: 100;
@@ -71,16 +71,24 @@
 }
 #tagRulesListPanel{
     background-color: white;
-    border-color: black;
+    border-color: rgb(116, 115, 115);
     border-radius: 4px;
     border-style: solid;
 }
 
 #tagRulesDescPanel{
     background-color: white;
-    border-color: black;
+    border-color: rgb(116, 115, 115);
     border-radius: 4px;
     border-style: solid;
+}
+
+#tagWindow_descWarn{
+    color: chocolate;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-style: italic;
+    font-weight: 400;
+    text-align: center;
 }
 
 .tagRulesListDiv{
