@@ -9,6 +9,13 @@ const tagInfo = {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
                 return ((moveVal / 2) + (rangeDamageVal / 2));
+            },
+            reqs : (rowId) =>{
+                let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
+                if(rangeDamageVal <= 0){
+                    return "Cannot have Range Damage of 0";
+                }
+                return '';
             }
         },
         {
@@ -18,6 +25,9 @@ const tagInfo = {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
                 return ((armorVal/2) + (moveVal/3));
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -25,17 +35,26 @@ const tagInfo = {
             desc : 'When applying Damage from this unit’s attack. Apply the damage amount to the Target Model’s structure even if the Target Model has remaining armor points.',
             func : (rowId) => {
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
-                return (uc_calc_Damage_Range(rangeDamageVal) * 0.75);
+                let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
+                return ((uc_calc_Damage_Range(rangeDamageVal) + uc_calc_Damage_Melee(meleeDamageVal)) * 0.75);
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
             title : 'Artillery',
-            desc : 'Unit`s IF attack gains a Blast radius of 6".',
+            desc : 'Unit`s Indirect Fire(IF) attack gains a Blast radius of 6".',
             func : (rowId) => {
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
                 return rangeDamageVal * 2;
             },
-            reqs : (tagList) => {}
+            reqs : (rowId) => {
+                if(!ub_tags_checkByName('Indirect Fire')){
+                    return 'Unit must have [Indirect Fire] tag.';
+                }
+                return '';
+            }
         },
         {
             title : 'Battering Ram',
@@ -43,16 +62,22 @@ const tagInfo = {
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 return sizeVal * 2;
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
             title : 'Battery',
             desc : 'Unit may divide total Ranged DMG up into several attacks at different targets.',
             func : (rowId) => {
-                let sizeVal = parseInt(ocument.getElementById(rowId + '_size').value);
+                let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
                 let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
                 return Math.max(0, ((rangeVal/2) + rangeDamageVal) - sizeVal);
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -61,6 +86,9 @@ const tagInfo = {
             func : (rowId) => {
                 //meleeDamageVal, rangeDamageVal, rangeVal
                 return 0;/*TODO*/
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -70,7 +98,9 @@ const tagInfo = {
                 let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
                 return uc_calc_Damage_Melee(meleeDamageVal) * 0.67;
             },
-            reqs : () => {}
+            reqs : (rowId) => {
+                return '';
+            }
         },
         {
             title : 'Cargo',
@@ -80,6 +110,9 @@ const tagInfo = {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
                 return Math.max(0,(((moveVal / 2) + armorVal) - (sizeVal*2)));
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -89,19 +122,26 @@ const tagInfo = {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 return (sizeVal *2) + (moveVal / 2);
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
             title : 'Counter Battery Intuition',
             desc : 'If an indirect fire attack lands within this units LOS, it may treat the unit that fired it as being in its LoS for the next shooting phase.',
             func : (rowId) => {return 0; /*TODO*/},
-            reqs : () => {/*TODO */}
+            reqs : (rowId) => {
+                return '';
+            }
         },
         {
             title : 'Courage (X)',
             desc : 'When Unit is making a Stress Check, Unit may add this many points to the D6 roll.',
             func : (rowId) => {return 0; /*TODO*/},
-            reqs : () => {/*TODO */}
+            reqs : (rowId) => {
+                return '';
+            }
         },
         {
             title : 'Crew (X)',
@@ -110,13 +150,18 @@ const tagInfo = {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 return ((1/sizeVal^2) * 75) + sizeVal;
             },
-            reqs : () => {return 0;/*TODO */}
+            reqs : (rowId) => {
+                return '';
+            }
         },
         {
             title : 'Fearless',
             desc : 'Unit automatically passes any Stress Check.',
             func : (rowId) => {
                 return 0; /*TODO*/
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -126,6 +171,9 @@ const tagInfo = {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 return Math.max(0, (moveVal / 2)- (sizeVal * 1.25));
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -137,6 +185,9 @@ const tagInfo = {
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
 
                 return Math.max(0, (moveVal - sizeVal)) + (rangeDamageVal / 2);
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -147,6 +198,9 @@ const tagInfo = {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
 
                 return ((1/sizeVal^2) * 10) + (moveVal / 2);
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -154,6 +208,9 @@ const tagInfo = {
             desc : 'if target starts movement base-to-base, and tries to move away, Grappler may make an Overwatch attack on the moving unit.',
             func : (rowId) => {
                 return 0; /*TODO */
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -166,6 +223,9 @@ const tagInfo = {
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
 
                 return sizeVal + (armorVal / 2) + ((moveVal + evadeVal) / 2);
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -173,6 +233,9 @@ const tagInfo = {
             desc : 'Ignore IF attacks. Ignore Overwatch for any ground units. Ground Units can only use Long Range attacks on this model. Any flyer can use regular Range attacks.',
             func : (rowId) => {
                 return 0; /*TODO */
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -180,6 +243,9 @@ const tagInfo = {
             desc : 'Once per game, once per this tag, Player may remove 1 piece of Terrain during the Combat Phase.',
             func : (rowId) => {
                 return 0;  /*TODO */
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -190,6 +256,9 @@ const tagInfo = {
                 let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
 
                 return (rangeDamageVal / 2) + (rangeVal / 2)
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -201,6 +270,9 @@ const tagInfo = {
                 let evadeVal = parseInt(document.getElementById(rowId + '_evade').value);
 
                 return (sizeVal * 1.25) + ((moveVal + evadeVal) / 2)
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -211,6 +283,9 @@ const tagInfo = {
                 let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
 
                 return (moveVal / 2) + (rangeVal / 2);
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -221,6 +296,9 @@ const tagInfo = {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
 
                 return (sizeVal * 2) + (moveVal / 2);
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -230,6 +308,9 @@ const tagInfo = {
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
 
                 return 0 - (uc_calc_Damage_Range(rangeDamageVal)/2);
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -237,6 +318,9 @@ const tagInfo = {
             desc : 'Unit has an extra weapon and use at specificed ATK and specified range in place of its normal attack or an overwatch attack. Discard after use.',
             func : (rowId) => {
                 return 0; /*TODO*/
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -244,6 +328,9 @@ const tagInfo = {
             desc : 'Add +2 to all Initiative Rolls as long as this Unit is not destroyed.',
             func : (rowId) => {
                 return 0; /*TODO*/
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -254,6 +341,9 @@ const tagInfo = {
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
 
                 return (meleeDamageVal * 2) + (rangeDamageVal * 2);
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -261,6 +351,9 @@ const tagInfo = {
             desc : "Unit's ATK and DEF stats become 2 ATK Dice and 1 DEF Dice",
             func : (rowId) => {
                 return 0; /*TOOD*/
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -268,6 +361,9 @@ const tagInfo = {
             desc : "Unit's ATK and DEF stats become 4 ATK Dice and 3 DEF Dice",
             func : (rowId) => {
                 return 0; /*TOOD*/
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -275,6 +371,9 @@ const tagInfo = {
             desc : "Unit's ATK and DEF stats become 5 ATK Dice and 4 DEF Dice",
             func : (rowId) => {
                 return 0; /*TOOD*/
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -285,6 +384,9 @@ const tagInfo = {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
 
                 return ((1 / moveVal^2) * 100) + (sizeVal * 1.5);
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -295,6 +397,9 @@ const tagInfo = {
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
 
                 return Math.max(0, (armorVal * 2) - sizeVal);
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -302,6 +407,9 @@ const tagInfo = {
             desc : "Treat as Transform, calculate costs as normal for Transform. Then, add this cost. Allows Unit to MOVE even if it has switched modes this turn.",
             func : (rowId) => {
                 return 0;/*TODO*/
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -314,6 +422,9 @@ const tagInfo = {
                 let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
 
                 return Math.max(0, ((rangeDamageVal / 2) + (rangeVal / 2) + (moveVal / 4)) - sizeVal);
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -325,6 +436,9 @@ const tagInfo = {
                 let evadeVal = parseInt(document.getElementById(rowId + '_evade').value);
 
                 return Math.max(0, ((moveVal / 2) + (evadeVal * 2)) - sizeVal);
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -335,13 +449,18 @@ const tagInfo = {
 
                 return 0 - (moveVal / 3);
             },
-            reqs : () => {/*TODO*/}
+            reqs : (rowId) => {
+                return '';
+            }
         },
         {
             title : 'Supercharger',
             desc : "During the Movement Phase, Unit may move up to its max movement + 25% rounded up.",
             func : (rowId) => {
                 return 0;
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -352,6 +471,9 @@ const tagInfo = {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
 
                 return ((1 / sizeVal^2) * 10) + moveVal;
+            },
+            reqs : (rowId) => {
+                return '';
             }
         },
         {
@@ -359,9 +481,24 @@ const tagInfo = {
             desc : "Unit can carry a number of Friendly Units whose Sizes when totaled are equal to or less than half this Unit's Size. Size 0 becomes Size 1 for this.",
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
-
+                if(sizeVal === 0){
+                    sizeVal++;
+                }
                 return sizeVal + 2;
+            },
+            reqs : (rowId) => {
+                return '';
             }
         }
    ]
 };
+
+function tagInfo_hasTag(tagName){
+    let tagId = -1;
+    for(let tag in tagInfo.data){
+        if(tagInfo.data[tag].title === tagName){
+            tagId = tag;
+        }
+    }
+    return tagId;
+}
