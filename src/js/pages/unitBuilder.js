@@ -34,7 +34,7 @@ function ub_tags_checkExisting(tagId){
         return false;
     }
     for(let tagIdx in tagWindow_tagArray){
-        if(tagId === tagWindow_tagArray[tagIdx]){
+        if(tagIdx !== NaN && tagId === tagWindow_tagArray[tagIdx]){
             return true;
         }
     }
@@ -46,9 +46,11 @@ function ub_tags_checkByName(tagName){
         return false;
     }
     for(let tagIdx in tagWindow_tagArray){
-        let tagId = parseInt(tagWindow_tagArray[tagIdx]);
-        if(tagInfo.data[tagId].title === tagName){
-            return true;
+        let tagId = parseInt(tagWindow_tagArray[parseInt(tagIdx)]);
+        if(!Number.isNaN(tagId)){
+            if(tagInfo.data[tagId].title === tagName){
+                return true;
+            }
         }
     }
     return false;
