@@ -53,7 +53,7 @@
     .offset-s-11 {margin-left: 91.66%;}
 
     .row-fill-s{
-        min-height: 48px;
+        height: 48px;
     }
     .row-fill-s::after{
         content:'';
@@ -90,7 +90,7 @@
     .offset-11 {margin-left: 91.66%;}
 
     .row-fill{
-        min-height: 32px;
+        height: 32px;
     }
     .row-fill::after{
         content:'';
@@ -127,7 +127,7 @@
     .offset-l-11 {margin-left: 91.66%;}
 
     .row-fill-l{
-        min-height: 16px;
+        height: 16px;
     }
     .row-fill-l::after{
         content:'';

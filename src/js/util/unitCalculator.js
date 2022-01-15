@@ -40,7 +40,7 @@ function uc_calc_Range(moveVal, rangeVal, rangeDamageVal){
     if(rangeVal === 0){
         return 0;
     }
-    return (moveVal / 2) + (rangeVal - 16) + rangeDamageVal;
+    return Math.max(0, (moveVal / 2) + (rangeVal - 16) + rangeDamageVal);
 }
 
 function uc_calc_Armor(armorVal, sizeVal){

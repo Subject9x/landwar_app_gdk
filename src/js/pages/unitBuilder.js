@@ -3,7 +3,9 @@
 */
 const btnAddUnit = document.getElementById('btnAddUnit');
 
+let searchArray = [];
 let tagWindow_tagArray = [];
+let row_tagArray = [];
 /*
     Row Data manipulation
 */
@@ -18,16 +20,26 @@ function ub_get_rowid(rowTagVal){
 /*
     util: convert tagArray to string
 */
-function ub_tags_arrayToString(){
+function ub_tags_arrayToString(srcArray){
     let str = "";
-    for(let tag in tagWindow_tagArray){
-        str = str + tagWindow_tagArray[tag] + ' ';
+    for(let item in srcArray){
+        str = str + srcArray[item] + ' ';
     }
     return str;
 }
 
+function ub_tags_stringToArray(strVal){
+    let outArray = [];
+    let strArray = strVal.split(" ");
+    strArray = strArray.filter(e =>  e);
+    for(let str in strArray){
+        outArray.push(parseInt(strArray[str]));
+    }
+    return outArray; 
+}
+
 /*
-        check if #unitRow tag list has a given tag already.
+    check if #unitRow tag list has a given tag already.
 */
 function ub_tags_checkExisting(tagId){
     if(tagWindow_tagArray.length === 0){
@@ -61,40 +73,39 @@ function ub_tags_checkByName(tagName){
     update the _tagBuffer value.
 */
 function ub_tagModal_update_tagBuffer(newVal, addMe){
-    let tagBuffer = document.getElementById('tagWindow_tagBuffer').value;
-
     if(addMe){
-        if(ub_tags_checkExisting(newVal)){
-            return;
-        }
         tagWindow_tagArray.push(newVal);
     }
     else{
         let idx = tagWindow_tagArray.indexOf(newVal);
         if(idx > -1){
-            tagWindow_tagArray.splice(idx,1);
+            tagWindow_tagArray.splice(idx, 1);
         }
     }
-    
-    document.getElementById('tagWindow_tagBuffer').value = tagBuffer;
+    return tagWindow_tagArray;
 }
 
 /*
-    re-run all tag requirements
+    re-run all tag requirements on incoming row_tagArray value.
+
 */
 function ub_tagModal_update_all_reqs(){
+    let rowId = document.getElementById('tagWindow_rowId').value;
+    let unitTotal = parseFloat(document.getElementById('tagWindow_baseCost').innerHTML);
+    let tagTotalCost = parseFloat(document.getElementById('tagWindow_tagCost').innerHTML);
+
     let tagId = 0;
     let tagRuleList = document.getElementById('tagRulesListData').getElementsByTagName('tbody')[0];
     let tagRow = tagRuleList.childNodes[1];
     for(let tag in tagInfo.data){
 
-        let isCheck = tagRow.children[1].children[0].checked;
         let tagId = tagRow.children[1].children[1].value;
         let tagObj = tagInfo.data[tagId];
-        let rowId = document.getElementById('tagWindow_rowId').value;
-        let tagCost = parseFloat(document.getElementById('tagWindow_tagCost').innerHTML);
-        let unitTotal = parseFloat(document.getElementById('tagWindow_baseCost').innerHTML);
-    
+        let isCheck = tagRow.children[1].children[0].checked;
+
+        let cost = tagObj.func(rowId);
+        cost = parseFloat(cost.toFixed(1));
+
         let warn = ub_tagModal_tagRow_reqs(tagRow);
         if(warn){
             isCheck = false;
@@ -104,25 +115,68 @@ function ub_tagModal_update_all_reqs(){
         else{
             tagRow.children[1].children[0].removeAttribute('disabled');
         }
-    
-        if(isCheck){
-            tagRow.classList.add('tagRuleLineActive');
-            ub_tagModal_update_tagBuffer(tagRow.children[1].children[1].value, true);
-            let cost = tagObj.func(rowId);
-            tagRow.children[2].children[0].innerHTML = cost;
-            tagCost += cost;
-        }
-        else{
+        
+        if(warn && !isCheck){
             tagRow.classList.remove('tagRuleLineActive');
-            tagCost -= parseFloat(tagRow.children[2].children[0].innerHTML); 
             tagRow.children[2].children[0].innerHTML = "0";
-            ub_tagModal_update_tagBuffer(tagRow.children[1].children[1].value, false);
+            if(ub_tags_checkExisting(tagId)){
+                tagTotalCost -= cost; 
+                tagWindow_tagArray = ub_tagModal_update_tagBuffer(tagId, isCheck);
+            }
         }
-        document.getElementById('tagWindow_tagCost').innerHTML = tagCost;
-        document.getElementById('tagWindow_totalCost').innerHTML = unitTotal + tagCost;
         
         tagRow = tagRow.nextSibling;
         tagId++;
+    }
+    document.getElementById('tagWindow_tagCost').innerHTML = tagTotalCost;
+    document.getElementById('tagWindow_totalCost').innerHTML = unitTotal + tagTotalCost;
+}
+
+/*
+    Running in the background whenever stats change.
+*/
+function ub_tagModal_tag_check_req(rowId){
+    let unitTotal = parseFloat(document.getElementById(rowId + '_points').innerHTML);
+    let tagTotalCost = parseFloat(document.getElementById(rowId + '_tagTotal').innerHTML);
+
+    let tagCacheArray = [];
+    if(tagWindow_tagArray.length !== 0){
+        tagCacheArray = tagWindow_tagArray;
+    }
+    tagWindow_tagArray = ub_tags_stringToArray(document.getElementById(rowId + '_tagList').value);
+
+    //
+    let tagId = 0;
+    for(let tag in tagInfo.data){
+
+        tagId = tag;
+        let tagObj = tagInfo.data[tagId];
+
+        let isCheck = ub_tags_checkExisting(tagId);
+
+        if(isCheck){
+
+            let warn = tagInfo.data[tagId].reqs(rowId);
+            if(warn){
+                isCheck = false;
+            }
+            
+            let cost = tagObj.func(rowId);
+            cost = parseFloat(cost.toFixed(1));
+
+            if(!isCheck){
+                if(ub_tags_checkExisting(tagId, tempArray)){
+                    tagTotalCost -= cost; 
+                }
+                tagWindow_tagArray = ub_tagModal_update_tagBuffer(tagId, isCheck);
+            }
+        }
+    }
+    document.getElementById(rowId + '_tagTotal').innerHTML = tagTotalCost;
+    document.getElementById(rowId + '_tagList').innerHTML = ub_tags_arrayToString(tagWindow_tagArray);
+
+    if(tagCacheArray.length !== 0){
+        tagWindow_tagArray = tagCacheArray;
     }
 }
 
@@ -168,6 +222,10 @@ function ub_row_change_points(rowId){
     pointsVal = Math.round(pointsVal);
 
     document.getElementById(rowId+'_points').innerHTML = pointsVal;
+
+    ub_tagModal_tag_check_req(rowId);
+
+    return pointsVal;
 }
 /*
     TD <input> onChange binding.
@@ -191,6 +249,7 @@ function ub_row_on_change_event(event){
 function ub_tagModal_tagRow_click(tagRow){
     let tagText = document.getElementById('tagWindow_descText');
     let tagTitle = document.getElementById('tagWindow_descTitle');
+    let tagEqt = document.getElementById('tagWindow_equation');
     let tagId = parseInt(tagRow.children[1].children[1].value);
 
     tagText.innerHTML = '';
@@ -198,6 +257,8 @@ function ub_tagModal_tagRow_click(tagRow){
 
     tagTitle.innerHTML = '';
     tagTitle.innerHTML = '<h3>' + tagInfo.data[tagId].title + '</h3>';
+
+    tagEqt.innerHTML = '';
 
     if( tagInfo.data[tagId].reqs !== undefined){
         let warn = ub_tagModal_tagRow_reqs(tagRow);
@@ -208,6 +269,10 @@ function ub_tagModal_tagRow_click(tagRow){
         else{
             tagRow.children[1].children[0].removeAttribute('disabled');
         }
+    }
+
+    if(tagInfo.data[tagId].eqt !== undefined){
+        tagEqt.innerHTML = tagInfo.data[tagId].eqt;
     }
 }
 
@@ -239,32 +304,28 @@ function ub_tagModal_tagRow_check(tagRow){
     let tagCost = parseFloat(document.getElementById('tagWindow_tagCost').innerHTML);
     let unitTotal = parseFloat(document.getElementById('tagWindow_baseCost').innerHTML);
 
-    
-    let warn = ub_tagModal_tagRow_reqs(tagRow);
-    if(warn){
-        isCheck = false;
-        tagRow.children[1].children[0].checked = false;
-        tagRow.children[1].children[0].setAttribute('disabled', 'true');
-    }
-    else{
-        tagRow.children[1].children[0].removeAttribute('disabled');
-    }
+    let cost = tagObj.func(rowId);
+    cost = parseFloat(cost.toFixed(1));
 
     if(isCheck){
+        //adding tag to list, already has passed validation
         tagRow.classList.add('tagRuleLineActive');
-        ub_tagModal_update_tagBuffer(tagRow.children[1].children[1].value, true);
-        let cost = tagObj.func(rowId);
         tagRow.children[2].children[0].innerHTML = cost;
         tagCost += cost;
     }
     else{
+        //removing existing tag from list.
+        //was on list, but now gone.
         tagRow.classList.remove('tagRuleLineActive');
-        tagCost -= parseFloat(tagRow.children[2].children[0].innerHTML); 
         tagRow.children[2].children[0].innerHTML = "0";
-        ub_tagModal_update_tagBuffer(tagRow.children[1].children[1].value, false);
+        tagCost -= cost; 
     }
+
+    tagWindow_tagArray = ub_tagModal_update_tagBuffer(tagId, isCheck);
+
     document.getElementById('tagWindow_tagCost').innerHTML = tagCost;
     document.getElementById('tagWindow_totalCost').innerHTML = unitTotal + tagCost;
+
     ub_tagModal_update_all_reqs();
 }
 /*
@@ -276,7 +337,7 @@ function ub_tagModal_close(doSave){
         let unitTagList = document.getElementById(unitRow + '_tagList');
         let unitTagCost = document.getElementById(unitRow + '_tagTotal');
         
-        document.getElementById('tagWindow_tagBuffer').value = ub_tags_arrayToString();
+        document.getElementById('tagWindow_tagBuffer').value = ub_tags_arrayToString(tagWindow_tagArray);
         unitTagList.value = document.getElementById('tagWindow_tagBuffer').value;
         unitTagCost.innerHTML = document.getElementById('tagWindow_tagCost').innerHTML;
     }
@@ -313,14 +374,14 @@ function ub_row_tags_onclick(event){
     //copy unitRow_tags input value to tagWindow_tagBuffer
     if(rowTags.length !== 0){
         document.getElementById('tagWindow_tagBuffer').value = rowTags;
-        tagWindow_tagArray = document.getElementById('tagWindow_tagBuffer').value.split(' ');
+        tagWindow_tagArray = ub_tags_stringToArray(rowTags);
     }
     else{
         document.getElementById('tagWindow_tagBuffer').value = "";
     }
 
     //zero-out cost totals first.
-    document.getElementById('tagWindow_tagCost').innerHTML = "0";
+    document.getElementById('tagWindow_tagCost').innerHTML = document.getElementById(rowId+'_tagTotal').innerHTML;
     document.getElementById('tagWindow_totalCost').innerHTML = "0";
 
     //build the complete TAG list in the tag table.
@@ -341,7 +402,7 @@ function ub_row_tags_onclick(event){
         //set tag id related to tagInfo[x]
         tagRuleRow.children[1].children[1].value = "" + tagId + "";
 
-        let isCheck = ub_tags_checkExisting(tagRuleRow.children[1].children[1].value);
+        let isCheck = ub_tags_checkExisting(tagId, tagWindow_tagArray);
  
         tagRuleRow.children[1].children[0].checked = isCheck;
         tagRuleRow.children[2].children[0].innerHTML = "0";
@@ -352,6 +413,8 @@ function ub_row_tags_onclick(event){
 
     //clear out warn box
     document.getElementById('tagWindow_descWarn').innerHTML = '';
+
+    document.getElementById('tagWindow_equation').innerHTML = '';
 
     //set on-clicks
     document.getElementById('tagWindowClose').addEventListener("click", (event) =>{
@@ -401,6 +464,7 @@ function ub_row_add_element_tag(rowData, celCount, tagType, rowId, celName){
     rowData.cells[celCount].getElementsByTagName(tagType)[0].setAttribute('id', rowId + celName);
     rowData.cells[celCount].children[1].setAttribute('id', rowId + '_tagList');
     document.getElementById(rowId + '_tags').addEventListener("click", ub_row_tags_onclick);
+    document.getElementById(rowId + '_tagList').innerHTML = "";
     return celCount + 1;
 }
 
