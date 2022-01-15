@@ -5,7 +5,36 @@ const btnAddUnit = document.getElementById('btnAddUnit');
 
 let searchArray = [];
 let tagWindow_tagArray = [];
-let row_tagArray = [];
+
+let row_tagArrays = {};
+
+function ub_row_tag_ini(rowId){
+    let rowData = [];
+    row_tagArrays[rowId] = rowData;
+    return rowData;
+}
+
+function ub_row_tag_insert(rowId, newTag){
+    let rowTags = row_tagArrays[rowId];
+    rowTags.push(newTag);
+}
+
+/*
+    util: convert tagArray to string
+*/
+function ub_tags_update_row_array(rowId, srcArray){
+    let rowArray = row_tagArrays[rowId];
+    ub_util_array_deepcpy(srcArray, rowArray)
+}
+
+function ub_util_array_deepcpy(srcArray, dstArray){
+    dstArray.length = 0;
+    for(let idx in srcArray){
+        dstArray.push(srcArray[idx]);
+    }
+}
+
+
 /*
     Row Data manipulation
 */
@@ -17,36 +46,17 @@ function ub_get_rowid(rowTagVal){
     return rowId;
 }
 
-/*
-    util: convert tagArray to string
-*/
-function ub_tags_arrayToString(srcArray){
-    let str = "";
-    for(let item in srcArray){
-        str = str + srcArray[item] + ' ';
-    }
-    return str;
-}
-
-function ub_tags_stringToArray(strVal){
-    let outArray = [];
-    let strArray = strVal.split(" ");
-    strArray = strArray.filter(e =>  e);
-    for(let str in strArray){
-        outArray.push(parseInt(strArray[str]));
-    }
-    return outArray; 
-}
 
 /*
     check if #unitRow tag list has a given tag already.
 */
-function ub_tags_checkExisting(tagId){
-    if(tagWindow_tagArray.length === 0){
+function ub_tags_checkExisting(tagId, srcArray){
+    let tagVal = parseInt(tagId);
+    if(srcArray.length === 0){
         return false;
     }
-    for(let tagIdx in tagWindow_tagArray){
-        if(tagIdx !== NaN && tagId === tagWindow_tagArray[tagIdx]){
+    for(let tagIdx in srcArray){
+        if(tagVal !== NaN && tagVal === srcArray[tagIdx]){
             return true;
         }
     }
@@ -58,7 +68,7 @@ function ub_tags_checkByName(tagName){
         return false;
     }
     for(let tagIdx in tagWindow_tagArray){
-        let tagId = parseInt(tagWindow_tagArray[parseInt(tagIdx)]);
+        let tagId = tagWindow_tagArray[parseInt(tagIdx)];
         if(!Number.isNaN(tagId)){
             if(tagInfo.data[tagId].title === tagName){
                 return true;
@@ -72,14 +82,20 @@ function ub_tags_checkByName(tagName){
 /*
     update the _tagBuffer value.
 */
-function ub_tagModal_update_tagBuffer(newVal, addMe){
+function ub_tagModal_update_tagArray(newVal, addMe){
+    let intNewVal = parseInt(newVal);
+    
     if(addMe){
-        tagWindow_tagArray.push(newVal);
+        if(!ub_tags_checkExisting(newVal, tagWindow_tagArray)){
+            tagWindow_tagArray.push(intNewVal);
+        }
     }
     else{
-        let idx = tagWindow_tagArray.indexOf(newVal);
-        if(idx > -1){
-            tagWindow_tagArray.splice(idx, 1);
+        if(ub_tags_checkExisting(newVal, tagWindow_tagArray)){
+            let idx = tagWindow_tagArray.indexOf(intNewVal);
+            if(idx > -1){
+                tagWindow_tagArray.splice(idx, 1);
+            }
         }
     }
     return tagWindow_tagArray;
@@ -89,12 +105,11 @@ function ub_tagModal_update_tagBuffer(newVal, addMe){
     re-run all tag requirements on incoming row_tagArray value.
 
 */
-function ub_tagModal_update_all_reqs(){
+function ub_tagModal_validate_tags(){
     let rowId = document.getElementById('tagWindow_rowId').value;
     let unitTotal = parseFloat(document.getElementById('tagWindow_baseCost').innerHTML);
     let tagTotalCost = parseFloat(document.getElementById('tagWindow_tagCost').innerHTML);
 
-    let tagId = 0;
     let tagRuleList = document.getElementById('tagRulesListData').getElementsByTagName('tbody')[0];
     let tagRow = tagRuleList.childNodes[1];
     for(let tag in tagInfo.data){
@@ -119,14 +134,13 @@ function ub_tagModal_update_all_reqs(){
         if(warn && !isCheck){
             tagRow.classList.remove('tagRuleLineActive');
             tagRow.children[2].children[0].innerHTML = "0";
-            if(ub_tags_checkExisting(tagId)){
+            if(ub_tags_checkExisting(tagId, tagWindow_tagArray)){
                 tagTotalCost -= cost; 
-                tagWindow_tagArray = ub_tagModal_update_tagBuffer(tagId, isCheck);
+                tagWindow_tagArray = ub_tagModal_update_tagArray(tagId, isCheck);
             }
         }
         
         tagRow = tagRow.nextSibling;
-        tagId++;
     }
     document.getElementById('tagWindow_tagCost').innerHTML = tagTotalCost;
     document.getElementById('tagWindow_totalCost').innerHTML = unitTotal + tagTotalCost;
@@ -139,12 +153,7 @@ function ub_tagModal_tag_check_req(rowId){
     let unitTotal = parseFloat(document.getElementById(rowId + '_points').innerHTML);
     let tagTotalCost = parseFloat(document.getElementById(rowId + '_tagTotal').innerHTML);
 
-    let tagCacheArray = [];
-    if(tagWindow_tagArray.length !== 0){
-        tagCacheArray = tagWindow_tagArray;
-    }
-    tagWindow_tagArray = ub_tags_stringToArray(document.getElementById(rowId + '_tagList').value);
-
+    let tagCacheArray = row_tagArrays[rowId];
     //
     let tagId = 0;
     for(let tag in tagInfo.data){
@@ -152,7 +161,7 @@ function ub_tagModal_tag_check_req(rowId){
         tagId = tag;
         let tagObj = tagInfo.data[tagId];
 
-        let isCheck = ub_tags_checkExisting(tagId);
+        let isCheck = ub_tags_checkExisting(tagId, tagCacheArray);
 
         if(isCheck){
 
@@ -165,88 +174,24 @@ function ub_tagModal_tag_check_req(rowId){
             cost = parseFloat(cost.toFixed(1));
 
             if(!isCheck){
-                if(ub_tags_checkExisting(tagId, tempArray)){
+                if(ub_tags_checkExisting(tagId, tagCacheArray)){
                     tagTotalCost -= cost; 
                 }
-                tagWindow_tagArray = ub_tagModal_update_tagBuffer(tagId, isCheck);
+                tagCacheArray = ub_tagModal_update_tagArray(tagId, isCheck);
             }
         }
     }
     document.getElementById(rowId + '_tagTotal').innerHTML = tagTotalCost;
-    document.getElementById(rowId + '_tagList').innerHTML = ub_tags_arrayToString(tagWindow_tagArray);
-
-    if(tagCacheArray.length !== 0){
-        tagWindow_tagArray = tagCacheArray;
-    }
 }
 
 
 
-/*
-    Binder functions for unitBuilder
-*/
 
-function ub_row_change_points(rowId){
-
-    let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
-    let moveVal = parseInt(document.getElementById(rowId + '_move').value);
-    let evadeVal = parseInt(document.getElementById(rowId + '_evade').value);
-    let dmgMeleeVal = parseInt(document.getElementById(rowId + '_DMGM').value);
-    let dmgRangeVal = parseInt(document.getElementById(rowId + '_DMGR').value);
-    let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
-    let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
-    let structVal = parseInt(document.getElementById(rowId + '_structure').value);
-
-    let sizeCost = uc_calc_Size(sizeVal);
-    let moveCost = uc_calc_Move(moveVal, sizeVal);
-    let evadeCost = uc_calc_Evade(sizeVal, evadeVal, moveVal);
-    let dmgMeleeCost = uc_calc_Damage_Melee(dmgMeleeVal, moveVal);
-    let dmgRangeCost = uc_calc_Damage_Range(dmgRangeVal);
-    let rangeCost = uc_calc_Range(moveVal, rangeVal, dmgRangeVal);
-    let armorCost = uc_calc_Armor(armorVal, sizeVal);
-    let structCost = uc_calc_Structure(structVal,sizeVal);
-    
-    /*console.log('-------------change-------------------');
-    console.log('sizeCost= ' + sizeCost);
-    console.log('moveCost= ' + moveCost);
-    console.log('evadeCost= ' + evadeCost);
-    console.log('dmgMeleeCost= ' + dmgMeleeCost);
-    console.log('dmgRangeCost= ' + dmgRangeCost);
-    console.log('rangeCost= ' + rangeCost);
-    console.log('armorCost= ' + armorCost);
-    console.log('structCost= ' + structCost);*/
-
-
-    let pointsVal = uc_calc_baseCost(sizeCost, moveCost, evadeCost, dmgMeleeCost, dmgRangeCost, rangeCost, armorCost, structCost);
-    pointsVal = Math.max(0, pointsVal);
-    pointsVal = Math.round(pointsVal);
-
-    document.getElementById(rowId+'_points').innerHTML = pointsVal;
-
-    ub_tagModal_tag_check_req(rowId);
-
-    return pointsVal;
-}
-/*
-    TD <input> onChange binding.
-*/
-function ub_row_on_change_event(event){
-    let pointsId = ub_get_rowid(event.srcElement.id);
-    if(event.srcElement.max){
-        let maxVal = parseInt(event.srcElement.max);
-        let testVal = parseInt(event.srcElement.value);
-        if(testVal > maxVal){
-            event.srcElement.value =  event.srcElement.max;
-        }
-    }
-    ub_row_change_points(pointsId);
-    event.preventDefault();
-}
 
 /*
     tagModal window funcs
 */
-function ub_tagModal_tagRow_click(tagRow){
+function ub_tagModal_tagRow_clickInfo(tagRow){
     let tagText = document.getElementById('tagWindow_descText');
     let tagTitle = document.getElementById('tagWindow_descTitle');
     let tagEqt = document.getElementById('tagWindow_equation');
@@ -321,31 +266,32 @@ function ub_tagModal_tagRow_check(tagRow){
         tagCost -= cost; 
     }
 
-    tagWindow_tagArray = ub_tagModal_update_tagBuffer(tagId, isCheck);
+    tagWindow_tagArray = ub_tagModal_update_tagArray(tagId, isCheck);
 
     document.getElementById('tagWindow_tagCost').innerHTML = tagCost;
     document.getElementById('tagWindow_totalCost').innerHTML = unitTotal + tagCost;
 
-    ub_tagModal_update_all_reqs();
+    ub_tagModal_validate_tags();
 }
 /*
     tagModal/close-or-save
 */
 function ub_tagModal_close(doSave){
     if(doSave){
-        let unitRow = document.getElementById('tagWindow_rowId').value;
-        let unitTagList = document.getElementById(unitRow + '_tagList');
-        let unitTagCost = document.getElementById(unitRow + '_tagTotal');
-        
-        document.getElementById('tagWindow_tagBuffer').value = ub_tags_arrayToString(tagWindow_tagArray);
-        unitTagList.value = document.getElementById('tagWindow_tagBuffer').value;
+        let unitRowId = document.getElementById('tagWindow_rowId').value;
+        // let unitTagList = document.getElementById(unitRowId + '_tagList');
+        let unitTagCost = document.getElementById(unitRowId + '_tagTotal');
+
         unitTagCost.innerHTML = document.getElementById('tagWindow_tagCost').innerHTML;
+
+        ub_tags_update_row_array(unitRowId, tagWindow_tagArray);
     }
 
     tagWindow.style.display = 'none';
     tagModal.setAttribute('hidden','true');
     tagModal.innerHTML = "";
 }
+
 
 /*
     On-click - instantiate the tagModalWindow,
@@ -354,15 +300,12 @@ function ub_tagModal_close(doSave){
 function ub_row_tags_onclick(event){
     let rowId = ub_get_rowid(event.srcElement.id);
     let tagModal = document.getElementById('tagModal');
-    let rowTags = document.getElementById(rowId+'_tagList').value;
+    // let rowTags = document.getElementById(rowId+'_tagList').value;
 
     tagModal.removeAttribute('hidden');
     tagModal.innerHTML = window.nodeFileSys.loadHTML('layout/pages/unitBuilder/tagWindow.html');
 
     let tagWindow = document.getElementById('tagWindow');
-    
-    //zero-out the tag window array
-    tagWindow_tagArray.length = 0;
 
     //set hidden input to parent rowId from the unit table
     document.getElementById('tagWindow_rowId').value = rowId;
@@ -371,22 +314,15 @@ function ub_row_tags_onclick(event){
     //set base total display in tagWindow
     document.getElementById('tagWindow_baseCost').innerHTML = document.getElementById(rowId+'_points').innerHTML;
 
-    //copy unitRow_tags input value to tagWindow_tagBuffer
-    if(rowTags.length !== 0){
-        document.getElementById('tagWindow_tagBuffer').value = rowTags;
-        tagWindow_tagArray = ub_tags_stringToArray(rowTags);
-    }
-    else{
-        document.getElementById('tagWindow_tagBuffer').value = "";
-    }
+    //zero-out the tag window array
+    tagWindow_tagArray.length = 0;
 
-    //zero-out cost totals first.
-    document.getElementById('tagWindow_tagCost').innerHTML = document.getElementById(rowId+'_tagTotal').innerHTML;
-    document.getElementById('tagWindow_totalCost').innerHTML = "0";
+    tagWindow_tagArray.length = 0;
+    ub_util_array_deepcpy(row_tagArrays[rowId], tagWindow_tagArray);
 
     //build the complete TAG list in the tag table.
-    let tagId = 0;
     let tagRuleList = document.getElementById('tagRulesListData').getElementsByTagName('tbody')[0];
+    let tagCost = 0;
     for(let tag in tagInfo.data){
         let tagRuleRow = tagRuleList.insertRow();
 
@@ -394,22 +330,39 @@ function ub_row_tags_onclick(event){
         //set title and rollover for tag label.
         tagRuleRow.children[0].innerHTML = tagInfo.data[tag].title;
         tagRuleRow.children[0].classList.add('tagRuleLineHover');
-        tagRuleRow.children[0].addEventListener('click', ()=>{ub_tagModal_tagRow_click(tagRuleRow);});
+        tagRuleRow.children[0].addEventListener('click', ()=>{ub_tagModal_tagRow_clickInfo(tagRuleRow);});
 
         //set tag checkbox callback
         tagRuleRow.children[1].children[0].addEventListener('click', ()=>{ub_tagModal_tagRow_check(tagRuleRow);});
 
         //set tag id related to tagInfo[x]
-        tagRuleRow.children[1].children[1].value = "" + tagId + "";
+        tagRuleRow.children[1].children[1].value = "" + tag + "";
 
-        let isCheck = ub_tags_checkExisting(tagId, tagWindow_tagArray);
- 
-        tagRuleRow.children[1].children[0].checked = isCheck;
-        tagRuleRow.children[2].children[0].innerHTML = "0";
-        tagId++;
+        let isCheck = ub_tags_checkExisting(tag, tagWindow_tagArray);
+        
+        
+        
+        if(isCheck){
+            let cost = tagInfo.data[tag].func(rowId);
+            cost = parseFloat(cost.toFixed(1));
+
+            tagRuleRow.classList.add('tagRuleLineActive');
+            tagRuleRow.children[2].children[0].innerHTML = cost;
+            tagCost += cost;
+            tagRuleRow.children[1].children[0].checked = true;
+        }
+        else{
+            tagRuleRow.children[2].children[0].innerHTML = "";
+            tagRuleRow.children[1].children[0].checked = false;
+        }
     }
+
     //wonderful double loop - we can't write and validate the tag list in the same go...
-    ub_tagModal_update_all_reqs();
+    ub_tagModal_validate_tags();
+
+    //zero-out cost totals first.
+    document.getElementById('tagWindow_tagCost').innerHTML = tagCost;
+    document.getElementById('tagWindow_totalCost').innerHTML = parseInt(document.getElementById('tagWindow_baseCost').innerHTML) + tagCost;;
 
     //clear out warn box
     document.getElementById('tagWindow_descWarn').innerHTML = '';
@@ -431,20 +384,12 @@ function ub_row_tags_onclick(event){
 }
 
 /*
-    TD <label> onChange binding for points total.
-*/
+    UNIT ROW FUNCTIONS
 
-
-/*
-    Get Row's values
-*/ 
-
-/*
-    UI Wrapper for rows
 */
 function ub_row_add_element_input_num(rowData, celCount, tagType, rowId, celName){
     rowData.cells[celCount].getElementsByTagName(tagType)[0].setAttribute('id', rowId + celName);
-    rowData.cells[celCount].getElementsByTagName(tagType)[0].value = 0;
+    rowData.cells[celCount].getElementsByTagName(tagType)[0].value = 1;
     document.getElementById(rowId + celName).addEventListener("input", ub_row_on_change_event);
     return celCount + 1;
 }
@@ -462,9 +407,9 @@ function ub_row_add_element_label_points(rowData, celCount, tagType, rowId, celN
 
 function ub_row_add_element_tag(rowData, celCount, tagType, rowId, celName){
     rowData.cells[celCount].getElementsByTagName(tagType)[0].setAttribute('id', rowId + celName);
-    rowData.cells[celCount].children[1].setAttribute('id', rowId + '_tagList');
+    //rowData.cells[celCount].children[1].setAttribute('id', rowId + '_tagList');
     document.getElementById(rowId + '_tags').addEventListener("click", ub_row_tags_onclick);
-    document.getElementById(rowId + '_tagList').innerHTML = "";
+    //document.getElementById(rowId + '_tagList').innerHTML = "";
     return celCount + 1;
 }
 
@@ -502,4 +447,99 @@ function ub_row_add(){
     cellCount = ub_row_add_element_tag(newRow, cellCount, 'button', newRowId, '_tags');
 
     cellCount = ub_row_add_element_label_points(newRow, cellCount, 'label', newRowId, '_tagTotal');
+
+    ub_row_tag_ini(newRowId);
+
+    //UNIT TEST
+    row_tagArrays[newRowId].push(0);
+}
+
+/*
+    Binder functions for unitBuilder
+*/
+
+function ub_row_change_points(rowId){
+
+    let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+    let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+    let evadeVal = parseInt(document.getElementById(rowId + '_evade').value);
+    let dmgMeleeVal = parseInt(document.getElementById(rowId + '_DMGM').value);
+    let dmgRangeVal = parseInt(document.getElementById(rowId + '_DMGR').value);
+    let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
+    let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
+    let structVal = parseInt(document.getElementById(rowId + '_structure').value);
+
+    let sizeCost = uc_calc_Size(sizeVal);
+    let moveCost = uc_calc_Move(moveVal, sizeVal);
+    let evadeCost = uc_calc_Evade(sizeVal, evadeVal, moveVal);
+    let dmgMeleeCost = uc_calc_Damage_Melee(dmgMeleeVal, moveVal);
+    let dmgRangeCost = uc_calc_Damage_Range(dmgRangeVal);
+    let rangeCost = uc_calc_Range(moveVal, rangeVal, dmgRangeVal);
+    let armorCost = uc_calc_Armor(armorVal, sizeVal);
+    let structCost = uc_calc_Structure(structVal,sizeVal);
+    
+    /*console.log('-------------change-------------------');
+    console.log('sizeCost= ' + sizeCost);
+    console.log('moveCost= ' + moveCost);
+    console.log('evadeCost= ' + evadeCost);
+    console.log('dmgMeleeCost= ' + dmgMeleeCost);
+    console.log('dmgRangeCost= ' + dmgRangeCost);
+    console.log('rangeCost= ' + rangeCost);
+    console.log('armorCost= ' + armorCost);
+    console.log('structCost= ' + structCost);*/
+
+
+    let pointsVal = uc_calc_baseCost(sizeCost, moveCost, evadeCost, dmgMeleeCost, dmgRangeCost, rangeCost, armorCost, structCost);
+    pointsVal = Math.max(0, pointsVal);
+    pointsVal = Math.round(pointsVal);
+
+    document.getElementById(rowId+'_points').innerHTML = pointsVal;
+    return pointsVal;
+}
+
+/*
+    Validates Row-tag list and removes invalid tags
+*/
+function ub_row_tag_validate(rowId){
+    let rowArray = row_tagArrays[rowId];
+    if(rowArray.length === 0){
+        return;
+    }
+    let undoCost = 0;
+    let removeThese = [];
+    for(let idx in rowArray){
+        let tagId = rowArray[idx];
+        let tagData = tagInfo.data[tagId];
+        if(tagData.reqs(rowId) !== ''){
+            let tagCost = tagData.func(rowId);
+            undoCost += (tagCost * -1);
+            removeThese.push(idx);
+        }
+    }
+
+    let oldTagTotal = parseInt(document.getElementById(rowId + '_tagTotal').innerHTML);
+    document.getElementById(rowId + '_tagTotal').innerHTML = oldTagTotal + undoCost;
+
+    for(let idx in removeThese){
+        let index = removeThese[idx];
+        rowArray = rowArray.splice(index, 1);
+    }
+
+    // console.log("rowArray = " + rowArray);
+}
+/*
+    TD <input> onChange binding.
+*/
+function ub_row_on_change_event(event){
+    let thisRowId = ub_get_rowid(event.srcElement.id);
+    if(event.srcElement.max){
+        let maxVal = parseInt(event.srcElement.max);
+        let testVal = parseInt(event.srcElement.value);
+        if(testVal > maxVal){
+            event.srcElement.value =  event.srcElement.max;
+        }
+    }
+    ub_row_change_points(thisRowId);
+    ub_row_tag_validate(thisRowId); //split from change_points becuase some req / cost funcs run change_points;
+    event.preventDefault();
 }

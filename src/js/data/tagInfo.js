@@ -68,9 +68,10 @@ const tagInfo = {
             title : 'Armor Piercing',
             desc : 'When applying Damage from this unit’s attack. Apply the damage amount to the Target Model’s structure even if the Target Model has remaining armor points.',
             func : (rowId) => {
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
                 let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
-                return ((uc_calc_Damage_Range(rangeDamageVal) + uc_calc_Damage_Melee(meleeDamageVal)) * 0.75);
+                return ((uc_calc_Damage_Range(rangeDamageVal) + uc_calc_Damage_Melee(meleeDamageVal, moveVal)) * 0.75);
             },
             reqs : (rowId) => {
                 return '';
@@ -156,8 +157,9 @@ const tagInfo = {
             title : 'Brawler',
             desc : 'Must have Melee DMG > 0. May Reroll 2 ATK and 1 DEF dice in Melee Attacks',
             func : (rowId) => {
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
-                return uc_calc_Damage_Melee(meleeDamageVal) * 0.67;
+                return uc_calc_Damage_Melee(meleeDamageVal, moveVal) * 0.67;
             },
             reqs : (rowId) => {
                 let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
