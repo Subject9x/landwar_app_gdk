@@ -389,7 +389,7 @@ function ub_row_tags_onclick(event){
 */
 function ub_row_add_element_input_num(rowData, celCount, tagType, rowId, celName){
     rowData.cells[celCount].getElementsByTagName(tagType)[0].setAttribute('id', rowId + celName);
-    rowData.cells[celCount].getElementsByTagName(tagType)[0].value = 1;
+    rowData.cells[celCount].getElementsByTagName(tagType)[0].value = 0;
     document.getElementById(rowId + celName).addEventListener("input", ub_row_on_change_event);
     return celCount + 1;
 }
@@ -449,9 +449,6 @@ function ub_row_add(){
     cellCount = ub_row_add_element_label_points(newRow, cellCount, 'label', newRowId, '_tagTotal');
 
     ub_row_tag_ini(newRowId);
-
-    //UNIT TEST
-    row_tagArrays[newRowId].push(0);
 }
 
 /*
