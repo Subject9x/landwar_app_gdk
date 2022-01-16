@@ -45,22 +45,23 @@ const tagInfo = {
             },
             reqs : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move'));
+                let warn = '';
                 if(moveVal <= 0){
-                    return 'Unit must have a <b>[Move]</b> greater than 0.';
+                    warn = warn + '<p>Unit must have a <b>[Move]</b> greater than 0.</p>';
                 }
                 let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
                 if(rangeVal <= 0){
-                    return 'Unit must have a <b>[Range]</b> greater than 0.';
+                    warn = warn + '<p>Unit must have a <b>[Range]</b> greater than 0.</p>';
                 }
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
                 if(rangeDamageVal <= 0){
-                    return 'Unit must have a <b>[Range Damage]</b> greater than 0.';
+                    warn = warn + '<p>Unit must have a <b>[Range Damage]</b> greater than 0.</p>';
                 }
                 let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
                 if(meleeDamageVal <= 0){
-                    return 'Unit must have a <b>[Melee Damage]</b> greater than 0.';
+                    warn = warn + '<p>Unit must have a <b>[Melee Damage]</b> greater than 0.</p>';
                 }
-                return '';
+                return warn;
             },
             eqt:'<b>Size</b> * 2.5'
         },
@@ -101,15 +102,16 @@ const tagInfo = {
                 return sizeVal * 2;
             },
             reqs : (rowId) => {
+                let warn = '';
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 if(moveVal <= 0){
-                    return 'Unit must have a <b>[Move]</b> greater than 0.';
+                    warn = warn + '<p>Unit must have a <b>[Move]</b> greater than 0.</p>';
                 }
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
                 if(armorVal <= 0){
-                    return 'Unit must have a <b>[Armor]</b> greater than 0.';
+                    warn = warn + '<p>Unit must have a <b>[Armor]</b> greater than 0.</p>';
                 }
-                return '';
+                return warn;
             },
             eqt:'<b>Size</b> * 2'
         },
@@ -123,15 +125,16 @@ const tagInfo = {
                 return Math.max(0, ((rangeVal/2) + rangeDamageVal) - sizeVal);
             },
             reqs : (rowId) => {
+                let warn = '';
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
                 if(rangeDamageVal <= 0){
-                    return 'Unit must have a <b>[Damage-Range]</b> greater than 0.';
+                    warn = warn + '<p>Unit must have a <b>[Damage-Range]</b> greater than 0.</p>';
                 }
                 let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
                 if(rangeVal <= 0){
-                    return 'Unit must have a <b>[Range]</b> greater than 0.';
+                    warn = warn + '<p>Unit must have a <b>[Range]</b> greater than 0.</p>';
                 }
-                return '';
+                return warn;
             },
             eqt:'((<b>Range</b> / 2) + <b>Damage-Range</b>) - <b>Size</b>'
         },
@@ -211,15 +214,16 @@ const tagInfo = {
                 return (moveVal / 3) + (rangeVal / 3) + (rangeDamageVal / 3); /*TODO*/
             },
             reqs : (rowId) => {
+                let warn = '';
                 let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
                 if(rangeVal <= 0){
-                    return 'Unit must have a <b>[Range]</b> greater than 0.';
+                    warn = warn + '<p>Unit must have a <b>[Range]</b> greater than 0.</p>';
                 }
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
                 if(rangeDamageVal <= 0){
-                    return 'Unit must have a <b>[Range Damage]</b> greater than 0.';
+                    warn = warn + '<p>Unit must have a <b>[Range Damage]</b> greater than 0.</p>';
                 }
-                return '';
+                return warn;
             },
             eqt:'(<b>Damage-Range</b> / 3) + (<b>Range</b> / 3) + (<b>Move</b> / 3)'
         },
@@ -234,20 +238,21 @@ const tagInfo = {
                 return Math.max(sizeVal, (moveVal / 4) + (armorVal / 4) - (sizeVal / 2));
             },
             reqs : (rowId) => {
+                let warn = '';
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
                 if(armorVal <= 0){
-                    return 'Unit must have a <b>[Armor]</b> greater than 0.';
+                    warn = warn + '<p>Unit must have a <b>[Armor]</b> greater than 0.';
                 }
                 if(ub_tags_checkByName('Courage-II')){
-                    return 'Unit <i>already has</i> [Courage-II] tag.';
+                    warn = warn + '<p>Unit <i>already has</i> [Courage-II] tag.</p>';
                 }
                 if(ub_tags_checkByName('Courage-III')){
-                    return 'Unit <i>already has</i> [Courage-III] tag.';
+                    warn = warn + '<p>Unit <i>already has</i> [Courage-III] tag.</p>';
                 }
                 if(ub_tags_checkByName('Fearless')){
-                    return 'Unit <i>already has</i> [Fearless] tag.';
+                    warn = warn + '<p>Unit <i>already has</i> [Fearless] tag.</p>';
                 }
-                return '';
+                return warn;
             },
             eqt:'(<b>Move</b> / 4) + (<b>Armor</b> / 4) - (<b>Size</<b> / 2)'
         },
@@ -262,20 +267,21 @@ const tagInfo = {
                 return Math.max(sizeVal, (moveVal / 3) + (armorVal / 3) - (sizeVal / 2));
             },
             reqs : (rowId) => {
+                let warn = '';
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
                 if(armorVal <= 0){
-                    return 'Unit must have a <b>[Armor]</b> greater than 0.';
+                    warn = warn + '<p>Unit must have a <b>[Armor]</b> greater than 0.</p>';
                 }
                 if(ub_tags_checkByName('Courage-I')){
-                    return 'Unit <i>already has</i> [Courage-I] tag.';
+                    warn = warn + '<p>Unit <i>already has</i> [Courage-I] tag.</p>';
                 }
                 if(ub_tags_checkByName('Courage-III')){
-                    return 'Unit <i>already has</i> [Courage-III] tag.';
+                    warn = warn + '<p>Unit <i>already has</i> [Courage-III] tag.</p>';
                 }
                 if(ub_tags_checkByName('Fearless')){
-                    return 'Unit <i>already has</i> [Fearless] tag.';
+                    warn = warn + '<p>Unit <i>already has</i> [Fearless] tag.</p>';
                 }
-                return '';
+                return warn;
             },
             eqt:'(<b>Move</b> / 3) + (<b>Armor</b> / 3) - (<b>Size</<b> / 2)'
         },
@@ -290,20 +296,21 @@ const tagInfo = {
                 return Math.max(sizeVal, (moveVal / 2) + (armorVal / 2) - (sizeVal / 2));
             },
             reqs : (rowId) => {
+                let warn = '';
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
                 if(armorVal <= 0){
-                    return 'Unit must have a <b>[Armor]</b> greater than 0.';
+                    warn = warn + '<p>Unit must have a <b>[Armor]</b> greater than 0.';
                 }
                 if(ub_tags_checkByName('Courage-I')){
-                    return 'Unit <i>already has</i> [Courage-I] tag.';
+                    warn = warn + '<p>Unit <i>already has</i> [Courage-I] tag.</p>';
                 }
                 if(ub_tags_checkByName('Courage-II')){
-                    return 'Unit <i>already has</i> [Courage-II] tag.';
+                    warn = warn + '<p>Unit <i>already has</i> [Courage-II] tag.</p>';
                 }
                 if(ub_tags_checkByName('Fearless')){
-                    return 'Unit <i>already has</i> [Fearless] tag.';
+                    warn = warn + '<p>Unit <i>already has</i> [Fearless] tag.</p>';
                 }
-                return '';
+                return warn;
             },
             eqt:'(<b>Move</b> / 2) + (<b>Armor</b> / 2) - (<b>Size</<b> / 2)'
         },
@@ -315,16 +322,17 @@ const tagInfo = {
                 return Math.max(0, ((1/sizeVal^2) * 50) - sizeVal);
             },
             reqs : (rowId) => {
+                let warn = '';
                 if(ub_tags_checkByName('Courage-II')){
-                    return 'Unit <i>already has</i> [Courage-II] tag.';
+                    warn = warn + '<p>Unit <i>already has</i> [Courage-II] tag.</p>';
                 }
                 if(ub_tags_checkByName('Courage-III')){
-                    return 'Unit <i>already has</i> [Courage-III] tag.';
+                    warn = warn + '<p>Unit <i>already has</i> [Courage-III] tag.</p>';
                 }
                 if(ub_tags_checkByName('Fearless')){
-                    return 'Unit <i>already has</i> [Fearless] tag.';
+                    warn = warn + '<p>Unit <i>already has</i> [Fearless] tag.</p>';
                 }
-                return '';
+                return warn;
             },
             eqt:'((1 / <b>Size</b> ^ 2) * 50) - <b>Size</b>'
         },
@@ -336,20 +344,21 @@ const tagInfo = {
                 return Math.max(0, ((1/sizeVal^2) * 65) - sizeVal);
             },
             reqs : (rowId) => {
+                let warn = '';
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 if(sizeVal < 1){
-                    return '<b>[Size]</b> must be <i>greater than</i> 1.';
+                    warn = warn + '<p><b>[Size]</b> must be <i>greater than</i> 1.</p>';
                 }
                 if(ub_tags_checkByName('Courage-I')){
-                    return 'Unit <i>already has</i> [Courage-I] tag.';
+                    warn = warn + '<p>Unit <i>already has</i> [Courage-I] tag.</p>';
                 }
                 if(ub_tags_checkByName('Courage-III')){
-                    return 'Unit <i>already has</i> [Courage-III] tag.';
+                    warn = warn + '<p>Unit <i>already has</i> [Courage-III] tag.</p>';
                 }
                 if(ub_tags_checkByName('Fearless')){
-                    return 'Unit <i>already has</i> [Fearless] tag.';
+                    warn = warn + '<p>Unit <i>already has</i> [Fearless] tag.</p>';
                 }
-                return '';
+                return warn;
             },
             eqt:'((1 / <b>Size</b> ^ 2) * 65) - <b>Size</b>'
         },
@@ -361,20 +370,21 @@ const tagInfo = {
                 return Math.max(0, ((1/sizeVal^2) * 80) - sizeVal);
             },
             reqs : (rowId) => {
+                let warn = '';
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 if(sizeVal < 3){
-                    return '<b>[Size]</b> must be <i>greater than</i> 3.';
+                    warn = warn + '<p><b>[Size]</b> must be <i>greater than</i> 3.</p>';
                 }
                 if(ub_tags_checkByName('Courage-I')){
-                    return 'Unit <i>already has</i> [Courage-II] tag.';
+                    warn = warn + '<p>Unit <i>already has</i> [Courage-II] tag.</p>';
                 }
                 if(ub_tags_checkByName('Courage-II')){
-                    return 'Unit <i>already has</i> [Courage-III] tag.';
+                    warn = warn + '<p>Unit <i>already has</i> [Courage-III] tag.</p>';
                 }
                 if(ub_tags_checkByName('Fearless')){
-                    return 'Unit <i>already has</i> [Fearless] tag.';
+                    warn = warn + '<p>Unit <i>already has</i> [Fearless] tag.</p>';
                 }
-                return '';
+                return warn;
             },
             eqt:'((1 / <b>Size</b> ^ 2) * 80) - <b>Size</b>'
         },
@@ -385,26 +395,26 @@ const tagInfo = {
                 return ub_row_change_points(rowId) * 0.25;
             },
             reqs : (rowId) => {
-                
+                let warn = '';
                 if(ub_tags_checkByName('Courage-I')){
-                    return 'Unit <i>already has</i> [Courage-I] tag.';
+                    warn = warn + '<p>Unit <i>already has</i> [Courage-I] tag.</p>';
                 }
                 if(ub_tags_checkByName('Courage-I')){
-                    return 'Unit <i>already has</i> [Courage-II] tag.';
+                    warn = warn + '<p>Unit <i>already has</i> [Courage-II] tag.</p>';
                 }
                 if(ub_tags_checkByName('Courage-II')){
-                    return 'Unit <i>already has</i> [Courage-III] tag.';
+                    warn = warn + '<p>Unit <i>already has</i> [Courage-III] tag.</p>';
                 }
                 if(ub_tags_checkByName('Crew-I')){
-                    return 'Unit <i>already has</i> [Crew-I] tag.';
+                    warn = warn + '<p>Unit <i>already has</i> [Crew-I] tag.</p>';
                 }
                 if(ub_tags_checkByName('Crew-II')){
-                    return 'Unit <i>already has</i> [Crew-II] tag.';
+                    warn = warn + '<p>Unit <i>already has</i> [Crew-II] tag.</p>';
                 }
                 if(ub_tags_checkByName('Crew-III')){
-                    return 'Unit <i>already has</i> [Crew-III] tag.';
+                    warn = warn + '<p>Unit <i>already has</i> [Crew-III] tag.</p>';
                 }
-                return '';
+                return warn;
             },
             eqt:'<i>Unit base total COST</i> * 25%'
         },
@@ -509,15 +519,16 @@ const tagInfo = {
                 return (rangeDamageVal / 2) + (rangeVal / 2)
             },
             reqs : (rowId) => {
+                let warn = '';
                 let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
                 if(rangeVal <= 0){
-                    return 'Unit must have a <b>[Range]</b> greater than 0.';
+                    warn = warn + '<p>Unit must have a <b>[Range]</b> greater than 0.</p>';
                 }
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
                 if(rangeDamageVal <= 0){
-                    return 'Unit must have a <b>[Range Damage]</b> greater than 0.';
+                    warn = warn + '<p>Unit must have a <b>[Range Damage]</b> greater than 0.</p>';
                 }
-                return '';
+                return warn;
             },
             eqt:'(<b>Damage-Range</b> / 2) + (<b>Range</b> / 2)'
         },
@@ -627,13 +638,14 @@ const tagInfo = {
                 return ub_row_change_points(rowId) * 0.2; 
             },
             reqs : (rowId) => {
+                let warn = '';
                 if(ub_tags_checkByName('Rank - Veteran')){
-                    return 'Unit <i>already has</i> <b>[Rank - Veteran]</b> tag.';
+                    warn = warn + '<p>Unit <i>already has</i> <b>[Rank - Veteran]</b> tag.</p>';
                 }
                 if(ub_tags_checkByName('Rank - Elite')){
-                    return 'Unit <i>already has</i> <b>[Rank - Elite]</b> tag.';
+                    warn = warn + '<p>Unit <i>already has</i> <b>[Rank - Elite]</b> tag.</p>';
                 }
-                return '';
+                return warn;
             },
             eqt:'<i>subtract Unit base total COST</i> * 20%'
         },
@@ -644,13 +656,14 @@ const tagInfo = {
                 return 0 - ub_row_change_points(rowId) * 0.1; 
             },
             reqs : (rowId) => {
+                let warn = '';
                 if(ub_tags_checkByName('Rank - Green')){
-                    return 'Unit <i>already has</i> <b>[Rank - Green]</b> tag.';
+                    warn = warn + '<p>Unit <i>already has</i> <b>[Rank - Green]</b> tag.</p>';
                 }
                 if(ub_tags_checkByName('Rank - Elite')){
-                    return 'Unit <i>already has</i> <b>[Rank - Elite]</b> tag.';
+                    warn = warn + '<p>Unit <i>already has</i> <b>[Rank - Elite]</b> tag.</p>';
                 }
-                return '';
+                return warn;
             },
             eqt:'<i>Unit base total COST</i> * 10%'
         },
@@ -661,13 +674,14 @@ const tagInfo = {
                 return ub_row_change_points(rowId) * 0.2; 
             },
             reqs : (rowId) => {
+                let warn = '';
                 if(ub_tags_checkByName('Rank - Green')){
-                    return 'Unit <i>already has</i> <b>[Rank - Green]</b> tag.';
+                    warn = warn + '<p>Unit <i>already has</i> <b>[Rank - Green]</b> tag.</p>';
                 }
                 if(ub_tags_checkByName('Rank - Veteran')){
-                    return 'Unit <i>already has</i> <b>[Rank - Veteran]</b> tag.';
+                    warn = warn + '<p>Unit <i>already has</i> <b>[Rank - Veteran]</b> tag.</p>';
                 }
-                return '';
+                return warn;
             },
             eqt:'<i>Unit base total COST</i> * 20%'
         },
@@ -723,15 +737,16 @@ const tagInfo = {
                 return Math.max(0, ((rangeDamageVal / 2) + (rangeVal / 2) + (moveVal / 4)) - sizeVal);
             },
             reqs : (rowId) => {
+                let warn = '';
                 let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
                 if(rangeVal<= 0){
-                    return 'Unit must have a <b>[Range]</b> greater than 0".';
+                    warn = warn + '<p>Unit must have a <b>[Range]</b> greater than 0".</p>';
                 }
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
                 if(rangeDamageVal <= 0){
-                    return 'Unit must have a <b>[Range Damage]</b> greater than 0".';
+                    warn = warn + '<p>Unit must have a <b>[Range Damage]</b> greater than 0".</p>';
                 }
-                return '';
+                return warn;
             },
             eqt:'(<b>Damage-Range</b> / 2) + (<b>Range</b> / 2) + (<b>Move</b> / 4) - <b>Size</b>'
         },
