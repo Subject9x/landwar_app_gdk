@@ -36,6 +36,38 @@ function ub_util_array_deepcpy(srcArray, dstArray){
 
 
 /*
+    Control Row buttons
+*/
+function ub_control_select_all(selectAll){
+    let rowTableBody = document.getElementById('unitTable').getElementsByTagName('tbody')[0];
+    if(rowTableBody.rows.length <= 1){
+        return;
+    }
+    for(i = 1; i < rowTableBody.rows.length; i++){
+        let rowItem = rowTableBody.rows[i];
+        document.getElementById(rowItem.id + '_select').checked = selectAll;
+    }
+};
+
+function ub_control_save_select(){
+
+}
+
+function ub_control_delete_select(){
+    let rowTableBody = document.getElementById('unitTable').getElementsByTagName('tbody')[0];
+    if(rowTableBody.rows.length <= 1){
+        return;
+    }
+    for(i = 1; i < rowTableBody.rows.length; i++){
+        let rowItem = rowTableBody.rows[i];
+        if(document.getElementById(rowItem.id + '_select').checked === true){
+            rowTableBody.deleteRow(i);
+        }
+    }
+}
+
+
+/*
     Row Data manipulation
 */
 /*
@@ -133,7 +165,7 @@ function ub_tagModal_validate_tags(){
         
         if(warn && !isCheck){
             tagRow.classList.remove('tagRuleLineActive');
-            tagRow.children[2].children[0].innerHTML = "0";
+            tagRow.children[2].children[0].innerHTML = "";
             if(ub_tags_checkExisting(tagId, tagWindow_tagArray)){
                 tagTotalCost -= cost; 
                 tagWindow_tagArray = ub_tagModal_update_tagArray(tagId, isCheck);
@@ -183,9 +215,6 @@ function ub_tagModal_tag_check_req(rowId){
     }
     document.getElementById(rowId + '_tagTotal').innerHTML = tagTotalCost;
 }
-
-
-
 
 
 /*
@@ -262,7 +291,7 @@ function ub_tagModal_tagRow_check(tagRow){
         //removing existing tag from list.
         //was on list, but now gone.
         tagRow.classList.remove('tagRuleLineActive');
-        tagRow.children[2].children[0].innerHTML = "0";
+        tagRow.children[2].children[0].innerHTML = "";
         tagCost -= cost; 
     }
 
@@ -340,8 +369,6 @@ function ub_row_tags_onclick(event){
 
         let isCheck = ub_tags_checkExisting(tag, tagWindow_tagArray);
         
-        
-        
         if(isCheck){
             let cost = tagInfo.data[tag].func(rowId);
             cost = parseFloat(cost.toFixed(1));
@@ -385,8 +412,13 @@ function ub_row_tags_onclick(event){
 
 /*
     UNIT ROW FUNCTIONS
-
 */
+function ub_row_select_check(rowData, celCount, rowId, celName){
+    let rowSelectCheck = rowData.cells[celCount].getElementsByTagName('input')[0];
+    rowSelectCheck.setAttribute('id', rowId + celName);
+
+    return celCount + 1;
+}
 function ub_row_add_element_input_num(rowData, celCount, tagType, rowId, celName){
     rowData.cells[celCount].getElementsByTagName(tagType)[0].setAttribute('id', rowId + celName);
     rowData.cells[celCount].getElementsByTagName(tagType)[0].value = 0;
@@ -423,6 +455,8 @@ function ub_row_add(){
     newRow.setAttribute('id', newRowId);
     
     let cellCount = 0;
+
+    cellCount = ub_row_select_check(newRow, cellCount, newRowId, '_select');
 
     cellCount = ub_row_add_element_input_name(newRow, cellCount, 'input', newRowId, '_name');
     
@@ -502,20 +536,28 @@ function ub_row_tag_validate(rowId){
     if(rowArray.length === 0){
         return;
     }
+
+    let newTagcost = 0;
     let undoCost = 0;
+    let tagTotal = 0;
+
     let removeThese = [];
     for(let idx in rowArray){
         let tagId = rowArray[idx];
         let tagData = tagInfo.data[tagId];
+        let tagCost = tagData.func(rowId);
         if(tagData.reqs(rowId) !== ''){
-            let tagCost = tagData.func(rowId);
             undoCost += (tagCost * -1);
             removeThese.push(idx);
         }
+        else{
+            newTagcost += tagCost;
+        }
     }
+    tagTotal = newTagcost + undoCost;
+    tagTotal = tagTotal.toFixed(1);
 
-    let oldTagTotal = parseInt(document.getElementById(rowId + '_tagTotal').innerHTML);
-    document.getElementById(rowId + '_tagTotal').innerHTML = oldTagTotal + undoCost;
+    document.getElementById(rowId + '_tagTotal').innerHTML = tagTotal;
 
     for(let idx in removeThese){
         let index = removeThese[idx];
