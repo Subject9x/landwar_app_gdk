@@ -635,7 +635,7 @@ const tagInfo = {
             title : 'Rank - Green',
             desc : "Unit's <i>base</i> <b>ATK/DEF</b> change to <b>2 ATK</b> and <b>1 DEF</b>.",
             func : (rowId) => {
-                return ub_row_change_points(rowId) * 0.2; 
+                return 0 - ub_row_change_points(rowId) * 0.2; 
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -653,7 +653,7 @@ const tagInfo = {
             title : 'Rank - Veteran',
             desc : "Unit's ATK and DEF stats become 4 ATK Dice and 3 DEF Dice",
             func : (rowId) => {
-                return 0 - ub_row_change_points(rowId) * 0.1; 
+                return ub_row_change_points(rowId) * 0.1; 
             },
             reqs : (rowId) => {
                 let warn = '';
