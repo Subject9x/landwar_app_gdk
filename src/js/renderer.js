@@ -7,6 +7,14 @@ const pageUnitBuild = document.getElementById('pageUnitBuild');
 
 //window = remote.getCurrentWindow();
 
+
+const dialogSaveOptionsUnitList = {
+    title : 'Save File',
+    buttonLabel: 'Save',
+    filters : [{name : 'Txt Files', extensions : ['txt']}],
+    properties : ['createDirectory', 'showOverwriteConfirmation']
+}
+
 //document ready
 document.addEventListener('DOMContentLoaded',function(){
 

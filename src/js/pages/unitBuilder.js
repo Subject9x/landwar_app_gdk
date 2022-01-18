@@ -36,7 +36,7 @@ function ub_util_array_deepcpy(srcArray, dstArray){
 
 
 /*
-    Control Row buttons
+    unitBuilder -> Control Row buttons
 */
 function ub_control_select_all(selectAll){
     let rowTableBody = document.getElementById('unitTable').getElementsByTagName('tbody')[0];
@@ -49,8 +49,11 @@ function ub_control_select_all(selectAll){
     }
 };
 
-function ub_control_save_select(){
-
+function ub_control_save_select(event){
+    let tableData = document.getElementById('unitTable').getElementsByTagName('tbody')[0];
+    let exportData = file_unitBuild_export(tableData);
+    
+    window.dialogSys.ubSaveDialog(event, exportData, dialogSaveOptionsUnitList);
 }
 
 function ub_control_delete_select(){
@@ -65,8 +68,6 @@ function ub_control_delete_select(){
         }
     }
 }
-
-
 /*
     Row Data manipulation
 */
@@ -77,7 +78,6 @@ function ub_get_rowid(rowTagVal){
     let rowId = rowTagVal.substring(0,rowTagVal.indexOf('_'));
     return rowId;
 }
-
 
 /*
     check if #unitRow tag list has a given tag already.

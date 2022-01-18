@@ -1,8 +1,8 @@
 // preload.js
 
-const {contextBridge, ipcRenderer} = require('electron')
-const fs = require('fs')
-const path = require('path')
+const {contextBridge, ipcRenderer, ipcMain} = require('electron');
+const fs = require('fs');
+const path = require('path');
 
 /*
   contextBridge -
@@ -11,7 +11,6 @@ const path = require('path')
       create a custom api name, which is called via window.[key].
       then enumeratee the functions you want to wrap.
 */
-
 
 //example ipc channels, can then be referenced by /renderer.js
 contextBridge.exposeInMainWorld('darkMode',{
@@ -39,6 +38,17 @@ contextBridge.exposeInMainWorld(
     }
   }
 )
+
+contextBridge.exposeInMainWorld(
+  'dialogSys',
+  {
+    ubSaveDialog(event, fileData, config){
+      ipcRenderer.sendSync('ub-dialog-save', event, fileData, config);
+      //console.log(testResponse);
+    }
+  }
+)
+
 
 
 // All of the Node.js APIs are available in the preload process.
