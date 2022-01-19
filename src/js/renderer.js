@@ -15,6 +15,13 @@ const dialogSaveOptionsUnitList = {
     properties : ['createDirectory', 'showOverwriteConfirmation']
 }
 
+const dialogLoadOptionsUnitList = {
+    title : 'Load Unit List',
+    buttonLabel: 'Open',
+    filters : [{name : 'Txt Files', extensions : ['txt']}],
+    properties : ['openFile']
+}
+
 //document ready
 document.addEventListener('DOMContentLoaded',function(){
 

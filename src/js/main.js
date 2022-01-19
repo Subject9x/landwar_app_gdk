@@ -48,9 +48,7 @@ app.whenReady().then(() => {
 })
 
 ipcMain.on('ub-dialog-save', (event, ...args)=>{
-  console.log('IPCMAIN-data: ' + JSON.stringify(args[1]));
-  console.log('IPCMAIN-config: ' + JSON.stringify(args[2]));
-  args[2].defaultPath = path.join(__dirname,'../');
+  args[2].defaultPath = path.join(__dirname,'../../');
   dialog.showSaveDialog(mainWindow, args[2]).then( file =>{
     console.log(file);
     if(!file.canceled){
@@ -65,5 +63,25 @@ ipcMain.on('ub-dialog-save', (event, ...args)=>{
     event.returnValue = file.filePath.toString();
   })
 });
+
+ipcMain.on('ub-dialog-load', (event, ...args)=>{
+  console.log(args[0]);
+  console.log(args[1]);
+  args[1].defaultPath = path.join(__dirname,'../../');
+  dialog.showOpenDialog(mainWindow, args[1]).then( file =>{
+    console.log(file);
+    if(!file.canceled && file.filePaths.length > 0){
+      fs.readFile(file.filePaths[0].toString(), 'utf8', (err,data)=>{
+        if(err){
+          event.returnValue = 'null';
+        }
+        else{
+          event.returnValue = data;
+        }
+      })
+    }
+  })
+});
+
 
 ipcMain.on('quit-app', ()=> app.quit());

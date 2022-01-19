@@ -45,6 +45,10 @@ contextBridge.exposeInMainWorld(
     ubSaveDialog(event, fileData, config){
       ipcRenderer.sendSync('ub-dialog-save', event, fileData, config);
       //console.log(testResponse);
+    },
+    ubLoadDialog(event, config){
+      let getData = ipcRenderer.sendSync('ub-dialog-load', event, config);
+      return getData;
     }
   }
 )

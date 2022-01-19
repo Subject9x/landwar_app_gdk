@@ -51,8 +51,16 @@ function ub_control_select_all(selectAll){
 
 function ub_control_save_select(event){
     let tableData = document.getElementById('unitTable').getElementsByTagName('tbody')[0];
-    let exportData = file_unitBuild_export(tableData);
     
+    if(tableData.rows <= 1){
+        return;
+    }
+    let exportData = file_unitBuild_export(tableData);
+
+    if(exportData === undefined){
+        return;
+    }
+
     window.dialogSys.ubSaveDialog(event, exportData, dialogSaveOptionsUnitList);
 }
 
@@ -67,6 +75,15 @@ function ub_control_delete_select(){
             rowTableBody.deleteRow(i);
         }
     }
+}
+
+function ub_control_loadfile(event){
+    let fileData = window.dialogSys.ubLoadDialog(event, dialogLoadOptionsUnitList);    
+    if(fileData === undefined){
+        //TODO error modal
+        return;
+    }
+    file_unitBuild_import(fileData);
 }
 /*
     Row Data manipulation
@@ -483,6 +500,8 @@ function ub_row_add(){
     cellCount = ub_row_add_element_label_points(newRow, cellCount, 'label', newRowId, '_tagTotal');
 
     ub_row_tag_ini(newRowId);
+
+    return newRowId;
 }
 
 /*
