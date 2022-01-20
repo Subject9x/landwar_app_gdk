@@ -41,6 +41,9 @@ const tagInfo = {
             desc : 'when comparing Unit totals for <i>Objective Secured</i>, this Unit counts as 2 instead of the normal 1.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+                if(sizeVal == 0){
+                    sizeVal = 1;
+                }
                 return sizeVal * 2.5;
             },
             reqs : (rowId) => {
@@ -120,6 +123,9 @@ const tagInfo = {
             desc : 'Unit may divide total Ranged DMG up into several attacks at different targets.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+                if(sizeVal == 0){
+                    sizeVal = 1;
+                }
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
                 let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
                 return Math.max(0, ((rangeVal/2) + rangeDamageVal) - sizeVal);
@@ -143,6 +149,9 @@ const tagInfo = {
             desc : 'This Unit may ignore Overwatch and Terrain during the Movement Phase',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+                if(sizeVal == 0){
+                    sizeVal = 1;
+                }
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
 
                 return uc_calc_Move(moveVal, sizeVal) * 2;
@@ -175,7 +184,7 @@ const tagInfo = {
         },
         {
             title : 'Cargo',
-            desc : 'Unit can instantly Pick Up an object if equal or smaller Size.',
+            desc : 'Unit can instantly Pick Up an object if equal or smaller Size. \n <b>Size</b> of 0 is 1 for this tag <i>but not for tag cost</i>.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
@@ -192,6 +201,9 @@ const tagInfo = {
             desc : 'Unit does not provoke <i>Overwatch</i> attacks.',
             func : (rowId, ) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+                if(sizeVal == 0){
+                    sizeVal = 1;
+                }
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 return (sizeVal *2) + (moveVal / 2);
             },
@@ -319,7 +331,10 @@ const tagInfo = {
             desc : 'For stress rolls, roll 2 and take the highest (represents crew morale and squad morale). Limit of Crew Points is (Size / 3)  + 2.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
-                return Math.max(0, ((1/sizeVal^2) * 50) - sizeVal);
+                if(sizeVal == 0){
+                    sizeVal = 1;
+                }
+                return Math.max(0, ((1/sizeVal^2) * 9) - sizeVal);
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -332,21 +347,27 @@ const tagInfo = {
                 if(ub_tags_checkByName('Fearless')){
                     warn = warn + '<p>Unit <i>already has</i> [Fearless] tag.</p>';
                 }
+                if(ub_tags_checkByName('Crew-II')){
+                    warn = warn + '<p>Unit <i>already has</i> [Crew-II] tag.</p>';
+                }
+                if(ub_tags_checkByName('Crew-III')){
+                    warn = warn + '<p>Unit <i>already has</i> [Crew-III] tag.</p>';
+                }
                 return warn;
             },
-            eqt:'((1 / <b>Size</b> ^ 2) * 50) - <b>Size</b>'
+            eqt:'((1 / <b>Size</b> ^ 2) * 9) - <b>Size</b>'
         },
         {
             title : 'Crew-II',
             desc : 'For stress rolls, roll 3 and take the highest (represents crew morale and squad morale). Limit of Crew Points is (Size / 3)  + 2.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
-                return Math.max(0, ((1/sizeVal^2) * 65) - sizeVal);
+                return Math.max(0, ((1/sizeVal^2) * 13) - sizeVal);
             },
             reqs : (rowId) => {
                 let warn = '';
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
-                if(sizeVal < 1){
+                if(sizeVal < 4){
                     warn = warn + '<p><b>[Size]</b> must be <i>greater than</i> 1.</p>';
                 }
                 if(ub_tags_checkByName('Courage-I')){
@@ -358,21 +379,27 @@ const tagInfo = {
                 if(ub_tags_checkByName('Fearless')){
                     warn = warn + '<p>Unit <i>already has</i> [Fearless] tag.</p>';
                 }
+                if(ub_tags_checkByName('Crew-I')){
+                    warn = warn + '<p>Unit <i>already has</i> [Crew-I] tag.</p>';
+                }
+                if(ub_tags_checkByName('Crew-III')){
+                    warn = warn + '<p>Unit <i>already has</i> [Crew-III] tag.</p>';
+                }
                 return warn;
             },
-            eqt:'((1 / <b>Size</b> ^ 2) * 65) - <b>Size</b>'
+            eqt:'((1 / <b>Size</b> ^ 2) * 13) - <b>Size</b>'
         },
         {
             title : 'Crew-III',
             desc : 'For stress rolls, roll 4 and take the highest (represents crew morale and squad morale). Limit of Crew Points is (Size / 3)  + 2.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
-                return Math.max(0, ((1/sizeVal^2) * 80) - sizeVal);
+                return Math.max(0, ((1/sizeVal^2) * 17) - sizeVal);
             },
             reqs : (rowId) => {
                 let warn = '';
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
-                if(sizeVal < 3){
+                if(sizeVal < 4){
                     warn = warn + '<p><b>[Size]</b> must be <i>greater than</i> 3.</p>';
                 }
                 if(ub_tags_checkByName('Courage-I')){
@@ -384,9 +411,15 @@ const tagInfo = {
                 if(ub_tags_checkByName('Fearless')){
                     warn = warn + '<p>Unit <i>already has</i> [Fearless] tag.</p>';
                 }
+                if(ub_tags_checkByName('Crew-I')){
+                    warn = warn + '<p>Unit <i>already has</i> [Crew-I] tag.</p>';
+                }
+                if(ub_tags_checkByName('Crew-II')){
+                    warn = warn + '<p>Unit <i>already has</i> [Crew-II] tag.</p>';
+                }
                 return warn;
             },
-            eqt:'((1 / <b>Size</b> ^ 2) * 80) - <b>Size</b>'
+            eqt:'((1 / <b>Size</b> ^ 2) * 17) - <b>Size</b>'
         },
         {
             title : 'Fearless',
@@ -451,6 +484,9 @@ const tagInfo = {
             desc : '+1 to Initiative. For this Combat Phase, this Friendly Model may ignore the penalty to Indirect Fire attacks on any target THIS unit has LoS for.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+                if(sizeVal == 0){
+                    sizeVal = 1;
+                }
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
 
                 return ((1/sizeVal^2) * 10) + (moveVal / 2);
@@ -537,6 +573,9 @@ const tagInfo = {
             desc : '"When Move is greater than 12", treat this Unit as having moved only 11" in the Combat Phase.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+                if(sizeVal == 0){
+                    sizeVal = 1;
+                }
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let evadeVal = parseInt(document.getElementById(rowId + '_evade').value);
 
@@ -570,6 +609,9 @@ const tagInfo = {
             desc : 'Unit may traverse terrain vertically, uses flight rules when moving and for <i>Overwatch</i> attacks, but is otherwise treated as a ground unit',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+                if(sizeVal == 0){
+                    sizeVal = 1;
+                }
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
 
                 return (sizeVal * 2) + (moveVal / 2);
@@ -629,7 +671,7 @@ const tagInfo = {
                 }
                 return '';
             },
-            eqt:'TODO'
+            eqt:'(<b>Damage-Melee</b> * 2) + (<b>Damage-Range</b> * 2)'
         },
         {
             title : 'Rank - Green',
@@ -800,6 +842,9 @@ const tagInfo = {
             desc : 'When Unit has finished its move, <b>all</b> Enemy Units within 6" <b>immediately</b> suffer <b>1 Stress Point</b>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+                if(sizeVal == 0){
+                    sizeVal = 1;
+                }
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
 
                 return ((1 / sizeVal^2) * 10) + moveVal;
@@ -815,7 +860,7 @@ const tagInfo = {
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 if(sizeVal === 0){
-                    sizeVal++;
+                    sizeVal = 1;
                 }
                 return sizeVal + 2;
             },
