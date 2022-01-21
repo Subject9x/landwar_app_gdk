@@ -11,16 +11,25 @@ const pageUnitBuild = document.getElementById('pageUnitBuild');
 const dialogSaveOptionsUnitList = {
     title : 'Save File',
     buttonLabel: 'Save',
-    filters : [{name : 'Txt Files', extensions : ['txt']}],
+    filters : [{name : 'CSV Files', extensions : ['csv']}],
     properties : ['createDirectory', 'showOverwriteConfirmation']
 }
 
 const dialogLoadOptionsUnitList = {
     title : 'Load Unit List',
     buttonLabel: 'Open',
-    filters : [{name : 'Txt Files', extensions : ['txt']}],
+    filters : [{name : 'CSV Files', extensions : ['csv']}],
     properties : ['openFile']
 }
+
+
+api.handle( 'ub-dialog-load-response', ( event, data ) => function( event, data ) {
+    if(data.length > 0){
+        file_unitBuild_import(data);
+    }
+}, event);
+
+
 
 //document ready
 document.addEventListener('DOMContentLoaded',function(){
@@ -50,4 +59,4 @@ document.addEventListener('DOMContentLoaded',function(){
     document.getElementById('btnAddUnit').addEventListener('click', ()=>{
         ub_row_add();
     })
-})
+});

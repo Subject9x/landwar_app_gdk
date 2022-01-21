@@ -1,6 +1,6 @@
 {
   "name": "landwar-gdk",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "testApp",
   "main": "src/js/main.js",
   "scripts": {
@@ -8,8 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "pack" : "electron-builder --dir",
-    "dist" : "electron-builder"
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "author": "OrbitalYards",
   "license": "ISC",
@@ -19,22 +19,27 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.61",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
     "@electron-forge/maker-zip": "^6.0.0-beta.61",
-    "electron-builder": "^22.14.5",
-    "electron": "^16.0.5"
+    "electron": "^16.0.5",
+    "electron-builder": "^22.14.5"
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "csv": "^6.0.5",
+    "csv-parse": "^5.0.4",
+    "csv-parser": "^3.0.0",
+    "csv-string": "^4.0.1",
+    "electron-squirrel-startup": "^1.0.0",
+    "node-csv": "^0.1.2"
   },
-  "build" : {
-    "appId" : "landwar-gdk",
-    "win" : {
-      "target" : "portable"
+  "build": {
+    "appId": "landwar-gdk",
+    "win": {
+      "target": "portable"
     },
-    "linux" : {
-      "target" : "AppImage"
+    "linux": {
+      "target": "AppImage"
     }
   },
-  "postinstall" : "electron-builder install-app-deps",
+  "postinstall": "electron-builder install-app-deps",
   "config": {
     "forge": {
       "packagerConfig": {},

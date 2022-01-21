@@ -1,6 +1,6 @@
 // preload.js
 
-const {contextBridge, ipcRenderer, ipcMain} = require('electron');
+const {contextBridge, ipcRenderer} = require('electron');
 const fs = require('fs');
 const path = require('path');
 
@@ -39,20 +39,25 @@ contextBridge.exposeInMainWorld(
   }
 )
 
+contextBridge.exposeInMainWorld( 
+  'api', 
+  {
+    send: ( channel, ...args ) => ipcRenderer.invoke( channel, ...args ),
+    handle: ( channel, callable, event, data ) => ipcRenderer.on( channel, callable( event, data ) )
+} )
+
+
 contextBridge.exposeInMainWorld(
   'dialogSys',
   {
-    ubSaveDialog(event, fileData, config){
-      ipcRenderer.sendSync('ub-dialog-save', event, fileData, config);
-      //console.log(testResponse);
+    ubSaveDialog(fileData, config){
+      return ipcRenderer.invoke('ub-dialog-save', fileData, config);
     },
-    ubLoadDialog(event, config){
-      let getData = ipcRenderer.sendSync('ub-dialog-load', event, config);
-      return getData;
+    ubLoadDialog(config){
+      api.send('ub-dialog-load-async', config);
     }
   }
 )
-
 
 
 // All of the Node.js APIs are available in the preload process.

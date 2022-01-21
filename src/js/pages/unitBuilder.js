@@ -49,41 +49,41 @@ function ub_control_select_all(selectAll){
     }
 };
 
-function ub_control_save_select(event){
-    let tableData = document.getElementById('unitTable').getElementsByTagName('tbody')[0];
-    
-    if(tableData.rows <= 1){
-        return;
-    }
-    let exportData = file_unitBuild_export(tableData);
-
-    if(exportData === undefined){
-        return;
-    }
-
-    window.dialogSys.ubSaveDialog(event, exportData, dialogSaveOptionsUnitList);
-}
 
 function ub_control_delete_select(){
     let rowTableBody = document.getElementById('unitTable').getElementsByTagName('tbody')[0];
     if(rowTableBody.rows.length <= 1){
         return;
     }
-    for(i = 1; i < rowTableBody.rows.length; i++){
+    let i = rowTableBody.rows.length - 1;
+    while(i > 0){
         let rowItem = rowTableBody.rows[i];
         if(document.getElementById(rowItem.id + '_select').checked === true){
             rowTableBody.deleteRow(i);
         }
+        i--;
     }
+}
+function ub_control_save_select(event){
+    let tableData = document.getElementById('unitTable').getElementsByTagName('tbody')[0];
+    
+    if(tableData.rows <= 1){
+        return;
+    }
+    /*let exportData = file_unitBuild_export(tableData);
+
+    if(exportData === undefined){
+        return;
+    }*/
+
+    file_unitBuild_export_csv(tableData);
+
+    event.preventDefault();
 }
 
 function ub_control_loadfile(event){
-    let fileData = window.dialogSys.ubLoadDialog(event, dialogLoadOptionsUnitList);    
-    if(fileData === undefined){
-        //TODO error modal
-        return;
-    }
-    file_unitBuild_import(fileData);
+    window.api.send('ub-dialog-load-async', dialogLoadOptionsUnitList);
+    event.preventDefault();
 }
 /*
     Row Data manipulation

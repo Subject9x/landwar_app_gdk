@@ -2,9 +2,11 @@
   Main entry for entire application's JS.
 
 */
-const { app, BrowserWindow, ipcMain, dialog} = require('electron')
+const { app, BrowserWindow, ipcMain, dialog} = require('electron');
 const path = require('path');
 const fs = require('fs');
+const csvStringy = require('csv-stringify').stringify;
+const csv = require('csv-parser');
 
 
 if (require('electron-squirrel-startup')) return app.quit();
@@ -14,8 +16,8 @@ let mainWindow;
 //custom func to make a new 'default' window.
 function createWindow () {
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1280,
+    height: 1024,
     webPreferences: {
       preload: path.join(__dirname, '../js/preload.js'),
       contextIsolation: true
@@ -47,41 +49,58 @@ app.whenReady().then(() => {
 
 })
 
-ipcMain.on('ub-dialog-save', (event, ...args)=>{
-  args[2].defaultPath = path.join(__dirname,'../../');
-  dialog.showSaveDialog(mainWindow, args[2]).then( file =>{
-    console.log(file);
+/*
+  IPCMAIN SIGNALS
+
+*/
+ipcMain.handle('ub-dialog-save-csv', async (event, dialogConfig, filedata)=>{
+  dialogConfig.defaultPath = path.join(__dirname,'../../');
+  dialog.showSaveDialog(mainWindow, dialogConfig).then( file =>{
+    console.log(file); 
     if(!file.canceled){
-      fs.writeFile( file.filePath.toString(), JSON.stringify(args[1]), {
-          encoding: "utf8",
-          flag: "w"
-      }, (err)=>{
-        console.log(err);
-        event.returnValue = err;
+      csvStringy(
+          filedata, 
+          {
+            header: true
+          }, 
+          (err, output) => {
+            if(err){
+              console.log(err.stack);
+              return;
+            }
+            fs.writeFile(file.filePath.toString(), output, 'utf-8', (err)=>{
+              if(err){
+                console.log(err.stack);
+              }
+            });
+          }
+      );
+    }
+  });
+});
+
+
+ipcMain.handle('ub-dialog-load-async', async (event, dialogConfig)=>{
+  dialogConfig.defaultPath = path.join(__dirname,'../../');
+  let importData = [];
+  dialog.showOpenDialog(mainWindow, dialogConfig).then( (file) =>{
+    if(!file.canceled && file.filePaths.length > 0){
+      fs
+      .createReadStream(file.filePaths[0].toString())
+      .pipe(csv({separator : ','}))
+      .on('data', (data) => {
+          try {
+            importData.push(data);
+          }
+          catch(err) {
+            console.log(err.stack);
+          }
+      })
+      .on('end',()=>{
+        mainWindow.webContents.send('ub-dialog-load-response', JSON.stringify(importData));
       });
     }
-    event.returnValue = file.filePath.toString();
-  })
+  });
 });
-
-ipcMain.on('ub-dialog-load', (event, ...args)=>{
-  console.log(args[0]);
-  console.log(args[1]);
-  args[1].defaultPath = path.join(__dirname,'../../');
-  dialog.showOpenDialog(mainWindow, args[1]).then( file =>{
-    console.log(file);
-    if(!file.canceled && file.filePaths.length > 0){
-      fs.readFile(file.filePaths[0].toString(), 'utf8', (err,data)=>{
-        if(err){
-          event.returnValue = 'null';
-        }
-        else{
-          event.returnValue = data;
-        }
-      })
-    }
-  })
-});
-
 
 ipcMain.on('quit-app', ()=> app.quit());
