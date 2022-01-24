@@ -341,7 +341,7 @@ function ub_row_tags_onclick(event){
     let rowId = ub_get_rowid(event.srcElement.id);
     let tagModal = document.getElementById('tagModal');
     // let rowTags = document.getElementById(rowId+'_tagList').value;
-
+    tagModal.innerHTML = '';
     tagModal.removeAttribute('hidden');
     tagModal.innerHTML = window.nodeFileSys.loadHTML('layout/pages/unitBuilder/tagWindow.html');
 
@@ -450,9 +450,7 @@ function ub_row_add_element_label_points(rowData, celCount, tagType, rowId, celN
 
 function ub_row_add_element_tag(rowData, celCount, tagType, rowId, celName){
     rowData.cells[celCount].getElementsByTagName(tagType)[0].setAttribute('id', rowId + celName);
-    //rowData.cells[celCount].children[1].setAttribute('id', rowId + '_tagList');
     document.getElementById(rowId + '_tags').addEventListener("click", ub_row_tags_onclick);
-    //document.getElementById(rowId + '_tagList').innerHTML = "";
     return celCount + 1;
 }
 

@@ -6,6 +6,16 @@ const pageLanding = document.getElementById('pageLanding');
 const pageUnitBuild = document.getElementById('pageUnitBuild');
 const pageTagLib = document.getElementById('pageTagLib');
 
+const PAGE_HOME = 0;
+const PAGE_RULES = 1;
+const PAGE_TAGLIB = 2;
+const PAGE_UNITBUILD = 3;
+const PAGE_ARMYLIST = 4;
+
+let activePage;
+
+let activatePage = PAGE_HOME;
+
 const dialogSaveOptionsUnitList = {
     title : 'Save File',
     buttonLabel: 'Save',
@@ -20,7 +30,6 @@ const dialogLoadOptionsUnitList = {
     properties : ['openFile']
 }
 
-
 api.handle( 'ub-dialog-load-response', ( event, data ) => function( event, data ) {
     if(data.length > 0){
         file_unitBuild_import(data);
@@ -28,6 +37,19 @@ api.handle( 'ub-dialog-load-response', ( event, data ) => function( event, data 
 }, event);
 
 
+function page_leave_taglib(){
+    let tagView = document.getElementById('tagView');
+
+    if(tagView !== null){
+        tagView.style.display = 'none';
+        tagView.setAttribute('hidden', 'true');
+        tagView.innerHTML ='';
+    }
+}
+
+function page_change_to(from ,to){
+
+}
 
 //document ready
 document.addEventListener('DOMContentLoaded',function(){
@@ -45,6 +67,9 @@ document.addEventListener('DOMContentLoaded',function(){
     pageTagLib.innerHTML = window.nodeFileSys.loadHTML('pages/tagLib.html');
     pageTagLib.setAttribute('hidden', 'true');
 
+
+
+
     /*
         NAV BAR
     */
@@ -52,11 +77,9 @@ document.addEventListener('DOMContentLoaded',function(){
         pageLanding.removeAttribute('hidden');
         pageUnitBuild.setAttribute('hidden', 'true');
         pageTagLib.setAttribute('hidden', 'true');
+        page_leave_taglib();
     });
-    document.getElementById('navCorerules').addEventListener('click', ()=>{
-        // pageUnitBuild.removeAttribute('hidden');
-        // pageLanding.setAttribute('hidden', 'true');
-    });
+    // document.getElementById('navCorerules').addEventListener('click', ()=>{});
     document.getElementById('navTagRules').addEventListener('click', ()=>{
         pageTagLib.removeAttribute('hidden');
         pageUnitBuild.setAttribute('hidden', 'true');
@@ -66,11 +89,12 @@ document.addEventListener('DOMContentLoaded',function(){
         pageUnitBuild.removeAttribute('hidden');
         pageLanding.setAttribute('hidden', 'true');
         pageTagLib.setAttribute('hidden', 'true');
+        page_leave_taglib();
     });
-    document.getElementById('navArmyList').addEventListener('click', ()=>{
-        //pageUnitBuild.removeAttribute('hidden');
-        //pageLanding.setAttribute('hidden', 'true');
-    });
+    // document.getElementById('navArmyList').addEventListener('click', ()=>{});
+
+    document.getElementById('navCorerules').setAttribute('disabled', 'true');
+    document.getElementById('navArmyList').setAttribute('disabled', 'true');
 
     /*
         Page: Landing
