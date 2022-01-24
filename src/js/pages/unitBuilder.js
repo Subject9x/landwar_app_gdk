@@ -70,12 +70,6 @@ function ub_control_save_select(event){
     if(tableData.rows <= 1){
         return;
     }
-    /*let exportData = file_unitBuild_export(tableData);
-
-    if(exportData === undefined){
-        return;
-    }*/
-
     file_unitBuild_export_csv(tableData);
 
     event.preventDefault();

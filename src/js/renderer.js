@@ -4,9 +4,7 @@
 const navBar = document.getElementById('tagNavBar');
 const pageLanding = document.getElementById('pageLanding');
 const pageUnitBuild = document.getElementById('pageUnitBuild');
-
-//window = remote.getCurrentWindow();
-
+const pageTagLib = document.getElementById('pageTagLib');
 
 const dialogSaveOptionsUnitList = {
     title : 'Save File',
@@ -36,7 +34,6 @@ document.addEventListener('DOMContentLoaded',function(){
 
     /*
         Build index.html with everything needed.
-
     */
     navBar.innerHTML = window.nodeFileSys.loadHTML('layout/navbar_default.html');
 
@@ -45,18 +42,52 @@ document.addEventListener('DOMContentLoaded',function(){
     pageUnitBuild.innerHTML = window.nodeFileSys.loadHTML('pages/unitBuilder.html');
     pageUnitBuild.setAttribute('hidden', 'true');
 
+    pageTagLib.innerHTML = window.nodeFileSys.loadHTML('pages/tagLib.html');
+    pageTagLib.setAttribute('hidden', 'true');
+
     /*
-        Page: LandingPage
+        NAV BAR
     */
-    document.getElementById('btnUnitBuilder').addEventListener('click', ()=>{
+    document.getElementById('navHome').addEventListener('click', ()=>{
+        pageLanding.removeAttribute('hidden');
+        pageUnitBuild.setAttribute('hidden', 'true');
+        pageTagLib.setAttribute('hidden', 'true');
+    });
+    document.getElementById('navCorerules').addEventListener('click', ()=>{
+        // pageUnitBuild.removeAttribute('hidden');
+        // pageLanding.setAttribute('hidden', 'true');
+    });
+    document.getElementById('navTagRules').addEventListener('click', ()=>{
+        pageTagLib.removeAttribute('hidden');
+        pageUnitBuild.setAttribute('hidden', 'true');
+        pageLanding.setAttribute('hidden', 'true');
+    });
+    document.getElementById('navUnitBuild').addEventListener('click', ()=>{
         pageUnitBuild.removeAttribute('hidden');
         pageLanding.setAttribute('hidden', 'true');
-    })
+        pageTagLib.setAttribute('hidden', 'true');
+    });
+    document.getElementById('navArmyList').addEventListener('click', ()=>{
+        //pageUnitBuild.removeAttribute('hidden');
+        //pageLanding.setAttribute('hidden', 'true');
+    });
+
+    /*
+        Page: Landing
+    */
+    // document.getElementById('btnAddUnit').addEventListener('click', ()=>{
+        // ub_row_add();
+    // });
+
+    /*
+        Page: Tag Lib
+    */
+    tl_buildTable();
 
     /*
         Page: UnitBuilder
     */
     document.getElementById('btnAddUnit').addEventListener('click', ()=>{
         ub_row_add();
-    })
+    });
 });

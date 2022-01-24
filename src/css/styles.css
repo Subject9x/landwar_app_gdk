@@ -8,6 +8,7 @@
 */
 .navbar{
     background-color: darkgray;
+    min-height: 48px;
 }
 
 /*
