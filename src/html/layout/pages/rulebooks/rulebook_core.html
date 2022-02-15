@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>LANDWAR GDK v0.1.1</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <link rel="stylesheet" href="../../../../css/base_responsive.css"/>
+    <link rel="stylesheet" href="../../../../css/styles.css"/>
+    <link rel="stylesheet" href="../../../../css/pages/rulebook/rulebook.css"/>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-s-10 col-10 col-l-10 offset-s-1 offset-1 offset-l-1">
+                <h2>LANDWAR</h2> <h4>Core Rules</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-s-11 col-11 col-l-11 offset-s-1 offset-1 offset-l-1">
+                <label style="text-align:center;">Contents</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-s-11 col-11 col-l-11 offset-s-1 offset-1 offset-l-1">
+                <ul>
+                    <li>Turn Phases -
+                        <ol>
+                            <li>Initiative</li>
+                            <li>Movement</li>
+                            <li>Combat</li>
+                            <li>Damage</li>
+                            <li>Resolution</li>
+                        </ol>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- INITIATIVE PHASE ===========================================================================================-->
+        <div class="row">
+            <div class="col-s-12 col-12 col-l-12">
+                <div class="container sectionPanel">
+                    <div class="row">
+                        <div class="col-s-6 col-6 col-l-6 offset-s-1 offset-1">
+                            <h3>Initiative Phase</h3>
+                            <p>Players determine who will activate their first units during the following phases.</p>
+                        </div>
+                        <div class="col-s-10 col-10 col-l-10 offset-s-1 offset-1 offset-l-1">
+                            <ol class="sectionOrderList">
+                                <li>
+                                    Each <i>side</i> rolls <b>1D6</b> and <b>compare</b> the results.
+                                    <ul>
+                                        <li>Any <i>Initiative Phase</i> modifiers from <b>non-destroyed</b> Units are applied now.</li>
+                                        <li>Each player rolls their <b>own</b> <i>Initiative</i> regardless of any alliances</li>
+                                    </ul>
+                                </li>
+                                <li>The side with the <b>higher</b> total value becomes the <i>Offense</i>.</li>
+                                <li>The side with the <b>lower</b> total value becomes the <i>Defense</i>.</li>
+                                <li>Resolve any <i>Initiative</i> effects or events now.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--===============================================================================================================-->
+        <!-- MOVEMENT PHASE ===============================================================================================-->
+        <div class="row">
+            <div class="col-s-12 col-12 col-l-12">
+                <div class="container sectionPanel">
+                    <div class="row">
+                        <div class="col-s-6 col-6 col-l-6 offset-s-1 offset-1">
+                            <h3>Movement Phase</h3>
+                            <p>Players take turns moving Units during this phase.</p>
+                            <p>Units resolve their movement in the following sequence.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-s-11 col-11 col-l-11 offset-s-1 offset-1 offset-l-1">
+                            <ol class="sectionOrderList">
+                                <li><b>Panicked</b> - when Unit starts phase with this token, <i>remove</i> <b>1</b> <i>Stress Point</i>.</li>
+                                <li>Each <i>Player</i> may only move <b>1</b> Unit at a time.
+                                    <ul>
+                                        <li><i>Defense</i> must activate the first Unit to move.</li>
+                                        <li><b>IF</b> one Side has <b>more</b> Units than the other side; see <i>Unequal Units</i> below.</li>
+                                    </ul>
+                                </li>
+                                <li><i>When</i> moving a Unit, the controlling Player can select one of the following options:
+                                    <ul>
+                                        <li>Declare <b>Stationary</b>.
+                                            <ul>
+                                                <li>Unit <b>may</b> <i>Rotate</i> to a new Facing.</li>
+                                                <li>Unit <i>gains</i> <b>+2 ATK</b> for this <i>Combat Phase</i>.</li>
+                                                <li>Unit <b>cannot</b> use its <i>Evade</i> re-rolls for this <i>Combat Phase</i>.</li>
+                                            </ul>
+                                        </li>
+                                        <li>Make <b>Normal</b> move.
+                                            <ul>
+                                                <li>Unit may move in any direction <b>up to</b> to their current <i>Move</i> value.</li>
+                                                <li>Unit may change their Facing at the end of the move.</li>
+                                            </ul>
+                                        </li>
+                                        <li>Use <i>TAG</i> rules.</li>
+                                    </ul>
+                                </li>
+                                <li>Complete selected Movement.
+                                    <ul>
+                                        <li>Check <i>High Speed</i>.</li>
+                                        <li>Check for <i>Danger Close</i>.</li>
+                                        <li>Check for <i>Overwatch</i>.</li>
+                                        <li>Check <i>Terrain</i>.</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-s-8 offset-s-2 col-4 offset-1 col-l-4 offset-l-1 rulePanel">
+                            <label class="ruleTitle"><u>Unequal Unit totals</u></label>
+                            <p><b>If</b> one side has more Units on the table compared to the other side, the side with <i>more</i> units must do the following:</p>
+                            <p>When that Player activates and moves 1 Unit for the <i>Movement</i> phase, they <b>must</b> move <i>at least</i> 1 additional Unit. 
+                                The Player must do this until the remaining Units they have to move can match 1-to-1 with the other Players remaining Units.</p>
+                            <p><b>note:</b> The point is to prevent the Player with numerically superior Units from moving <i>all of them</i> in 1 single move.</p>
+                        </div>
+                        <div class="col-s-8 offset-s-2 col-4 offset-1  col-l-4 offset-l-1 rulePanel">
+                            <label class="ruleTitle"><u>High Speed</u></label>
+                            <p>Whenever a Unit completes a <b>Normal</b> move where the <b>total</b> distance moved was <b>greater than</b> 11", the Unit has completed a <i>High Speed Move</i>.</p>
+                            <p>Units during their <b>next</b> <i>Combat Phase</i> are given the following effects.</p>
+                            <ul>
+                                <li><b>Base ATK</b> - 2. (Minimum of 1).</li>
+                                <li><b>Base DEF</b> + 1. </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-s-8 offset-s-2 col-4 offset-1 col-l-4 offset-l-1 rulePanel">
+                            <label class="ruleTitle"><u>Danger Close</u></label>
+                            <ul>
+                                <li>When a Unit <b>starts</b> their Move 1" <b>or less</b> from at least 1 Enemy Unit.
+                                    <ul>
+                                        <li>Unit may only move <b>half</b> their current <i>Move</i> value.</li>
+                                        <li><b>One</b> enemy unit may make a free <i>Overwatch</i> attack against the Unit but can only be a <i>Melee</i> Attack.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-s-8 offset-s-2 col-4 offset-1 col-l-4 offset-l-1 rulePanel">
+                            <label class="ruleTitle"><u>Overwatch</u></label>
+                            <p>Enemy Unit can make an <b>immediate</b> <i>Ranged Attack</i> at <b>-2 ATK</b> with the following conditions:</p>
+                            <ul>
+                                <li><i>Panicked</i> Units <b>cannot</b> make Overwatch attacks.</li>
+                                <li>When a Unit moves from the <i>Forward</i> arc to the <i>Rear</i> arc of an Enemy Unit.</li>
+                                <li><b>IF</b> the Unit was in Target's <i>Line of Sight</i> at the <b>start and end</b> of the move.</li>
+                                <li><b>IF</b> the Unit <b>ends</b> their Move 6' <b>or less</b> from the Target Unit.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-s-8 offset-s-2 col-6 offset-2 col-l-6 offset-l-2 rulePanel">
+                            <label class="ruleTitle"><u>Terrain</u></label>
+                            <p>Unless otherwise specified, Units move 1/2 their <i>Move</i> value when:</p>
+                            <ul>
+                                <li>Moving <i>through</i> intervening terrain.</li>
+                                <li>Starting move <i>inside</i> terrain.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--===============================================================================================================-->
+        <!-- COMBAT PHASE =================================================================================================-->
+        <div class="row">
+            <div class="col-s-12 col-12 col-l-12">
+                <div class="container sectionPanel">
+                    <div class="row">
+                        <div class="col-s-6 col-6 col-l-6 offset-s-1 offset-1">
+                            <h3>Combat Phase</h3>
+                            <p><i>Offense</i> Players resolve <b>all</b> their <i>Attacks</i> first, then <i>Defense</i> players.</p>
+                            <p><i>Attacks</i> are split into 2 categories - <b>Range</b> and <b>Melee</b>.</p>
+                            <p><i>Damage</i> from all Attacks are <b>not</b> resolved <b>until</b> the <i>Damage Phase</i>!</li>
+                        </div>
+                    </div>
+                    <!--RANGED ATTACKS ============================ -->
+                    <div class="row">
+                        <div class="col-s-10 col-8 col-l-9 offset-s-1 offset-3 offset-l-2">
+                            <h4>Ranged Attacks</h4>
+                            <p>Requirements:</p>
+                            <ul class="sectionOrderList">
+                                <li>Attacking Unit is not <b>currently</b> in <i>Melee Range(1")</i> of any Enemy Unit.</li>
+                                <li><i>Target</i> must be the <b>closest</b> Unit to the Attacker.</i>.
+                                    <ul>
+                                        <li>See <i>Focus Fire</i> below this section.</li>
+                                    </ul>
+                                </li>
+                                <li>Attacking Unit <b>must have</b> <i>Line of Sight</i> to the Target Unit.</li>
+                                <li><b>TAG rules</b> may override, add, or change these qualifications!</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-s-8 offset-s-2 col-4 offset-1 col-l-4 offset-l-1 rulePanel">
+                            <label class="ruleTitle"><u>Range Brackets</u></label>
+                            <p>There are only 3 main Range Brackets in the game.</p>
+                            <ul class="sectionOrderList">
+                                <li><b>Melee</b> - 0" to 1". </li>
+                                <li><b>Effective Range</b> - <i>default</i> is 16".
+                                    <ul>
+                                        <li style="none">Units can have their <i>own</i> Effective Range using the <i>Range</i> stat on their Info Card.</li>
+                                    </ul>
+                                </li>
+                                <li><b>Long Range</b> - <i>unlimited</i> distance.
+                                    <ul>
+                                        <li><i>Target</i> will <b>gain +2DEF</b> against <b>this</b> attack.</li>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-s-8 offset-s-2 col-4 offset-1  col-l-4 offset-l-1 rulePanel">
+                            <label class="ruleTitle"><u>Focus Fire</u></label>
+                            <p>When a Unit makes a <i>Ranged Attack</i> they <b>can</b> select the <b>non-closest</b> valid Target under the following limits:</p>
+                            <ul class="sectionOrderList">
+                                <li>Unit <b>cannot</b> be <i>Panicked</i>.</li>
+                                <li>Unit <i>Stress</i> level must be <b>below</b> the Unit's max. - <i>default</i> is 6</li>
+                                <li>Unit <b>immediately</b> suffers <b>+1 Stress</b> regardless of Attack outcome.</li>
+                                <li><b>IF</b> added <i>Stress</i> would trigger a <i>Stress Check</i> roll for one before Attacking.
+                                    <ul>
+                                        <li>If the Unit <b>fails</b> the <i>Stress check</i> they <b>may not</b> attack this <i>Phase</i>.</li>
+                                        <li>Unit is <b>not</b> <i>Paicked</i> however, Player must check again in <i>Resolution Phase</i>.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--MELEE ATTACKS ============================ -->
+                    <div class="row">
+                        <div class="col-s-10 col-8 col-l-9 offset-s-1 offset-3 offset-l-2">
+                            <h4>Melee Attacks</h4>
+                            <p>Requirements:</p>
+                            <ul class="sectionOrderList">
+                                <li>Unit <b>must have</b> a <i>Melee Damage</i> stat greater than 0.</li>
+                                <li>Target must be in <i>Melee Range</i> of Unit. - <i>default</i> 0-1".</li>
+                                <li>Target <b>must</b> be in the Attacker's <i>Forward Arc</i>. </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-s-10 col-10 col-l-10 offset-s-1 offset-1 offset-l-1">
+                            <h4>Resolve Attack</h4>
+                            <p>Now Players assemble the dice they will need to roll to see if the Attack is successful or not.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- =============================================================================================================== -->
+    </div>
+</body>
+</html>

@@ -3,6 +3,7 @@
 */
 const navBar = document.getElementById('tagNavBar');
 const pageLanding = document.getElementById('pageLanding');
+const pageRulebooks = document.getElementById('pageRulebooks');
 const pageUnitBuild = document.getElementById('pageUnitBuild');
 const pageTagLib = document.getElementById('pageTagLib');
 
@@ -37,6 +38,7 @@ api.handle( 'ub-dialog-load-response', ( event, data ) => function( event, data 
 }, event);
 
 
+
 function page_leave_taglib(){
     let tagView = document.getElementById('tagView');
 
@@ -60,6 +62,9 @@ document.addEventListener('DOMContentLoaded',function(){
     navBar.innerHTML = window.nodeFileSys.loadHTML('layout/navbar_default.html');
 
     pageLanding.innerHTML = window.nodeFileSys.loadHTML('pages/landing.html');
+
+    pageRulebooks.innerHTML = window.nodeFileSys.loadHTML('pages/rulebooks.html');
+    pageRulebooks.setAttribute('hidden', 'true');
   
     pageUnitBuild.innerHTML = window.nodeFileSys.loadHTML('pages/unitBuilder.html');
     pageUnitBuild.setAttribute('hidden', 'true');
@@ -68,40 +73,50 @@ document.addEventListener('DOMContentLoaded',function(){
     pageTagLib.setAttribute('hidden', 'true');
 
 
-
-
     /*
         NAV BAR
     */
     document.getElementById('navHome').addEventListener('click', ()=>{
         pageLanding.removeAttribute('hidden');
+        pageRulebooks.setAttribute('hidden', 'true');
         pageUnitBuild.setAttribute('hidden', 'true');
         pageTagLib.setAttribute('hidden', 'true');
         page_leave_taglib();
     });
-    // document.getElementById('navCorerules').addEventListener('click', ()=>{});
+    document.getElementById('navRulebooks').addEventListener('click', ()=>{
+        pageRulebooks.removeAttribute('hidden');
+        pageLanding.setAttribute('hidden', 'true');
+        pageUnitBuild.setAttribute('hidden', 'true');
+        pageTagLib.setAttribute('hidden', 'true');
+        page_leave_taglib();
+    });
     document.getElementById('navTagRules').addEventListener('click', ()=>{
         pageTagLib.removeAttribute('hidden');
+        pageRulebooks.setAttribute('hidden', 'true');
         pageUnitBuild.setAttribute('hidden', 'true');
         pageLanding.setAttribute('hidden', 'true');
     });
     document.getElementById('navUnitBuild').addEventListener('click', ()=>{
         pageUnitBuild.removeAttribute('hidden');
+        pageRulebooks.setAttribute('hidden', 'true');
         pageLanding.setAttribute('hidden', 'true');
         pageTagLib.setAttribute('hidden', 'true');
         page_leave_taglib();
     });
     // document.getElementById('navArmyList').addEventListener('click', ()=>{});
-
-    document.getElementById('navCorerules').setAttribute('disabled', 'true');
     document.getElementById('navArmyList').setAttribute('disabled', 'true');
 
     /*
         Page: Landing
     */
-    // document.getElementById('btnAddUnit').addEventListener('click', ()=>{
-        // ub_row_add();
-    // });
+
+    /*
+        Page: Rulebooks
+    */
+    document.getElementById('btnCoreRules').addEventListener('click', ()=>{
+        rb_rules_open_core();
+    });
+
 
     /*
         Page: Tag Lib

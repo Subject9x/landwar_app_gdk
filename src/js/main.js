@@ -12,6 +12,14 @@ const csv = require('csv-parser');
 if (require('electron-squirrel-startup')) return app.quit();
 
 let mainWindow;
+let rulesWindow;
+
+function isAppWindowOpen(windowObj){
+  if(windowObj.isDestroyed()){
+    return false;
+  }
+  return true;
+}
 
 //custom func to make a new 'default' window.
 function createWindow () {
@@ -46,9 +54,9 @@ app.whenReady().then(() => {
       app.quit()
     }
   });
-
 })
 
+ipcMain.on('quit-app', ()=> app.quit());
 /*
   IPCMAIN SIGNALS
 
@@ -79,7 +87,6 @@ ipcMain.handle('ub-dialog-save-csv', async (event, dialogConfig, filedata)=>{
   });
 });
 
-
 ipcMain.handle('ub-dialog-load-async', async (event, dialogConfig)=>{
   dialogConfig.defaultPath = path.join(__dirname,'../../');
   let importData = [];
@@ -103,4 +110,23 @@ ipcMain.handle('ub-dialog-load-async', async (event, dialogConfig)=>{
   });
 });
 
-ipcMain.on('quit-app', ()=> app.quit());
+
+
+
+ipcMain.handle('rb-open-rules-core', (event)=>{
+  if(rulesWindow != null){
+    if(isAppWindowOpen(rulesWindow)){
+      rulesWindow.close();
+    }
+  }
+
+  rulesWindow = new BrowserWindow({
+    width: 800,
+    height: 1280,
+    webPreferences: {
+      contextIsolation: true
+    }
+  });
+  rulesWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_core.html');
+  rulesWindow.focus();
+});
