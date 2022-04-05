@@ -3,6 +3,9 @@ https://www.electron.build/configuration/win#WindowsConfiguration-target
 
 https://stevenklambert.com/writing/comprehensive-guide-building-packaging-electron-app/
 
+dev 
+	npm start --debug --trace-warnings
+
 electron-forge commands
 	npm run make
 	npm run package
@@ -11,3 +14,4 @@ electron-builder commands
 	npm run dist
 	npm run package
 	
+npm run pack
