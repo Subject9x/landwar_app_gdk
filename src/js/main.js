@@ -58,9 +58,11 @@ app.whenReady().then(() => {
 
 ipcMain.on('quit-app', ()=> app.quit());
 /*
-  IPCMAIN SIGNALS
-
+  IPCMAIN SIGNALS=========================================================================================================
 */
+/**
+ * SIGNAL - SAVE CSV UNIT DATA
+ */
 ipcMain.handle('ub-dialog-save-csv', async (event, dialogConfig, filedata)=>{
   dialogConfig.defaultPath = path.join(__dirname,'../../');
   dialog.showSaveDialog(mainWindow, dialogConfig).then( file =>{
@@ -87,6 +89,9 @@ ipcMain.handle('ub-dialog-save-csv', async (event, dialogConfig, filedata)=>{
   });
 });
 
+/**
+ * SIGNAL - LOAD CSV UNIT DATA
+ */
 ipcMain.handle('ub-dialog-load-async', async (event, dialogConfig)=>{
   dialogConfig.defaultPath = path.join(__dirname,'../../');
   let importData = [];
@@ -110,9 +115,9 @@ ipcMain.handle('ub-dialog-load-async', async (event, dialogConfig)=>{
   });
 });
 
-
-
-
+/**
+ * SIGNAL - OPEN RULES PAGE AS WINDOW
+ */
 ipcMain.handle('rb-open-rules-core', (event)=>{
   if(rulesWindow != null){
     if(isAppWindowOpen(rulesWindow)){
@@ -130,3 +135,66 @@ ipcMain.handle('rb-open-rules-core', (event)=>{
   rulesWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_core.html');
   rulesWindow.focus();
 });
+
+
+
+/*
+
+const dialogSavePDFOptions ={
+    title : 'save rules pdf',
+    buttonLabel : 'Save',
+    filters : [{name : 'PDF Files', extensions : ['pdf']}],
+    properties : ['createDirectory', 'showOverwriteConfirmation']
+}
+
+const pdfSaveOptions = {
+    marginsType: 0,
+    pageSize: 'A4',
+    printBackground: true,
+    printSelectionOnly: false,
+    landscape: false
+}
+
+*/
+/**
+ * SIGNAL - SAVE RULES TO PDF
+ */
+ipcMain.handle('rb-save-rules-core', (event, pdfSavedialog, pdfOptionSave)=>{
+
+  if(rulesWindow != null){
+    if(isAppWindowOpen(rulesWindow)){
+      rulesWindow.close();
+    }
+  }
+
+  rulesWindow = new BrowserWindow({
+    width: 800,
+    height: 1280,
+    webPreferences: {
+      contextIsolation: true
+    }
+  });
+  rulesWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_core.html');
+  rulesWindow.focus();
+
+  pdfSavedialog.defaultPath = path.join(__dirname,'../../');
+
+  dialog.showSaveDialog(rulesWindow, pdfSavedialog).then( file =>{
+    console.log(file); 
+    if(!file.canceled){
+      let win = BrowserWindow.getFocusedWindow();
+
+      win.webContents.printToPDF(pdfOptionSave).then(data => {
+          fs.writeFile(file.filePath.toString(), data, function (err) {
+              if (err) {
+                  console.log(err);
+              } else {
+                  console.log('PDF Generated Successfully');
+              }
+          });
+      }).catch(error => {
+          console.log(error)
+      });
+    }
+  });
+})

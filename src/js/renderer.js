@@ -31,6 +31,22 @@ const dialogLoadOptionsUnitList = {
     properties : ['openFile']
 }
 
+const dialogSavePDFOptions ={
+    title : 'save rules pdf',
+    buttonLabel : 'Save',
+    filters : [{name : 'PDF Files', extensions : ['pdf']}],
+    properties : ['createDirectory', 'showOverwriteConfirmation']
+}
+
+const pdfSaveOptions = {
+    marginsType: 0,
+    pageSize: 'A4',
+    printBackground: true,
+    printSelectionOnly: false,
+    landscape: false
+}
+
+
 api.handle( 'ub-dialog-load-response', ( event, data ) => function( event, data ) {
     if(data.length > 0){
         file_unitBuild_import(data);
@@ -115,6 +131,9 @@ document.addEventListener('DOMContentLoaded',function(){
     */
     document.getElementById('btnCoreRules').addEventListener('click', ()=>{
         rb_rules_open_core();
+    });
+    document.getElementById('btnCoreRulesSave').addEventListener('click', ()=>{
+        rb_rules_pdf_core();
     });
 
 
