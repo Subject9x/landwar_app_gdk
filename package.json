@@ -1,6 +1,6 @@
 {
   "name": "landwar-gdk",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "description": "testApp",
   "main": "src/js/main.js",
   "scripts": {
@@ -9,7 +9,8 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "dist": "electron-builder",
+    "distx64" : "electron-builder --windows"
   },
   "author": "OrbitalYards",
   "license": "ISC",
@@ -32,6 +33,7 @@
   },
   "build": {
     "appId": "landwar-gdk",
+    "asar" : "false",
     "win": {
       "target": "portable"
     },

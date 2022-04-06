@@ -10,8 +10,10 @@ electron-forge commands
 	npm run make
 	npm run package
 
+--USE THIS----
 electron-builder commands 
+	npm run pack
 	npm run dist
-	npm run package
 	
-npm run pack
+--removes node_modules\ dir because something something stupid permissions?
+Remove-Item 'E:\ElectronDev\landwar_gdk\node_modules\' -Recurse
