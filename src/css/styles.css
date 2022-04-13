@@ -159,3 +159,15 @@
     text-align: center;
     align-self: center;
 }
+
+/*
+    UTIL
+*/
+.list-clean{
+    list-style-type: none;
+    margin: 0;
+    padding: 2px;
+}
+.list-clean > li{
+    margin-bottom: 5px;
+}

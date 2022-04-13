@@ -137,6 +137,25 @@ ipcMain.handle('rb-open-rules-core', (event)=>{
 });
 
 
+ipcMain.handle('rb-open-rules-quick', (event)=>{
+  if(rulesWindow != null){
+    if(isAppWindowOpen(rulesWindow)){
+      rulesWindow.close();
+    }
+  }
+
+  rulesWindow = new BrowserWindow({
+    width: 800,
+    height: 1280,
+    webPreferences: {
+      contextIsolation: true
+    }
+  });
+  rulesWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_quickplay.html');
+  rulesWindow.focus();
+});
+
+
 
 /*
 

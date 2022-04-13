@@ -41,7 +41,7 @@ const dialogSavePDFOptions ={
 const pdfSaveOptions = {
     marginsType: 0,
     pageSize: 'A4',
-    printBackground: true,
+    printBackground: false,
     printSelectionOnly: false,
     landscape: false
 }
@@ -135,7 +135,9 @@ document.addEventListener('DOMContentLoaded',function(){
     document.getElementById('btnCoreRulesSave').addEventListener('click', ()=>{
         rb_rules_pdf_core();
     });
-
+    document.getElementById('btnCoreQuick').addEventListener('click', ()=>{
+        rb_rules_open_quickplay();
+    });
 
     /*
         Page: Tag Lib
