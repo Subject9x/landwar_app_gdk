@@ -17,10 +17,7 @@
 #unitTable{
     border-collapse: collapse;
     border-spacing: 8ex;
-    width: 100%;
     border: 1px solid #ddd;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 #unitTable tr:nth-child(even){

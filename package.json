@@ -10,7 +10,7 @@
     "make": "electron-forge make",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    "distx64" : "electron-builder --windows"
+    "distx64": "electron-builder --windows"
   },
   "author": "OrbitalYards",
   "license": "ISC",
@@ -29,11 +29,13 @@
     "csv-parser": "^3.0.0",
     "csv-string": "^4.0.1",
     "electron-squirrel-startup": "^1.0.0",
+    "furtive": "^2.4.0",
+    "jquery": "^3.6.0",
     "node-csv": "^0.1.2"
   },
   "build": {
     "appId": "landwar-gdk",
-    "asar" : "false",
+    "asar": "false",
     "win": {
       "target": "portable"
     },

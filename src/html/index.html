@@ -5,19 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>LANDWAR GDK v0.1.1</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-    <link rel="stylesheet" href="../css/base_responsive.css"/>
+    <!--<link rel="stylesheet" href="../css/base_responsive.css"/>-->
     <link rel="stylesheet" href="../css/styles.css"/>
     <link rel="stylesheet" href="../css/pages/rulebook/rulebook.css"/>
+    <link rel="stylesheet" href="../../node_modules/furtive/css/furtive.min.css">
 </head>
 <body>
-    <div id="mainView" class="container">
-        <div class="row"><div id="tagNavBar" class="col-s-12 col-12 col-l-12"></div></div>
-        <div class="row"><div id="pageLanding" class="col-s-12 col-12 col-l-12"></div></div>
-        <div class="row"><div id="pageRulebooks" class="col-s-12 col-12 col-l-12"></div></div>
-        <div class="row"><div id="pageTagLib" class="col-s-12 col-12 col-l-12"></div></div>
-        <div class="row"><div id="pageUnitBuild" class="col-s-12 col-12 col-l-12"></div></div>
+    <div id="mainView" class="grd">
+        <div class="grd-row"><div id="tagNavBar" class="grd-row-col-6"></div></div>
+        <div class="grd-row"><div id="pageLanding" class="grd-row-col-6"></div></div>
+        <div class="grd-row"><div id="pageRulebooks" class="grd-row-col-6"></div></div>
+        <div class="grd-row"><div id="pageTagLib" class="grd-row-col-6"></div></div>
+        <div class="grd-row"><div id="pageUnitBuild" class="grd-row-col-6"></div></div>
     </div>
 </body>
+<script type="text/javascript" src="../../node_modules/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="../js/util/fileHandler.js"></script>
 <script type="text/javascript" src="../js/util/unitCalculator.js"></script>
 <script type="text/javascript" src="../js/data/tagInfo.js"></script>
