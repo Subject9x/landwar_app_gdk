@@ -2,6 +2,7 @@
     Javascript layer for page: UnitBuilder
 */
 const btnAddUnit = $("#btnAddUniut")[0];
+let unitTableRowCount = 0;
 
 let searchArray = [];
 let tagWindow_tagArray = [];
@@ -464,7 +465,9 @@ function ub_row_add(){
     let rowTemplate = window.nodeFileSys.loadHTML('layout/pages/unitBuilder/unitRow.html');
     newRow.innerHTML = rowTemplate;
     
-    let newRowId = 'unitRow'+table.rows.length;
+    //let newRowId = 'unitRow' + table.rows.length;
+    unitTableRowCount += 1; //global counter to ensure each row is a true UID.
+    let newRowId = 'unitRow' + unitTableRowCount;
     newRow.setAttribute('id', newRowId);
     
     let cellCount = 0;
@@ -496,7 +499,7 @@ function ub_row_add(){
     cellCount = ub_row_add_element_label_points(newRow, cellCount, 'label', newRowId, '_tagTotal');
 
     ub_row_tag_ini(newRowId);
-
+    
     return newRowId;
 }
 
@@ -526,7 +529,7 @@ function ub_row_change_points(rowId){
     
 
     //DEBUG ONLY
-    console.log('-------------change-------------------');
+    /*console.log('-------------change-------------------');
     console.log('sizeCost= ' + sizeCost);
     console.log('moveCost= ' + moveCost);
     console.log('evadeCost= ' + evadeCost);
@@ -534,7 +537,7 @@ function ub_row_change_points(rowId){
     console.log('dmgRangeCost= ' + dmgRangeCost);
     console.log('rangeCost= ' + rangeCost);
     console.log('armorCost= ' + armorCost);
-    console.log('structCost= ' + structCost);
+    console.log('structCost= ' + structCost);*/
 
 
     let pointsVal = uc_calc_baseCost(sizeCost, moveCost, evadeCost, dmgMeleeCost, dmgRangeCost, rangeCost, armorCost, structCost);
