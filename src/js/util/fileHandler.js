@@ -104,16 +104,16 @@ function file_unitBuild_import(fileDataArray){
         let objData = fileDataObj[objIdx];
         if(objData !== undefined){
             let newRowId = ub_row_add();
-            $("#" + newRowId + '_name').value = objData.unitName;
-            $("#" + newRowId + '_size').value = objData.size;
-            $("#" + newRowId + '_move').value = objData.move;
-            $("#" + newRowId + '_evade').value = objData.evade;
-            $("#" + newRowId + '_DMGM').value = objData.dmgMelee;
-            $("#" + newRowId + '_DMGR').value = objData.dmgRange;
-            $("#" + newRowId + '_range').value = objData.range;
-            $("#" + newRowId + '_armor').value = objData.armor;
-            $("#" + newRowId + '_structure').value = objData.structure;
-            $("#" + newRowId + '_points').value = objData.points;
+            $("#" + newRowId + '_name').val(objData.unitName);
+            $("#" + newRowId + '_size').val(objData.size);
+            $("#" + newRowId + '_move').val(objData.move) ;
+            $("#" + newRowId + '_evade').val(objData.evade) ;
+            $("#" + newRowId + '_DMGM').val(objData.dmgMelee) ;
+            $("#" + newRowId + '_DMGR').val(objData.dmgRange) ;
+            $("#" + newRowId + '_range').val(objData.range) ;
+            $("#" + newRowId + '_armor').val(objData.armor) ;
+            $("#" + newRowId + '_structure').val(objData.structure) ;
+            $("#" + newRowId + '_points').val(objData.points) ;
 
             let newArray = [];
             if(objData.tags.length > 0){

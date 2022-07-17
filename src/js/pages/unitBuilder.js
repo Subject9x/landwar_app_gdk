@@ -63,7 +63,9 @@ function ub_control_delete_select(){
         if(index != 0){
             let elm = $("#"+tr.id + "_select")[0];
             if(elm.checked === true){
-                rowTableBody.deleteRow(index);
+                //rowTableBody.deleteRow(index);
+                $("#"+tr.id)[0].remove();
+
             }
         }
     });
@@ -345,8 +347,7 @@ function ub_tagModal_close(doSave){
 */
 function ub_row_tags_onclick(event){
     let rowId = ub_get_rowid(event.srcElement.id);
-    let tagModal = document.getElementById('tagModal');
-    // let rowTags = document.getElementById(rowId+'_tagList').value;
+    let tagModal = $('#tagModal');
     tagModal.innerHTML = '';
     tagModal.removeAttribute('hidden');
     tagModal.innerHTML = window.nodeFileSys.loadHTML('layout/pages/unitBuilder/tagWindow.html');
@@ -465,7 +466,6 @@ function ub_row_add(){
     let rowTemplate = window.nodeFileSys.loadHTML('layout/pages/unitBuilder/unitRow.html');
     newRow.innerHTML = rowTemplate;
     
-    //let newRowId = 'unitRow' + table.rows.length;
     unitTableRowCount += 1; //global counter to ensure each row is a true UID.
     let newRowId = 'unitRow' + unitTableRowCount;
     newRow.setAttribute('id', newRowId);
@@ -499,7 +499,7 @@ function ub_row_add(){
     cellCount = ub_row_add_element_label_points(newRow, cellCount, 'label', newRowId, '_tagTotal');
 
     ub_row_tag_ini(newRowId);
-    
+
     return newRowId;
 }
 
