@@ -31,6 +31,7 @@
     "electron-squirrel-startup": "^1.0.0",
     "furtive": "^2.4.0",
     "jquery": "^3.6.0",
+    "jquery-ui": "^1.13.2",
     "node-csv": "^0.1.2"
   },
   "build": {

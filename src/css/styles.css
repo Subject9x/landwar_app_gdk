@@ -3,6 +3,11 @@
 */
 
 
+.icon-large{
+    height: 4em;
+    width: 4em;
+}
+
 /*
     Layout: navbar
 */
@@ -29,7 +34,7 @@
 }
 
 #unitTable tr>td>input[type="number"]{
-    width: 50%;
+    width: 90%;
     border-width: 1px;
 }
 #unitTable tr>td>input[type="text"]{
@@ -46,6 +51,7 @@
 }
 .unitTableHead>th{
     word-break: keep-all;
+    text-align: center;
 }
 
 /*

@@ -347,7 +347,7 @@ function ub_tagModal_close(doSave){
 */
 function ub_row_tags_onclick(event){
     let rowId = ub_get_rowid(event.srcElement.id);
-    let tagModal = $('#tagModal');
+    let tagModal = $('#tagModal')[0];
     tagModal.innerHTML = '';
     tagModal.removeAttribute('hidden');
     tagModal.innerHTML = window.nodeFileSys.loadHTML('layout/pages/unitBuilder/tagWindow.html');
@@ -407,18 +407,18 @@ function ub_row_tags_onclick(event){
 
     //zero-out cost totals first.
     $('#tagWindow_tagCost')[0].innerHTML = tagCost;
-    $('#tagWindow_totalCost')[0].innerHTML = parseInt(document.getElementById('tagWindow_baseCost').innerHTML) + tagCost;;
+    $('#tagWindow_totalCost')[0].innerHTML = parseInt($('#tagWindow_baseCost')[0].innerHTML) + tagCost;
 
     //clear out warn box
     $('#tagWindow_descWarn')[0].innerHTML = '';
     $('#tagWindow_equation')[0].innerHTML = '';
 
     //set on-clicks
-    document.getElementById('tagWindowClose').addEventListener("click", (event) =>{
+    $('#tagWindowClose')[0].addEventListener("click", (event) =>{
         ub_tagModal_close(false);
         event.preventDefault();
     });
-    document.getElementById('tagWindowSave').addEventListener("click", (event) =>{
+    $('#tagWindowSave')[0].addEventListener("click", (event) =>{
         ub_tagModal_close(true)
         event.preventDefault();
     });
@@ -498,6 +498,8 @@ function ub_row_add(){
 
     cellCount = ub_row_add_element_label_points(newRow, cellCount, 'label', newRowId, '_tagTotal');
 
+    cellCount = ub_row_add_element_label_points(newRow, cellCount, 'label', newRowId, '_total');
+
     ub_row_tag_ini(newRowId);
 
     return newRowId;
@@ -545,6 +547,9 @@ function ub_row_change_points(rowId){
     pointsVal = Math.round(pointsVal);
 
     $("#" + rowId+'_points')[0].innerHTML = pointsVal;
+
+    $("#" + rowId + "_total")[0].innerHTML = pointsVal + parseFloat($("#" + rowId + '_tagTotal')[0].innerHTML);
+    
     return pointsVal;
 }
 
@@ -578,6 +583,8 @@ function ub_row_tag_validate(rowId){
     tagTotal = tagTotal.toFixed(1);
 
     $("#" + rowId + '_tagTotal')[0].innerHTML = tagTotal;
+    
+    $("#" + rowId + "_total")[0].innerHTML = tagTotal + parseFloat($("#" + rowId + '_points')[0].innerHTML);
 
     for(let idx in removeThese){
         let index = removeThese[idx];

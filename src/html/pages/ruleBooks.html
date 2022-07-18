@@ -2,44 +2,65 @@
     
 -->
 <div class="grd">
-    <div class="row">
-        <div class="col-s-5 col-4 col-l-3 offset-s-4 offset-3 offset-l-2" >
+    <div class="grd-row">
+        <div class="grd-row-col-3--sm grd-row-col-2--md grd-row-col-1--lg txt-center" >
             <h2>Rulebooks and Info</h2>
         </div>
     </div>
-    <div class="row">
-        <div class="col-s-5 col-4 col-l-3 offset-s-1 offset-1 offset-l-1" >
-            <h4>Core Rules</h4>
-        </div>
-        <div class="col-s-5 col-4 col-l-3">
-            <h4>Addons and Modules</h4>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-s-5 col-4 col-l-3 offset-s-3 offset-2 offset-l-1" >
+    <div class="grd-row">
+        <div class="grd-row-col-3--sm grd-row-col-2--md grd-row-col-1-lg" >
             <p>The minimum rules you will need to play <i>LANDWAR</i> is the <b>Core Rulebook, Quickplay Sheet, </b>and<b> Token Sheet.</b></p>
             <p><i>TAG</i> rules are actually completely optional for <i>base level</i> gameplay, and recommended <b>after</b> you get a feel for the game and its mechanics.</p>
             <p>Same goes for <b>Scenarios</b>, this are just author suggested ways to setup battles between players, and covers more advanced rules like <i>Objectives</i>, and more detailed win-conditions.</p>
         </div>
-        <div class="col-s-5 col-4 col-l-3">
+        <div class="grd-row-col-3--sm grd-row-col-2--md grd-row-col-1--lg">
             <p>These are extra funsies that add more layers to the core experience of <i>LANDWARD</i>, they are completely optional and highly situational.</p>
         </div>
     </div>
-    <div class="row">
-        <div class="col-s-5 col-4 col-l-3 offset-s-1 offset-1 offset-l-1 rulePanel" >
-            <ul class="list-clean" style="text-align:center;">
-                <li><button id="btnCoreRules" type="text" >Core Rulebook</button><button id="btnCoreRulesSave" type="text">Download</button></li>
-                <li><button type="text" id="btnCoreQuick">Quickplay Sheet</button></li>
-                <li><button type="text">Token Sheet</button></li>
-                <li><button type="text">Scenarios</button></li>
-            </ul>
-        </div>
-        <div class="col-s-5 col-4 col-l-3 rulePanel">
-            <ul class="list-clean" style="text-align:center;">
-                <li><button type="text">Multi-Weapon Units</button></li>
-                <li><button type="text">RPG</button></li>
-            </ul>
+
+    <div class="grd-row">
+        <div class="grd-row-col-1--md"></div>
+        <div class="grd-row-col-3-6--sm grd-row-col-2-6--md grd-row-col-2-6--lg ">
+            <table class="rulePanel txt--center">
+                <tr><th><h4>Core Rules</h4></th></tr>
+                <tr><td>
+                    <button id="btnCoreRules" type="text" class="btn--blue">Core Rulebook</button>
+                    <button id="btnCoreRulesSave" type="button" class="ui-button ui-button-icon-only" >
+                        <span class="ui-icon ui-icon-arrowthickstop-1-s icon-large"></span>
+                    </button>
+                </td></tr>
+                
+                <tr><td>
+                    <button type="button" id="btnCoreQuick" class="btn--blue">Quickplay Sheet</button>
+                    <button id="btnCoreQuickplaySave" type="button" class="ui-button "><span class="ui-icon ui-icon-arrowthickstop-1-s "></span>
+                    </button>
+                </td></tr>
+                
+                <tr><td>
+                    <button type="button" class="btn--blue">Token Sheet</button>
+                    <button id="btnCoreTokenSave" type="button" class="ui-button"><span class="ui-icon ui-icon-circle-arrow-s"></span>
+                    </button>
+                </td></tr>
+                
+                <tr><td>
+                    <button type="button" class="btn--green">Scenarios</button>
+                    <button id="btnCoreScenarioSave" type="button" class="ui-button"><span class="ui-icon ui-icon-arrowthickstop-1-s"></span>
+                    </button>
+                </td></tr>
+            </table>
         </div>
 
+        <div class="grd-row-col-1--md"></div>
+        <div class="grd-row-col-3-6--sm grd-row-col-2-6--md grd-row-col-2-6--lg">
+            <table class="rulePanel txt--center">
+                <tr><th class="txt--center"><h4>Addons and Modules</h4></th></tr>
+                <tr><td>
+                    <button type="button" class="btn--red">Multi-Weapon Units</button>
+                </td></tr>
+                <tr><td>
+                    <button type="button" class="btn--red">RPG</button>
+                </td></tr>
+            </table>
+        </div>
     </div>
 </div>
