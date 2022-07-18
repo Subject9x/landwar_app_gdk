@@ -346,7 +346,9 @@ function ub_tagModal_close(doSave){
         populate with tagInfo data, the source rowId, 
 */
 function ub_row_tags_onclick(event){
-    let rowId = ub_get_rowid(event.srcElement.id);
+    
+    let rowId = ub_get_rowid(this.id);
+
     let tagModal = $('#tagModal')[0];
     tagModal.innerHTML = '';
     tagModal.removeAttribute('hidden');
@@ -456,7 +458,8 @@ function ub_row_add_element_label_points(rowData, celCount, tagType, rowId, celN
 
 function ub_row_add_element_tag(rowData, celCount, tagType, rowId, celName){
     rowData.cells[celCount].getElementsByTagName(tagType)[0].setAttribute('id', rowId + celName);
-    document.getElementById(rowId + '_tags').addEventListener("click", ub_row_tags_onclick);
+
+    $('#' + rowId + '_tags')[0].addEventListener("click", ub_row_tags_onclick);
     return celCount + 1;
 }
 
@@ -503,6 +506,14 @@ function ub_row_add(){
     ub_row_tag_ini(newRowId);
 
     return newRowId;
+}
+
+function ub_row_remove(){
+    let table = $('#unitTable')[0];
+    if(table.rows.length < 2){
+        return;
+    }
+    $('#unitRow'+ (table.rows.length - 1))[0].remove();
 }
 
 /*

@@ -92,35 +92,35 @@ document.addEventListener('DOMContentLoaded',function(){
     /*
         NAV BAR
     */
-    document.getElementById('navHome').addEventListener('click', ()=>{
+    $('#navHome')[0].addEventListener('click', ()=>{
         pageLanding.removeAttribute('hidden');
         pageRulebooks.setAttribute('hidden', 'true');
         pageUnitBuild.setAttribute('hidden', 'true');
         pageTagLib.setAttribute('hidden', 'true');
         page_leave_taglib();
     });
-    document.getElementById('navRulebooks').addEventListener('click', ()=>{
+    $('#navRulebooks')[0].addEventListener('click', ()=>{
         pageRulebooks.removeAttribute('hidden');
         pageLanding.setAttribute('hidden', 'true');
         pageUnitBuild.setAttribute('hidden', 'true');
         pageTagLib.setAttribute('hidden', 'true');
         page_leave_taglib();
     });
-    document.getElementById('navTagRules').addEventListener('click', ()=>{
+    $('#navTagRules')[0].addEventListener('click', ()=>{
         pageTagLib.removeAttribute('hidden');
         pageRulebooks.setAttribute('hidden', 'true');
         pageUnitBuild.setAttribute('hidden', 'true');
         pageLanding.setAttribute('hidden', 'true');
     });
-    document.getElementById('navUnitBuild').addEventListener('click', ()=>{
+    $('#navUnitBuild')[0].addEventListener('click', ()=>{
         pageUnitBuild.removeAttribute('hidden');
         pageRulebooks.setAttribute('hidden', 'true');
         pageLanding.setAttribute('hidden', 'true');
         pageTagLib.setAttribute('hidden', 'true');
         page_leave_taglib();
     });
-    // document.getElementById('navArmyList').addEventListener('click', ()=>{});
-    document.getElementById('navArmyList').setAttribute('disabled', 'true');
+    
+    $('#navArmyList')[0].setAttribute('disabled', 'true');
 
     /*
         Page: Landing
@@ -129,13 +129,13 @@ document.addEventListener('DOMContentLoaded',function(){
     /*
         Page: Rulebooks
     */
-    document.getElementById('btnCoreRules').addEventListener('click', ()=>{
+    $('#btnCoreRules')[0].addEventListener('click', ()=>{
         rb_rules_open_core();
     });
-    document.getElementById('btnCoreRulesSave').addEventListener('click', ()=>{
+    $('#btnCoreRulesSave')[0].addEventListener('click', ()=>{
         rb_rules_pdf_core();
     });
-    document.getElementById('btnCoreQuick').addEventListener('click', ()=>{
+    $('#btnCoreQuick')[0].addEventListener('click', ()=>{
         rb_rules_open_quickplay();
     });
 
@@ -147,7 +147,11 @@ document.addEventListener('DOMContentLoaded',function(){
     /*
         Page: UnitBuilder
     */
-    document.getElementById('btnAddUnit').addEventListener('click', ()=>{
+    $('#btnAddUnit')[0].addEventListener('click', ()=>{
         ub_row_add();
+    });
+
+    $('#btnRemoveUnit')[0].addEventListener('click', () => {
+        ub_row_remove();
     });
 });

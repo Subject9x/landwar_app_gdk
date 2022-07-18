@@ -29,11 +29,11 @@
     
     <div class="grd-row">
         <div class="grd-row-col-4--sm grd-row-col-8--md grd-row-col-6--lg offset-s-2 offset-1 offset-l-1">
-            <button type="button" onclick="ub_control_select_all(true);" class="btn--blue">Select All</button>
-            <button type="button" onclick="ub_control_select_all(false);" class="btn">Select None</button>
-            <button type="button" onclick="ub_control_delete_select();" class="btn--red">Remove Selected</button>
-            <button type="button" onclick="ub_control_save_select(event)" class="btn--green">Save Selected</button>
-            <button type="button" onclick="ub_control_loadfile(event)" class="btn--green">Load</button>
+            <button type="button" onclick="ub_control_select_all(true);" class="btn--blue ui-icon-white"><span class="ui-icon ui-icon-check"></span></button>
+            <button type="button" onclick="ub_control_select_all(false);" class="btn ui-icon-grey"><span class="ui-icon ui-icon-squaresmall-minus"></span></button>
+            <button type="button" onclick="ub_control_delete_select();" class="btn--red ui-icon-white"><span class="ui-icon ui-icon-trash"></span></button>
+            <button type="button" onclick="ub_control_save_select(event)" class="btn--green ui-icon-white"><span class="ui-icon ui-icon-disk"></span></button>
+            <button type="button" onclick="ub_control_loadfile(event)" class="btn--green ui-icon-white"><span class="ui-icon ui-icon-folder-open"></button>
         </div>
     </div>
     
@@ -62,8 +62,11 @@
     </div>  
     <div class="grd-row">
         <div class="grd-row-col-2--sm grd-row-col-2--md grd-row-col-1--lg  ">
-            <button type="button" id="btnAddUnit" class="ui-button bg--green ">
+            <button type="button" id="btnAddUnit" class="btn btn--green ui-icon-white">
                 <span class="ui-icon ui-icon-plusthick"></span>
+            </button>
+            <button type="button" id="btnRemoveUnit" class="btn btn--red ui-icon-white">
+                <span class="ui-icon ui-icon-minusthick"></span>
             </button>
             
         </div>
