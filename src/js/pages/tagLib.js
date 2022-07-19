@@ -9,8 +9,7 @@ function tl_buildTable(){
         return;
     }
     
-    let tagTable = document.getElementById('tagLib_list').getElementsByTagName('tbody')[0];
-
+    let tagTable = $('#tagLib_list>tbody')[0];
     let tagCount = 0;
     let celCount = 5;
     let tagRow;
@@ -44,24 +43,24 @@ function tl_buildTable(){
 
 function tl_showTag(celData){
     let tagId = parseInt(celData);
-    let tagViewModal = document.getElementById('tagLibModal');
+    let tagViewModal = $('#tagLibModal')[0];
     
     tagViewModal.innerHTML = '';
     tagViewModal.removeAttribute('hidden');
     tagViewModal.innerHTML = window.nodeFileSys.loadHTML('layout/pages/tagLibrary/tagLibView.html');
    
-    document.getElementById('tagView').style.display = 'block';
+    $('#tagView')[0].style.display = 'block';
     
-    document.getElementById('tagViewClose').addEventListener('click', ()=>{
-        document.getElementById('tagLibModal').setAttribute('hidden', 'true');
-        document.getElementById('tagView').style.display = 'none';
-        document.getElementById('tagLibModal').innerHTML = '';
+    $('#tagViewClose')[0].addEventListener('click', ()=>{
+        $('#tagLibModal')[0].setAttribute('hidden', 'true');
+        $('#tagView')[0].style.display = 'none';
+        $('#tagLibModal')[0].innerHTML = '';
     });
 
     let tagData = tagInfo.data[tagId];
 
-    document.getElementById('tagWindow_descTitle').innerHTML = '<h4>'+ tagData.title + '</h4>';
-    document.getElementById('tagWindow_descText').innerHTML = tagData.desc;
-    document.getElementById('tagWindow_equation').innerHTML = tagData.eqt;
-    document.getElementById('tagWindow_descWarn').innerHTML = tagData.reqs('blank');
+    $('#tagWindow_descTitle')[0].innerHTML = '<h4>'+ tagData.title + '</h4>';
+    $('#tagWindow_descText')[0].innerHTML = tagData.desc;
+    $('#tagWindow_equation')[0].innerHTML = tagData.eqt;
+    $('#tagWindow_descWarn')[0].innerHTML = tagData.reqs('blank');
 }

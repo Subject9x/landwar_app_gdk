@@ -333,7 +333,9 @@ function ub_tagModal_close(doSave){
         unitTagCost.innerHTML = $('#tagWindow_tagCost')[0].innerHTML;
 
         ub_tags_update_row_array(unitRowId, tagWindow_tagArray);
+        $("#" + unitRowId + "_total")[0].innerHTML = parseFloat($("#" + unitRowId + '_points')[0].innerHTML) + parseFloat(unitTagCost.innerHTML);
     }
+
 
     tagWindow.style.display = 'none';
     tagModal.setAttribute('hidden','true');
@@ -421,10 +423,9 @@ function ub_row_tags_onclick(event){
         event.preventDefault();
     });
     $('#tagWindowSave')[0].addEventListener("click", (event) =>{
-        ub_tagModal_close(true)
+        ub_tagModal_close(true);
         event.preventDefault();
     });
-
 
     event.preventDefault();
 }
@@ -559,7 +560,6 @@ function ub_row_change_points(rowId){
 
     $("#" + rowId+'_points')[0].innerHTML = pointsVal;
 
-    $("#" + rowId + "_total")[0].innerHTML = pointsVal + parseFloat($("#" + rowId + '_tagTotal')[0].innerHTML);
     
     return pointsVal;
 }
@@ -594,15 +594,11 @@ function ub_row_tag_validate(rowId){
     tagTotal = tagTotal.toFixed(1);
 
     $("#" + rowId + '_tagTotal')[0].innerHTML = tagTotal;
-    
-    $("#" + rowId + "_total")[0].innerHTML = tagTotal + parseFloat($("#" + rowId + '_points')[0].innerHTML);
 
     for(let idx in removeThese){
         let index = removeThese[idx];
         rowArray = rowArray.splice(index, 1);
     }
-
-    // console.log("rowArray = " + rowArray);
 }
 /*
     TD <input> onChange binding.
@@ -618,5 +614,6 @@ function ub_row_on_change_event(event){
     }
     ub_row_change_points(thisRowId);
     ub_row_tag_validate(thisRowId); //split from change_points becuase some req / cost funcs run change_points;
+    $("#" + thisRowId + "_total")[0].innerHTML = parseFloat($("#" + thisRowId + '_points')[0].innerHTML) + parseFloat($("#" + thisRowId + '_tagTotal')[0].innerHTML);
     event.preventDefault();
 }
