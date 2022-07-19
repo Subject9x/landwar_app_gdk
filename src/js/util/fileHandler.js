@@ -137,5 +137,5 @@ function file_unitBuild_export_csv(htmlUnitTable){
 
     let exportData = file_unitBuild_export_jsonRowArray(htmlUnitTable);
     //window.dialogSys.ubSaveDialog(exportData, dialogSaveOptionsUnitList);
-    window.api.send('ub-dialog-save-csv', dialogLoadOptionsUnitList, exportData)
+    window.api.send('ub-dialog-save-csv', dialogSaveOptionsUnitList, exportData)
 }

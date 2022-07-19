@@ -1,6 +1,6 @@
 {
   "name": "landwar-gdk",
-  "version": "0.3.0",
+  "version": "0.3.2",
   "description": "testApp",
   "main": "src/js/main.js",
   "scripts": {
