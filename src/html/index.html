@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>LANDWAR GDK v0.1.1</title>
+    <title>LANDWAR GDK v0.4.0</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
     <!--<link rel="stylesheet" href="../css/base_responsive.css"/>-->
     <link rel="stylesheet" href="../../node_modules/jquery-ui/dist/themes/base/jquery-ui.min.css"/>
@@ -22,6 +22,7 @@
     </div>
 </body>
 <script type="text/javascript" src="../../node_modules/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="../js/util/dialogs.js"></script>
 <script type="text/javascript" src="../js/util/fileHandler.js"></script>
 <script type="text/javascript" src="../js/util/unitCalculator.js"></script>
 <script type="text/javascript" src="../js/data/tagInfo.js"></script>
@@ -29,4 +30,83 @@
 <script type="text/javascript" src="../js/pages/rulebooks.js"></script>
 <script type="text/javascript" src="../js/pages/unitBuilder.js"></script>
 <script type="text/javascript" src="../js/pages/tagLib.js"></script>
+<script type="text/javascript">
+    
+
+    document.addEventListener('DOMContentLoaded',function(){
+
+        //Build index.html with everything needed.
+        navBar.innerHTML = window.nodeFileSys.loadHTML('layout/navbar_default.html');
+    
+        pageLanding.innerHTML = window.nodeFileSys.loadHTML('pages/landing.html');
+    
+        pageRulebooks.innerHTML = window.nodeFileSys.loadHTML('pages/rulebooks.html');
+        pageRulebooks.setAttribute('hidden', 'true');
+      
+        pageUnitBuild.innerHTML = window.nodeFileSys.loadHTML('pages/unitBuilder.html');
+        pageUnitBuild.setAttribute('hidden', 'true');
+    
+        pageTagLib.innerHTML = window.nodeFileSys.loadHTML('pages/tagLib.html');
+        pageTagLib.setAttribute('hidden', 'true');
+    
+    
+        // NAV BAR 
+        $('#navHome')[0].addEventListener('click', ()=>{
+            pageLanding.removeAttribute('hidden');
+            pageRulebooks.setAttribute('hidden', 'true');
+            pageUnitBuild.setAttribute('hidden', 'true');
+            pageTagLib.setAttribute('hidden', 'true');
+            page_leave_taglib();
+        });
+        $('#navRulebooks')[0].addEventListener('click', ()=>{
+            pageRulebooks.removeAttribute('hidden');
+            pageLanding.setAttribute('hidden', 'true');
+            pageUnitBuild.setAttribute('hidden', 'true');
+            pageTagLib.setAttribute('hidden', 'true');
+            page_leave_taglib();
+        });
+        $('#navTagRules')[0].addEventListener('click', ()=>{
+            pageTagLib.removeAttribute('hidden');
+            pageRulebooks.setAttribute('hidden', 'true');
+            pageUnitBuild.setAttribute('hidden', 'true');
+            pageLanding.setAttribute('hidden', 'true');
+        });
+        $('#navUnitBuild')[0].addEventListener('click', ()=>{
+            pageUnitBuild.removeAttribute('hidden');
+            pageRulebooks.setAttribute('hidden', 'true');
+            pageLanding.setAttribute('hidden', 'true');
+            pageTagLib.setAttribute('hidden', 'true');
+            page_leave_taglib();
+        });
+        
+        $('#navArmyList')[0].setAttribute('disabled', 'true');
+    
+        
+        //Page: Landing
+        
+    
+        //Page: Rulebooks
+        $('#btnCoreRules')[0].addEventListener('click', ()=>{
+            rb_rules_open_core();
+        });
+        $('#btnCoreRulesSave')[0].addEventListener('click', ()=>{
+            rb_rules_pdf_core();
+        });
+        $('#btnCoreQuick')[0].addEventListener('click', ()=>{
+            rb_rules_open_quickplay();
+        });
+    
+        //Page: Tag Lib
+        tl_buildTable();
+    
+        ///Page: UnitBuilder
+        /*$('#btnAddUnit')[0].addEventListener('click', ()=>{
+            ub_row_add();
+        });
+    
+        $('#btnRemoveUnit')[0].addEventListener('click', () => {
+            ub_row_remove();
+        });*/
+    });
+</script>
 </html>
