@@ -39,23 +39,26 @@ function createWindow () {
   //
   //win.removeMenu();
   mainWindow.loadFile('src/html/index.html');
+  mainWindow.on('close', (event) => {
+    app.quit();
+  });
   windows.add(mainWindow);
 }
 
 //API call - app has first loaded.
 app.whenReady().then(() => {
-  createWindow()
+  createWindow();
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow()
+      createWindow();
     }
   });
 
   //API call - exit entire application.
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
-      app.quit()
+      app.quit();
     }
   });
 })
@@ -68,9 +71,9 @@ ipcMain.on('quit-app', ()=> app.quit());
  * SIGNAL - SAVE CSV UNIT DATA
  */
 ipcMain.handle('ub-dialog-save-csv', async (event, dialogConfig, filedata)=>{
+  let srcWindow = BrowserWindow.fromId(event.sender.id);
   dialogConfig.defaultPath = path.join(__dirname,'../../');
-  dialog.showSaveDialog(mainWindow, dialogConfig).then( file =>{
-    console.log(file); 
+  dialog.showSaveDialog(srcWindow, dialogConfig).then( file =>{
     if(!file.canceled){
       csvStringy(
           filedata, 
@@ -97,9 +100,9 @@ ipcMain.handle('ub-dialog-save-csv', async (event, dialogConfig, filedata)=>{
  * SIGNAL - LOAD CSV UNIT DATA
  */
 ipcMain.handle('ub-dialog-load-async', async (event, dialogConfig)=>{
+  let srcWindow = BrowserWindow.fromId(event.sender.id);
   dialogConfig.defaultPath = path.join(__dirname,'../../');
   let importData = [];
-  let srcWindow = BrowserWindow.fromId(event.sender.id);
   dialog.showOpenDialog(srcWindow, dialogConfig).then( (file) =>{
     if(!file.canceled && file.filePaths.length > 0){
       fs
@@ -225,7 +228,6 @@ function createWindowUnitSheet(){
       preload: path.join(__dirname, '../js/preload.js')
     }
   });
-  console.log(__dirname); //debug
 
   ubSheetNew.on('close', ()=>{
     windowsUBSheets.delete(ubSheetNew);
@@ -277,6 +279,8 @@ ipcMain.handle('ub-open-sheet-import', async (event, dialogConfig)=>{
 
 
 ipcMain.handle('ub-close-sheet', (event)=>{
+  let srcWindow = BrowserWindow.fromId(event.sender.id);
+  srcWindow.close();
 
 });
 
