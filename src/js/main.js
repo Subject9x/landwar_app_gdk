@@ -13,6 +13,7 @@ if (require('electron-squirrel-startup')) return app.quit();
 
 let mainWindow;
 let rulesWindow;
+let rulesInfoWindow;
 
 const windows = new Set();
 const windowsUBSheets = new Set();
@@ -149,24 +150,24 @@ ipcMain.handle('rb-open-rules-core', (event)=>{
 
 
 ipcMain.handle('rb-open-rules-quick', (event)=>{
-  if(rulesWindow != null){
-    if(isAppWindowOpen(rulesWindow)){
-      rulesWindow.close();
-      windows.delete(rulesWindow);
-      rulesWindow = null;
+  if(rulesInfoWindow != null){
+    if(isAppWindowOpen(rulesInfoWindow)){
+      rulesInfoWindow.close();
+      windows.delete(rulesInfoWindow);
+      rulesInfoWindow = null;
     }
   }
 
-  rulesWindow = new BrowserWindow({
+  rulesInfoWindow = new BrowserWindow({
     width: 800,
     height: 1280,
     webPreferences: {
       contextIsolation: true
     }
   });
-  windows.add(rulesWindow);
-  rulesWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_quickplay.html');
-  rulesWindow.focus();
+  windows.add(rulesInfoWindow);
+  rulesInfoWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_quickplay.html');
+  rulesInfoWindow.focus();
 });
 
 
@@ -184,8 +185,9 @@ ipcMain.handle('rb-save-rules-core', (event, pdfSavedialog, pdfOptionSave)=>{
   }
 
   rulesWindow = new BrowserWindow({
-    width: 800,
-    height: 1280,
+    width: 637.5,
+    maxWidth: 637.5,
+    height: 825,
     webPreferences: {
       contextIsolation: true
     }
@@ -207,6 +209,9 @@ ipcMain.handle('rb-save-rules-core', (event, pdfSavedialog, pdfOptionSave)=>{
                   console.log(err);
               } else {
                   console.log('PDF Generated Successfully');
+                  windows.delete(rulesWindow);
+                  rulesWindow.close();
+                  rulesWindow = null;
               }
           });
       }).catch(error => {
@@ -215,6 +220,54 @@ ipcMain.handle('rb-save-rules-core', (event, pdfSavedialog, pdfOptionSave)=>{
     }
   });
 })
+
+ipcMain.handle('rb-save-rules-quick', (event, pdfSavedialog, pdfOptionSave)=>{
+
+  if(rulesWindow != null){
+    if(isAppWindowOpen(rulesWindow)){
+      rulesWindow.close();
+      windows.delete(rulesWindow);
+      rulesWindow = null;
+    }
+  }
+
+  rulesWindow = new BrowserWindow({
+    width: 637.5,
+    maxWidth: 637.5,
+    height: 825,
+    webPreferences: {
+      contextIsolation: true
+    }
+  });
+  windows.add(rulesWindow);
+  rulesWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_quickplay.html');
+  rulesWindow.focus();
+
+  pdfSavedialog.defaultPath = path.join(__dirname,'../../');
+
+  dialog.showSaveDialog(rulesWindow, pdfSavedialog).then( file =>{
+    console.log(file); 
+    if(!file.canceled){
+      let win = BrowserWindow.getFocusedWindow();
+
+      win.webContents.printToPDF(pdfOptionSave).then(data => {
+          fs.writeFile(file.filePath.toString(), data, function (err) {
+              if (err) {
+                  console.log(err);
+              } else {
+                  console.log('PDF Generated Successfully');
+                  windows.delete(rulesWindow);
+                  rulesWindow.close();
+                  rulesWindow = null;
+              }
+          });
+      }).catch(error => {
+          console.log(error)
+      });
+    }
+  });
+})
+
 
 /**
  * SIGNAL - UNIT BUILDER NEW SHEET

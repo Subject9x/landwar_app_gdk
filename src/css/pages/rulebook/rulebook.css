@@ -31,3 +31,9 @@
 .rulePanel>p{
     margin-left: 4px;
 }
+
+.infoSmall{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: small;
+    font-weight: 400;
+}

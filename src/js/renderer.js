@@ -20,8 +20,6 @@ let activatePage = PAGE_HOME;
 function page_leave_taglib(){
     let tagView = $('#tagView')[0];
     
-    console.log("MAIN WINDOW ID" + window.id); //debug
-
     if(tagView !== null && tagView !== undefined){
         tagView.style.display = 'none';
         tagView.setAttribute('hidden', 'true');

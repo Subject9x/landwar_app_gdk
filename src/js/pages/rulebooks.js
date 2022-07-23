@@ -13,3 +13,7 @@ function rb_rules_open_quickplay(){
 function rb_rules_pdf_core(){
     window.api.send('rb-save-rules-core', dialogSavePDFOptions, pdfSaveOptions);
 }
+
+function rb_rules_pdf_quick(){
+    window.api.send('rb-save-rules-quick', dialogSavePDFOptions, pdfSaveOptions);
+}
