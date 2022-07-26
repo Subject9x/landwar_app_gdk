@@ -2,6 +2,16 @@
     All the style layering that goes on top of base_responsive.
 */
 
+
+.row-fill-16px{
+    height: 16px;
+}
+.row-fill-16px::after{
+    content:'';
+    clear:both;
+    display: table;
+}
+
 /*
     Layout: navbar
 */
