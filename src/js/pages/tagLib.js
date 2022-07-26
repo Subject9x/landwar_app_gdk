@@ -2,6 +2,15 @@
     Page: TAG Library page
 */
 
+
+function tag_rules_pdf_core(){
+    window.api.send('tag-save-core', dialogSavePDFOptions, pdfSaveOptions);
+}
+
+function tag_rules_pdf_getHtml(){
+    return window.nodeFileSys.loadHTML("layout/pages/tagLibrary/tagLibView.html");
+}
+
 let loadedTable = false;
 
 function tl_buildTable(){

@@ -14,6 +14,7 @@ if (require('electron-squirrel-startup')) return app.quit();
 let mainWindow;
 let rulesWindow;
 let rulesInfoWindow;
+let tagCoreWindow;
 
 const windows = new Set();
 const windowsUBSheets = new Set();
@@ -267,6 +268,56 @@ ipcMain.handle('rb-save-rules-quick', (event, pdfSavedialog, pdfOptionSave)=>{
     }
   });
 })
+
+
+ipcMain.handle('tag-save-core', (event, pdfSavedialog, pdfOptionSave)=>{
+
+  if(tagCoreWindow != null){
+    if(isAppWindowOpen(tagCoreWindow)){
+      tagCoreWindow.close();
+      windows.delete(tagCoreWindow);
+      tagCoreWindow = null;
+    }
+  }
+
+  tagCoreWindow = new BrowserWindow({
+    width: 637.5,
+    maxWidth: 637.5,
+    height: 825,
+    webPreferences: {
+      contextIsolation: true,
+      preload: path.join(__dirname, '../js/preload.js'),
+    }
+  });
+  windows.add(tagCoreWindow);
+  tagCoreWindow.loadFile('src/html/layout/pages/tagLibrary/tagLibPrintCore.html');
+  tagCoreWindow.focus();
+
+pdfSavedialog.defaultPath = path.join(__dirname,'../../');
+
+  dialog.showSaveDialog(tagCoreWindow, pdfSavedialog).then( file =>{
+    console.log(file); 
+    if(!file.canceled){
+      let win = BrowserWindow.getFocusedWindow();
+
+      win.webContents.printToPDF(pdfOptionSave).then(data => {
+          fs.writeFile(file.filePath.toString(), data, function (err) {
+              if (err) {
+                  console.log(err);
+              } else {
+                  console.log('PDF Generated Successfully');
+                  windows.delete(tagCoreWindow);
+                  tagCoreWindow.close();
+                  tagCoreWindow = null;
+              }
+          });
+      }).catch(error => {
+          console.log(error)
+      });
+    }
+  });
+})
+
 
 
 /**

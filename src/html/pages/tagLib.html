@@ -16,9 +16,12 @@
     </div>
     <div class="row">
         <div  class="col-s-10 col-10 col-l-10 offset-s-2 offset-1 offset-l-1">
-            <button type="button" disabled>Core Tags</button>
-            <button type="button" disabled>RPG Tags</button>
-            <button type="button" disabled>Multi-Weapon Tags</button>
+            <button id="tagLibBtnCore" type="button" class="btn ui-icon-grey">
+                Core TAGS
+                <span class="ui-icon ui-icon-arrowthickstop-1-s"></span>
+            </button>
+            <button id="tagLibBtnRPG" type="button" disabled>RPG Tags</button>
+            <button id="tagLibBtnMultiWep"type="button" disabled>Multi-Weapon Tags</button>
         </div>
     </div>
     <div class="row row-fill-s row-fill row-fill-l">
@@ -31,10 +34,12 @@
             </table>
         </div>
     </div>
+    
     <div class="row">
         <div id="tagLibModal" class="col-s-10 col-10 col-l-10 offset-s-1 offset-1 offset-l-1">
         </div>
     </div>
+    <!--here to trigger 'requirements' baselines-->
     <div id="blank" hidden>
         <input id="blank_name" type="text" value="" isabled />
         <input id="blank_size" type="number" value="0" disabled />

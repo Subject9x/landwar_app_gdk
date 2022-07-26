@@ -1,7 +1,6 @@
 /*
     Javascript layer for page: UnitBuilder
 */
-const btnAddUnit = $("#btnAddUnit")[0];
 let unitTableRowCount = 0;
 let searchArray = [];
 let tagWindow_tagArray = [];
