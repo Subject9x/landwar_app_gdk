@@ -528,7 +528,7 @@ function ub_row_remove(){
     if(table.rows.length < 2){
         return;
     }
-    $('#unitRow'+ (table.rows.length - 1))[0].remove();
+    $('#unitTable tr:last').remove();
 }
 
 /*
