@@ -36,6 +36,7 @@ function file_unitBuild_export_jsonRowArray(htmlUnitTable){
                 data.tags = '';
             }
             data.tagTotal = parseInt(document.getElementById(rowItem.id + '_tagTotal').innerHTML);
+            data.completeTotal = parseInt(document.getElementById(rowItem.id + '_total').innerHTML);
             exportData.push(data);
         }
     }
@@ -44,7 +45,6 @@ function file_unitBuild_export_jsonRowArray(htmlUnitTable){
 
 /*
     unitBuilder->EXPORT->JSON from UnitRow table to FILE
-
 */
 function file_unitBuild_export(htmlUnitTable){
     let exportData = {};
@@ -84,6 +84,7 @@ function file_unitBuild_export(htmlUnitTable){
                 data.tags = '';
             }
             data.tagTotal = parseInt(document.getElementById(rowItem.id + '_tagTotal').innerHTML);
+            data.completeTotal = parseInt(document.getElementById(rowItem.id + '_total').innerHTML);
             exportData.push(data);
         }
     }
@@ -125,6 +126,40 @@ function file_unitBuild_import(fileDataArray){
         }
     }
 }
+
+function file_unitinfo_import(fileDataArray){
+    let fileDataObj = JSON.parse(fileDataArray);
+
+    console.log(fileDataObj);
+
+    for(let objIdx in fileDataObj){
+        let objData = fileDataObj[objIdx];
+        if(objData !== undefined){
+
+            let newRowId = uic_row_add();
+            $("#" + newRowId + '> #name').append(objData.unitName);
+            $("#" + newRowId + '> #size').append(objData.size);
+            $("#" + newRowId + '> #move').append(objData.move) ;
+            $("#" + newRowId + '> #evade').append(objData.evade) ;
+            $("#" + newRowId + '> #melee').append(objData.dmgMelee) ;
+            $("#" + newRowId + '> #range').append(objData.dmgRange) ;
+            $("#" + newRowId + '> #dist').append(objData.range) ;
+            $("#" + newRowId + '> #armor').append(objData.armor) ;
+            $("#" + newRowId + '> #struct').append(objData.structure) ;
+            $("#" + newRowId + '> #tags').append(objData.newRowId) ;
+            $("#" + newRowId + '> #points').append(objData.completeTotal) ;
+
+            let newArray = [];
+            if(objData.tags.length > 0){
+                newArray = JSON.parse(objData.tags);
+            }
+            row_tagArrays[newRowId] = newArray;
+
+            uic_card_row_add(objData, newRowId);
+        }
+    }
+}
+
 
 /*
     unitBuilder->EXPORT->CSV from UnitRow table to FILE

@@ -30,3 +30,52 @@ function page_leave_taglib(){
 function page_change_to(from ,to){
 
 }
+
+function nav_exit(){
+    window.api.send('quit-app');
+}
+
+
+/*
+    RULEBOOK PAGE FUNCTIONS
+*/
+
+function rb_rules_open_core(){
+    window.api.send('rb-open-rules-core');
+}
+
+function rb_rules_open_quickplay(){
+    window.api.send('rb-open-rules-quick');
+}
+
+function rb_rules_pdf_core(){
+    window.api.send('rb-save-rules-core', dialogSavePDFOptions, pdfSaveOptions);
+}
+
+function rb_rules_pdf_quick(){
+    window.api.send('rb-save-rules-quick', dialogSavePDFOptions, pdfSaveOptions);
+}
+
+/*
+    Javascript layer for page: UnitBuilder
+*/
+
+function ub_control_sheet_new(){
+    window.api.send('ub-open-sheet-new');
+}
+
+function ub_control_sheet_import(){
+    window.api.send('ub-open-sheet-import', dialogLoadOptionsUnitList);
+}
+
+/*
+    Javascript layer for page: UnitCardgenerator
+*/
+
+function ucg_control_sheet_new(){
+    window.api.send('uic-open-sheet-new');
+}
+
+function ucg_control_sheet_import(){
+    window.api.send('uic-open-sheet-import', dialogLoadOptionsUnitList);
+}

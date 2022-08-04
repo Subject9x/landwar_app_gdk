@@ -65,10 +65,17 @@ app.whenReady().then(() => {
   });
 })
 
-ipcMain.on('quit-app', ()=> app.quit());
+ipcMain.handle('quit-app', (event)=> app.quit());
 /*
   IPCMAIN SIGNALS=========================================================================================================
 */
+
+//all-purpose window close signal, don't use for main view though, main view gets its own where it quits whole app.
+ipcMain.handle('close-window', (event)=>{
+  let srcWindow = BrowserWindow.fromId(event.sender.id);
+  srcWindow.close();
+});
+
 /**
  * SIGNAL - SAVE CSV UNIT DATA
  */
@@ -382,11 +389,64 @@ ipcMain.handle('ub-open-sheet-import', async (event, dialogConfig)=>{
 });
 
 
-ipcMain.handle('ub-close-sheet', (event)=>{
-  let srcWindow = BrowserWindow.fromId(event.sender.id);
-  srcWindow.close();
 
+/**
+ * SIGNAL - UNIT INFO CARD - New Sheet
+ */
+function createWindowUnitCard(){
+  let ubSheetNew = new BrowserWindow({
+    width: 1280,
+    height: 1024,
+    webPreferences: {
+      contextIsolation: true,
+      preload: path.join(__dirname, '../js/preload.js')
+    }
+  });
+
+  ubSheetNew.on('close', ()=>{
+    windowsUBSheets.delete(ubSheetNew);
+    ubSheetNew = null;
+  });
+  ubSheetNew.loadFile('src/html/layout/pages/unitCardGen/unitCardSheet.html');
+  
+  windowsUBSheets.add(ubSheetNew);
+
+  return ubSheetNew;
+}
+
+ ipcMain.handle('uic-open-sheet-new', (event)=>{
+  let ubSheetNew = createWindowUnitCard();
+  ubSheetNew.focus();
 });
 
-
-
+ipcMain.handle('uic-open-sheet-import', async (event, dialogConfig)=>{
+  let newWindow = createWindowUnitCard();
+  dialogConfig.defaultPath = path.join(__dirname,'../../');
+  let importData = [];
+  dialog.showOpenDialog(newWindow, dialogConfig).then( (file) =>{
+    if(!file.canceled && file.filePaths.length > 0){
+      fs
+      .createReadStream(file.filePaths[0].toString())
+      .pipe(csv({separator : ','}))
+      .on('data', (data) => {
+          try {
+            importData.push(data);
+          }
+          catch(err) {
+            console.log(err.stack);
+            newWindow.close();
+          }
+      })
+      .on('end',()=>{
+        let dataString =  JSON.stringify(importData);
+        if(dataString.length > 0){
+            newWindow.focus();
+            newWindow.webContents.send('uic-dialog-load-response', JSON.stringify(importData));
+        }
+        else{
+          newWindow.close();
+        }
+      });
+    }
+  });
+});

@@ -19,6 +19,8 @@
         <div class="grd-row"><div id="pageRulebooks" class="grd-row-col-6"></div></div>
         <div class="grd-row"><div id="pageTagLib" class="grd-row-col-6"></div></div>
         <div class="grd-row"><div id="pageUnitBuild" class="grd-row-col-6"></div></div>
+        <div class="grd-row"><div id="pageUnitCardGen" class="grd-row-col-6"></div></div>
+        <div class="grd-row"><div id="pageForceBuild" class="grd-row-col-6"></div></div>
     </div>
 </body>
 <script type="text/javascript" src="../../node_modules/jquery/dist/jquery.min.js"></script>
@@ -27,8 +29,6 @@
 <script type="text/javascript" src="../js/util/unitCalculator.js"></script>
 <script type="text/javascript" src="../js/data/tagInfo.js"></script>
 <script type="text/javascript" src="../js/renderer.js"></script>
-<script type="text/javascript" src="../js/pages/rulebooks.js"></script>
-<script type="text/javascript" src="../js/pages/unitBuilder.js"></script>
 <script type="text/javascript" src="../js/pages/tagLib.js"></script>
 <script type="text/javascript">
     
@@ -49,6 +49,11 @@
         pageTagLib.innerHTML = window.nodeFileSys.loadHTML('pages/tagLib.html');
         pageTagLib.setAttribute('hidden', 'true');
     
+        pageUnitCardGen.innerHTML = window.nodeFileSys.loadHTML('pages/unitCard.html');
+        pageUnitCardGen.setAttribute('hidden', 'true');
+
+       // pageForceBuild.innerHTML = window.nodeFileSys.loadHTML('pages/unitCard.html');
+        //pageForceBuild.setAttribute('hidden', 'true');
     
         // NAV BAR 
         $('#navHome')[0].addEventListener('click', ()=>{
@@ -56,6 +61,7 @@
             pageRulebooks.setAttribute('hidden', 'true');
             pageUnitBuild.setAttribute('hidden', 'true');
             pageTagLib.setAttribute('hidden', 'true');
+            pageUnitCardGen.setAttribute('hidden', 'true');
             page_leave_taglib();
         });
         $('#navRulebooks')[0].addEventListener('click', ()=>{
@@ -63,6 +69,7 @@
             pageLanding.setAttribute('hidden', 'true');
             pageUnitBuild.setAttribute('hidden', 'true');
             pageTagLib.setAttribute('hidden', 'true');
+            pageUnitCardGen.setAttribute('hidden', 'true');
             page_leave_taglib();
         });
         $('#navTagRules')[0].addEventListener('click', ()=>{
@@ -70,15 +77,28 @@
             pageRulebooks.setAttribute('hidden', 'true');
             pageUnitBuild.setAttribute('hidden', 'true');
             pageLanding.setAttribute('hidden', 'true');
+            pageUnitCardGen.setAttribute('hidden', 'true');
         });
         $('#navUnitBuild')[0].addEventListener('click', ()=>{
             pageUnitBuild.removeAttribute('hidden');
             pageRulebooks.setAttribute('hidden', 'true');
             pageLanding.setAttribute('hidden', 'true');
             pageTagLib.setAttribute('hidden', 'true');
+            pageUnitCardGen.setAttribute('hidden', 'true');
             page_leave_taglib();
         });
-        
+        $('#navCardGen')[0].addEventListener('click', ()=>{
+            pageUnitCardGen.removeAttribute('hidden');
+            pageRulebooks.setAttribute('hidden', 'true');
+            pageLanding.setAttribute('hidden', 'true');
+            pageUnitBuild.setAttribute('hidden', 'true');
+            pageTagLib.setAttribute('hidden', 'true');
+        });
+        $('#navExit')[0].addEventListener('click', (event)=>{
+            nav_exit();
+            event.preventDefault();
+        });
+
         $('#navArmyList')[0].setAttribute('disabled', 'true');
     
         
@@ -98,8 +118,6 @@
         $('#btnCoreQuickplaySave')[0].addEventListener('click', ()=>{
             rb_rules_pdf_quick();
         });
-
-        
     
         //Page: Tag Lib
         tl_buildTable();
@@ -107,14 +125,15 @@
             tag_rules_pdf_core();
         });
     
-        ///Page: UnitBuilder
-        /*$('#btnAddUnit')[0].addEventListener('click', ()=>{
-            ub_row_add();
+        //Page: UnitBuilder
+
+        //Page: Unit Cards
+        $("#tagLibBtnCore")[0].addEventListener('click', () => {
+            tag_rules_pdf_core();
         });
-    
-        $('#btnRemoveUnit')[0].addEventListener('click', () => {
-            ub_row_remove();
-        });*/
+
+        //Page: Force Builder
+
     });
 </script>
 </html>
