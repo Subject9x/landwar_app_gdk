@@ -1,5 +1,5 @@
 /*
-    Javascript layer for page: UnitBuilder
+    Javascript layer for page: UnitBuilder Sheet window
 */
 let unitTableRowCount = 0;
 let searchArray = [];
@@ -7,7 +7,7 @@ let tagWindow_tagArray = [];
 let row_tagArrays = {};
 
 function ub_sheet_close_window(event){
-    window.api.send('ub-close-sheet', dialogLoadOptionsUnitList);
+    window.api.send('close-window', dialogLoadOptionsUnitList);
     event.preventDefault();
 }
 
