@@ -4,8 +4,11 @@
 const navBar = $('#tagNavBar')[0];
 const pageLanding = $('#pageLanding')[0];
 const pageRulebooks = $('#pageRulebooks')[0];
-const pageUnitBuild = $('#pageUnitBuild')[0];
 const pageTagLib = $('#pageTagLib')[0];
+const pageUnitBuild = $('#pageUnitBuild')[0];
+const pageUnitCards = $('#pageUnitCardGen')[0];
+const pageForceBuild = $('#pageForceBuild')[0];
+
 
 const PAGE_HOME = 0;
 const PAGE_RULES = 1;

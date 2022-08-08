@@ -101,6 +101,8 @@ function file_unitBuild_export(htmlUnitTable){
 function file_unitBuild_import(fileDataArray){
     let fileDataObj = JSON.parse(fileDataArray);
 
+    uic_window_setData(fileDataArray);
+
     for(let objIdx in fileDataObj){
         let objData = fileDataObj[objIdx];
         if(objData !== undefined){
@@ -130,8 +132,6 @@ function file_unitBuild_import(fileDataArray){
 function file_unitinfo_import(fileDataArray){
     let fileDataObj = JSON.parse(fileDataArray);
 
-    console.log(fileDataObj);
-
     for(let objIdx in fileDataObj){
         let objData = fileDataObj[objIdx];
         if(objData !== undefined){
@@ -160,7 +160,6 @@ function file_unitinfo_import(fileDataArray){
     }
 }
 
-
 /*
     unitBuilder->EXPORT->CSV from UnitRow table to FILE
         invokes ('csv-writer') dependency for ops.
@@ -173,4 +172,14 @@ function file_unitBuild_export_csv(htmlUnitTable){
     let exportData = file_unitBuild_export_jsonRowArray(htmlUnitTable);
     //window.dialogSys.ubSaveDialog(exportData, dialogSaveOptionsUnitList);
     window.api.send('ub-dialog-save-csv', dialogSaveOptionsUnitList, exportData)
+}
+
+
+/*
+
+*/
+function file_unitCard_export_pdf(unitCardData){
+    let opt = pdfSaveOptions;
+    opt.printBackground = true;
+    window.api.send('uic-save-sheet', dialogSavePDFOptions, opt, unitCardData);
 }

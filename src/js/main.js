@@ -74,6 +74,7 @@ ipcMain.handle('quit-app', (event)=> app.quit());
 ipcMain.handle('close-window', (event)=>{
   let srcWindow = BrowserWindow.fromId(event.sender.id);
   srcWindow.close();
+  mainWindow.focus();
 });
 
 /**
@@ -450,3 +451,28 @@ ipcMain.handle('uic-open-sheet-import', async (event, dialogConfig)=>{
     }
   });
 });
+
+ipcMain.handle('uic-save-sheet', (event, pdfSavedialog, pdfOptionSave, unitCardData)=>{
+  let srcWindow = BrowserWindow.fromId(event.sender.id);
+  
+  pdfSavedialog.defaultPath = path.join(__dirname,'../../');
+
+  dialog.showSaveDialog(srcWindow, pdfSavedialog).then( file =>{
+    console.log(file); 
+    if(!file.canceled){
+      srcWindow.webContents.printToPDF(pdfOptionSave).then(data => {
+          fs.writeFile(file.filePath.toString(), data, function (err) {
+            srcWindow.close();
+              if (err) {
+                  console.log(err);
+              } else {
+                  console.log('PDF Generated Successfully');
+              }
+          });
+      }).catch(error => {
+          console.log(error);
+          srcWindow.close();
+      });
+    }
+  });
+})

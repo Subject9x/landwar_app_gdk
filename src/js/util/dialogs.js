@@ -29,5 +29,5 @@ const pdfSaveOptions = {
     pageSize: 'A4',
     printBackground: false,
     printSelectionOnly: false,
-    landscape: false
+    landscape: false,
 }
