@@ -1,6 +1,7 @@
 // preload.js
 
 const {contextBridge, ipcRenderer} = require('electron');
+const { on } = require('events');
 const fs = require('fs');
 const path = require('path');
 

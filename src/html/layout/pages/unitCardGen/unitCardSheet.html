@@ -40,10 +40,9 @@
 <script type="text/javascript" src="../../../../js/pages/unitCards/rendererUnitInfoCardSheet.js"></script>
 <script type="text/javascript" src="../../../../js/pages/unitCards/unitCardGenerate.js"></script>
 <script type="text/javascript">
-document.addEventListener('DOMContentLoaded',function(){
-    $('#uicWorkSheetClose')[0].addEventListener('click', (event)=>{
-        uic_window_close(event);
-    });
-});   
+ window.onload = (event) => {
+    let closeBtn = document.getElementById('uicWorkSheetClose');
+    closeBtn.addEventListener("click",  (event)=>{uic_window_close(event)});
+};
 </script>
 </html>
