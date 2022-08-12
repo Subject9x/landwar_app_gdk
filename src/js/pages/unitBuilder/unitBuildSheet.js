@@ -72,11 +72,11 @@ function ub_control_delete_select(){
 }
 
 function ub_control_save_select(event){
+    event.preventDefault();
     let tableData = $("#unitTable>tbody")[0];
     let cnt = 0;
 
     if(tableData.rows <= 1){
-        event.preventDefault();
         return;
     }
 
@@ -93,13 +93,39 @@ function ub_control_save_select(event){
     if(cnt >0){
         file_unitBuild_export_csv(tableData);
     }
-    event.preventDefault();
 }
 
 function ub_control_loadfile(event){
     window.api.send('ub-dialog-load-async', dialogLoadOptionsUnitList);
     event.preventDefault();
 }
+
+function ub_control_new_print(event){
+    event.preventDefault();
+    let tableData = $("#unitTable>tbody")[0];
+    let cnt = 0;
+
+    if(tableData.rows <= 1){
+        return;
+    }
+
+    
+    $("#unitTable>tbody>tr").each((index, tr)=>{
+        if(index != 0){
+            let elm = $("#"+tr.id + "_select")[0];
+            if(elm.checked == true){
+                cnt++;
+            }
+        }
+    });
+
+    if(cnt >0){
+        file_unitBuild_export_data(tableData);
+    }
+}
+
+
+
 /*
     Row Data manipulation
 */

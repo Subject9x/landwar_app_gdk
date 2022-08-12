@@ -101,8 +101,6 @@ function file_unitBuild_export(htmlUnitTable){
 function file_unitBuild_import(fileDataArray){
     let fileDataObj = JSON.parse(fileDataArray);
 
-    uic_window_setData(fileDataArray);
-
     for(let objIdx in fileDataObj){
         let objData = fileDataObj[objIdx];
         if(objData !== undefined){
@@ -125,15 +123,17 @@ function file_unitBuild_import(fileDataArray){
             row_tagArrays[newRowId] = newArray;
             ub_row_change_points(newRowId);
             ub_row_tag_validate(newRowId);
+            $("#" + newRowId + "_total")[0].innerHTML = parseFloat($("#" + newRowId + '_points')[0].innerHTML) + parseFloat($("#" + newRowId + '_tagTotal')[0].innerHTML);
         }
     }
 }
 
 function file_unitinfo_import(fileDataArray){
-    let fileDataObj = JSON.parse(fileDataArray);
+    let fileObjData = JSON.parse(fileDataArray);
 
-    for(let objIdx in fileDataObj){
-        let objData = fileDataObj[objIdx];
+    for(let objIdx in fileObjData){
+        let objData = fileObjData[objIdx];
+
         if(objData !== undefined){
 
             let newRowId = uic_row_add();
@@ -151,7 +151,7 @@ function file_unitinfo_import(fileDataArray){
 
             let newArray = [];
             if(objData.tags.length > 0){
-                newArray = JSON.parse(objData.tags);
+                newArray = objData.tags;
             }
             row_tagArrays[newRowId] = newArray;
 
@@ -170,8 +170,16 @@ function file_unitBuild_export_csv(htmlUnitTable){
     }
 
     let exportData = file_unitBuild_export_jsonRowArray(htmlUnitTable);
-    //window.dialogSys.ubSaveDialog(exportData, dialogSaveOptionsUnitList);
-    window.api.send('ub-dialog-save-csv', dialogSaveOptionsUnitList, exportData)
+    window.api.send('ub-dialog-save-csv', dialogSaveOptionsUnitList, exportData);
+}
+
+function file_unitBuild_export_data(htmlUnitTable){
+    if(htmlUnitTable.rows.length <= 1){
+        return;
+    }
+
+    let exportData = file_unitBuild_export_jsonRowArray(htmlUnitTable);
+    window.api.send('ub-dialog-send-cardgen', exportData);
 }
 
 

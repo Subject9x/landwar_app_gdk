@@ -361,31 +361,34 @@ ipcMain.handle('ub-open-sheet-import', async (event, dialogConfig)=>{
   let newWindow = createWindowUnitSheet();
   dialogConfig.defaultPath = path.join(__dirname,'../../');
   let importData = [];
-  dialog.showOpenDialog(newWindow, dialogConfig).then( (file) =>{
-    if(!file.canceled && file.filePaths.length > 0){
-      fs
-      .createReadStream(file.filePaths[0].toString())
-      .pipe(csv({separator : ','}))
-      .on('data', (data) => {
-          try {
-            importData.push(data);
+
+  newWindow.webContents.on('did-finish-load', () => {
+    dialog.showOpenDialog(newWindow, dialogConfig).then( (file) =>{
+      if(!file.canceled && file.filePaths.length > 0){
+        fs
+        .createReadStream(file.filePaths[0].toString())
+        .pipe(csv({separator : ','}))
+        .on('data', (data) => {
+            try {
+              importData.push(data);
+            }
+            catch(err) {
+              console.log(err.stack);
+              newWindow.close();
+            }
+        })
+        .on('end',()=>{
+          let dataString =  JSON.stringify(importData);
+          if(dataString.length > 0){
+              newWindow.focus();
+              newWindow.webContents.send('ub-dialog-load-response', JSON.stringify(importData));
           }
-          catch(err) {
-            console.log(err.stack);
+          else{
             newWindow.close();
           }
-      })
-      .on('end',()=>{
-        let dataString =  JSON.stringify(importData);
-        if(dataString.length > 0){
-            newWindow.focus();
-            newWindow.webContents.send('ub-dialog-load-response', JSON.stringify(importData));
-        }
-        else{
-          newWindow.close();
-        }
-      });
-    }
+        });
+      }
+    });
   });
 });
 
@@ -415,6 +418,23 @@ function createWindowUnitCard(){
   return ubSheetNew;
 }
 
+
+ipcMain.handle('ub-dialog-send-cardgen', (event, unitData) => {
+  let newWindow = createWindowUnitCard();
+
+  newWindow.webContents.on('did-finish-load', () => {
+    if(unitData.length > 0){
+      let dataString = JSON.stringify(unitData);
+      newWindow.webContents.send('uic-dialog-load-response', dataString);
+      newWindow.focus();
+    }
+    else{
+      newWindow.close();
+    }
+  });
+});
+
+
  ipcMain.handle('uic-open-sheet-new', (event)=>{
   let ubSheetNew = createWindowUnitCard();
   ubSheetNew.focus();
@@ -441,8 +461,8 @@ ipcMain.handle('uic-open-sheet-import', async (event, dialogConfig)=>{
       .on('end',()=>{
         let dataString =  JSON.stringify(importData);
         if(dataString.length > 0){
+             newWindow.webContents.send('uic-dialog-load-response', JSON.stringify(importData));
             newWindow.focus();
-            newWindow.webContents.send('uic-dialog-load-response', JSON.stringify(importData));
         }
         else{
           newWindow.close();

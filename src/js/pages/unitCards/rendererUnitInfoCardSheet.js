@@ -1,8 +1,10 @@
 /*
     Renderer.js component for Electron
 */
-api.handle( 'uic-dialog-load-response', ( event, data ) => function( event, data ) {
+
+api.handle('uic-dialog-load-response', ( event, data ) => function( event, data ) {
     file_unitinfo_import(data);
-}, event);
+    uic_window_setData(data);
+});
 
 
