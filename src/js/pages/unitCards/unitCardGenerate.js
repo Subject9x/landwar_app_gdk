@@ -75,14 +75,18 @@ function uic_card_row_add(objData, newRowId){
     cardDiv.querySelector("#ucPoints").innerHTML = '<b>' + objData.completeTotal + '</b>';
 
     
+    // let tagArr = row_tagArrays[newRowId];
+    //let tagArr = objData.tags;
     let tagArr = row_tagArrays[newRowId];
     let tagList = cardDiv.querySelector("#ucKeywords");
     // let tagList = "";
     let tagItem;
-    for(tagNum in tagArr){
-        tagItem = document.createElement('li');
-        tagItem.innerHTML = tagInfo.data[parseInt(tagArr[tagNum])].title;
-        tagList.appendChild(tagItem);
+    if(tagArr.length > 0){
+        for(let tagNum in tagArr){
+            tagItem = document.createElement('li');
+            tagItem.innerHTML = tagInfo.data[tagArr[tagNum]].title;
+            tagList.appendChild(tagItem);
+        }
     }
     cardTable.appendChild(cardDiv);
 

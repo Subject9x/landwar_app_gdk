@@ -15,6 +15,7 @@ function file_unitBuild_export_jsonRowArray(htmlUnitTable){
     for(i = 1; i < htmlUnitTable.rows.length; i++){
         let rowItem = htmlUnitTable.rows[i];
         let select = document.getElementById(rowItem.id + '_select').checked;
+
         if(select){
             let data = {};
             data.unitName = document.getElementById(rowItem.id + '_name').value;
@@ -27,13 +28,17 @@ function file_unitBuild_export_jsonRowArray(htmlUnitTable){
             data.armor = parseInt(document.getElementById(rowItem.id + '_armor').value);
             data.structure = parseInt(document.getElementById(rowItem.id + '_structure').value);
             data.points = parseInt(document.getElementById(rowItem.id + '_points').innerHTML);
-            
+            data.tags = "";
+
             let tagArray = row_tagArrays[rowItem.id];
+            
             if(tagArray !== undefined && tagArray.length > 0){
-                data.tags = tagArray;
+                for(let tag in tagArray){
+                    data.tags += tagArray[tag] + ' ';    
+                }
             }
             else{
-                data.tags = '';
+                data.tags = "";
             }
             data.tagTotal = parseInt(document.getElementById(rowItem.id + '_tagTotal').innerHTML);
             data.completeTotal = parseInt(document.getElementById(rowItem.id + '_total').innerHTML);
@@ -103,6 +108,7 @@ function file_unitBuild_import(fileDataArray){
 
     for(let objIdx in fileDataObj){
         let objData = fileDataObj[objIdx];
+
         if(objData !== undefined){
             let newRowId = ub_row_add();
             $("#" + newRowId + '_name').val(objData.unitName);
@@ -118,7 +124,12 @@ function file_unitBuild_import(fileDataArray){
 
             let newArray = [];
             if(objData.tags.length > 0){
-                newArray = JSON.parse(objData.tags);
+                let txtArray = objData.tags.split(' ');
+                for(let i in txtArray){
+                    if(txtArray[i].length > 0){
+                        newArray.push(parseInt(txtArray[i]));
+                    }
+                }
             }
             row_tagArrays[newRowId] = newArray;
             ub_row_change_points(newRowId);
@@ -128,6 +139,10 @@ function file_unitBuild_import(fileDataArray){
     }
 }
 
+/**
+ * 
+ * @param {*} fileDataArray 
+ */
 function file_unitinfo_import(fileDataArray){
     let fileObjData = JSON.parse(fileDataArray);
 
@@ -151,7 +166,12 @@ function file_unitinfo_import(fileDataArray){
 
             let newArray = [];
             if(objData.tags.length > 0){
-                newArray = objData.tags;
+                let txtArray = objData.tags.split(' ');
+                for(let i in txtArray){
+                    if(txtArray[i].length > 0){
+                        newArray.push(parseInt(txtArray[i]));
+                    }
+                }
             }
             row_tagArrays[newRowId] = newArray;
 

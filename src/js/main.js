@@ -459,9 +459,9 @@ ipcMain.handle('uic-open-sheet-import', async (event, dialogConfig)=>{
           }
       })
       .on('end',()=>{
-        let dataString =  JSON.stringify(importData);
-        if(dataString.length > 0){
-             newWindow.webContents.send('uic-dialog-load-response', JSON.stringify(importData));
+        if(importData.length > 0){
+            let dataString = JSON.stringify(importData);
+            newWindow.webContents.send('uic-dialog-load-response', dataString);
             newWindow.focus();
         }
         else{
@@ -470,6 +470,8 @@ ipcMain.handle('uic-open-sheet-import', async (event, dialogConfig)=>{
       });
     }
   });
+
+
 });
 
 ipcMain.handle('uic-save-sheet', (event, pdfSavedialog, pdfOptionSave, unitCardData)=>{
