@@ -7,20 +7,6 @@ let unitTableRowCount = 0;
 let row_tagArrays = {};
 let sheetData;
 
-
-//Pixel offsets for each element on a card, where org = root + ofs
-/*let nameOfs = [23, 19];
-let ptsOfs = [936, 32];
-let sizeOfs = [52, 151];
-let moveOfs = [248, 151];
-let evadeOfs = [434, 151];
-let armorOfs = [631, 151];
-let strucOfs = [828, 151];
-let meleeOfs = [28, 289];
-let rangeOfs = [237, 289];
-let distOfs = [384, 289];
-let tagsOfs = [28, 423];*/
-
 function uic_window_setData(unitCardData){
     sheetData = unitCardData;
 }
@@ -74,12 +60,8 @@ function uic_card_row_add(objData, newRowId){
     
     cardDiv.querySelector("#ucPoints").innerHTML = '<b>' + objData.completeTotal + '</b>';
 
-    
-    // let tagArr = row_tagArrays[newRowId];
-    //let tagArr = objData.tags;
     let tagArr = row_tagArrays[newRowId];
     let tagList = cardDiv.querySelector("#ucKeywords");
-    // let tagList = "";
     let tagItem;
     if(tagArr.length > 0){
         for(let tagNum in tagArr){

@@ -480,7 +480,6 @@ ipcMain.handle('uic-save-sheet', (event, pdfSavedialog, pdfOptionSave, unitCardD
   pdfSavedialog.defaultPath = path.join(__dirname,'../../');
 
   dialog.showSaveDialog(srcWindow, pdfSavedialog).then( file =>{
-    console.log(file); 
     if(!file.canceled){
       srcWindow.webContents.printToPDF(pdfOptionSave).then(data => {
           fs.writeFile(file.filePath.toString(), data, function (err) {

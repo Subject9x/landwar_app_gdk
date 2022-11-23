@@ -70,17 +70,17 @@ const tagInfo = {
         },
         {
             title : 'Armor Piercing',
-            desc : 'When applying Damage from this unit’s attack. Apply the damage amount to the Target Model’s structure even if the Target Model has remaining armor points.',
+            desc : 'When applying Damage from this unit’s attack. Up to <i>half</i> the damage may be applied to Target <b>Structure</b> <i>even if</i> the Target has remaining <b>Armor</b>.',
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
                 let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
-                return ((uc_calc_Damage_Range(rangeDamageVal) + uc_calc_Damage_Melee(meleeDamageVal, moveVal)) * 0.75);
+                return ((uc_calc_Damage_Range(rangeDamageVal) + uc_calc_Damage_Melee(meleeDamageVal, moveVal)) * 0.9);
             },
             reqs : (rowId) => {
                 return '';
             },
-            eqt:'<i>Total Damage COST</i> * 75%'
+            eqt:'<i>Total Damage COST</i> * 90%'
         },
         {
             title : 'Artillery',
@@ -508,6 +508,22 @@ const tagInfo = {
             eqt:'TODO'
         },
         {
+            title : 'Heavy Armor I',
+            desc : 'Hero may suffer +1 Stress Point to allow every Friendly Unit in 8" to reroll 1 failed Stress Check this Turn.',
+            func : (rowId) => {
+                let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+                let evadeVal = parseInt(document.getElementById(rowId + '_evade').value);
+                let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
+
+                return sizeVal + (armorVal / 2) + ((moveVal + evadeVal) / 2);
+            },
+            reqs : (rowId) => {
+                return '';
+            },
+            eqt:'<b>Size</b> + (<b>Armor</b> / 2) + (<b>Move</b> + <b>Evade</b>) / 2'
+        },
+        {
             title : 'Hero',
             desc : 'Hero may suffer +1 Stress Point to allow every Friendly Unit in 8" to reroll 1 failed Stress Check this Turn.',
             func : (rowId) => {
@@ -825,8 +841,9 @@ const tagInfo = {
             desc : "If Unit moved in the <i>Movement Phase</i>, Unit may move up to 25% its total <b>Move</b> immediately after this Turn's <i>Attack Phase</i>.",
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+                let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
 
-                return uc_calc_Move(moveVal) * 0.25;
+                return uc_calc_Move(moveVal, sizeVal) * 0.25;
             },
             reqs : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
