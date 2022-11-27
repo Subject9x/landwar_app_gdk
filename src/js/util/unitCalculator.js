@@ -22,7 +22,7 @@ function uc_calc_Evade(sizeVal, evadeVal, moveVal){
     if(evadeVal === 0){
         return 0;
     }
-    return ((sizeVal / 2) * evadeVal) + (moveVal / 2);
+    return ((sizeVal / 1.5) * evadeVal) + (moveVal / 2);
 }
 
 function uc_calc_Damage_Melee(meleeDamageVal, moveVal){

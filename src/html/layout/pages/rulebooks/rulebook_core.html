@@ -91,7 +91,7 @@
                                             <ul>
                                                 <li>Unit <b>may</b> <i>Rotate</i> to a new Facing.</li>
                                                 <li>Unit <i>gains</i> <b>+2 ATK</b> for this <i>Combat Phase</i>.</li>
-                                                <li>Unit <b>cannot</b> use its <i>Evade</i> re-rolls for this <i>Combat Phase</i>.</li>
+                                                <li>Unit <b>cannot</b> use its <i>Evade</i> bonus for this <i>Combat Phase</i>.</li>
                                             </ul>
                                         </li>
                                         <li>Make <b>Normal</b> move.
@@ -129,7 +129,7 @@
                             <p>Units during their <b>next</b> <i>Combat Phase</i> are given the following effects.</p>
                             <ul>
                                 <li><b>Base ATK</b> - 2. (Minimum of 1).</li>
-                                <li><b>Base DEF</b> + 1. </li>
+                                <li><b>Base DEF</b> +1. </li>
                             </ul>
                         </div>
                     </div>
@@ -152,7 +152,7 @@
                                 <li><i>Panicked</i> Units <b>cannot</b> make Overwatch attacks.</li>
                                 <li>When a Unit moves from the <i>Forward</i> arc to the <i>Rear</i> arc of an Enemy Unit.</li>
                                 <li><b>IF</b> the Unit was in Target's <i>Line of Sight</i> at the <b>start and end</b> of the move.</li>
-                                <li><b>IF</b> the Unit <b>ends</b> their Move 6' <b>or less</b> from the Target Unit.</li>
+                                <li><b>IF</b> the Unit <b>ends</b> their Move 6" <b>or less</b> from the Target Unit.</li>
                             </ul>
                         </div>
                     </div>
@@ -215,8 +215,7 @@
                                 </li>
                                 <li><b>Long Range</b> - <i>unlimited</i> distance.
                                     <ul>
-                                        <li><i>Target</i> will <b>gain +2DEF</b> against <b>this</b> attack.</li>
-                                        </li>
+                                        <li><i>Target</i> may <b>re-roll</b> <i>up to</i> 2 <b>DEF</b> dice against <b>this</b> attack.</li>
                                     </ul>
                                 </li>
                             </ul>
@@ -227,7 +226,16 @@
                             <ul class="sectionOrderList">
                                 <li>Unit <b>cannot</b> be <i>Panicked</i>.</li>
                                 <li>Unit <i>Stress</i> level must be <b>below</b> the Unit's max. - <i>default</i> is 6</li>
-                                <li>Unit <b>immediately</b> suffers <b>+1 Stress</b> regardless of Attack outcome.</li>
+                                <li><b>IF</b> closest enemy Unit is in <i>Effective</i> Range, and <i>desired</i> Target is at Long Range:
+                                    <ul>
+                                        <li>Unit suffers +2 <i>Stress</i> <b>for each</b> attack that <b>misses.</b></li>
+                                    </ul>
+                                </li>
+                                <li><b>IF</b> closest enemy Unit is <b>under</b> 6" and <i>desired</i> Target is > 6" range:
+                                    <ul>
+                                        <li>Unit suffers +1 <i>Stress</i> <b>for each</b> attack that <b>misses.</b></li>
+                                    </ul>
+                                </li>
                                 <li><b>IF</b> added <i>Stress</i> would trigger a <i>Stress Check</i> roll for one before Attacking.
                                     <ul>
                                         <li>If the Unit <b>fails</b> the <i>Stress check</i> they <b>may not</b> attack this <i>Phase</i>.</li>
@@ -258,7 +266,7 @@
                                     <div class="col-s-10 col-10 col-l-10 offset-s-1 offset-1 offset-l-1">
                                         <h3><i>RANGED Attacker</i> Dice Pool</h3>
                                         <ul class="sectionOrderList">
-                                            <li>Starting Amount: 3D6.</li>
+                                            <li>Starting Amount: 4D6.</li>
                                             <li>If Unit has <i>Panic Token</i>:
                                                 <ul>
                                                     <li>total Dice is <b>halved</b> and minimum of 1.</li>
@@ -273,7 +281,7 @@
                                 <div class="row">
                                     <div class="col-s-9 offset-s-1 col-9 offset-1 col-l-9 offset-l-1 rulePanel">
                                         <label class="ruleTitle"><u>Short Range Attack</u></label>
-                                        <p><i>When</i> the Target is <b>4" away or less.</b></p>
+                                        <p><i>When</i> the Target is <b>1" to 4" away.</b></p>
                                         <ul class="sectionOrderList">
                                             <li><i>Attacker</i> gains <b>+1 ATK.</b></li>
                                         </ul>
@@ -288,7 +296,7 @@
                                     <div class="col-s-10 col-10 col-l-10 offset-s-1 offset-1 offset-l-1">
                                         <h3><i>RANGED Defender</i> Dice Pool</h3>
                                         <ul class="sectionOrderList">
-                                            <li>Starting Amount: 2D6</li>
+                                            <li>Starting Amount: 3D6</li>
                                             <li>If Unit has <i>Panic Token</i>:
                                                 <ul>
                                                     <li>total Dice is <b>halved</b> and minimum of 1.</li>
@@ -306,7 +314,7 @@
                                         <label class="ruleTitle"><u>Long Range Attack</u></label>
                                         <p><i>When</i> the Target is at <b>Long Range</b></p>
                                         <ul class="sectionOrderList">
-                                            <li><i>Target</i> gains <b>+2 DEF.</b></li>
+                                            <li><i>Target</i> may <b>re-roll</b> <i>up to</i> <b>2 DEF dice.</b></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -322,9 +330,10 @@
                                 <div class="row">
                                     <div class="col-s-10 col-10 col-l-10 rulePanel">
                                         <label class="ruleTitle"><u>Evasion Bonus</u></label>
-                                        <p><i>If</i> Target <b>was not</b> <i>Stationary</i> during this Turn's <i>Movement Phase</i>:</i></p>
+                                        <p><i>If</i> Target <b>was not</b> <i>Stationary</i> during this Turn's <i>Movement Phase</i></p>
+                                        <p><i>If</i> Target <b>moved 1/2 or more</b> of their current <i>MOVE</i>.</p>
                                         <ul class="sectionOrderList">
-                                            <li>Target may <b>re-roll</b> a number of <b>DEF</b> dice <i>equal to</i> its <i>Evasion</i> value.</li>
+                                            <li>Target may <b>add</b> up to unit's <i>EVADE</i> value to their <b>DEF</b> roll results.</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -348,7 +357,7 @@
                                     <div class="col-s-10 col-10 col-l-10 offset-s-1 offset-1 offset-l-1">
                                         <h3><i>MELEE Attacker</i> Dice Pool</h3>
                                         <ul class="sectionOrderList">
-                                            <li>Starting Amount: 3D6</li>
+                                            <li>Starting Amount: 4D6</li>
                                             <li>If Unit has <i>Panic Token</i>:
                                                 <ul>
                                                     <li>total Dice is <b>halved</b> and minimum of 1.</li>
@@ -368,7 +377,7 @@
                                     <div class="col-s-10 col-10 col-l-10 offset-s-1 offset-1 offset-l-1">
                                         <h3><i>MELEE Defender</i> Dice Pool</h3>
                                         <ul class="sectionOrderList">
-                                            <li>Starting Amount: 2D6</li>
+                                            <li>Starting Amount: 3D6</li>
                                             <li>If Unit has <i>Panic Token</i>:
                                                 <ul>
                                                     <li>total Dice is <b>halved</b> and minimum of 1.</li>
@@ -389,7 +398,7 @@
                                         <label class="ruleTitle"><u>Evasion Bonus</u></label>
                                         <p><i>If</i> Target <b>was not</b> <i>Stationary</i> during this Turn's <i>Movement Phase</i>:</i></p>
                                         <ul class="sectionOrderList">
-                                            <li>Target may <b>re-roll</b> a number of <b>DEF</b> dice <i>equal to</i> its <i>Evasion</i> value.</li>
+                                            <li>Target may <b>add</b> up to unit's <i>EVADE</i> value to their <b>DEF</b> roll results.</li>
                                         </ul>
                                     </div>
                                 </div>

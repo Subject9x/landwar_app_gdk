@@ -52,7 +52,7 @@ function uic_card_row_add(objData, newRowId){
     
     cardDiv.querySelector("#ucRange").innerHTML = objData.dmgRange;
     
-    cardDiv.querySelector("#ucDist").innerHTML = objData.range;
+    cardDiv.querySelector("#ucDist").innerHTML = objData.range + '"';
     
     cardDiv.querySelector("#ucArmor").innerHTML = objData.armor;
     

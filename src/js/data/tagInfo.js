@@ -4,7 +4,7 @@ const tagInfo = {
    data :[ 
         {
             title : 'Advanced Gun Sights',
-            desc : '<b>Target</b> of this Unit <b>cannot gain+2DEF</b> when attacked at <b>Long Range</b>.',
+            desc : '<b>Target</b> of this Unit <b>cannot use the 2 re-rolls</b> when attacked at <b>Long Range</b>.',
             func : (rowId) =>{
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
@@ -246,8 +246,10 @@ const tagInfo = {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+                let structVal = parseInt(document.getElementById(rowId + '_structure').value);
 
-                return Math.max(sizeVal, (moveVal / 4) + (armorVal / 4) - (sizeVal / 2));
+                
+                return ((moveVal / 3 + armorVal / 3 + structVal) - sizeVal) * 2.5;
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -266,7 +268,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'(<b>Move</b> / 4) + (<b>Armor</b> / 4) - (<b>Size</<b> / 2)'
+            eqt:'(<b>Move</b> / 3) + (<b>Armor</b> / 3) + <b>Structure</b> - <b>Size</<b> * 2.5'
         },
         {
             title : 'Courage-II',
@@ -275,8 +277,9 @@ const tagInfo = {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
-
-                return Math.max(sizeVal, (moveVal / 3) + (armorVal / 3) - (sizeVal / 2));
+                let structVal = parseInt(document.getElementById(rowId + '_structure').value);
+                
+                return ((moveVal / 2.5 + armorVal / 2.5 + structVal) - sizeVal) * 3;
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -295,7 +298,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'(<b>Move</b> / 3) + (<b>Armor</b> / 3) - (<b>Size</<b> / 2)'
+            eqt:'(<b>Move</b> / 2.5) + (<b>Armor</b> / 2.5) + <b>Structure</b> - <b>Size</<b> * 3'
         },
         {
             title : 'Courage-III',
@@ -304,8 +307,9 @@ const tagInfo = {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+                let structVal = parseInt(document.getElementById(rowId + '_structure').value);
 
-                return Math.max(sizeVal, (moveVal / 2) + (armorVal / 2) - (sizeVal / 2));
+                return ((moveVal / 2 + armorVal / 2 + structVal) - sizeVal) * 3.5;
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -324,7 +328,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'(<b>Move</b> / 2) + (<b>Armor</b> / 2) - (<b>Size</<b> / 2)'
+            eqt:'(<b>Move</b> / 2) + (<b>Armor</b> / 2) + <b>Structure</b> - <b>Size</<b> * 3.5'
         },
         {
             title : 'Crew-I',
@@ -334,7 +338,7 @@ const tagInfo = {
                 if(sizeVal == 0){
                     sizeVal = 1;
                 }
-                return Math.max(0, ((1/sizeVal^2) * 9) - sizeVal);
+                return Math.max(0, ((1/sizeVal^2) * 12) - sizeVal);
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -355,14 +359,14 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'((1 / <b>Size</b> ^ 2) * 9) - <b>Size</b>'
+            eqt:'((1 / <b>Size</b> ^ 2) * 12) - <b>Size</b>'
         },
         {
             title : 'Crew-II',
             desc : 'For stress rolls, roll 3 and take the highest (represents crew morale and squad morale). Limit of Crew Points is (Size / 3)  + 2.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
-                return Math.max(0, ((1/sizeVal^2) * 13) - sizeVal);
+                return Math.max(0, ((1/sizeVal^2) * 15) - sizeVal);
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -387,14 +391,14 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'((1 / <b>Size</b> ^ 2) * 13) - <b>Size</b>'
+            eqt:'((1 / <b>Size</b> ^ 2) * 15) - <b>Size</b>'
         },
         {
             title : 'Crew-III',
             desc : 'For stress rolls, roll 4 and take the highest (represents crew morale and squad morale). Limit of Crew Points is (Size / 3)  + 2.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
-                return Math.max(0, ((1/sizeVal^2) * 17) - sizeVal);
+                return Math.max(0, ((1/sizeVal^2) * 19) - sizeVal);
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -419,7 +423,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'((1 / <b>Size</b> ^ 2) * 17) - <b>Size</b>'
+            eqt:'((1 / <b>Size</b> ^ 2) * 19) - <b>Size</b>'
         },
         {
             title : 'Fearless',
@@ -509,13 +513,13 @@ const tagInfo = {
         },
         {
             title : 'Heavy Armor I',
-            desc : 'Hero may suffer +1 Stress Point to allow every Friendly Unit in 8" to reroll 1 failed Stress Check this Turn.',
+            desc : 'DEBUG Unit may reduce the <b>DMG</b> effect of <i>Armor Piercing</i> by <b>half</b>.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let evadeVal = parseInt(document.getElementById(rowId + '_evade').value);
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
-
+                // 3/evade * moveVal - (armorVal/2 + size)
                 return sizeVal + (armorVal / 2) + ((moveVal + evadeVal) / 2);
             },
             reqs : (rowId) => {
@@ -559,7 +563,47 @@ const tagInfo = {
             reqs : (rowId) => {
                 return '';
             },
-            eqt:'TODO'
+            eqt:''
+        },
+        {
+            title : 'Hull Gun - I',
+            desc : 'Unit <b>may</b> fire as if it has the <i>Limit Fire Arc</i> tag but may add <b>+25%</b> rounded-up of its DMG-R value to the attack.',
+            func : (rowId) => {
+                let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
+
+                return (uc_calc_Damage_Range(rangeDamageVal)*0.2);
+            },
+            reqs : (rowId) => {
+                let warn = '';
+                if(ub_tags_checkByName('Limited Fire Arc')){
+                    warn = warn + '<p>Unit <i>already has</i> [Limited Fire Arc] tag.</p>';
+                }
+                if(ub_tags_checkByName('Hull Gun - II')){
+                    warn = warn + '<p>Unit <i>already has</i> [Hull Gun - II] tag.</p>';
+                }
+                return warn;
+            },
+            eqt:'<b>Damage-Range<b> COST * 0.2'
+        },
+        {
+            title : 'Hull Gun - II',
+            desc : 'Unit <b>may</b> fire as if it has the <i>Limit Fire Arc</i> tag but may add <b>+50%</b> rounded-up of its DMG-R value to the attack.',
+            func : (rowId) => {
+                let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
+
+                return (uc_calc_Damage_Range(rangeDamageVal)*0.45);
+            },
+            reqs : (rowId) => {
+                let warn = '';
+                if(ub_tags_checkByName('Limited Fire Arc')){
+                    warn = warn + '<p>Unit <i>already has</i> [Limited Fire Arc] tag.</p>';
+                }
+                if(ub_tags_checkByName('Hull Gun - I')){
+                    warn = warn + '<p>Unit <i>already has</i> [Hull Gun - I] tag.</p>';
+                }
+                return warn;
+            },
+            eqt:'<b>Damage-Range<b> COST * 0.45'
         },
         {
             title : 'Indirect Fire',
@@ -585,7 +629,7 @@ const tagInfo = {
             eqt:'(<b>Damage-Range</b> / 2) + (<b>Range</b> / 2)'
         },
         {
-            title : 'Inertial Dampners',
+            title : 'Inertial Dampers',
             desc : '"When Move is greater than 12", treat this Unit as having moved only 11" in the Combat Phase.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
@@ -646,7 +690,14 @@ const tagInfo = {
                 return 0 - (uc_calc_Damage_Range(rangeDamageVal)/2);
             },
             reqs : (rowId) => {
-                return '';
+                let warn = '';
+                if(ub_tags_checkByName('Hull Gun - I')){
+                    warn = warn + '<p>Unit <i>already has</i> [Hull Gun - I] tag.</p>';
+                }
+                if(ub_tags_checkByName('Hull Gun - II')){
+                    warn = warn + '<p>Unit <i>already has</i> [Hull Gun - II] tag.</p>';
+                }
+                return warn;
             },
             eqt:'<i>subtract</i> (<b>Damage-Range<b> <i>COST</i> / 2)'
         },
@@ -691,9 +742,9 @@ const tagInfo = {
         },
         {
             title : 'Rank - Green',
-            desc : "Unit's <i>base</i> <b>ATK/DEF</b> change to <b>2 ATK</b> and <b>1 DEF</b>.",
+            desc : "Unit's <i>base</i> <b>ATK/DEF</b> change to <b>3 ATK</b> and <b>2 DEF</b>.",
             func : (rowId) => {
-                return 0 - ub_row_change_points(rowId) * 0.2; 
+                return 0 - ub_row_change_points(rowId) * 0.5; 
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -705,13 +756,13 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'<i>subtract Unit base total COST</i> * 20%'
+            eqt:'<i>subtract Unit base total COST</i> * 50%'
         },
         {
             title : 'Rank - Veteran',
-            desc : "Unit's ATK and DEF stats become 4 ATK Dice and 3 DEF Dice",
+            desc : "Unit's ATK and DEF stats become 5 ATK Dice and 4 DEF Dice",
             func : (rowId) => {
-                return ub_row_change_points(rowId) * 0.1; 
+                return ub_row_change_points(rowId) * 0.33; 
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -723,13 +774,13 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'<i>Unit base total COST</i> * 10%'
+            eqt:'<i>Unit base total COST</i> * 33%'
         },
         {
             title : 'Rank - Elite',
-            desc : "Unit's ATK and DEF stats become 5 ATK Dice and 4 DEF Dice",
+            desc : "Unit's ATK and DEF stats become 6 ATK Dice and 5 DEF Dice",
             func : (rowId) => {
-                return ub_row_change_points(rowId) * 0.2; 
+                return ub_row_change_points(rowId) * 0.5; 
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -741,7 +792,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'<i>Unit base total COST</i> * 20%'
+            eqt:'<i>Unit base total COST</i> * 50%'
         },
         {
             title : 'Recon',
@@ -870,6 +921,21 @@ const tagInfo = {
                 return '';
             },
             eqt:'((1 / <b>Size</b>^2) * 10) + (<b>Move</b> - 6) / 2'
+        },
+        {
+            title : 'Thunderous Report',
+            desc : 'Target of this Unit suffers <b>+1 Stress</b> when taking <b>Damage</b> from <i>Ranged Attacks.</i> ',
+            func : (rowId) => {
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+                let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
+                let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
+
+                return (moveVal/2) + (rangeVal * 1.25) - rangeDamageVal;
+            },
+            reqs : (rowId) => {
+                return '';
+            },
+            eqt:'(<b>Move</b> / 2) + (<b>Range</b> * 1.25) - (<b>Range Damage</b>)'
         },
         {
             title : 'Transport',
