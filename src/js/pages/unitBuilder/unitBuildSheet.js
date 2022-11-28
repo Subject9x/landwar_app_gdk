@@ -266,13 +266,13 @@ function ub_tagModal_tag_check_req(rowId){
 
             if(!isCheck){
                 if(ub_tags_checkExisting(tagId, tagCacheArray)){
-                    tagTotalCost -= cost; 
+                    tagTotalCost = tagTotalCost - cost; 
                 }
                 tagCacheArray = ub_tagModal_update_tagArray(tagId, isCheck);
             }
         }
     }
-    $("#"+rowId + '_tagTotal')[0].innerHTML = tagTotalCost;
+    $("#"+rowId + '_tagTotal')[0].innerHTML = Math.round((tagTotalCost + Number.EPSILON) * 100) / 100;
 }
 
 
@@ -351,13 +351,13 @@ function ub_tagModal_tagRow_check(tagRow){
         //was on list, but now gone.
         tagRow.classList.remove('tagRuleLineActive');
         tagRow.children[2].children[0].innerHTML = "";
-        tagCost -= cost; 
+        tagCost = tagCost - cost; 
     }
 
     tagWindow_tagArray = ub_tagModal_update_tagArray(tagId, isCheck);
 
-    $('#tagWindow_tagCost')[0].innerHTML = tagCost;
-    $('#tagWindow_totalCost')[0].innerHTML = unitTotal + tagCost;
+    $("#tagWindow_tagCost")[0].innerHTML = Math.round((tagCost + Number.EPSILON) * 100) / 100;
+    $("#tagWindow_totalCost")[0].innerHTML = Math.round(((unitTotal + tagCost) + Number.EPSILON) * 100) / 100;
 
     ub_tagModal_validate_tags();
 }
@@ -373,7 +373,11 @@ function ub_tagModal_close(doSave){
         unitTagCost.innerHTML = $('#tagWindow_tagCost')[0].innerHTML;
 
         ub_tags_update_row_array(unitRowId, tagWindow_tagArray);
-        $("#" + unitRowId + "_total")[0].innerHTML = parseFloat($("#" + unitRowId + '_points')[0].innerHTML) + parseFloat(unitTagCost.innerHTML);
+        
+        let tagTotal = parseFloat(unitTagCost.innerHTML)
+        let unitTotal = parseFloat($("#" + unitRowId + '_points')[0].innerHTML);
+        let finalTotal = Math.round(((unitTotal + tagTotal) + Number.EPSILON) * 100) / 100;
+        $("#" + unitRowId + "_total")[0].innerHTML =  finalTotal;
     }
 
 
@@ -437,7 +441,7 @@ function ub_row_tags_onclick(event){
 
             tagRuleRow.classList.add('tagRuleLineActive');
             tagRuleRow.children[2].children[0].innerHTML = cost;
-            tagCost += cost;
+            tagCost = tagCost + cost;
             tagRuleRow.children[1].children[0].checked = true;
         }
         else{
@@ -450,8 +454,10 @@ function ub_row_tags_onclick(event){
     ub_tagModal_validate_tags();
 
     //zero-out cost totals first.
-    $('#tagWindow_tagCost')[0].innerHTML = tagCost;
-    $('#tagWindow_totalCost')[0].innerHTML = parseInt($('#tagWindow_baseCost')[0].innerHTML) + tagCost;
+    let unitCost = parseFloat($('#tagWindow_baseCost')[0].innerHTML);
+
+    $("#tagWindow_tagCost")[0].innerHTML = Math.round((tagCost + Number.EPSILON) * 100) / 100;
+    $("#tagWindow_totalCost")[0].innerHTML = Math.round(((unitCost + tagCost) + Number.EPSILON) * 100) / 100;
 
     //clear out warn box
     $('#tagWindow_descWarn')[0].innerHTML = '';
@@ -595,8 +601,7 @@ function ub_row_change_points(rowId){
 
 
     let pointsVal = uc_calc_baseCost(sizeCost, moveCost, evadeCost, dmgMeleeCost, dmgRangeCost, rangeCost, armorCost, structCost);
-    pointsVal = Math.max(0, pointsVal);
-    pointsVal = Math.round(pointsVal);
+    pointsVal = Math.round((pointsVal + Number.EPSILON) * 100) / 100;
 
     $("#" + rowId+'_points')[0].innerHTML = pointsVal;
 
@@ -613,7 +618,7 @@ function ub_row_tag_validate(rowId){
         return;
     }
 
-    let newTagcost = 0;
+    let newTagCost = 0;
     let undoCost = 0;
     let tagTotal = 0;
 
@@ -627,11 +632,12 @@ function ub_row_tag_validate(rowId){
             removeThese.push(idx);
         }
         else{
-            newTagcost += tagCost;
+            newTagCost =  newTagCost + tagCost;
         }
     }
-    tagTotal = newTagcost + undoCost;
-    tagTotal = tagTotal.toFixed(1);
+    tagTotal = newTagCost + undoCost;
+    tagTotal = Math.round((tagTotal + Number.EPSILON) * 100) / 100;
+    
 
     $("#" + rowId + '_tagTotal')[0].innerHTML = tagTotal;
 
@@ -654,6 +660,11 @@ function ub_row_on_change_event(event){
     }
     ub_row_change_points(thisRowId);
     ub_row_tag_validate(thisRowId); //split from change_points becuase some req / cost funcs run change_points;
-    $("#" + thisRowId + "_total")[0].innerHTML = parseFloat($("#" + thisRowId + '_points')[0].innerHTML) + parseFloat($("#" + thisRowId + '_tagTotal')[0].innerHTML);
+
+    let tagTotal = parseFloat($("#" + thisRowId + '_tagTotal')[0].innerHTML)
+    let unitTotal = parseFloat($("#" + thisRowId + '_points')[0].innerHTML);
+    let finalTotal = Math.round(((unitTotal + tagTotal) + Number.EPSILON) * 100) / 100;
+    $("#" + thisRowId + "_total")[0].innerHTML =  finalTotal;
+    
     event.preventDefault();
 }

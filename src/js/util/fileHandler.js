@@ -134,7 +134,11 @@ function file_unitBuild_import(fileDataArray){
             row_tagArrays[newRowId] = newArray;
             ub_row_change_points(newRowId);
             ub_row_tag_validate(newRowId);
-            $("#" + newRowId + "_total")[0].innerHTML = parseFloat($("#" + newRowId + '_points')[0].innerHTML) + parseFloat($("#" + newRowId + '_tagTotal')[0].innerHTML);
+
+            let tagTotal = parseFloat($("#" + newRowId + '_tagTotal')[0].innerHTML)
+            let unitTotal = parseFloat($("#" + newRowId + '_points')[0].innerHTML);
+            let finalTotal = Math.round(((unitTotal + tagTotal) + Number.EPSILON) * 100) / 100;
+            $("#" + newRowId + "_total")[0].innerHTML =  finalTotal;
         }
     }
 }
