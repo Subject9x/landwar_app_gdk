@@ -225,7 +225,7 @@ function ub_tagModal_validate_tags(){
             tagRow.classList.remove('tagRuleLineActive');
             tagRow.children[2].children[0].innerHTML = "";
             if(ub_tags_checkExisting(tagId, tagWindow_tagArray)){
-                tagTotalCost -= cost; 
+                tagTotalCost = tagTotalCost - cost;
                 tagWindow_tagArray = ub_tagModal_update_tagArray(tagId, isCheck);
             }
         }
@@ -233,8 +233,8 @@ function ub_tagModal_validate_tags(){
         tagRow = tagRow.nextSibling;
     }
 
-    $("#tagWindow_tagCost")[0].innerHTML = tagTotalCost;
-    $("#tagWindow_totalCost")[0].innerHTML = unitTotal + tagTotalCost;
+    $("#tagWindow_tagCost")[0].innerHTML = Math.round((tagTotalCost + Number.EPSILON) * 100) / 100;
+    $("#tagWindow_totalCost")[0].innerHTML = Math.round(((unitTotal + tagTotalCost) + Number.EPSILON) * 100) / 100;
 }
 
 /*

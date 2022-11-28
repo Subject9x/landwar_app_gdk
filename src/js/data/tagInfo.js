@@ -4,7 +4,7 @@ const tagInfo = {
    data :[ 
         {
             title : 'Advanced Gun Sights',
-            desc : '<b>Target</b> of this Unit <b>cannot use the 2 re-rolls</b> when attacked at <b>Long Range</b>.',
+            desc : '<b>Target</b> of this Unit <b>cannot</b> have <b>+1 DEF</b> when attacked at <b>Long Range</b>.',
             func : (rowId) =>{
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
@@ -802,12 +802,12 @@ const tagInfo = {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 sizeVal = Math.max(1, sizeVal);
                 moveVal = Math.max(1, moveVal);
-                return ((1 / moveVal^2) * 100) + (sizeVal * 1.5);
+                return ((1 / (moveVal + (sizeVal * 1.5))^2) * 50);
             },
             reqs : (rowId) => {
                 return '';
             },
-            eqt:'((1 / <b>Move</b>^2) * 100 ) + (<b>Size</b> * 1.5)'
+            eqt:'((1 / (<b>Move</b> + (<b>Size</b> * 1.5) ^2) * 50 )'
         },
         {
             title : 'Self-Healing',
