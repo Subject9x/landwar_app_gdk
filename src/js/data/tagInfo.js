@@ -802,12 +802,12 @@ const tagInfo = {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 sizeVal = Math.max(1, sizeVal);
                 moveVal = Math.max(1, moveVal);
-                return ((1 / (moveVal + (sizeVal * 1.5))^2) * 50);
+                return ((1 / moveVal^2) * (sizeVal / 2 * 10));
             },
             reqs : (rowId) => {
                 return '';
             },
-            eqt:'((1 / (<b>Move</b> + (<b>Size</b> * 1.5) ^2) * 50 )'
+            eqt:'((1 / <b>Move</b> ^ 2) * (<b>Size</b> / 2 * 10))'
         },
         {
             title : 'Self-Healing',
