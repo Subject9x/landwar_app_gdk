@@ -497,3 +497,88 @@ ipcMain.handle('uic-save-sheet', (event, pdfSavedialog, pdfOptionSave, unitCardD
     }
   });
 })
+
+/**
+ * SIGNAL - UNIT INFO CARD - New Sheet
+ */
+ function createWindowArmyBuilder(){
+  let abSheetNew = new BrowserWindow({
+    width: 1280,
+    height: 1024,
+    webPreferences: {
+      contextIsolation: true,
+      preload: path.join(__dirname, '../js/preload.js')
+    }
+  });
+
+  abSheetNew.on('close', ()=>{
+    abSheetNew = null;
+  });
+  abSheetNew.loadFile('src/html/layout/pages/armyBuilder/armyBuilderSheet.html');
+
+  return abSheetNew;
+}
+
+ipcMain.handle('ab-open-sheet-new', (event)=>{
+  let abSheetNew = createWindowArmyBuilder();
+  abSheetNew.focus();
+});
+
+ipcMain.handle('ab-open-sheet-import', async (event, dialogConfig)=>{
+  let newWindow = createWindowArmyBuilder();
+  dialogConfig.defaultPath = path.join(__dirname,'../../');
+  let importData = [];
+
+  newWindow.webContents.on('did-finish-load', () => {
+    dialog.showOpenDialog(newWindow, dialogConfig).then( (file) =>{
+      if(!file.canceled && file.filePaths.length > 0){
+        fs
+        .createReadStream(file.filePaths[0].toString())
+        .pipe(csv({separator : ','}))
+        .on('data', (data) => {
+            try {
+              importData.push(data);
+            }
+            catch(err) {
+              console.log(err.stack);
+              newWindow.close();
+            }
+        })
+        .on('end',()=>{
+          let dataString =  JSON.stringify(importData);
+          if(dataString.length > 0){
+              newWindow.focus();
+              newWindow.webContents.send('ab-dialog-load-response', JSON.stringify(importData));
+          }
+          else{
+            newWindow.close();
+          }
+        });
+      }
+    });
+  });
+});
+
+ipcMain.handle('ab-dialog-load-async', async (event, dialogConfig)=>{
+  let srcWindow = BrowserWindow.fromId(event.sender.id);
+  dialogConfig.defaultPath = path.join(__dirname,'../../');
+  let importData = [];
+  dialog.showOpenDialog(srcWindow, dialogConfig).then( (file) =>{
+    if(!file.canceled && file.filePaths.length > 0){
+      fs
+      .createReadStream(file.filePaths[0].toString())
+      .pipe(csv({separator : ','}))
+      .on('data', (data) => {
+          try {
+            importData.push(data);
+          }
+          catch(err) {
+            console.log(err.stack);
+          }
+      })
+      .on('end',()=>{
+        srcWindow.webContents.send('ab-dialog-load-response', JSON.stringify(importData));
+      });
+    }
+  });
+});

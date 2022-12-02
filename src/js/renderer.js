@@ -82,3 +82,16 @@ function ucg_control_sheet_new(){
 function ucg_control_sheet_import(){
     window.api.send('uic-open-sheet-import', dialogLoadOptionsUnitList);
 }
+
+
+/*
+    Javascript layer for page: ArmyBuilder
+*/
+
+function armb_control_sheet_new(){
+    window.api.send('ab-open-sheet-new');
+}
+
+function armb_control_sheet_import(){
+    window.api.send('ab-open-sheet-import', dialogLoadOptionsUnitList);
+}

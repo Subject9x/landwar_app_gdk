@@ -215,3 +215,11 @@ function file_unitCard_export_pdf(unitCardData){
     opt.printBackground = true;
     window.api.send('uic-save-sheet', dialogSavePDFOptions, opt, unitCardData);
 }
+
+/*
+    Army Builder handlin
+*/
+function  file_unitInfo_forArmy(fileDataArray){
+    let fileObjData = JSON.parse(fileDataArray);
+    return fileObjData; //send to page's js
+}

@@ -517,6 +517,45 @@
     
 }
 
+
+/*
+    Army Force Builder
+*/
+#armyListDisplayTable{
+    border-collapse: collapse;
+    border-spacing: 8ex;
+    border: 1px solid #ddd;
+}
+
+#armyListDisplayTable tr:nth-child(even){
+    background-color: #f2f2f2
+}
+
+#armyListDisplayTable tr>td{
+    text-align: center;
+}
+
+#armyListDisplayTable tr>td>input[type="number"]{
+    width: 90%;
+    border-width: 1px;
+}
+#armyListDisplayTable tr>td>input[type="text"]{
+    width: 90%;
+    border-width: 1px;
+}
+#armyListDisplayTable tr>td>label{
+    width: 99%;
+    text-align: center;
+}
+
+.unitTableHead{
+    background-color: lightgray;
+}
+.unitTableHead>th{
+    word-break: keep-all;
+    text-align: center;
+}
+
 /*
 
 #ucSize{

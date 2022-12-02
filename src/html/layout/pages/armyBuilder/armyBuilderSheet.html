@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>LANDWAR GDK v0.4.0</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <link rel="stylesheet" href="../../../../../node_modules/jquery-ui/dist/themes/base/jquery-ui.min.css"/>
+    <link rel="stylesheet" href="../../../../../node_modules/furtive/css/furtive.min.css">
+    <link rel="stylesheet" href="../../../../css/jquery_ui_ext/jquery-ui_ext.css"/>
+    <link rel="stylesheet" href="../../../../css/styles.css"/>
+</head>
+<body>
+    <div class="grd">
+        <div class="grd-row">
+            <div class="grd-row-col-4--sm grd-row-col-4--md grd-row-col-5-lg txt--center">
+                <h3>Army List Editor</h3>
+            </div>
+        </div>
+
+        <div class="grd-row">
+            <div class="grd-row-col-4--sm grd-row-col-4--md grd-row-col-5-lg txt--left">
+                <p>Load Unit Data from CSV files in the panel on the left.</p>
+                <p>Click the <span class="ui-icon ui-icon-grey ui-icon-arrow-e"></span> to add a copy of the unit to your Army List on the right.</p>
+                <p>You <b>can</b> load <i>multiple</i> Unit CSV files for the Main Unit Pool but the system will filter out duplicate entries.</p>
+            </div>
+        </div>
+
+        <div class="grd-row">
+            <div class="grd-row-col-4-6--sm grd-row-col-3-6--md grd-row-col-3-6--lg">
+                <!-- <button type="button" onclick="ub_control_select_all(true);" class="btn--blue ui-icon-white"><span class="ui-icon ui-icon-check"></span></button> -->
+                <!-- <button type="button" onclick="ub_control_select_all(false);" class="btn ui-icon-grey"><span class="ui-icon ui-icon-squaresmall-minus"></span></button> -->
+                <!-- <button type="button" onclick="ub_control_delete_select();" class="btn--red ui-icon-white"><span class="ui-icon ui-icon-trash"></span></button> -->
+            </div>
+            
+            <div class="grd-row-col-1-6--sm grd-row-col-1-6--md grd-row-col-2-6--lg"></div>
+            
+            <div class="grd-row-col-1-6--sm grd-row-col-1-6--md grd-row-col-1-6-lg">
+                <button id="abArmyListClose" type="button" class=" btn--red ui-icon-white"><span class="ui-icon ui-icon-close"></span></button>
+            </div>
+        </div>
+
+        <div class="grd-row">
+            <div class="grd-row-col-3-6--sm grd-row-col-3-6--md grd-row-col-3-6-lg txt--center">
+                <div class="grd">
+                    <div class="grd-row">
+                        <div class="grd-row-col-2-6--sm grd-row-col-2-6--md grd-row-col-2-6-lg txt--left">
+                            <h3>Unit Main Pool</h3>
+                        </div>
+                        <div class="grd-row-col-3-6--sm grd-row-col-3-6--md grd-row-col-3-6-lg txt--center">
+                            Load Unit Data CSV:<button type="button" onclick="ab_control_loadfile(event)" class="btn--green ui-icon-white"><span class="ui-icon ui-icon-folder-open"></span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grd-row-col-3-6--sm grd-row-col-3-6--md grd-row-col-3-6-lg txt--center">
+                <h3>Army List</h3>
+                <button type="button" onclick="ab_control_save_select(event)" class="btn--green ui-icon-white"><span class="ui-icon ui-icon-disk"></span></button>
+                <button type="button" onclick="ab_control_new_print(event)" class="btn--green ui-icon-white"><span class="ui-icon ui-icon-print"></span></button>
+            </div>
+        </div>
+
+        <div class="grd-row">
+            <div class="grd-row-col-3-6--sm grd-row-col-3-6--md grd-row-col-3-6-lg txt--center">
+                <div class="grd">
+                    <div class="grd-row">
+
+                    </div>
+                    <div class="grd-row">
+                        <table id="unitTable">
+                            <tr>
+                                <th></th>
+                                <th>SZ</th>
+                                <th>MV</th>
+                                <th>EV</th>
+                                <th>ML</th>
+                                <th>SH</th>
+                                <th>RN</th>
+                                <th>ARM</th>
+                                <th>STR</th>
+                                <th>TAG</th>
+                                <th>PTS</th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="grd-row-col-3-6--sm grd-row-col-3-6--md grd-row-col-3-6-lg txt--center">
+                <div class="grd">
+                    <div class="grd-row">
+                        <div class="grd-row-col-1-6--sm grd-row-col-1-6--md grd-row-col-1-6-lg">
+                            <b>Point Total</b>
+                        </div>
+                        <div class="grd-row-col-2-6--sm grd-row-col-2-6--md grd-row-col-2-6-lg">
+                            <i><label id="armyListPointTotal"></label></i>
+                        </div>
+                    </div>
+                    <div class="grd-row">
+                        <table id="armyListDisplayTable">
+                            <tr>
+                                <th></th>
+                                <th>SZ</th>
+                                <th>MV</th>
+                                <th>EV</th>
+                                <th>ML</th>
+                                <th>SH</th>
+                                <th>RN</th>
+                                <th>ARM</th>
+                                <th>STR</th>
+                                <th>TAG</th>
+                                <th>PTS</th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+<script type="text/javascript" src="../../../../../node_modules/jquery/dist/jquery.min.js"></script> 
+<script type="text/javascript" src="../../../../js/util/dialogs.js"></script>
+<script type="text/javascript" src="../../../../js/util/fileHandler.js"></script>
+<script type="text/javascript" src="../../../../js/util/unitCalculator.js"></script>
+<script type="text/javascript" src="../../../../js/data/tagInfo.js"></script>
+<script type="text/javascript" src="../../../../js/pages/armyBuilder/rendererArmyBuilderSheet.js"></script>
+<script type="text/javascript" src="../../../../js/pages/armyBuilder/armyBuilder.js"></script>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded',function(){
+        $('#abArmyListClose')[0].addEventListener('click', (event) =>{
+            ab_sheet_close_window(event);
+        });
+    });
+</script>
+</html>

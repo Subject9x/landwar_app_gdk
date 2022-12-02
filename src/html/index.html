@@ -52,8 +52,8 @@
         pageUnitCardGen.innerHTML = window.nodeFileSys.loadHTML('pages/unitCard.html');
         pageUnitCardGen.setAttribute('hidden', 'true');
 
-       // pageForceBuild.innerHTML = window.nodeFileSys.loadHTML('pages/unitCard.html');
-        //pageForceBuild.setAttribute('hidden', 'true');
+        pageForceBuild.innerHTML = window.nodeFileSys.loadHTML('pages/armyBuilder.html');
+        pageForceBuild.setAttribute('hidden', 'true');
     
         // NAV BAR 
         $('#navHome')[0].addEventListener('click', ()=>{
@@ -62,6 +62,7 @@
             pageUnitBuild.setAttribute('hidden', 'true');
             pageTagLib.setAttribute('hidden', 'true');
             pageUnitCardGen.setAttribute('hidden', 'true');
+            pageForceBuild.setAttribute('hidden', 'true');
             page_leave_taglib();
         });
         $('#navRulebooks')[0].addEventListener('click', ()=>{
@@ -70,6 +71,7 @@
             pageUnitBuild.setAttribute('hidden', 'true');
             pageTagLib.setAttribute('hidden', 'true');
             pageUnitCardGen.setAttribute('hidden', 'true');
+            pageForceBuild.setAttribute('hidden', 'true');
             page_leave_taglib();
         });
         $('#navTagRules')[0].addEventListener('click', ()=>{
@@ -78,6 +80,7 @@
             pageUnitBuild.setAttribute('hidden', 'true');
             pageLanding.setAttribute('hidden', 'true');
             pageUnitCardGen.setAttribute('hidden', 'true');
+            pageForceBuild.setAttribute('hidden', 'true');
         });
         $('#navUnitBuild')[0].addEventListener('click', ()=>{
             pageUnitBuild.removeAttribute('hidden');
@@ -85,6 +88,7 @@
             pageLanding.setAttribute('hidden', 'true');
             pageTagLib.setAttribute('hidden', 'true');
             pageUnitCardGen.setAttribute('hidden', 'true');
+            pageForceBuild.setAttribute('hidden', 'true');
             page_leave_taglib();
         });
         $('#navCardGen')[0].addEventListener('click', ()=>{
@@ -93,13 +97,20 @@
             pageLanding.setAttribute('hidden', 'true');
             pageUnitBuild.setAttribute('hidden', 'true');
             pageTagLib.setAttribute('hidden', 'true');
+            pageForceBuild.setAttribute('hidden', 'true');
+        });
+        $('#navArmyList')[0].addEventListener('click', ()=>{            
+            pageForceBuild.removeAttribute('hidden');
+            pageRulebooks.setAttribute('hidden', 'true');
+            pageLanding.setAttribute('hidden', 'true');
+            pageUnitBuild.setAttribute('hidden', 'true');
+            pageTagLib.setAttribute('hidden', 'true');
+            pageUnitCardGen.setAttribute('hidden', 'true');
         });
         $('#navExit')[0].addEventListener('click', (event)=>{
             nav_exit();
             event.preventDefault();
         });
-
-        $('#navArmyList')[0].setAttribute('disabled', 'true');
     
         
         //Page: Landing
