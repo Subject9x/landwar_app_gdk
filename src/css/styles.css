@@ -548,13 +548,78 @@
     text-align: center;
 }
 
-.unitTableHead{
-    background-color: lightgray;
+.ab-tag-keyword-word{
+    font-size: small;
+    font-weight: 500;
+    line-height: 24px;
+    padding-inline-start: 20px;
 }
-.unitTableHead>th{
-    word-break: keep-all;
-    text-align: center;
+
+.ab-tag-keyword-word-sm{
+    
+    background-color: lightgrey;
+    opacity:  100%;
+    border-color: rgb(51, 51, 51);
+    border-radius: 4px;
+    border-style: solid;
+    padding-right: 5px;
+    z-index: 100;
+    width: auto;
+    height: auto;
+    display: block;
+    top: 0;
+    left: 0;
+    
+    
+    position: absolute;
+    /*left: -10%;*/
+    font-size: x-small;
+    font-weight: 500;
+    line-height: 12px;
+    padding-inline-start: 5px;
+
 }
+
+.ab-tag-row-sm{
+
+    position: absolute;
+    
+    /*top: 1%;
+    left: 5%;
+
+    min-width: 5%;
+    max-width: 5%;
+    width: 5%;
+
+    min-height: 5%;
+    max-height: 5%;
+    height: 5%;*/
+}
+
+.ab-tag-row-sm > ul{
+    line-height: 1.1;
+    line-break: unset;
+}
+.ab-tag-row-sm > ul > li{
+    font-size: 1.5em;
+    font-style: italic;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/*#abTagView{
+    background-color: lightgrey;
+    opacity:  100%;
+    border-color: rgb(51, 51, 51);
+    border-radius: 4px;
+    border-style: solid;
+    z-index: 100;
+    width: 10%;
+    height: 15%;
+    display: flex;
+    top: 0;
+    left: 0;
+}*/
 
 /*
 

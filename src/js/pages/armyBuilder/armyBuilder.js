@@ -4,6 +4,7 @@ let armyListTableRowCount = 0;
 let unitData = []
 let armyListData = []
 
+let tagHover;
 
 /*
     check duplicates in the unitTable (info, not army!)
@@ -36,40 +37,6 @@ function ab_util_check_unit(unitObjData){
     }
 
     return validate;
-
-    /*if(unitItem.unitName === unitObjData.unitName){
-        validate -= 1;
-    }
-    if(unitItem.size === unitObjData.size){
-        validate -= 1;
-    }
-    if(unitItem.move === unitObjData.move){
-        validate -= 1;
-    }
-    if(unitItem.evade === unitObjData.evade){
-        validate -= 1;
-    }
-    if(unitItem.dmgMelee === unitObjData.dmgMelee){
-        validate -= 1;
-    }
-    if(unitItem.dmgRange === unitObjData.dmgRange){
-        validate -= 1;
-    }
-    if(unitItem.range === unitObjData.range){
-        validate -= 1;
-    }
-    if(unitItem.armor === unitObjData.armor){
-        validate -= 1;
-    }
-    if(unitItem.structure === unitObjData.structure){
-        validate -= 1;
-    }
-    if(unitItem.tags === unitObjData.tags){
-        validate -= 1;
-    }
-    if(unitItem.completeTotal === unitObjData.completeTotal){
-        validate -= 1;
-    }*/
 }
 
 function ab_sheet_close_window(event){
@@ -126,9 +93,51 @@ function ab_unitInfo_addData(parsedData){
                 row.querySelector("#dist").innerHTML = objData.range;
                 row.querySelector("#armor").innerHTML = objData.armor;
                 row.querySelector("#struct").innerHTML = objData.structure;
-                row.querySelector("#tags").innerHTML = objData.tags;
+                row.querySelector("#tags").innerText = objData.tags;
                 row.querySelector("#points").innerHTML = objData.completeTotal;
     
+                let tagSpan = row.querySelector('#tagDiv');
+
+                tagSpan.onmouseover = function(event){
+                    //enter
+                    let unitRow = $('#' + newRowId)[0];
+                    let unitTags = unitRow.querySelector('#tags').innerText.split(" ");
+                    
+                    if(unitTags.length <= 0 || unitTags[0] == ""){
+                        tagHover.style.display = 'none';
+                        return;
+                    }
+                    tagHover.style.display = 'block';
+                    
+                    tagHover.innerHTML = window.nodeFileSys.loadHTML('layout/pages/armyBuilder/tagsRollover.html');
+
+                    //let tagArr = row_tagArrays[newRowId];
+                    let tagList = tagHover.querySelector("#abInfoKeywords");
+                    let tagItem;
+                    if(unitTags.length > 0){
+                        for(let tagNum in unitTags){
+                            if(unitTags[tagNum] != ""){
+                                tagItem = document.createElement('li');
+                                tagItem.innerHTML = tagInfo.data[unitTags[tagNum]].title;
+                                tagList.appendChild(tagItem);
+                            }
+                        }
+                    }
+                    tagHover.style.position = 'absolute';
+                    tagHover.style.top = window.scrollY + event.clientY  + 'px';
+                    tagHover.style.left = window.scrollX + event.clientX + 'px';
+
+                    let t = "";
+                };
+                
+                tagSpan.onmouseleave = function(event){
+                    //leave
+                    if(tagHover != undefined){
+                       //tagHover.setAttribute('hidden', true);
+                    }
+                };
+
+
                 let addBtn = row.querySelector('button');
                 addBtn.setAttribute('id', 'btnAdd');
                 addBtn.addEventListener("click", function(){
@@ -171,7 +180,38 @@ function ab_unitInfo_addToList(unitRowId){
     newListRow.querySelector('#armor').innerHTML = unitRow.querySelector('#armor').innerHTML;
     newListRow.querySelector('#struct').innerHTML = unitRow.querySelector('#struct').innerHTML;
     newListRow.querySelector('#points').innerHTML = unitRow.querySelector('#points').innerHTML;
-    newListRow.querySelector('#tags').innerHTML = unitRow.querySelector('#tags').innerHTML;
+    newListRow.querySelector('#tags').innerText = unitRow.querySelector('#tags').innerText;
+
+    let tagSpan =  newListRow.querySelector('#tagDiv');
+
+    tagSpan.onmouseover = function(event){
+        //enter
+        if(tagHover == undefined){
+            tagHover = document.createElement('div');
+        }
+        tagHover.innerHTML = window.nodeFileSys.loadHTML('layout/pages/armyBuilder/tagsRollover.html');
+
+        let unitRow = $('#' + 'armyRow' + armyListTableRowCount)[0];
+        let unitTags = unitRow.querySelector('#tags').innerText.split(" ");
+
+        let tagArr = row_tagArrays[newRowId];
+        let tagList = tagHover.querySelector("#ucKeywords");
+        let tagItem;
+        if(unitTags.length > 0){
+            for(let tagNum in unitTags){
+                tagItem = document.createElement('li');
+                tagItem.innerHTML = tagInfo.data[unitTags[tagNum]].title;
+                tagList.appendChild(tagItem);
+            }
+        }
+    };
+    
+    tagSpan.onmouseleave = function(event){
+        //leave
+        if(tagHover != undefined){
+            tagHover.setAttribute('hidden', true);
+        }
+    };
 
     let btnRemove = newListRow.querySelector('button');
     btnRemove.setAttribute('id', 'btnRemove');
@@ -181,7 +221,6 @@ function ab_unitInfo_addToList(unitRowId){
     });
 
     ab_armyList_adjustTotalPoints(parseFloat(unitRow.querySelector('#points').innerHTML));
-
 }
 
 function ab_armyList_removeEntry(entryRowId){
@@ -190,7 +229,7 @@ function ab_armyList_removeEntry(entryRowId){
     if(table.rows.length < 1){
         return;
     }
-    let row = $('#' + entryRowId);
+    let row = $('#' + entryRowId)[0];
     let removePoints = parseFloat(row.querySelector('#points').innerHTML);
     ab_armyList_adjustTotalPoints(0 - removePoints);
     
@@ -202,10 +241,14 @@ function ab_armyList_removeEntry(entryRowId){
 
 function ab_armyList_adjustTotalPoints(pointAdjust){
 
-    let runningTotal = parseFloat($('#armyListPointTotal').innerHTML);
+    let textVal = $('#armyListPointTotal')[0].innerText;
+    if(textVal == ""){
+        textVal = "0.0";
+    }
+    let runningTotal = parseFloat(textVal);
 
     runningTotal += pointAdjust;
 
-    $('#armyListPointTotal').innerHTML = runningTotal;
+    $('#armyListPointTotal')[0].innerText = runningTotal;
 
 }
