@@ -23,8 +23,6 @@ function ab_util_check_unit(unitObjData){
         validate = 13;
 
         keys.forEach((key, index) => {
-            let objKey = unitObjData[key];
-            let unitKey = unitItem[key];
             if(unitItem[key] === unitObjData[key]){
                 validate -= 1;
             }
@@ -47,6 +45,29 @@ function ab_sheet_close_window(event){
 function ab_control_loadfile(event){
     window.api.send('ab-dialog-load-async', dialogLoadOptionsUnitList);
     event.preventDefault();
+}
+
+function ab_control_save_listfile(event){
+    
+    event.preventDefault();
+    let tableData = $("#armyListDisplayTable>tbody")[0];
+    let cnt = 0;
+
+    if(tableData.rows <= 1){
+        return;
+    }
+
+    
+    $("#armyListDisplayTable>tbody>tr").each((index, tr)=>{
+        if(index != 0){
+            cnt++;
+        }
+    });
+
+    if(cnt >0){
+        file_armyBuilder_exportList(tableData);
+    }
+    //window.api.send('ab-dialog-save', )
 }
 
 /*
@@ -94,47 +115,19 @@ function ab_unitInfo_addData(parsedData){
                 row.querySelector("#armor").innerHTML = objData.armor;
                 row.querySelector("#struct").innerHTML = objData.structure;
                 row.querySelector("#tags").innerText = objData.tags;
-                row.querySelector("#points").innerHTML = objData.completeTotal;
+                row.querySelector("#tagTotal").innerHTML = objData.tagTotal;
+                row.querySelector("#points").innerHTML = objData.points;
+                row.querySelector("#total").innerHTML = objData.completeTotal;
     
                 let tagSpan = row.querySelector('#tagDiv');
 
                 tagSpan.onmouseover = function(event){
-                    //enter
-                    let unitRow = $('#' + newRowId)[0];
-                    let unitTags = unitRow.querySelector('#tags').innerText.split(" ");
-                    
-                    if(unitTags.length <= 0 || unitTags[0] == ""){
-                        tagHover.style.display = 'none';
-                        return;
-                    }
-                    tagHover.style.display = 'block';
-                    
-                    tagHover.innerHTML = window.nodeFileSys.loadHTML('layout/pages/armyBuilder/tagsRollover.html');
-
-                    //let tagArr = row_tagArrays[newRowId];
-                    let tagList = tagHover.querySelector("#abInfoKeywords");
-                    let tagItem;
-                    if(unitTags.length > 0){
-                        for(let tagNum in unitTags){
-                            if(unitTags[tagNum] != ""){
-                                tagItem = document.createElement('li');
-                                tagItem.innerHTML = tagInfo.data[unitTags[tagNum]].title;
-                                tagList.appendChild(tagItem);
-                            }
-                        }
-                    }
-                    tagHover.style.position = 'absolute';
-                    tagHover.style.top = window.scrollY + event.clientY  + 'px';
-                    tagHover.style.left = window.scrollX + event.clientX + 'px';
-
-                    let t = "";
+                    ab_tagRow_show(newRowId, event);
                 };
                 
                 tagSpan.onmouseleave = function(event){
-                    //leave
-                    if(tagHover != undefined){
-                       //tagHover.setAttribute('hidden', true);
-                    }
+                    //leaveab_tagRow_hide
+                    ab_tagRow_hide();
                 };
 
 
@@ -180,37 +173,20 @@ function ab_unitInfo_addToList(unitRowId){
     newListRow.querySelector('#armor').innerHTML = unitRow.querySelector('#armor').innerHTML;
     newListRow.querySelector('#struct').innerHTML = unitRow.querySelector('#struct').innerHTML;
     newListRow.querySelector('#points').innerHTML = unitRow.querySelector('#points').innerHTML;
+    newListRow.querySelector('#total').innerHTML = unitRow.querySelector('#total').innerHTML;
     newListRow.querySelector('#tags').innerText = unitRow.querySelector('#tags').innerText;
+    newListRow.querySelector('#tagTotal').innerText = unitRow.querySelector('#tagTotal').innerText;
 
     let tagSpan =  newListRow.querySelector('#tagDiv');
 
     tagSpan.onmouseover = function(event){
         //enter
-        if(tagHover == undefined){
-            tagHover = document.createElement('div');
-        }
-        tagHover.innerHTML = window.nodeFileSys.loadHTML('layout/pages/armyBuilder/tagsRollover.html');
-
-        let unitRow = $('#' + 'armyRow' + armyListTableRowCount)[0];
-        let unitTags = unitRow.querySelector('#tags').innerText.split(" ");
-
-        let tagArr = row_tagArrays[newRowId];
-        let tagList = tagHover.querySelector("#ucKeywords");
-        let tagItem;
-        if(unitTags.length > 0){
-            for(let tagNum in unitTags){
-                tagItem = document.createElement('li');
-                tagItem.innerHTML = tagInfo.data[unitTags[tagNum]].title;
-                tagList.appendChild(tagItem);
-            }
-        }
+        ab_tagRow_show(newListRow.id, event);
     };
     
     tagSpan.onmouseleave = function(event){
         //leave
-        if(tagHover != undefined){
-            tagHover.setAttribute('hidden', true);
-        }
+        ab_tagRow_hide();
     };
 
     let btnRemove = newListRow.querySelector('button');
@@ -220,7 +196,7 @@ function ab_unitInfo_addToList(unitRowId){
         event.preventDefault();
     });
 
-    ab_armyList_adjustTotalPoints(parseFloat(unitRow.querySelector('#points').innerHTML));
+    ab_armyList_adjustTotalPoints(parseFloat(unitRow.querySelector('#total').innerHTML));
 }
 
 function ab_armyList_removeEntry(entryRowId){
@@ -251,4 +227,42 @@ function ab_armyList_adjustTotalPoints(pointAdjust){
 
     $('#armyListPointTotal')[0].innerText = runningTotal;
 
+}
+
+
+function ab_tagRow_show(rowId, event){
+    //enter
+    let unitRow = $('#' + rowId)[0];
+    let unitTags = unitRow.querySelector('#tags').innerText.split(" ");
+    
+    if(unitTags.length <= 0 || unitTags[0] == ""){
+        tagHover.style.display = 'none';
+        return;
+    }
+    tagHover.style.display = 'block';
+    
+    tagHover.innerHTML = window.nodeFileSys.loadHTML('layout/pages/armyBuilder/tagsRollover.html');
+
+    //let tagArr = row_tagArrays[newRowId];
+    let tagList = tagHover.querySelector("#abInfoKeywords");
+    let tagItem;
+    if(unitTags.length > 0){
+        for(let tagNum in unitTags){
+            if(unitTags[tagNum] != ""){
+                tagItem = document.createElement('li');
+                tagItem.innerHTML = tagInfo.data[unitTags[tagNum]].title;
+                tagList.appendChild(tagItem);
+            }
+        }
+    }
+    tagHover.style.position = 'absolute';
+    tagHover.style.top = window.scrollY + event.clientY  + 'px';
+    tagHover.style.left = window.scrollX + event.clientX + 'px';
+}
+
+function ab_tagRow_hide(){
+    //leave
+    if(tagHover != undefined){
+        tagHover.style.display = 'none';
+     }
 }

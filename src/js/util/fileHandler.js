@@ -40,6 +40,10 @@ function file_unitBuild_export_jsonRowArray(htmlUnitTable){
             else{
                 data.tags = "";
             }
+
+            
+
+
             data.tagTotal = parseInt(document.getElementById(rowItem.id + '_tagTotal').innerHTML);
             data.completeTotal = parseInt(document.getElementById(rowItem.id + '_total').innerHTML);
             exportData.push(data);
@@ -47,6 +51,41 @@ function file_unitBuild_export_jsonRowArray(htmlUnitTable){
     }
     return exportData;
 }
+
+
+
+/*
+    armyBuilder->EXPORT->JSON from UnitRow table to Array of JSON obj.
+        this is for csv-writer compat.
+        note: grrr, not sure how to combine with unitbuilder due to checkbox functionality.
+*/
+function file_unitBuild_export_jsonRowArray(htmlUnitTable){
+    let exportData = [];
+    if(htmlUnitTable.rows.length <= 1){
+        return exportData;
+    }
+
+    for(i = 1; i < htmlUnitTable.rows.length; i++){
+        let rowItem = htmlUnitTable.rows[i];
+
+        let data = {};
+
+        data.unitName = rowItem.querySelector('#name').innerHTML;
+        data.size =  parseInt(rowItem.querySelector('#size').innerHTML);
+        data.move =   parseInt(rowItem.querySelector('#move').innerHTML);
+        data.evade  =  parseInt(rowItem.querySelector('#evade').innerHTML);
+        data.dmgMelee =  parseInt(rowItem.querySelector('#melee').innerHTML);
+        data.dmgRange =  parseInt(rowItem.querySelector('#range').innerHTML);
+        data.range =  parseInt(rowItem.querySelector('#dist').innerHTML);
+        data.armor =  parseInt(rowItem.querySelector('#armor').innerHTML);
+        data.structure = parseInt(rowItem.querySelector('#struct').innerHTML);
+        data.points = parseFloat(rowItem.querySelector('#points').innerHTML);
+        data.tags = rowItem.querySelector('#tags').innerText;
+        exportData.push(data);
+    }
+    return exportData;
+}
+
 
 /*
     unitBuilder->EXPORT->JSON from UnitRow table to FILE
@@ -222,4 +261,40 @@ function file_unitCard_export_pdf(unitCardData){
 function  file_unitInfo_forArmy(fileDataArray){
     let fileObjData = JSON.parse(fileDataArray);
     return fileObjData; //send to page's js
+}
+
+/*
+    unitBuilder->EXPORT->CSV from UnitRow table to FILE
+        invokes ('csv-writer') dependency for ops.
+*/
+function file_armyBuilder_exportList(htmlUnitTable){
+
+    let exportData = [];
+    
+    if(htmlUnitTable.rows.length <= 1){
+        return exportData;
+    }
+
+    for(i = 1; i < htmlUnitTable.rows.length; i++){
+        let rowItem = htmlUnitTable.rows[i];
+
+        let data = {};
+
+        data.unitName = rowItem.querySelector('#name').innerHTML;
+        data.size = parseInt(rowItem.querySelector('#size').innerHTML);
+        data.move = parseInt(rowItem.querySelector('#move').innerHTML);
+        data.evade = parseInt(rowItem.querySelector('#evade').innerHTML);
+        data.dmgMelee = parseInt(rowItem.querySelector('#melee').innerHTML);
+        data.dmgRange = parseInt(rowItem.querySelector('#range').innerHTML);
+        data.range = parseInt(rowItem.querySelector('#dist').innerHTML);
+        data.armor = parseInt(rowItem.querySelector('#armor').innerHTML);
+        data.structure = parseInt(rowItem.querySelector('#struct').innerHTML);
+        data.points = parseInt(rowItem.querySelector('#points').innerHTML);
+        data.tags = rowItem.querySelector('#tags').innerText;
+        data.tagTotal = parseInt(rowItem.querySelector('#tagTotal').innerHTML);
+        data.completeTotal = parseInt(rowItem.querySelector('#total').innerHTML);
+        exportData.push(data);
+    }
+
+    window.api.send('ub-dialog-save-csv', dialogSaveOptionsUnitList, exportData);
 }
