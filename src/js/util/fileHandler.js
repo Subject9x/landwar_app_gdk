@@ -52,41 +52,6 @@ function file_unitBuild_export_jsonRowArray(htmlUnitTable){
     return exportData;
 }
 
-
-
-/*
-    armyBuilder->EXPORT->JSON from UnitRow table to Array of JSON obj.
-        this is for csv-writer compat.
-        note: grrr, not sure how to combine with unitbuilder due to checkbox functionality.
-*/
-function file_unitBuild_export_jsonRowArray(htmlUnitTable){
-    let exportData = [];
-    if(htmlUnitTable.rows.length <= 1){
-        return exportData;
-    }
-
-    for(i = 1; i < htmlUnitTable.rows.length; i++){
-        let rowItem = htmlUnitTable.rows[i];
-
-        let data = {};
-
-        data.unitName = rowItem.querySelector('#name').innerHTML;
-        data.size =  parseInt(rowItem.querySelector('#size').innerHTML);
-        data.move =   parseInt(rowItem.querySelector('#move').innerHTML);
-        data.evade  =  parseInt(rowItem.querySelector('#evade').innerHTML);
-        data.dmgMelee =  parseInt(rowItem.querySelector('#melee').innerHTML);
-        data.dmgRange =  parseInt(rowItem.querySelector('#range').innerHTML);
-        data.range =  parseInt(rowItem.querySelector('#dist').innerHTML);
-        data.armor =  parseInt(rowItem.querySelector('#armor').innerHTML);
-        data.structure = parseInt(rowItem.querySelector('#struct').innerHTML);
-        data.points = parseFloat(rowItem.querySelector('#points').innerHTML);
-        data.tags = rowItem.querySelector('#tags').innerText;
-        exportData.push(data);
-    }
-    return exportData;
-}
-
-
 /*
     unitBuilder->EXPORT->JSON from UnitRow table to FILE
 */
@@ -296,5 +261,16 @@ function file_armyBuilder_exportList(htmlUnitTable){
         exportData.push(data);
     }
 
-    window.api.send('ub-dialog-save-csv', dialogSaveOptionsUnitList, exportData);
+    return exportData;
 }
+
+function file_armyBuild_export_data(htmlUnitTable){
+    if(htmlUnitTable.rows.length <= 1){
+        return;
+    }
+
+    let exportData = file_armyBuilder_exportList(htmlUnitTable);
+    window.api.send('ub-dialog-send-cardgen', exportData);
+}
+
+

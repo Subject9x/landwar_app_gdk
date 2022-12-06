@@ -67,7 +67,29 @@ function ab_control_save_listfile(event){
     if(cnt >0){
         file_armyBuilder_exportList(tableData);
     }
-    //window.api.send('ab-dialog-save', )
+    window.api.send('ub-dialog-save-csv', dialogSaveOptionsUnitList, exportData);
+}
+
+
+function ab_control_new_print(event){
+    event.preventDefault();
+    let tableData = $("#armyListDisplayTable>tbody")[0];
+    let cnt = 0;
+
+    if(tableData.rows <= 1){
+        return;
+    }
+
+    
+    $("#armyListDisplayTable>tbody>tr").each((index, tr)=>{
+        if(index != 0){
+            cnt++;
+        }
+    });
+
+    if(cnt >0){
+        file_armyBuild_export_data(tableData);
+    }
 }
 
 /*
