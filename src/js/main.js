@@ -620,6 +620,38 @@ ipcMain.handle('ab-open-sheet-import', async (event, dialogConfig)=>{
   });
 });
 
+
+ipcMain.handle('ab-open-sheet-import-info', async (event, dialogConfig)=>{
+  let srcWindow = BrowserWindow.fromId(event.sender.id);
+  
+  dialogConfig.defaultPath = lastFilePathUsed;
+  
+  let importData = [];
+  
+  dialog.showOpenDialog(srcWindow, dialogConfig).then( (file) =>{
+    if(!file.canceled && file.filePaths.length > 0){
+      lastFilePathUsed = file.filePath;
+      fs
+      .createReadStream(file.filePaths[0].toString())
+      .pipe(csv({separator : ','}))
+      .on('data', (data) => {
+          try {
+            importData.push(data);
+          }
+          catch(err) {
+            console.log(err.stack);
+          }
+      })
+      .on('end',()=>{
+        let dataString = JSON.stringify(importData);
+        if(dataString != undefined){
+          srcWindow.webContents.send('ab-dialog-load-response-unitinfo', dataString);
+        }
+      });
+    }
+  });
+});
+
 ipcMain.handle('ab-dialog-load-async', async (event, dialogConfig)=>{
   let srcWindow = BrowserWindow.fromId(event.sender.id);
   

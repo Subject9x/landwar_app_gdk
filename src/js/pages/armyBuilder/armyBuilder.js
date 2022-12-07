@@ -43,7 +43,7 @@ function ab_sheet_close_window(event){
 }
 
 function ab_control_loadfile(event){
-    window.api.send('ab-dialog-load-async', dialogLoadOptionsUnitList);
+    window.api.send('ab-open-sheet-import-info', dialogLoadOptionsUnitList);
     event.preventDefault();
 }
 
@@ -111,6 +111,59 @@ function ab_unitInfo_row_add(){
 
     return newRowId;
 }
+
+
+
+function ab_unitInfo_addData(parsedData){
+
+    for(let objIdx in parsedData){
+        let objData = parsedData[objIdx];
+
+        if(objData !== undefined){
+            let valid = ab_util_check_unit(objData);
+            if(valid > 0){
+                unitData.push(objData); 
+
+                let newRowId = ab_unitInfo_row_add();
+                let row = $("#" + newRowId)[0];
+    
+                row.querySelector("#name").innerHTML = objData.unitName;
+                row.querySelector("#size").innerHTML = objData.size;
+                row.querySelector("#move").innerHTML = objData.move;
+                row.querySelector("#evade").innerHTML = objData.evade;
+                row.querySelector("#melee").innerHTML = objData.dmgMelee;
+                row.querySelector("#range").innerHTML = objData.dmgRange;
+                row.querySelector("#dist").innerHTML = objData.range;
+                row.querySelector("#armor").innerHTML = objData.armor;
+                row.querySelector("#struct").innerHTML = objData.structure;
+                row.querySelector("#tags").innerText = objData.tags;
+                row.querySelector("#tagTotal").innerHTML = objData.tagTotal;
+                row.querySelector("#points").innerHTML = objData.points;
+                row.querySelector("#total").innerHTML = objData.completeTotal;
+    
+                let tagSpan = row.querySelector('#tagDiv');
+
+                tagSpan.onmouseover = function(event){
+                    ab_tagRow_show(newRowId, event);
+                };
+                
+                tagSpan.onmouseleave = function(event){
+                    //leaveab_tagRow_hide
+                    ab_tagRow_hide();
+                };
+
+
+                let addBtn = row.querySelector('button');
+                addBtn.setAttribute('id', 'btnAdd');
+                addBtn.addEventListener("click", function(){
+                    ab_unitInfo_addToList(newRowId);
+                    event.preventDefault();
+                });
+            }
+        }
+    }
+}
+
 
 /**
  * called from renderArmyBuilderSheet,
