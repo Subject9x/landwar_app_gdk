@@ -16,8 +16,10 @@ let rulesWindow;
 let rulesInfoWindow;
 let tagCoreWindow;
 
+let lastWindowFocused;  //track users previous window if its not closed
+let lastFilePathUsed; //tracks last folder path the user used.
+
 const windows = new Set();
-const windowsUBSheets = new Set();
 
 function isAppWindowOpen(windowObj){
   if(windowObj.isDestroyed()){
@@ -44,7 +46,15 @@ function createWindow () {
   mainWindow.on('close', (event) => {
     app.quit();
   });
-  windows.add(mainWindow);
+}
+
+function setLastWindow(prevWindow){
+  if(prevWindow !== null && prevWindow !== undefined){
+    lastWindowFocused = prevWindow;
+  }
+  else{
+    lastWindowFocused = mainWindow;
+  }
 }
 
 //API call - app has first loaded.
@@ -73,8 +83,21 @@ ipcMain.handle('quit-app', (event)=> app.quit());
 //all-purpose window close signal, don't use for main view though, main view gets its own where it quits whole app.
 ipcMain.handle('close-window', (event)=>{
   let srcWindow = BrowserWindow.fromId(event.sender.id);
+
+  
+  if(srcWindow === lastWindowFocused){
+    lastWindowFocused = mainWindow;
+  }
+  else{
+    if(lastWindowFocused !== null && lastWindowFocused !== undefined){
+      lastWindowFocused.focus();
+    }
+    else{
+      mainWindow.focus();
+      lastWindowFocused = mainWindow;
+    }
+  }
   srcWindow.close();
-  mainWindow.focus();
 });
 
 /**
@@ -82,7 +105,9 @@ ipcMain.handle('close-window', (event)=>{
  */
 ipcMain.handle('ub-dialog-save-csv', async (event, dialogConfig, filedata)=>{
   let srcWindow = BrowserWindow.fromId(event.sender.id);
+  
   dialogConfig.defaultPath = path.join(__dirname,'../../');
+  
   dialog.showSaveDialog(srcWindow, dialogConfig).then( file =>{
     if(!file.canceled){
       csvStringy(
@@ -111,8 +136,11 @@ ipcMain.handle('ub-dialog-save-csv', async (event, dialogConfig, filedata)=>{
  */
 ipcMain.handle('ub-dialog-load-async', async (event, dialogConfig)=>{
   let srcWindow = BrowserWindow.fromId(event.sender.id);
+  
   dialogConfig.defaultPath = path.join(__dirname,'../../');
+  
   let importData = [];
+  
   dialog.showOpenDialog(srcWindow, dialogConfig).then( (file) =>{
     if(!file.canceled && file.filePaths.length > 0){
       fs
@@ -140,7 +168,6 @@ ipcMain.handle('rb-open-rules-core', (event)=>{
   if(rulesWindow != null){
     if(isAppWindowOpen(rulesWindow)){
       rulesWindow.close();
-      windows.delete(rulesWindow);
       rulesWindow = null;
     }
   }
@@ -152,7 +179,9 @@ ipcMain.handle('rb-open-rules-core', (event)=>{
       contextIsolation: true
     }
   });
-  windows.add(rulesWindow);
+  
+  setLastWindow(BrowserWindow.fromId(event.sender.id));
+
   rulesWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_core.html');
   rulesWindow.focus();
 });
@@ -162,7 +191,6 @@ ipcMain.handle('rb-open-rules-quick', (event)=>{
   if(rulesInfoWindow != null){
     if(isAppWindowOpen(rulesInfoWindow)){
       rulesInfoWindow.close();
-      windows.delete(rulesInfoWindow);
       rulesInfoWindow = null;
     }
   }
@@ -174,7 +202,9 @@ ipcMain.handle('rb-open-rules-quick', (event)=>{
       contextIsolation: true
     }
   });
-  windows.add(rulesInfoWindow);
+
+  setLastWindow(BrowserWindow.fromId(event.sender.id));
+
   rulesInfoWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_quickplay.html');
   rulesInfoWindow.focus();
 });
@@ -188,7 +218,6 @@ ipcMain.handle('rb-save-rules-core', (event, pdfSavedialog, pdfOptionSave)=>{
   if(rulesWindow != null){
     if(isAppWindowOpen(rulesWindow)){
       rulesWindow.close();
-      windows.delete(rulesWindow);
       rulesWindow = null;
     }
   }
@@ -201,7 +230,6 @@ ipcMain.handle('rb-save-rules-core', (event, pdfSavedialog, pdfOptionSave)=>{
       contextIsolation: true
     }
   });
-  windows.add(rulesWindow);
   rulesWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_core.html');
   rulesWindow.focus();
 
@@ -218,7 +246,6 @@ ipcMain.handle('rb-save-rules-core', (event, pdfSavedialog, pdfOptionSave)=>{
                   console.log(err);
               } else {
                   console.log('PDF Generated Successfully');
-                  windows.delete(rulesWindow);
                   rulesWindow.close();
                   rulesWindow = null;
               }
@@ -235,7 +262,6 @@ ipcMain.handle('rb-save-rules-quick', (event, pdfSavedialog, pdfOptionSave)=>{
   if(rulesWindow != null){
     if(isAppWindowOpen(rulesWindow)){
       rulesWindow.close();
-      windows.delete(rulesWindow);
       rulesWindow = null;
     }
   }
@@ -248,7 +274,6 @@ ipcMain.handle('rb-save-rules-quick', (event, pdfSavedialog, pdfOptionSave)=>{
       contextIsolation: true
     }
   });
-  windows.add(rulesWindow);
   rulesWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_quickplay.html');
   rulesWindow.focus();
 
@@ -265,7 +290,6 @@ ipcMain.handle('rb-save-rules-quick', (event, pdfSavedialog, pdfOptionSave)=>{
                   console.log(err);
               } else {
                   console.log('PDF Generated Successfully');
-                  windows.delete(rulesWindow);
                   rulesWindow.close();
                   rulesWindow = null;
               }
@@ -283,7 +307,6 @@ ipcMain.handle('tag-save-core', (event, pdfSavedialog, pdfOptionSave)=>{
   if(tagCoreWindow != null){
     if(isAppWindowOpen(tagCoreWindow)){
       tagCoreWindow.close();
-      windows.delete(tagCoreWindow);
       tagCoreWindow = null;
     }
   }
@@ -297,7 +320,6 @@ ipcMain.handle('tag-save-core', (event, pdfSavedialog, pdfOptionSave)=>{
       preload: path.join(__dirname, '../js/preload.js'),
     }
   });
-  windows.add(tagCoreWindow);
   tagCoreWindow.loadFile('src/html/layout/pages/tagLibrary/tagLibPrintCore.html');
   tagCoreWindow.focus();
 
@@ -314,7 +336,6 @@ pdfSavedialog.defaultPath = path.join(__dirname,'../../');
                   console.log(err);
               } else {
                   console.log('PDF Generated Successfully');
-                  windows.delete(tagCoreWindow);
                   tagCoreWindow.close();
                   tagCoreWindow = null;
               }
@@ -325,8 +346,6 @@ pdfSavedialog.defaultPath = path.join(__dirname,'../../');
     }
   });
 })
-
-
 
 /**
  * SIGNAL - UNIT BUILDER NEW SHEET
@@ -342,18 +361,19 @@ function createWindowUnitSheet(){
   });
 
   ubSheetNew.on('close', ()=>{
-    windowsUBSheets.delete(ubSheetNew);
+    mainWindow.focus();
     ubSheetNew = null;
   });
   ubSheetNew.loadFile('src/html/layout/pages/unitBuilder/unitbuilderSheet.html');
-  
-  windowsUBSheets.add(ubSheetNew);
 
   return ubSheetNew;
 }
 
 ipcMain.handle('ub-open-sheet-new', (event)=>{
   let ubSheetNew = createWindowUnitSheet();
+  
+  setLastWindow(BrowserWindow.fromId(event.sender.id));
+
   ubSheetNew.focus();
 });
 
@@ -380,6 +400,8 @@ ipcMain.handle('ub-open-sheet-import', async (event, dialogConfig)=>{
         .on('end',()=>{
           let dataString =  JSON.stringify(importData);
           if(dataString.length > 0){
+              setLastWindow(BrowserWindow.fromId(event.sender.id));
+              
               newWindow.focus();
               newWindow.webContents.send('ub-dialog-load-response', JSON.stringify(importData));
           }
@@ -408,12 +430,10 @@ function createWindowUnitCard(){
   });
 
   ubSheetNew.on('close', ()=>{
-    windowsUBSheets.delete(ubSheetNew);
     ubSheetNew = null;
+    mainWindow.focus();
   });
   ubSheetNew.loadFile('src/html/layout/pages/unitCardGen/unitCardSheet.html');
-  
-  windowsUBSheets.add(ubSheetNew);
 
   return ubSheetNew;
 }
@@ -425,6 +445,9 @@ ipcMain.handle('ub-dialog-send-cardgen', (event, unitData) => {
   newWindow.webContents.on('did-finish-load', () => {
     if(unitData.length > 0){
       let dataString = JSON.stringify(unitData);
+      
+      setLastWindow(BrowserWindow.fromId(event.sender.id));
+
       newWindow.webContents.send('uic-dialog-load-response', dataString);
       newWindow.focus();
     }
@@ -437,6 +460,9 @@ ipcMain.handle('ub-dialog-send-cardgen', (event, unitData) => {
 
  ipcMain.handle('uic-open-sheet-new', (event)=>{
   let ubSheetNew = createWindowUnitCard();
+
+  setLastWindow(BrowserWindow.fromId(event.sender.id));
+
   ubSheetNew.focus();
 });
 
@@ -461,6 +487,9 @@ ipcMain.handle('uic-open-sheet-import', async (event, dialogConfig)=>{
       .on('end',()=>{
         if(importData.length > 0){
             let dataString = JSON.stringify(importData);
+            
+            setLastWindow(BrowserWindow.fromId(event.sender.id));
+
             newWindow.webContents.send('uic-dialog-load-response', dataString);
             newWindow.focus();
         }
@@ -521,12 +550,17 @@ ipcMain.handle('uic-save-sheet', (event, pdfSavedialog, pdfOptionSave, unitCardD
 
 ipcMain.handle('ab-open-sheet-new', (event)=>{
   let abSheetNew = createWindowArmyBuilder();
+  
+  setLastWindow(BrowserWindow.fromId(event.sender.id));
+
   abSheetNew.focus();
 });
 
 ipcMain.handle('ab-open-sheet-import', async (event, dialogConfig)=>{
   let newWindow = createWindowArmyBuilder();
+  
   dialogConfig.defaultPath = path.join(__dirname,'../../');
+  
   let importData = [];
 
   newWindow.webContents.on('did-finish-load', () => {
@@ -547,6 +581,8 @@ ipcMain.handle('ab-open-sheet-import', async (event, dialogConfig)=>{
         .on('end',()=>{
           let dataString =  JSON.stringify(importData);
           if(dataString.length > 0){
+              setLastWindow(BrowserWindow.fromId(event.sender.id));
+
               newWindow.focus();
               newWindow.webContents.send('ab-dialog-load-response', JSON.stringify(importData));
           }
@@ -561,7 +597,9 @@ ipcMain.handle('ab-open-sheet-import', async (event, dialogConfig)=>{
 
 ipcMain.handle('ab-dialog-load-async', async (event, dialogConfig)=>{
   let srcWindow = BrowserWindow.fromId(event.sender.id);
+  
   dialogConfig.defaultPath = path.join(__dirname,'../../');
+  
   let importData = [];
   dialog.showOpenDialog(srcWindow, dialogConfig).then( (file) =>{
     if(!file.canceled && file.filePaths.length > 0){
@@ -577,7 +615,10 @@ ipcMain.handle('ab-dialog-load-async', async (event, dialogConfig)=>{
           }
       })
       .on('end',()=>{
-        srcWindow.webContents.send('ab-dialog-load-response', JSON.stringify(importData));
+        if(importData.length > 0 ){
+          let dataString = JSON.stringify(importData);
+          srcWindow.webContents.send('ab-dialog-load-response', dataString);  
+        }
       });
     }
   });

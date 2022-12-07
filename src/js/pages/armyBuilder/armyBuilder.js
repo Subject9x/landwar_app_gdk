@@ -63,11 +63,14 @@ function ab_control_save_listfile(event){
             cnt++;
         }
     });
-
+    let exportData;
     if(cnt >0){
-        file_armyBuilder_exportList(tableData);
+        exportData = file_armyBuilder_exportList(tableData);
     }
-    window.api.send('ub-dialog-save-csv', dialogSaveOptionsUnitList, exportData);
+    if(exportData !== undefined){
+        window.api.send('ub-dialog-save-csv', dialogSaveOptionsUnitList, exportData);
+    }
+    
 }
 
 
@@ -114,7 +117,8 @@ function ab_unitInfo_row_add(){
  *  receives parsed CSV data for storage
  * @param {*} parsedData 
  */
-function ab_unitInfo_addData(parsedData){
+function ab_armyList_parseData(parsedData){
+    let armyListTable = $('#armyListDisplayTable')[0];
 
     for(let objIdx in parsedData){
         let objData = parsedData[objIdx];
@@ -122,43 +126,50 @@ function ab_unitInfo_addData(parsedData){
         if(objData !== undefined){
             let valid = ab_util_check_unit(objData);
             if(valid > 0){
-                unitData.push(objData); 
+                armyListData.push(objData); 
 
-                let newRowId = ab_unitInfo_row_add();
-                let row = $("#" + newRowId)[0];
+                let newListRow = armyListTable.insertRow();
+                newListRow.setAttribute('id', 'armyRow' + armyListTableRowCount);
+            
+                let rowTemplate = window.nodeFileSys.loadHTML('layout/pages/armyBuilder/armyListDataRow.html');
+                newListRow.innerHTML = rowTemplate;
     
-                row.querySelector("#name").innerHTML = objData.unitName;
-                row.querySelector("#size").innerHTML = objData.size;
-                row.querySelector("#move").innerHTML = objData.move;
-                row.querySelector("#evade").innerHTML = objData.evade;
-                row.querySelector("#melee").innerHTML = objData.dmgMelee;
-                row.querySelector("#range").innerHTML = objData.dmgRange;
-                row.querySelector("#dist").innerHTML = objData.range;
-                row.querySelector("#armor").innerHTML = objData.armor;
-                row.querySelector("#struct").innerHTML = objData.structure;
-                row.querySelector("#tags").innerText = objData.tags;
-                row.querySelector("#tagTotal").innerHTML = objData.tagTotal;
-                row.querySelector("#points").innerHTML = objData.points;
-                row.querySelector("#total").innerHTML = objData.completeTotal;
+                newListRow.querySelector("#name").innerHTML = objData.unitName;
+                newListRow.querySelector("#size").innerHTML = objData.size;
+                newListRow.querySelector("#move").innerHTML = objData.move;
+                newListRow.querySelector("#evade").innerHTML = objData.evade;
+                newListRow.querySelector("#melee").innerHTML = objData.dmgMelee;
+                newListRow.querySelector("#range").innerHTML = objData.dmgRange;
+                newListRow.querySelector("#dist").innerHTML = objData.range;
+                newListRow.querySelector("#armor").innerHTML = objData.armor;
+                newListRow.querySelector("#struct").innerHTML = objData.structure;
+                newListRow.querySelector("#tags").innerText = objData.tags;
+                newListRow.querySelector("#tagTotal").innerHTML = objData.tagTotal;
+                newListRow.querySelector("#points").innerHTML = objData.points;
+                newListRow.querySelector("#total").innerHTML = objData.completeTotal;
     
-                let tagSpan = row.querySelector('#tagDiv');
-
+                armyListTableRowCount += 1;
+            
+                let tagSpan =  newListRow.querySelector('#tagDiv');
+            
                 tagSpan.onmouseover = function(event){
-                    ab_tagRow_show(newRowId, event);
+                    //enter
+                    ab_tagRow_show(newListRow.id, event);
                 };
                 
                 tagSpan.onmouseleave = function(event){
-                    //leaveab_tagRow_hide
+                    //leave
                     ab_tagRow_hide();
                 };
-
-
-                let addBtn = row.querySelector('button');
-                addBtn.setAttribute('id', 'btnAdd');
-                addBtn.addEventListener("click", function(){
-                    ab_unitInfo_addToList(newRowId);
+            
+                let btnRemove = newListRow.querySelector('button');
+                btnRemove.setAttribute('id', 'btnRemove');
+                btnRemove.addEventListener("click", function(){
+                    ab_armyList_removeEntry(newListRow.id);
                     event.preventDefault();
                 });
+            
+                ab_armyList_adjustTotalPoints(parseFloat(newListRow.querySelector('#total').innerHTML));
             }
         }
     }

@@ -76,13 +76,44 @@ function ub_control_sheet_import(){
 */
 
 function ucg_control_sheet_new(){
-    window.api.send('uic-open-sheet-new');
+    //Army Builder covers this functionality, users will make heterogenous unit card lists via the Army Builder.
+    //window.api.send('uic-open-sheet-new');
 }
 
 function ucg_control_sheet_import(){
     window.api.send('uic-open-sheet-import', dialogLoadOptionsUnitList);
 }
 
+
+function ucg_print_blanks_pdf(event){
+    event.preventDefault();
+
+    let inputTotal = document.getElementById('uicBlankCopies');
+    let copyTotal = parseInt(inputTotal.value);
+
+    if(copyTotal > 0){
+        let exportData = [];
+
+        for(let i = 0; i < copyTotal; i++){
+            let data = {};
+            data.unitName = "";
+            data.size = "";
+            data.move = "";
+            data.evade = "";
+            data.dmgMelee = "";
+            data.dmgRange = "";
+            data.range = "";
+            data.armor = "";
+            data.structure = "";
+            data.points = "";
+            data.tags = "";
+            data.tagTotal = "";
+            data.completeTotal = "";
+            exportData.push(data);
+        }
+        window.api.send('ub-dialog-send-cardgen', exportData);
+    }
+}
 
 /*
     Javascript layer for page: ArmyBuilder

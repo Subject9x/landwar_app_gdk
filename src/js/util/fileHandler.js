@@ -40,10 +40,6 @@ function file_unitBuild_export_jsonRowArray(htmlUnitTable){
             else{
                 data.tags = "";
             }
-
-            
-
-
             data.tagTotal = parseInt(document.getElementById(rowItem.id + '_tagTotal').innerHTML);
             data.completeTotal = parseInt(document.getElementById(rowItem.id + '_total').innerHTML);
             exportData.push(data);

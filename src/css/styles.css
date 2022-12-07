@@ -4,7 +4,7 @@
 
 
 .row-fill-16px{
-    height: 16px;
+    min-height: 16px;
 }
 .row-fill-16px::after{
     content:'';
