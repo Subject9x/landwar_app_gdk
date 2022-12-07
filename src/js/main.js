@@ -21,6 +21,8 @@ let lastFilePathUsed; //tracks last folder path the user used.
 
 const windows = new Set();
 
+let basepath = app.getAppPath();
+
 function isAppWindowOpen(windowObj){
   if(windowObj.isDestroyed()){
     return false;
@@ -35,7 +37,8 @@ function createWindow () {
     height: 1024,
     webPreferences: {
       preload: path.join(__dirname, '../js/preload.js'),
-      contextIsolation: true
+      contextIsolation: true,
+      nodeIntegration: true
     }
   })
   //,
@@ -73,6 +76,7 @@ app.whenReady().then(() => {
       app.quit();
     }
   });
+  lastFilePathUsed = basepath;
 })
 
 ipcMain.handle('quit-app', (event)=> app.quit());
@@ -106,10 +110,11 @@ ipcMain.handle('close-window', (event)=>{
 ipcMain.handle('ub-dialog-save-csv', async (event, dialogConfig, filedata)=>{
   let srcWindow = BrowserWindow.fromId(event.sender.id);
   
-  dialogConfig.defaultPath = path.join(__dirname,'../../');
+  dialogConfig.defaultPath = lastFilePathUsed;
   
   dialog.showSaveDialog(srcWindow, dialogConfig).then( file =>{
     if(!file.canceled){
+      lastFilePathUsed = file.filePath;
       csvStringy(
           filedata, 
           {
@@ -137,12 +142,13 @@ ipcMain.handle('ub-dialog-save-csv', async (event, dialogConfig, filedata)=>{
 ipcMain.handle('ub-dialog-load-async', async (event, dialogConfig)=>{
   let srcWindow = BrowserWindow.fromId(event.sender.id);
   
-  dialogConfig.defaultPath = path.join(__dirname,'../../');
+  dialogConfig.defaultPath = lastFilePathUsed;
   
   let importData = [];
   
   dialog.showOpenDialog(srcWindow, dialogConfig).then( (file) =>{
     if(!file.canceled && file.filePaths.length > 0){
+      lastFilePathUsed = file.filePath;
       fs
       .createReadStream(file.filePaths[0].toString())
       .pipe(csv({separator : ','}))
@@ -176,7 +182,8 @@ ipcMain.handle('rb-open-rules-core', (event)=>{
     width: 800,
     height: 1280,
     webPreferences: {
-      contextIsolation: true
+      contextIsolation: true,
+      nodeIntegration: true
     }
   });
   
@@ -199,7 +206,8 @@ ipcMain.handle('rb-open-rules-quick', (event)=>{
     width: 800,
     height: 1280,
     webPreferences: {
-      contextIsolation: true
+      contextIsolation: true,
+      nodeIntegration: true
     }
   });
 
@@ -227,17 +235,19 @@ ipcMain.handle('rb-save-rules-core', (event, pdfSavedialog, pdfOptionSave)=>{
     maxWidth: 637.5,
     height: 825,
     webPreferences: {
-      contextIsolation: true
+      contextIsolation: true,
+      nodeIntegration: true
     }
   });
   rulesWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_core.html');
   rulesWindow.focus();
 
-  pdfSavedialog.defaultPath = path.join(__dirname,'../../');
+  pdfSavedialog.defaultPath = lastFilePathUsed;
 
   dialog.showSaveDialog(rulesWindow, pdfSavedialog).then( file =>{
     console.log(file); 
     if(!file.canceled){
+      lastFilePathUsed = file.filePath;
       let win = BrowserWindow.getFocusedWindow();
 
       win.webContents.printToPDF(pdfOptionSave).then(data => {
@@ -271,17 +281,19 @@ ipcMain.handle('rb-save-rules-quick', (event, pdfSavedialog, pdfOptionSave)=>{
     maxWidth: 637.5,
     height: 825,
     webPreferences: {
-      contextIsolation: true
+      contextIsolation: true,
+      nodeIntegration: true
     }
   });
   rulesWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_quickplay.html');
   rulesWindow.focus();
 
-  pdfSavedialog.defaultPath = path.join(__dirname,'../../');
+  pdfSavedialog.defaultPath = lastFilePathUsed;
 
   dialog.showSaveDialog(rulesWindow, pdfSavedialog).then( file =>{
     console.log(file); 
     if(!file.canceled){
+      lastFilePathUsed = file.filePath;
       let win = BrowserWindow.getFocusedWindow();
 
       win.webContents.printToPDF(pdfOptionSave).then(data => {
@@ -318,16 +330,18 @@ ipcMain.handle('tag-save-core', (event, pdfSavedialog, pdfOptionSave)=>{
     webPreferences: {
       contextIsolation: true,
       preload: path.join(__dirname, '../js/preload.js'),
+      nodeIntegration: true
     }
   });
   tagCoreWindow.loadFile('src/html/layout/pages/tagLibrary/tagLibPrintCore.html');
   tagCoreWindow.focus();
 
-pdfSavedialog.defaultPath = path.join(__dirname,'../../');
+pdfSavedialog.defaultPath = lastFilePathUsed;
 
   dialog.showSaveDialog(tagCoreWindow, pdfSavedialog).then( file =>{
     console.log(file); 
     if(!file.canceled){
+      lastFilePathUsed = file.filePath;
       let win = BrowserWindow.getFocusedWindow();
 
       win.webContents.printToPDF(pdfOptionSave).then(data => {
@@ -356,7 +370,8 @@ function createWindowUnitSheet(){
     height: 1024,
     webPreferences: {
       contextIsolation: true,
-      preload: path.join(__dirname, '../js/preload.js')
+      preload: path.join(__dirname, '../js/preload.js'),
+      nodeIntegration: true
     }
   });
 
@@ -379,12 +394,15 @@ ipcMain.handle('ub-open-sheet-new', (event)=>{
 
 ipcMain.handle('ub-open-sheet-import', async (event, dialogConfig)=>{
   let newWindow = createWindowUnitSheet();
-  dialogConfig.defaultPath = path.join(__dirname,'../../');
+
+  dialogConfig.defaultPath = lastFilePathUsed;
+  
   let importData = [];
 
   newWindow.webContents.on('did-finish-load', () => {
     dialog.showOpenDialog(newWindow, dialogConfig).then( (file) =>{
       if(!file.canceled && file.filePaths.length > 0){
+        lastFilePathUsed = file.filePath;
         fs
         .createReadStream(file.filePaths[0].toString())
         .pipe(csv({separator : ','}))
@@ -425,7 +443,8 @@ function createWindowUnitCard(){
     height: 1024,
     webPreferences: {
       contextIsolation: true,
-      preload: path.join(__dirname, '../js/preload.js')
+      preload: path.join(__dirname, '../js/preload.js'),
+      nodeIntegration: true
     }
   });
 
@@ -468,10 +487,13 @@ ipcMain.handle('ub-dialog-send-cardgen', (event, unitData) => {
 
 ipcMain.handle('uic-open-sheet-import', async (event, dialogConfig)=>{
   let newWindow = createWindowUnitCard();
-  dialogConfig.defaultPath = path.join(__dirname,'../../');
+  
+  dialogConfig.defaultPath = lastFilePathUsed;
+
   let importData = [];
   dialog.showOpenDialog(newWindow, dialogConfig).then( (file) =>{
     if(!file.canceled && file.filePaths.length > 0){
+      lastFilePathUsed = file.filePath;
       fs
       .createReadStream(file.filePaths[0].toString())
       .pipe(csv({separator : ','}))
@@ -506,10 +528,11 @@ ipcMain.handle('uic-open-sheet-import', async (event, dialogConfig)=>{
 ipcMain.handle('uic-save-sheet', (event, pdfSavedialog, pdfOptionSave, unitCardData)=>{
   let srcWindow = BrowserWindow.fromId(event.sender.id);
   
-  pdfSavedialog.defaultPath = path.join(__dirname,'../../');
+  pdfSavedialog.defaultPath = lastFilePathUsed;
 
   dialog.showSaveDialog(srcWindow, pdfSavedialog).then( file =>{
     if(!file.canceled){
+      lastFilePathUsed = file.filePath;
       srcWindow.webContents.printToPDF(pdfOptionSave).then(data => {
           fs.writeFile(file.filePath.toString(), data, function (err) {
             srcWindow.close();
@@ -536,7 +559,8 @@ ipcMain.handle('uic-save-sheet', (event, pdfSavedialog, pdfOptionSave, unitCardD
     height: 1024,
     webPreferences: {
       contextIsolation: true,
-      preload: path.join(__dirname, '../js/preload.js')
+      preload: path.join(__dirname, '../js/preload.js'),
+      nodeIntegration: true
     }
   });
 
@@ -559,13 +583,14 @@ ipcMain.handle('ab-open-sheet-new', (event)=>{
 ipcMain.handle('ab-open-sheet-import', async (event, dialogConfig)=>{
   let newWindow = createWindowArmyBuilder();
   
-  dialogConfig.defaultPath = path.join(__dirname,'../../');
+  dialogConfig.defaultPath = lastFilePathUsed;
   
   let importData = [];
 
   newWindow.webContents.on('did-finish-load', () => {
     dialog.showOpenDialog(newWindow, dialogConfig).then( (file) =>{
       if(!file.canceled && file.filePaths.length > 0){
+        lastFilePathUsed = file.filePath;
         fs
         .createReadStream(file.filePaths[0].toString())
         .pipe(csv({separator : ','}))
@@ -598,11 +623,12 @@ ipcMain.handle('ab-open-sheet-import', async (event, dialogConfig)=>{
 ipcMain.handle('ab-dialog-load-async', async (event, dialogConfig)=>{
   let srcWindow = BrowserWindow.fromId(event.sender.id);
   
-  dialogConfig.defaultPath = path.join(__dirname,'../../');
+  dialogConfig.defaultPath = lastFilePathUsed;
   
   let importData = [];
   dialog.showOpenDialog(srcWindow, dialogConfig).then( (file) =>{
     if(!file.canceled && file.filePaths.length > 0){
+      lastFilePathUsed = file.filePath;
       fs
       .createReadStream(file.filePaths[0].toString())
       .pipe(csv({separator : ','}))

@@ -1,12 +1,5 @@
 /* Icons
 ----------------------------------*/
-.ui-icon-grey .ui-icon{
-    background-image: url("../../../node_modules/jquery-ui/dist/themes/base/images/ui-icons_555555_512x480.png");
-}
-
-.ui-icon-white .ui-icon{
-    background-image: url("../../../node_modules/jquery-ui/dist/themes/base/images/ui-icons_ffffff_512x480.png");
-}
 
 @media only screen and (min-width:1025px) {
 
@@ -16,6 +9,15 @@
         height: 32px;
     }
 
+    .ui-icon-grey .ui-icon{
+        background-image: url("../../../node_modules/jquery-ui/dist/themes/base/images/ui-icons_555555_512x480.png");
+    }
+    
+    .ui-icon-white .ui-icon{
+        background-image: url("../../../node_modules/jquery-ui/dist/themes/base/images/ui-icons_ffffff_512x480.png");
+    }
+
+  
     .ui-icon,
     .ui-widget-content .ui-icon {
       background-image: url("../../../node_modules/jquery-ui/dist/themes/base/images/ui-icons_444444_256x240.png");
@@ -191,7 +193,9 @@
     .ui-icon-alert { background-position: 0 -144px; }
     .ui-icon-info { background-position: -16px -144px; }
     .ui-icon-notice { background-position: -32px -144px; }
-    .ui-icon-help { background-position: -48px -144px; }
+    
+    .ui-icon-help { background-position: -96px -288px; }
+
     .ui-icon-check { background-position: -128px -288px; }
     .ui-icon-bullet { background-position: -80px -144px; }
     .ui-icon-radio-on { background-position: -96px -144px; }
@@ -243,4 +247,12 @@
     .ui-icon-grip-solid-horizontal { background-position: -48px -224px; }
     .ui-icon-gripsmall-diagonal-se { background-position: -64px -224px; }
     .ui-icon-grip-diagonal-se { background-position: -80px -224px; }
+}
+
+
+/*
+  Furtive extensions
+*/
+@media only screen and (min-width:1025px) {
+  
 }

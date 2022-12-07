@@ -13,6 +13,7 @@ const path = require('path');
       then enumeratee the functions you want to wrap.
 */
 
+
 //example ipc channels, can then be referenced by /renderer.js
 contextBridge.exposeInMainWorld('darkMode',{
   toggle: () => ipcRenderer.invoke('dark-mode:toggle'),

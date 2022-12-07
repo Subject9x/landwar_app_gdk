@@ -20,8 +20,8 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.61",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
     "@electron-forge/maker-zip": "^6.0.0-beta.61",
-    "electron": "^16.0.5",
-    "electron-builder": "^22.14.5"
+    "electron": "^22.0.0",
+    "electron-builder": "^22.10.3"
   },
   "dependencies": {
     "csv": "^6.0.5",
