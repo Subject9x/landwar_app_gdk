@@ -17,3 +17,12 @@ electron-builder commands
 	
 --removes node_modules\ dir because something something stupid permissions?
 Remove-Item 'E:\ElectronDev\landwar_gdk\node_modules\' -Recurse
+
+
+Release Actions
+Updating the package json version Performing:
+
+git commit -am v1.0.1
+git tag v1.0.1
+git push
+git push --tags
