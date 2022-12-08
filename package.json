@@ -10,7 +10,8 @@
     "make": "electron-forge make",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    "distx64": "electron-builder --windows"
+    "distx64": "electron-builder --windows",
+    "publish" : "electron-forge publish"
   },
   "author": "OrbitalYards",
   "license": "ISC",
