@@ -1,6 +1,6 @@
 {
   "name": "landwar-gdk",
-  "version": "0.4.5",
+  "version": "1.0.0",
   "description": "testApp",
   "main": "src/js/main.js",
   "scripts": {
@@ -78,7 +78,7 @@
           "config": {
             "repository": {
               "owner": "subject9x",
-              "name": "electron-publish-test"
+              "name": "landwar-gdk@0.4.5"
             }
           }
         }
