@@ -140,18 +140,21 @@ function ab_unitInfo_addData(parsedData){
                 row.querySelector("#tagTotal").innerHTML = objData.tagTotal;
                 row.querySelector("#points").innerHTML = objData.points;
                 row.querySelector("#total").innerHTML = objData.completeTotal;
-    
-                let tagSpan = row.querySelector('#tagDiv');
-
-                tagSpan.onmouseover = function(event){
-                    ab_tagRow_show(newRowId, event);
-                };
                 
-                tagSpan.onmouseleave = function(event){
-                    //leaveab_tagRow_hide
-                    ab_tagRow_hide();
-                };
-
+                let tagSpan = row.querySelector('#tagDiv');
+                
+                if(objData.tags !== undefined && objData.tags.length > 0){
+                    tagSpan.innerHTML = '<span class=" ui-icon ui-icon-white ui-icon-gear"></span>';
+                    tagSpan.onmouseover = function(event){
+                        ab_tagRow_show(newRowId, event);
+                    };
+                    
+                    tagSpan.onmouseleave = function(event){
+                        //leaveab_tagRow_hide
+                        ab_tagRow_hide();
+                    };
+                  
+                }       
 
                 let addBtn = row.querySelector('button');
                 addBtn.setAttribute('id', 'btnAdd');
@@ -204,16 +207,21 @@ function ab_armyList_parseData(parsedData){
                 armyListTableRowCount += 1;
             
                 let tagSpan =  newListRow.querySelector('#tagDiv');
-            
-                tagSpan.onmouseover = function(event){
-                    //enter
-                    ab_tagRow_show(newListRow.id, event);
-                };
-                
-                tagSpan.onmouseleave = function(event){
-                    //leave
-                    ab_tagRow_hide();
-                };
+                if(objData.tags !== undefined && objData.tags.length > 0){
+                    tagSpan.innerHTML = '<span class=" ui-icon ui-icon-white ui-icon-gear"></span>';
+                    tagSpan.onmouseover = function(event){
+                        //enter
+                        ab_tagRow_show(newListRow.id, event);
+                    };
+                    
+                    tagSpan.onmouseleave = function(event){
+                        //leave
+                        ab_tagRow_hide();
+                    };
+                  
+                }     
+
+
             
                 let btnRemove = newListRow.querySelector('button');
                 btnRemove.setAttribute('id', 'btnRemove');

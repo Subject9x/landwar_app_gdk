@@ -124,6 +124,10 @@ function ub_control_new_print(event){
     }
 }
 
+function ub_control_help(event){
+    
+}
+
 
 
 /*

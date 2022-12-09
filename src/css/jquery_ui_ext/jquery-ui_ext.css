@@ -20,10 +20,10 @@
   
     .ui-icon,
     .ui-widget-content .ui-icon {
-      background-image: url("../../../node_modules/jquery-ui/dist/themes/base/images/ui-icons_444444_256x240.png");
+      background-image: url("../../../node_modules/jquery-ui/dist/themes/base/images/ui-icons_444444_512x480.png");
     }
     .ui-widget-header .ui-icon {
-      background-image: url("../../../node_modules/jquery-ui/dist/themes/base/images/ui-icons_444444_256x240.png");
+      background-image: url("../../../node_modules/jquery-ui/dist/themes/base/images/ui-icons_444444_512x480.png");
     }
     .ui-state-hover .ui-icon,
     .ui-state-focus .ui-icon,
@@ -166,7 +166,10 @@
     /*--------------------------------------------------*/
 
     .ui-icon-wrench { background-position: -352px -224px; }
-    .ui-icon-gear { background-position: -192px -112px; }
+    
+    .ui-icon-gear { background-position: -389px -234px; }
+
+
     .ui-icon-heart { background-position: -208px -112px; }
     .ui-icon-star { background-position: -224px -112px; }
     .ui-icon-link { background-position: -240px -112px; }
