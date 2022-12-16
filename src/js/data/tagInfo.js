@@ -69,31 +69,54 @@ const tagInfo = {
             eqt:'<b>Size</b> * 2.5'
         },
         {
-            title : 'Armor Piercing',
-            desc : 'When applying Damage from this unit’s attack. Up to <i>half</i> the damage may be applied to Target <b>Structure</b> <i>even if</i> the Target has remaining <b>Armor</b>.',
+            title : 'Armor Piercing - Melee',
+            desc : 'When applying Damage from this unit’s Melee attack. Up to <i>half</i> the damage may be applied to Target <b>Structure</b> <i>even if</i> the Target has remaining <b>Armor</b>.',
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
-                let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
                 let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
-                return ((uc_calc_Damage_Range(rangeDamageVal) + uc_calc_Damage_Melee(meleeDamageVal, moveVal)) * 0.9);
+                return (uc_calc_Damage_Melee(meleeDamageVal, moveVal) * 0.9);
             },
             reqs : (rowId) => {
-                return '';
+                let warn = '';
+                let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
+                if(meleeDamageVal <= 0){
+                    warn = warn + '<p>Unit must have a <b>[Melee Damage]</b> greater than 0.</p>';
+                }
+                return warn;
             },
-            eqt:'<i>Total Damage COST</i> * 90%'
+            eqt:'<i>Melee Damage COST</i> * 90%'
+        },
+        {
+            title : 'Armor Piercing - Ranged',
+            desc : 'When applying Damage from this unit’s Ranged attack. Up to <i>half</i> the damage may be applied to Target <b>Structure</b> <i>even if</i> the Target has remaining <b>Armor</b>.',
+            func : (rowId) => {
+                let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
+                return (uc_calc_Damage_Range(rangeDamageVal) * 0.9);
+            },
+            reqs : (rowId) => {
+                let warn = '';
+                let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
+                if(rangeDamageVal <= 0){
+                    warn = warn + '<p>Unit must have a <b>[Range Damage]</b> greater than 0.</p>';
+                }
+                return warn;
+            },
+            eqt:'<i>Range Damage COST</i> * 90%'
         },
         {
             title : 'Artillery',
-            desc : 'Unit`s Indirect Fire(IF) attack gains a Blast radius of 6".',
+            desc : 'Unit`s Ranged attack gains a blast radius of 6". When <i>Target</i> has any remaining <b>Armor</b>, DMG applied is reduced by <b> 1/2 before any other modifier</b>.',
             func : (rowId) => {
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
                 return rangeDamageVal * 2;
             },
             reqs : (rowId) => {
-                if(!ub_tags_checkByName('Indirect Fire')){
-                    return 'Unit must have [Indirect Fire] tag.';
+                let warn = '';
+                let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
+                if(rangeDamageVal <= 0){
+                    warn = warn + '<p>Unit must have a <b>[Range Damage]</b> greater than 0.</p>';
                 }
-                return '';
+                return warn;
             },
             eqt:'<b>Damage-Range</b> * 2'
         },
@@ -436,10 +459,10 @@ const tagInfo = {
                 if(ub_tags_checkByName('Courage-I')){
                     warn = warn + '<p>Unit <i>already has</i> [Courage-I] tag.</p>';
                 }
-                if(ub_tags_checkByName('Courage-I')){
+                if(ub_tags_checkByName('Courage-II')){
                     warn = warn + '<p>Unit <i>already has</i> [Courage-II] tag.</p>';
                 }
-                if(ub_tags_checkByName('Courage-II')){
+                if(ub_tags_checkByName('Courage-III')){
                     warn = warn + '<p>Unit <i>already has</i> [Courage-III] tag.</p>';
                 }
                 if(ub_tags_checkByName('Crew-I')){
@@ -450,6 +473,9 @@ const tagInfo = {
                 }
                 if(ub_tags_checkByName('Crew-III')){
                     warn = warn + '<p>Unit <i>already has</i> [Crew-III] tag.</p>';
+                }
+                if(ub_tags_checkByName('Overheat')){
+                    warn = warn + '<p>Unit <i>already has</i> [Overheat] tag.</p>';
                 }
                 return warn;
             },
@@ -733,10 +759,11 @@ const tagInfo = {
                 return (meleeDamageVal * 2) + (rangeDamageVal * 2);
             },
             reqs : (rowId) => {
+                let warn = '';
                 if(ub_tags_checkByName('Fearless')){
-                    return 'Unit <i>already has</i> [Fearless] tag.';
+                    warn = warn + '<p>Unit <i>already has</i> [Fearless] tag.</p>';
                 }
-                return '';
+                return warn;
             },
             eqt:'(<b>Damage-Melee</b> * 2) + (<b>Damage-Range</b> * 2)'
         },
@@ -893,8 +920,10 @@ const tagInfo = {
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+                
+                let cost = sizeVal / moveVal * moveVal;
 
-                return uc_calc_Move(moveVal, sizeVal) * 0.25;
+                return cost;
             },
             reqs : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
@@ -903,7 +932,7 @@ const tagInfo = {
                 }
                 return '';
             },
-            eqt:'<b>Move COST</b> * 25%'
+            eqt:'(<b>Size</b> / <b>Move</b>) * <b>Move</b>'
         },
         {
             title : 'Terrifying',
