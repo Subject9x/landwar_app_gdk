@@ -83,7 +83,6 @@ function ab_control_new_print(event){
         return;
     }
 
-    
     $("#armyListDisplayTable>tbody>tr").each((index, tr)=>{
         if(index != 0){
             cnt++;
@@ -94,6 +93,44 @@ function ab_control_new_print(event){
         file_armyBuild_export_data(tableData);
     }
 }
+
+/**
+ * Creates list of all unique tags in Army and makes a nice printable sheet from it.
+ * @param {*} event 
+ */
+function ab_control_print_tags(event){
+
+    let sendTags = [];
+
+    $("#armyListDisplayTable>tbody>tr").each((index, tr)=>{
+        if(index != 0){
+            let rowTagsStr = tr.querySelector("#tags").innerHTML;
+            if(rowTagsStr !== undefined && rowTagsStr.length > 0){
+                let rowTagsArr = rowTagsStr.split(" ");
+                if(rowTagsArr.length > 1){
+                    for(let rowTagIdx in rowTagsArr){
+                        let tagStr = rowTagsArr[rowTagIdx];
+                        if(tagStr != " " && tagStr != ""){
+                            tag = parseInt(tagStr);
+                            let add = true;
+                            for(let i in sendTags){
+                                let tagId = sendTags[i];
+                                if(tagId == tag){
+                                    add = false;
+                                }
+                            }
+                            if(add){
+                                sendTags.push(tag);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    });
+    file_armyBuild_export_tags(sendTags);
+}
+
 
 /*
     util function, just generalizes adding an HTML row to #unitTable.
@@ -273,15 +310,19 @@ function ab_unitInfo_addToList(unitRowId){
 
     let tagSpan =  newListRow.querySelector('#tagDiv');
 
-    tagSpan.onmouseover = function(event){
-        //enter
-        ab_tagRow_show(newListRow.id, event);
-    };
-    
-    tagSpan.onmouseleave = function(event){
-        //leave
-        ab_tagRow_hide();
-    };
+    if(unitRow.querySelector('#tagTotal').innerText !== undefined && unitRow.querySelector('#tagTotal').innerText.length > 0){
+        tagSpan.innerHTML = '<span class=" ui-icon ui-icon-white ui-icon-gear"></span>';
+        tagSpan.onmouseover = function(event){
+            //enter
+            ab_tagRow_show(newListRow.id, event);
+        };
+        
+        tagSpan.onmouseleave = function(event){
+            //leave
+            ab_tagRow_hide();
+        };
+      
+    } 
 
     let btnRemove = newListRow.querySelector('button');
     btnRemove.setAttribute('id', 'btnRemove');
@@ -300,7 +341,7 @@ function ab_armyList_removeEntry(entryRowId){
         return;
     }
     let row = $('#' + entryRowId)[0];
-    let removePoints = parseFloat(row.querySelector('#points').innerHTML);
+    let removePoints = parseFloat(row.querySelector('#total').innerHTML);
     ab_armyList_adjustTotalPoints(0 - removePoints);
     
     table.querySelector('#'+entryRowId).remove();
@@ -339,6 +380,8 @@ function ab_tagRow_show(rowId, event){
 
     //let tagArr = row_tagArrays[newRowId];
     let tagList = tagHover.querySelector("#abInfoKeywords");
+    tagList.innerHTML = '';
+
     let tagItem;
     if(unitTags.length > 0){
         for(let tagNum in unitTags){

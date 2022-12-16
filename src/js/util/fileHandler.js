@@ -269,4 +269,14 @@ function file_armyBuild_export_data(htmlUnitTable){
     window.api.send('ub-dialog-send-cardgen', exportData);
 }
 
+function file_armyBuild_export_tags(tagList){
+    if(tagList.length <= 0){
+        return;
+    }
+
+    let opt = pdfSaveOptions;
+    opt.printBackground = true;
+    
+    window.api.send('ab-dialog-send-taglist', dialogSavePDFOptions, opt, tagList);
+}
 

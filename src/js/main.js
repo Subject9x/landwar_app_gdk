@@ -564,9 +564,6 @@ ipcMain.handle('uic-save-sheet', (event, pdfSavedialog, pdfOptionSave, unitCardD
     }
   });
 
-  abSheetNew.on('close', ()=>{
-    abSheetNew = null;
-  });
   abSheetNew.loadFile('src/html/layout/pages/armyBuilder/armyBuilderSheet.html');
 
   return abSheetNew;
@@ -681,3 +678,64 @@ ipcMain.handle('ab-dialog-load-async', async (event, dialogConfig)=>{
     }
   });
 });
+
+
+function createWindowArmyBuildTagList() {
+  let abTagList = new BrowserWindow({
+    width: 1280,
+    height: 1024,
+    webPreferences: {
+      contextIsolation: true,
+      preload: path.join(__dirname, '../js/preload.js'),
+      nodeIntegration: true
+    }
+  });
+
+  abTagList.loadFile('src/html/layout/pages/armyBuilder/armyListTagPrintable.html');
+  
+  return abTagList;
+}
+
+ipcMain.handle('ab-dialog-send-taglist', (event, pdfSavedialog, pdfOptionSave, tagList)=>{
+  let srcWindow = BrowserWindow.fromId(event.sender.id);
+  
+  
+  tagListWindow = createWindowArmyBuildTagList();
+  tagListWindow.webContents.on('did-finish-load', () => {
+    if(tagList.length > 0){
+      let dataString = JSON.stringify(tagList);
+
+      tagListWindow.webContents.send('ab-taglist-load-response', dataString);
+      tagListWindow.focus();
+
+       /* pdfSavedialog.defaultPath = lastFilePathUsed;
+
+        dialog.showSaveDialog(srcWindow, pdfSavedialog).then( file =>{
+          if(!file.canceled){
+            lastFilePathUsed = file.filePath;
+            
+      
+      
+          }
+        });
+      tagListWindow.webContents.printToPDF(pdfOptionSave).then(data => {
+          fs.writeFile(file.filePath.toString(), data, function (err) {
+            tagListWindow.close();
+              if (err) {
+                  console.log(err);
+              } else {
+                  console.log('PDF Generated Successfully');
+              }
+          });
+      }).catch(error => {
+          console.log(error);
+          tagListWindow.close();
+      });*/
+    }
+    else{
+      tagListWindow.close();
+    }
+  });
+  
+
+})
