@@ -29,4 +29,9 @@ api.handle( 'ab-taglist-load-response', (event, data) => function(event, data){
     }
     $("#tagViewClose").remove();
 
+    
+    let opt = pdfSaveOptions;
+    opt.printBackground = true;
+    window.api.send('ab-print-taglist', dialogSavePDFOptions, opt);
+
 }, event);

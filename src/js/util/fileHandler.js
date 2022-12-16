@@ -273,10 +273,7 @@ function file_armyBuild_export_tags(tagList){
     if(tagList.length <= 0){
         return;
     }
-
-    let opt = pdfSaveOptions;
-    opt.printBackground = true;
     
-    window.api.send('ab-dialog-send-taglist', dialogSavePDFOptions, opt, tagList);
+    window.api.send('ab-dialog-send-taglist', tagList);
 }
 

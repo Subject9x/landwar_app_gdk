@@ -696,10 +696,8 @@ function createWindowArmyBuildTagList() {
   return abTagList;
 }
 
-ipcMain.handle('ab-dialog-send-taglist', (event, pdfSavedialog, pdfOptionSave, tagList)=>{
-  let srcWindow = BrowserWindow.fromId(event.sender.id);
-  
-  
+ipcMain.handle('ab-dialog-send-taglist', (event, tagList)=>{
+
   tagListWindow = createWindowArmyBuildTagList();
   tagListWindow.webContents.on('did-finish-load', () => {
     if(tagList.length > 0){
@@ -707,20 +705,26 @@ ipcMain.handle('ab-dialog-send-taglist', (event, pdfSavedialog, pdfOptionSave, t
 
       tagListWindow.webContents.send('ab-taglist-load-response', dataString);
       tagListWindow.focus();
+    }
+    else{
+      tagListWindow.close();
+    }
+  });
+})
 
-       /* pdfSavedialog.defaultPath = lastFilePathUsed;
 
-        dialog.showSaveDialog(srcWindow, pdfSavedialog).then( file =>{
-          if(!file.canceled){
-            lastFilePathUsed = file.filePath;
-            
-      
-      
-          }
-        });
-      tagListWindow.webContents.printToPDF(pdfOptionSave).then(data => {
+ipcMain.handle('ab-print-taglist', (event, pdfSavedialog, pdfOptionSave)=>{
+  let srcWindow = BrowserWindow.fromId(event.sender.id);
+
+
+  pdfSavedialog.defaultPath = lastFilePathUsed;
+
+  dialog.showSaveDialog(srcWindow, pdfSavedialog).then( file =>{
+    if(!file.canceled){
+      lastFilePathUsed = file.filePath;
+      srcWindow.webContents.printToPDF(pdfOptionSave).then(data => {
           fs.writeFile(file.filePath.toString(), data, function (err) {
-            tagListWindow.close();
+            srcWindow.close();
               if (err) {
                   console.log(err);
               } else {
@@ -729,13 +733,8 @@ ipcMain.handle('ab-dialog-send-taglist', (event, pdfSavedialog, pdfOptionSave, t
           });
       }).catch(error => {
           console.log(error);
-          tagListWindow.close();
-      });*/
-    }
-    else{
-      tagListWindow.close();
+          srcWindow.close();
+      });
     }
   });
-  
-
 })
