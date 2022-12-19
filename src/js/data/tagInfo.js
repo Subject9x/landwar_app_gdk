@@ -894,12 +894,12 @@ const tagInfo = {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let evadeVal = parseInt(document.getElementById(rowId + '_evade').value);
 
-                return Math.max(0, ((moveVal / 2) + (evadeVal * 2)) - sizeVal);
+                return Math.max(0, ((moveVal + evadeVal)* 2) - (sizeVal - 3));
             },
             reqs : (rowId) => {
                 return '';
             },
-            eqt:'(<b>Move</b> / 2) + (<b>Evade</b> * 2) - <b>Size</b>'
+            eqt:'(<b>Move</b> + <b>Evade</b>) * 2 - *<b>Size</b> - 3)'
         },
         {
             title : 'Stall Speed',
@@ -912,7 +912,7 @@ const tagInfo = {
             reqs : (rowId) => {
                 return '';
             },
-            eqt:'<i>subtract</i> (<b>Move</b> - <b>Move</b> / 3)'
+            eqt:'<i>subtract</i> (<b>Move</b> / 3)'
         },
         {
             title : 'Supercharger',
