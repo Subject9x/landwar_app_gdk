@@ -28,11 +28,15 @@ const tagInfo = {
                 return ((armorVal/2) + (moveVal/3));
             },
             reqs : (rowId) => {
+                let warn = '';
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 if(moveVal <= 0){
-                    return 'Unit must have a <b>[Move]</b> greater than 0.';
+                    warn = warn + '<p>Unit must have a <b>[Move]</b> greater than 0.</p>';
                 }
-                return '';
+                if(ub_tags_checkByName('Stable Fire Platform')){
+                    warn = warn + '<p>Unit <i>already has</i> [Stable Fire Platform] tag.</p>';
+                }
+                return warn;
             },
             eqt:'(<b>Move</b> / 3) + (<b>Armor</b> / 2)'
         },
@@ -668,11 +672,16 @@ const tagInfo = {
                 return (sizeVal * 1.25) + ((moveVal + evadeVal) / 2)
             },
             reqs : (rowId) => {
+                let warn = '';
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 if(moveVal <= 0){
-                    return 'Unit must have a <b>[Move]</b> greater than 11".';
+                    warn = warn + '<p>Unit must have a <b>[Move]</b> greater than 11".</p>';
                 }
-                return '';
+                if(ub_tags_checkByName('Stable Fire Platform')){
+                    warn = warn + '<p>Unit <i>already has</i> [Stable Fire Platform] tag.</p>';
+                }
+
+                return warn;
             },
             eqt:'(<b>Size</b> * 1.25) + (<b>Move</b> + <b>Evade</b>) / 2'
         },
@@ -894,12 +903,22 @@ const tagInfo = {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let evadeVal = parseInt(document.getElementById(rowId + '_evade').value);
 
-                return Math.max(0, ((moveVal + evadeVal)* 2) - (sizeVal - 3));
+                return Math.max(5, ((moveVal / sizeVal) * moveVal));
             },
             reqs : (rowId) => {
-                return '';
+                let warn = '';
+                if(ub_tags_checkByName('Afterburner')){
+                    warn = warn + '<p>Unit <i>already has</i> [Afterburner] tag.</p>';
+                }
+                if(ub_tags_checkByName('Inertial Dampers')){
+                    warn = warn + '<p>Unit <i>already has</i> [Inertial Dampers] tag.</p>';
+                }
+                if(ub_tags_checkByName('Supercharger')){
+                    warn = warn + '<p>Unit <i>already has</i> [Supercharger] tag.</p>';
+                }
+                return warn;
             },
-            eqt:'(<b>Move</b> + <b>Evade</b>) * 2 - *<b>Size</b> - 3)'
+            eqt:'(<b>Move</b> / <b>Size</b>) * <b>Size</b> | min cost 5pts.'
         },
         {
             title : 'Stall Speed',
@@ -926,11 +945,15 @@ const tagInfo = {
                 return cost;
             },
             reqs : (rowId) => {
+                let warn = '';
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 if(moveVal <= 0){
-                    return 'Unit must have a <b>[Move]</b> greater than 0".';
+                    warn = warn + '<p>Unit must have a <b>[Move]</b> greater than 0".</p>';
                 }
-                return '';
+                if(ub_tags_checkByName('Stable Fire Platform')){
+                    warn = warn + '<p>Unit <i>already has</i> [Stable Fire Platform] tag.</p>';
+                }
+                return warn;
             },
             eqt:'(<b>Size</b> / <b>Move</b>) * <b>Move</b>'
         },
