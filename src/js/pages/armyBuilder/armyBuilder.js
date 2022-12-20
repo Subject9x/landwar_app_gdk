@@ -345,9 +345,6 @@ function ab_armyList_removeEntry(entryRowId){
     ab_armyList_adjustTotalPoints(0 - removePoints);
     
     table.querySelector('#'+entryRowId).remove();
-    
-    armyListTableRowCount -= 1;
-    armyListTableRowCount = Math.max(0, armyListTableRowCount);
 }
 
 function ab_armyList_adjustTotalPoints(pointAdjust){
