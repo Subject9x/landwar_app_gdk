@@ -369,6 +369,10 @@ const tagInfo = {
             },
             reqs : (rowId) => {
                 let warn = '';
+                let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+                if(sizeVal < 2){
+                    warn = warn + '<p><b>[Size]</b> must be <i>greater than</i> 1.</p>';
+                }
                 if(ub_tags_checkByName('Courage-II')){
                     warn = warn + '<p>Unit <i>already has</i> [Courage-II] tag.</p>';
                 }
@@ -398,8 +402,8 @@ const tagInfo = {
             reqs : (rowId) => {
                 let warn = '';
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
-                if(sizeVal < 4){
-                    warn = warn + '<p><b>[Size]</b> must be <i>greater than</i> 1.</p>';
+                if(sizeVal < 3){
+                    warn = warn + '<p><b>[Size]</b> must be <i>greater than</i> 2.</p>';
                 }
                 if(ub_tags_checkByName('Courage-I')){
                     warn = warn + '<p>Unit <i>already has</i> [Courage-I] tag.</p>';
@@ -430,8 +434,8 @@ const tagInfo = {
             reqs : (rowId) => {
                 let warn = '';
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
-                if(sizeVal < 4){
-                    warn = warn + '<p><b>[Size]</b> must be <i>greater than</i> 3.</p>';
+                if(sizeVal < 5){
+                    warn = warn + '<p><b>[Size]</b> must be <i>greater than</i> 4.</p>';
                 }
                 if(ub_tags_checkByName('Courage-I')){
                     warn = warn + '<p>Unit <i>already has</i> [Courage-II] tag.</p>';
