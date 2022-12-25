@@ -8,16 +8,23 @@ const tagInfo = {
             func : (rowId) =>{
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
-                return ((moveVal / 2) + (rangeDamageVal / 2));
+                let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
+                return ((moveVal / 4) + (rangeDamageVal / 2) + (rangeVal / 2));
             },
             reqs : (rowId) =>{
+                let warn = '';
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
-                if(rangeDamageVal <= 0){
-                    return "Cannot have <b>[Range Damage]</b> of 0";
+                let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
+                if(rangeDamageVal < 1){
+                    warn = warn + "<p>Cannot have <b>[Range Damage]</b> of 0.</p>";
                 }
-                return '';
+                if(rangeVal < 1){
+                    warn = warn + "<p>Cannot have <b>[Range Distance]</b> of 0.</p>";
+                }
+
+                return warn;
             },
-            eqt:'(<b>Move</b> / 2) + (<b>DMG-R</b> / 2)'
+            eqt:'(<b>Move</b> / 2) + (<b>DMG-R</b> / 2) + (<b>Range</b> / 2)'
         },
         {
             title : 'Afterburner',
@@ -25,7 +32,7 @@ const tagInfo = {
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
-                return ((armorVal/2) + (moveVal/3));
+                return ((armorVal/2) + (moveVal/2));
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -38,7 +45,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'(<b>Move</b> / 3) + (<b>Armor</b> / 2)'
+            eqt:'(<b>Move</b> / 2) + (<b>Armor</b> / 2)'
         },
         {
             title : 'Area Denial',
@@ -184,17 +191,24 @@ const tagInfo = {
                 return uc_calc_Move(moveVal, sizeVal) * 2;
             },
             reqs : (rowId) => {
+                let warn = '';
                 let moveVal = parseInt(document.getElementById(rowId + '_move'));
                 if(moveVal <= 0){
-                    return 'Unit must have a <b>[Move]</b> greater than 0.';
+                    warn = warn + '<p>Unit must have a <b>[Move]</b> greater than 0.</p>';
                 }
-                return '';
+                if(ub_tags_checkByName('High Altitude Flyer')){
+                    warn = warn + '<p>Unit already has [High Altitude Flyer] tag.</p>';
+                }
+                if(ub_tags_checkByName('Jump Jets')){
+                    warn = warn + '<p>Unit already has [Jump Jets] tag.</p>';
+                }
+                return warn;
             },
             eqt:'<b>Move COST</b> * 2'
         },
         {
             title : 'Brawler',
-            desc : 'Must have Melee DMG > 0. May Reroll 2 ATK and 1 DEF dice in Melee Attacks',
+            desc : 'Must have Melee DMG > 0. May <b>Reroll 2 ATK</b> and <b>1 DEF</b> dice in Melee Attacks.',
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
@@ -202,7 +216,7 @@ const tagInfo = {
             },
             reqs : (rowId) => {
                 let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
-                if(meleeDamageVal <= 0){
+                if(meleeDamageVal < 1){
                     return 'Unit must have a <b>[Melee Damage]</b> greater than 0.';
                 }
                 return '';
@@ -504,7 +518,7 @@ const tagInfo = {
         },
         {
             title : 'Fortification',
-            desc : 'Unit may make unlimited overwatch attacks',
+            desc : 'Unit may make unlimited <i>Overwatch</i> attacks.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
@@ -536,30 +550,49 @@ const tagInfo = {
         },
         {
             title : 'Grappler',
-            desc : 'if target starts movement base-to-base, and tries to move away, Grappler may make an Overwatch attack on the moving unit.',
+            desc : 'if target starts movement base-to-base, and tries to move away, Grappler may make a <b>free</b> <i>Overwatch</i> attack on the moving unit.',
             func : (rowId) => {
-                return 0; /*TODO */
+                let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+                let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
+                let moveCost = uc_calc_Move(moveVal, sizeVal);
+
+                let meleeCost = uc_calc_Damage_Melee(meleeDamageVal, moveVal);
+
+                let cost = sizeVal + (moveCost * 0.33)  + (meleeCost * 0.25);
+
+                return cost;
             },
             reqs : (rowId) => {
-                return '';
+                let warn = '';
+                let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
+                if(meleeDamageVal < 1){
+                    warn = warn + '<p>Unit <b>Melee Damage</b> must be greater than <b>0</b>.';
+                }
+                return warn;
             },
-            eqt:'TODO'
+            eqt:'<b>Size</b> + (<i>Move Cost</i> * 0.33) + (<i>DMG-Melee</i> * 0.25)'
         },
         {
             title : 'Heavy Armor I',
-            desc : 'DEBUG Unit may reduce the <b>DMG</b> effect of <i>Armor Piercing</i> by <b>half</b>.',
+            desc : 'Unit may reduce the <b>DMG</b> effect of <i>Armor Piercing</i> by <b>half</b>.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let evadeVal = parseInt(document.getElementById(rowId + '_evade').value);
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
-                // 3/evade * moveVal - (armorVal/2 + size)
-                return sizeVal + (armorVal / 2) + ((moveVal + evadeVal) / 2);
+                return sizeVal + (armorVal / 2) + ((moveVal + evadeVal) / 4);
             },
             reqs : (rowId) => {
-                return '';
+                let warn = '';
+                let evadeVal = parseInt(document.getElementById(rowId + '_evade').value);
+                
+                if(evadeVal > 1){
+                    warn = warn + '<p>Unit <b>Evade<b> must be <i>less than</i> <b>2</b>.';
+                }
+                return warn;
             },
-            eqt:'<b>Size</b> + (<b>Armor</b> / 2) + (<b>Move</b> + <b>Evade</b>) / 2'
+            eqt:'<b>Size</b> + (<b>Armor</b> / 2) + (<b>Move</b> + <b>Evade</b>) / 4'
         },
         {
             title : 'Hero',
@@ -579,14 +612,30 @@ const tagInfo = {
         },
         {
             title : 'High Altitude Flyer',
-            desc : 'Ignore IF attacks. Ignore Overwatch for any ground units. Ground Units can only use Long Range attacks on this model. Any flyer can use regular Range attacks.',
+            desc : '<b>Ignore</b> [Indirect Fire] attacks. <b>Ignore</b> <i>Overwatch</i> for <b>any</b> Unit missing the [High Altitude Flyer] tag. Ground Units can only use Long Range attacks on this model. Any [High Altitude Flyer] can use regular Range attacks.',
             func : (rowId) => {
-                return 0; /*TODO */
+                let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+                let evadeVal = parseInt(document.getElementById(rowId + '_evade').value);
+                let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
+
+                return ((sizeVal / moveVal) * moveVal) + (evadeVal / 2) + (armorVal / 2);
             },
             reqs : (rowId) => {
-                return '';
+                let warn = '';
+                if(ub_tags_checkByName('Blink')){
+                    warn = warn + '<p>Unit already has [Blink].</p>';
+                }
+                if(ub_tags_checkByName('Jump Jets')){
+                    warn = warn + '<p>Unit already has [Jump Jets].</p>';
+                }
+                if(ub_tags_checkByName('Stable Fire Platform')){
+                    warn = warn + '<p>Unit already has [Stable Fire Platform].</p>';
+                }
+
+                return warn;
             },
-            eqt:'TODO'
+            eqt:'((<b>Size</b> / <b>Move</b>) * <b>Move</b>) + (<b>Evade</b> / 2) + (<b>Armor</b> / 2).'
         },
         {
             title : 'Hole where your house was',
@@ -641,7 +690,7 @@ const tagInfo = {
         },
         {
             title : 'Indirect Fire',
-            desc : 'Unit may select targets outside of LoS when making Ranged Attacks. Each Attack suffers -2ATK in Range, and -3ATK at Long Range.',
+            desc : 'Unit may select targets outside of LoS when making Ranged Attacks. <b>Each</b> Attack suffers <b>-2ATK</b> in Range, and <b>-3ATK</b> at <i>Long Range</i>.',
             func : (rowId) => {
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
                 let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
@@ -673,7 +722,7 @@ const tagInfo = {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let evadeVal = parseInt(document.getElementById(rowId + '_evade').value);
 
-                return (sizeVal * 1.25) + ((moveVal + evadeVal) / 2)
+                return (sizeVal * 1.25) + ((moveVal + evadeVal) / 1.5)
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -687,7 +736,7 @@ const tagInfo = {
 
                 return warn;
             },
-            eqt:'(<b>Size</b> * 1.25) + (<b>Move</b> + <b>Evade</b>) / 2'
+            eqt:'(<b>Size</b> * 1.25) + (<b>Move</b> + <b>Evade</b>) / 1.5'
         },
         {
             title : 'Inhibitor Munitions',
@@ -716,7 +765,15 @@ const tagInfo = {
                 return (sizeVal * 2) + (moveVal / 2);
             },
             reqs : (rowId) => {
-                return '';
+                let warn = '';
+
+                if(ub_tags_checkByName('Blink')){
+                    warn = warn + '<p>Unit already has [Blink] tag.</p>'
+                }
+                if(ub_tags_checkByName('High Altitude Flyer')){
+                    warn = warn + '<p>Unit already has [High Altitude Flyer] tag.</p>'
+                }
+                return warn;
             },
             eqt:'(<b>Size</b> * 2) + (<b>Move</b> / 2)'
         },
@@ -876,7 +933,7 @@ const tagInfo = {
         },
         {
             title : 'Sharpshooter',
-            desc : "Unit does not suffer Stress penalty for targeting non-closest Enemy Unit",
+            desc : "Unit may <b>subtract 1</b> from <i>Stress Penalty</i> to ranged attacks at non-closest target.",
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
@@ -894,6 +951,9 @@ const tagInfo = {
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
                 if(rangeDamageVal <= 0){
                     warn = warn + '<p>Unit must have a <b>[Range Damage]</b> greater than 0".</p>';
+                }
+                if(ub_tags_checkByName('Fearless')){
+                    warn = warn + '<p>Unit <i>already has</i> [Fearless] tag.</p>';
                 }
                 return warn;
             },
