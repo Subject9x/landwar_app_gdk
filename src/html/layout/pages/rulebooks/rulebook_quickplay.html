@@ -72,6 +72,7 @@
                     <li><b>Stationary:</b> place token, Unit can rotate in place.</li>
                     <li><b>Normal:</b> Unit may move <b>up to</b> its current total <i>MV</i> value.</li>
                     <li><b>TAG:</b> make move as described in TAG rule.</li>
+                    <li><b>IF</b> <i>Panicked</i> <b>remove</b> 1 Stress point.</li>
                 </ul>
             </div>
         </div>
@@ -96,12 +97,12 @@
             </div>
             <div class="txt--center ">
                 <ul class="list--unstyled infoSmall txt--left">
-                    <li><b>Attack:</b> <i>Stationary</i>  <b>+2 ATK</b></li>
+                    <li><b>Attack:</b> <i>Stationary</i>  <b>+1 ATK</b></li>
                     <li><b>Attack:</b> <i>Panicked</i>  <b>halve base ATK</b></li>
-                    <li><b>Attack:</b> <i>High Speed</i> <b>-2 ATK</b> <b>+1 DEF</b></li>
+                    <li><b>Attack:</b> <i>High Speed</i> <b>-2 ATK</b> and <b>re-roll 2 DEF.</b></li>
                     <li><b>Attack:</b> <i>Overwatch</i> <b>-2 ATK</b></li>
                     <li><b>Defense:</b> <i>Long Range</i> <b>+1 DEF</b></i></li>
-                    <li><b>Defense:</b> <i>Moved</i> - may spend <i>Evade</i> points on DEF rolls.</li>
+                    <li><b>Defense:</b> <i>Moved more than 1/4 MV</i> - may spend <i>Evade</i> points on DEF rolls.</li>
                     <li><b>Defense:</b> <i>Cover</i> - may re-reroll <b>half base DEF dice.</b></li>
                 </ul>
             </div>
@@ -119,6 +120,7 @@
                     <li><b>Defender counts each roll of 5+</b></li>
                     <li>When Attacker success total is <b>greater than</b> Defender total, Target Unit takes <i>all the Damage from the attack.</i></li>
                     <li>subtract Damage from Target's <b>Armor</b> stat first, then when Armor is 0, subtract from <b>Structure</b>.</li>
+                    <li><i>Ranged Attack</i>: <b>missed shots</b> at <b>non-closest Target</b> +1 stress at Effective Range OR +2 at Long Range.</li>
                 </ul>
             </div>
         </div>
@@ -146,8 +148,9 @@
             </div>
             <div class="txt--center ">
                 <ul class="list--unstyled infoSmall txt--left">
-                    <li><b>If</b> Unit takes any <b>Armor Damage</b> <i>below 1/2 total Armor during turn:</i> +1 Stress</li>
-                    <li><b>If</b> Unit takes any <b>Structure Damage</b> +2 Stress</li>
+                    <li>+1 Stress for each attack that hits <i>Armor</i> when <i>Armor</i> is <b>below 1/2 total.</b></li>
+                    <li>+2 Stress <b>if</b> Unit took <b>any</b> <i>Structure</i> <b>damage this Turn.</b></li>
+                    <li>+1 Stress <b>if</b> Unit was target of <b>3 or more</b> attacks this Turn.</li>
                     <li>Any <i>TAG</i> rules that apply as well.</li>
                 </ul>
             </div>

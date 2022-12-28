@@ -93,14 +93,16 @@
                                         <li>Declare <b>Stationary</b>.
                                             <ul>
                                                 <li>Unit <b>may</b> <i>Rotate</i> to a new Facing.</li>
-                                                <li>Unit <i>gains</i> <b>+2 ATK</b> for this <i>Combat Phase</i>.</li>
+                                                <li>Unit <i>gains</i> <b>+1 ATK</b> for this <i>Combat Phase</i>.</li>
                                                 <li>Unit <b>cannot</b> use its <i>Evade</i> bonus for this <i>Combat Phase</i>.</li>
+                                                <li>Unit suffers <b>-1 DEF</b> on this <i>Combat Phase.</i></li>
                                             </ul>
                                         </li>
                                         <li>Make <b>Normal</b> move.
                                             <ul>
                                                 <li>Unit may move in any direction <b>up to</b> to their current <i>Move</i> value.</li>
                                                 <li>Unit may change their Facing at the end of the move.</li>
+                                                <li>Unit may use its <b>Evade</b> value <b>IF</b> it moves <b>more than</b> 25% of its total <b>Move</b> value.</li>
                                             </ul>
                                         </li>
                                         <li>Use <i>TAG</i> rules.</li>
@@ -132,7 +134,7 @@
                             <p>Units during their <b>next</b> <i>Combat Phase</i> are given the following effects.</p>
                             <ul>
                                 <li><b>Base ATK</b> - 2. (Minimum of 1).</li>
-                                <li><b>Base DEF</b> +1. </li>
+                                <li>may <b>re-roll 2 Base DEF</b> dice. </li>
                             </ul>
                         </div>
                     </div>
@@ -275,7 +277,7 @@
                                                     <li>total Dice is <b>halved</b> and minimum of 1.</li>
                                                 </ul>
                                             </li>
-                                            <li><i>Stationary</i>: <i>Attacker</i> gains <b>2+ ATK</b> dice.</li>
+                                            <li><i>Stationary</i>: <i>Attacker</i> gains <b>+1 ATK</b> dice.</li>
                                             <li>Check <i>Short Range</i>.</li>
                                             <li><b>Apply</b> any <b>TAG rules</b> to the <b>ATK</b> amount.</li>
                                         </ul>
@@ -299,7 +301,7 @@
                                     <div class="col-s-10 col-10 col-l-10 offset-s-1 offset-1 offset-l-1">
                                         <h3><i>RANGED Defender</i> Dice Pool</h3>
                                         <ul class="sectionOrderList">
-                                            <li>Starting Amount: 3D6</li>
+                                            <li>Starting Amount: 4D6</li>
                                             <li>If Unit has <i>Panic Token</i>:
                                                 <ul>
                                                     <li>total Dice is <b>halved</b> and minimum of 1.</li>
@@ -317,7 +319,7 @@
                                         <label class="ruleTitle"><u>Long Range Attack</u></label>
                                         <p><i>When</i> the Target is at <b>Long Range</b></p>
                                         <ul class="sectionOrderList">
-                                            <li><i>Target</i> gains <b>+1 DEF</b> dice to this roll.</li>
+                                            <li><i>Target</i> may <b>+1 DEF</b> dice to this roll.</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -334,10 +336,10 @@
                                     <div class="col-s-10 col-10 col-l-10 rulePanel">
                                         <label class="ruleTitle"><u>Evasion Bonus</u></label>
                                         <p><i>If</i> Target <b>was not</b> <i>Stationary</i> during this Turn's <i>Movement Phase</i></p>
-                                        <p><i>If</i> Target <b>moved 1/2 or more</b> of their current <i>MOVE</i>.</p>
+                                        <p><i>If</i> Target <b>moved 1/4(25%) or more</b> of their current <i>MOVE</i>.</p>
                                         <ul class="sectionOrderList">
                                             <li>Target may <b>add</b> up to unit's <i>EVADE</i> value to their <b>DEF</b> roll results.</li>
-                                            <li>Evade points are spent <b>per</b> <i>Combat Phase</i>, once they're all spent, they can regenerate next</li>
+                                            <li>Evade points are spent <b>per</b> <i>Turn</i>, once they're all spent, they <b>only</b> recharge if Unit moves <b>next</b> Turn!</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -346,7 +348,7 @@
                                         <label class="ruleTitle"><u>High Speed Move</u></label>
                                         <p><i>If</i> <i>Attacker</i> moved <b>12" or more</b> during this Turn's <i>Movement Phase</i>:</p>
                                         <ul class="sectionOrderList">
-                                            <li><i>Defender</i> gains <b>+1 DEF</b>.</li>
+                                            <li><i>Defender</i> may <b>re-roll</b> up to <b>2 DEF</b> dice.</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -440,6 +442,7 @@
                                 <li>Check <i>Target Destroyed</i>.</li>
                                 <li>Check <i>Armor Level</i>.</li>
                                 <li>Check <i>Critical Damage</i>.</li>
+                                <li>check <i>Focused Fire</i>.</li>
                             </ul>
                         </div>
                     </div>
@@ -462,10 +465,17 @@
                         </div>
                         <div class="col-s-8 offset-s-2 col-4 offset-1 col-l-4 offset-l-1 rulePanel">
                             <label class="ruleTitle"><u>Critical Damage</u></label>
-                            <p><i>If</i> <i>Defender</i> takes <b>any</b> damage and its <i>Armor</i> value is <b>below</b> 1/2 of its starting value:</p>
+                            <p><i>If</i> <i>Defender</i> takes <b>any</b> <i>Structure</i> damage and its <i>Armor</i> value is <b>below</b> 1/2 of its starting value:</p>
                             <ul class="sectionOrderList">
                                 <li><b>Ignore</b> the <i>Armor Level</i> check.</li>
                                 <li><i>Defender</i> suffers <b>+2 Stress Points.</b></li>
+                            </ul>
+                        </div>
+                        <div class="col-s-8 offset-s-2 col-4 offset-1 col-l-4 offset-l-1 rulePanel">
+                            <label class="ruleTitle"><u>Focused Fire</u></label>
+                            <p><i>If</i> <i>Defender</i> was attacked <b>(regardless of hits)</b> by <b>3 or more</b> enemy Units this turn:</p>
+                            <ul class="sectionOrderList">
+                                <li><i>Defender</i> suffers <b>+1 Stress Point.</b></li>
                             </ul>
                         </div>
                     </div>
@@ -500,7 +510,7 @@
                             <p><b>Any non-Destroyed</b> Unit with <b>1 or more</b> <i>Stress Tokens</i> must make a <i>Stress Check</i>.</p>
                             <ul class="sectionOrderList">
                                 <li><b>note:</b> <i>TAGS</i> may be applied for <i>Stress Checks</i> and tokens at this time.</li>
-                                <li><i>Controlling Player</i> rolls <b>1D6 per Unit</b> for their Units with <i>Stress Tokens</i>.
+                                <li><i>Controlling Player</i> rolls <b>1D6</b> for each of their Units with <i>Stress Tokens</i>.
                                 <li><i>If</i> the roll is <b>higher than</b> the <b>current</b> <i>Stress Tokens</i> for that Unit:
                                     <ul>
                                         <li>Player <b>removes all</b> <i>Stress Tokens</i> from the Unit.</li>
