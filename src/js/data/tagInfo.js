@@ -196,6 +196,9 @@ const tagInfo = {
                 if(moveVal <= 0){
                     warn = warn + '<p>Unit must have a <b>[Move]</b> greater than 0.</p>';
                 }
+                if(ub_tags_checkByName('Bomber')){
+                    warn = warn + '<p>Unit <i>cannot have</i> [Bomber] tag.</p>';
+                }
                 if(ub_tags_checkByName('High Altitude Flyer')){
                     warn = warn + '<p>Unit already has [High Altitude Flyer] tag.</p>';
                 }
@@ -205,6 +208,46 @@ const tagInfo = {
                 return warn;
             },
             eqt:'<b>Move COST</b> * 2'
+        },
+        {
+            title : 'Bomber',
+            desc : '<p>Unit may make <i>Ranged Attacks</i> on <b>each</b> enemy unit that it moves <b>over</b> during the <i>Movement Phase</i> within <b>2"</b> of the Unit.<ul><li><i>Damage</i> of each attack is 25% of total <b>Damage</b> value <b>rounded up</b>.</li><li> This attack <b>cannot be</b> <i>Indirect Fire</i></li><li>Treat like an <i>Overwatch</i> attack on the target.</li><li><b>Cannot</b> use any <i>TAG</i> that would boost ATK Dice.</li></ul></p>',
+            func : (rowId) => {
+                let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+                let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
+
+                return uc_calc_Move(moveVal, sizeVal) * 0.5 + uc_calc_Damage_Range(rangeDamageVal) * 0.25;
+
+            },
+            reqs : (rowId) => {
+                let warn = '';
+                let hasJets = ub_tags_checkByName('Jump Jets');
+                let hasFly = ub_tags_checkByName('High Altitude Flyer');
+                if(ub_tags_checkByName('Hull Gun - I')){
+                    warn = warn + '<p>Unit <i>already has</i> [Hull Gun - I] tag.</p>';
+                }
+                if(ub_tags_checkByName('Hull Gun - II')){
+                    warn = warn + '<p>Unit <i>already has</i> [Hull Gun - II] tag.</p>';
+                }
+                if(ub_tags_checkByName('Blink')){
+                    warn = warn + '<p>Unit <i>cannot have</i> [Blink] tag.</p>';
+                }
+
+                if(!hasJets){
+                    if(!hasFly){
+                        warn = warn + '<p>Unit <i>must have</i> [Jump Jets] tag.</p>';
+                    }
+                }
+                if(!hasFly){
+                    if(!hasJets){
+                        warn = warn + '<p>Unit <i>must have</i> [High Altitude Flyer] tag.</p>';
+                    }
+                }
+
+                return warn;
+            },
+            eqt:'(<b>Move Cost</b> / 2) + (<b>Range Damage Cost</b> / 4)'
         },
         {
             title : 'Brawler',
@@ -222,6 +265,29 @@ const tagInfo = {
                 return '';
             },
             eqt:'<b>Damage-Melee COST</b> * 67%'
+        },
+        {
+            title : 'Broadside Fire Arc',
+            desc : 'Unit may only make <i>Ranged Attacks</i> to the Left and Right of the Forward Arc. Reduce Ranged Damage Cost by 75%. ',
+            func : (rowId) => {
+                let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
+
+                return 0 - (uc_calc_Damage_Range(rangeDamageVal) * 0.75);
+            },
+            reqs : (rowId) => {
+                let warn = '';
+                if(ub_tags_checkByName('Hull Gun - I')){
+                    warn = warn + '<p>Unit <i>already has</i> [Hull Gun - I] tag.</p>';
+                }
+                if(ub_tags_checkByName('Hull Gun - II')){
+                    warn = warn + '<p>Unit <i>already has</i> [Hull Gun - II] tag.</p>';
+                }
+                if(ub_tags_checkByName('Limited Fire Arc')){
+                    warn = warn + '<p>Unit <i>already has</i> [Hull Gun - II] tag.</p>';
+                }
+                return warn;
+            },
+            eqt:'<i>subtract</i> (<b>Damage-Range<b> <i>COST</i> * 0.75)'
         },
         {
             title : 'Cargo',
@@ -623,6 +689,13 @@ const tagInfo = {
             },
             reqs : (rowId) => {
                 let warn = '';
+
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+
+                if(moveVal < 1){
+                    warn = warn + '<p>Unit <i>must have</i> <b>Move Value</b> greater than <b>0</b>.</p>';
+                }
+
                 if(ub_tags_checkByName('Blink')){
                     warn = warn + '<p>Unit already has [Blink].</p>';
                 }
@@ -658,6 +731,9 @@ const tagInfo = {
             },
             reqs : (rowId) => {
                 let warn = '';
+                if(ub_tags_checkByName('Bomber')){
+                    warn = warn + '<p>Unit <i>cannot have</i> [Bomber] tag.</p>';
+                }
                 if(ub_tags_checkByName('Limited Fire Arc')){
                     warn = warn + '<p>Unit <i>already has</i> [Limited Fire Arc] tag.</p>';
                 }
@@ -678,6 +754,9 @@ const tagInfo = {
             },
             reqs : (rowId) => {
                 let warn = '';
+                if(ub_tags_checkByName('Bomber')){
+                    warn = warn + '<p>Unit <i>cannot have</i> [Bomber] tag.</p>';
+                }
                 if(ub_tags_checkByName('Limited Fire Arc')){
                     warn = warn + '<p>Unit <i>already has</i> [Limited Fire Arc] tag.</p>';
                 }
@@ -961,7 +1040,7 @@ const tagInfo = {
         },
         {
             title : 'Stable Fire Platform',
-            desc : "Unit gains an additional +1 ATK when declaring Stationary during the Movement Phase. Cost less for slower units.",
+            desc : "Unit may <b>reroll</b> up to <b>2</b> ATK dice when <b>Stationary</b> during the <i>Movement Phase</i>. Cost less for slower units.",
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
