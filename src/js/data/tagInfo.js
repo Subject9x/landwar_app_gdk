@@ -133,7 +133,7 @@ const tagInfo = {
         },
         {
             title : 'Battering Ram',
-            desc : 'Units Ranged Attacks suffer -3 ATK but ignore Stress Check on Ram Attacks. Ram Attacks deal Size + 3 DMG.',
+            desc : 'Units <i>Ranged Attacks</i> suffer <b>-3 ATK</b> but <b>ignore</b> <i>Stress Check</i> on Ram Attacks. <b>Damage</b> of Ram Attack will be <b>Size + 3</b>.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 return sizeVal * 2;
@@ -196,11 +196,17 @@ const tagInfo = {
                 if(moveVal <= 0){
                     warn = warn + '<p>Unit must have a <b>[Move]</b> greater than 0.</p>';
                 }
-                if(ub_tags_checkByName('Bomber')){
-                    warn = warn + '<p>Unit <i>cannot have</i> [Bomber] tag.</p>';
+                if(ub_tags_checkByName('Bomber-Area')){
+                    warn = warn + '<p>Unit <i>cannot have</i> [Bomber-Area] tag.</p>';
+                }
+                if(ub_tags_checkByName('Bomber-Dive')){
+                    warn = warn + '<p>Unit <i>cannot have</i> [Bomber-Dive] tag.</p>';
                 }
                 if(ub_tags_checkByName('High Altitude Flyer')){
                     warn = warn + '<p>Unit already has [High Altitude Flyer] tag.</p>';
+                }
+                if(ub_tags_checkByName('Flyer')){
+                    warn = warn + '<p>Unit already has [Flyer] tag.</p>';
                 }
                 if(ub_tags_checkByName('Jump Jets')){
                     warn = warn + '<p>Unit already has [Jump Jets] tag.</p>';
@@ -210,48 +216,69 @@ const tagInfo = {
             eqt:'<b>Move COST</b> * 2'
         },
         {
-            title : 'Bomber',
-            desc : '<p>Unit may make <i>Ranged Attacks</i> on <b>each</b> enemy unit that it moves <b>over</b> during the <i>Movement Phase</i> within <b>2"</b> of the Unit.<ul><li><i>Damage</i> of each attack is 25% of total <b>Damage</b> value <b>rounded up</b>.</li><li> This attack <b>cannot be</b> <i>Indirect Fire</i></li><li>Treat like an <i>Overwatch</i> attack on the target.</li><li><b>Cannot</b> use any <i>TAG</i> that would boost ATK Dice.</li></ul></p>',
+            title : 'Bomber-Area',
+            desc : '<p>Unit may make <i>Ranged Attacks</i> on <b>each</b> enemy Unit that it moves <b>over</b> during the <i>Movement Phase</i> within <b>2"</b> of the Unit.<ul><li><i>Damage</i> of each attack is 25% of total <b>Damage</b> value <b>rounded up</b>.</li><li> This attack <b>cannot be</b> <i>Indirect Fire</i></li><li>Treat like an <i>Overwatch</i> attack on the target.</li></ul></p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
 
                 return uc_calc_Move(moveVal, sizeVal) * 0.5 + uc_calc_Damage_Range(rangeDamageVal) * 0.25;
-
             },
             reqs : (rowId) => {
                 let warn = '';
                 let hasJets = ub_tags_checkByName('Jump Jets');
-                let hasFly = ub_tags_checkByName('High Altitude Flyer');
-                if(ub_tags_checkByName('Hull Gun - I')){
-                    warn = warn + '<p>Unit <i>already has</i> [Hull Gun - I] tag.</p>';
-                }
-                if(ub_tags_checkByName('Hull Gun - II')){
-                    warn = warn + '<p>Unit <i>already has</i> [Hull Gun - II] tag.</p>';
+                let hasFly = ub_tags_checkByName('Flyer');
+                let hasHighFly = ub_tags_checkByName('High Altitude Flyer');
+                let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
+
+                if(rangeDamageVal < 1){
+                    warn = warn + '<p><b>Range Damage</b> must be <i>greater than</i> 0.</p>';
                 }
                 if(ub_tags_checkByName('Blink')){
                     warn = warn + '<p>Unit <i>cannot have</i> [Blink] tag.</p>';
                 }
-
-                if(!hasJets){
-                    if(!hasFly){
-                        warn = warn + '<p>Unit <i>must have</i> [Jump Jets] tag.</p>';
-                    }
+                if(ub_tags_checkByName('Bomber-Dive')){
+                    warn = warn + '<p>Unit <i>cannot have</i> [Bomber-Dive] tag.</p>';
                 }
-                if(!hasFly){
-                    if(!hasJets){
-                        warn = warn + '<p>Unit <i>must have</i> [High Altitude Flyer] tag.</p>';
-                    }
+                if(!hasJets && !hasFly && !hasHighFly){
+                    warn = warn + '<p>Unit <i>must have</i> [Flyer] <b>or</b> [High Altitude Flyer] <b>or</b> [Jump Jets] tags.</p>';
                 }
-
                 return warn;
             },
             eqt:'(<b>Move Cost</b> / 2) + (<b>Range Damage Cost</b> / 4)'
         },
         {
+            title : 'Bomber-Dive',
+            desc : 'Unit may make a <b>free</b> <i>Ranged Attack</i> on a single target Unit that is within <b>2"</b> of this Units <i>end position</i> after its move. Any unit that is a target of a [Bomber-Dive] attack may make a <b>free</b> <i>Overwatch</i> Attack on this unit at <b>-1 ATK</b> (instead of -2). <b>Damage</b> is 33% of total <b>Damage-Ranged/b> (round up, minimum of 1).',
+            func : (rowId) => {
+                let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+                return Math.max(0, (moveVal / 2)- (sizeVal * 1.25));
+            },
+            reqs : (rowId) => {
+                let warn = '';
+                let hasJets = ub_tags_checkByName('Jump Jets');
+                let hasFly = ub_tags_checkByName('Flyer');
+                let hasHighFly = ub_tags_checkByName('High Altitude Flyer');
+                let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
+
+                if(rangeDamageVal < 1){
+                    warn = warn + '<p><b>Range Damage</b> must be <i>greater than</i> 0.</p>';
+                }
+                if(ub_tags_checkByName('Bomber-Area')){
+                    warn = warn + '<p>Unit requires [Bomber-Area] tag.</p>';
+                }
+                if(!hasJets && !hasFly && !hasHighFly){
+                    warn = warn + '<p>Unit <i>must have</i> [Flyer] <b>or</b> [High Altitude Flyer] <b>or</b> [Jump Jets] tags.</p>';
+                }
+                return warn;
+            },
+            eqt:'(<b>Move</b> / 2) - (<b>Size</b> * 1.25)'
+        },
+        {
             title : 'Brawler',
-            desc : 'Must have Melee DMG > 0. May <b>Reroll 2 ATK</b> and <b>1 DEF</b> dice in Melee Attacks.',
+            desc : 'Must have <b>Melee DMG</b> > 0. May <b>Reroll 2 ATK</b> and <b>1 DEF</b> dice in <i>Melee Attacks</i>.',
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
@@ -268,26 +295,20 @@ const tagInfo = {
         },
         {
             title : 'Broadside Fire Arc',
-            desc : 'Unit may only make <i>Ranged Attacks</i> to the Left and Right of the Forward Arc. Reduce Ranged Damage Cost by 75%. ',
+            desc : 'Unit may <b>only</b> make <i>Ranged Attacks</i> against targets that are <i>LEFT or RIGHT</i> of Units <i>Forward facing</i>, <b>but</b> Unit may make <b>1</b> <i>Ranged Attacks</i> per side of Unit.',
             func : (rowId) => {
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
 
-                return 0 - (uc_calc_Damage_Range(rangeDamageVal) * 0.75);
+                return uc_calc_Damage_Range(rangeDamageVal) * 0.5;
             },
             reqs : (rowId) => {
                 let warn = '';
-                if(ub_tags_checkByName('Hull Gun - I')){
-                    warn = warn + '<p>Unit <i>already has</i> [Hull Gun - I] tag.</p>';
-                }
-                if(ub_tags_checkByName('Hull Gun - II')){
-                    warn = warn + '<p>Unit <i>already has</i> [Hull Gun - II] tag.</p>';
-                }
                 if(ub_tags_checkByName('Limited Fire Arc')){
-                    warn = warn + '<p>Unit <i>already has</i> [Hull Gun - II] tag.</p>';
+                    warn = warn + '<p>Unit <i>already has</i> [Limited Fire Arc] tag.</p>';
                 }
                 return warn;
             },
-            eqt:'<i>subtract</i> (<b>Damage-Range<b> <i>COST</i> * 0.75)'
+            eqt:'(<b>Damage-Range<b> <i>COST</i> * 0.5)'
         },
         {
             title : 'Cargo',
@@ -570,17 +591,29 @@ const tagInfo = {
             eqt:'<i>Unit base total COST</i> * 25%'
         },
         {
-            title : 'Field Repair Kit',
-            desc : 'During Combat Phase, instead of making an Attack, Unit may target a Friendly Unit and repair a number of Armor Points on that Unit equal to this Unit Size / 2 ',
+            title : 'Flyer',
+            desc : 'Unit is considered as permanently above the ground. Unit may move and shoot <b>over</b> enemy Units and Terrain. Unit cannot use <b>Cover Bonus</b> for defense and <b>all</b> units have <i>Line of sight</i> to this unit. <b>Only</b> Units with [Flyer] or [Jump Jets] can choose <i>Melee Attacks</i> when applicable. ',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
-                return Math.max(0, (moveVal / 2)- (sizeVal * 1.25));
+                let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
+
+                return (((moveVal / 2) + (sizeVal * 1.52)) / 2) + (armorVal * 0.7);
             },
             reqs : (rowId) => {
-                return '';
+                let warn = '';
+                if(ub_tags_checkByName('High Altitude Flyer')){
+                    warn = warn + '<p>Unit already has [High Altitude Flyer].</p>';
+                }
+                if(ub_tags_checkByName('Blink')){
+                    warn = warn + '<p>Unit already has [Blink].</p>';
+                }
+                if(ub_tags_checkByName('Jump Jets')){
+                    warn = warn + '<p>Unit already has [Jump Jets].</p>';
+                }
+                return warn;
             },
-            eqt:'(<b>Move</b> / 2) - (<b>Size</b> * 1.25)'
+            eqt:'(((<b>Move</b> / 2) + (<b>Size</b> * 1.25) / 2) + (<b>Armor</b> * 0.7)'
         },
         {
             title : 'Fortification',
@@ -616,7 +649,7 @@ const tagInfo = {
         },
         {
             title : 'Grappler',
-            desc : 'if target starts movement base-to-base, and tries to move away, Grappler may make a <b>free</b> <i>Overwatch</i> attack on the moving unit.',
+            desc : 'if target starts movement base-to-base, and tries to move away, Grappler may make a <b>free</b> <i>Overwatch</i> attack on the moving unit using <b>Melee Damage</b>.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
@@ -678,14 +711,13 @@ const tagInfo = {
         },
         {
             title : 'High Altitude Flyer',
-            desc : '<b>Ignore</b> [Indirect Fire] attacks. <b>Ignore</b> <i>Overwatch</i> for <b>any</b> Unit missing the [High Altitude Flyer] tag. Ground Units can only use Long Range attacks on this model. Any [High Altitude Flyer] can use regular Range attacks.',
+            desc : '<b>Ignore</b> [Indirect Fire] attacks. <b>Ignore</b> <i>Overwatch</i> for <b>any</b> Unit missing the [High Altitude Flyer] or [Flyer] tag. Ground Units can only use <i>Long Range</i> attacks on this model. Any [High Altitude Flyer] or [Flyer] can use <i>Effective Range</i> and <i>Melee</i> attacks where applicable.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
-                let evadeVal = parseInt(document.getElementById(rowId + '_evade').value);
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
 
-                return ((sizeVal / moveVal) * moveVal) + (evadeVal / 2) + (armorVal / 2);
+                return ((((moveVal / 2) + (sizeVal * 1.25)) / 2) + (armorVal * 0.7)) * 2;
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -708,7 +740,7 @@ const tagInfo = {
 
                 return warn;
             },
-            eqt:'((<b>Size</b> / <b>Move</b>) * <b>Move</b>) + (<b>Evade</b> / 2) + (<b>Armor</b> / 2).'
+            eqt:'((((<b>Move</b> / 2) + (<b>Size</b> * 1.25) / 2) + (<b>Armor</b> * 0.7)) * 2'
         },
         {
             title : 'Hole where your house was',
@@ -731,9 +763,6 @@ const tagInfo = {
             },
             reqs : (rowId) => {
                 let warn = '';
-                if(ub_tags_checkByName('Bomber')){
-                    warn = warn + '<p>Unit <i>cannot have</i> [Bomber] tag.</p>';
-                }
                 if(ub_tags_checkByName('Limited Fire Arc')){
                     warn = warn + '<p>Unit <i>already has</i> [Limited Fire Arc] tag.</p>';
                 }
@@ -754,9 +783,6 @@ const tagInfo = {
             },
             reqs : (rowId) => {
                 let warn = '';
-                if(ub_tags_checkByName('Bomber')){
-                    warn = warn + '<p>Unit <i>cannot have</i> [Bomber] tag.</p>';
-                }
                 if(ub_tags_checkByName('Limited Fire Arc')){
                     warn = warn + '<p>Unit <i>already has</i> [Limited Fire Arc] tag.</p>';
                 }
@@ -833,7 +859,7 @@ const tagInfo = {
         },
         {
             title : 'Jump Jets',
-            desc : 'Unit may traverse terrain vertically, uses flight rules when moving and for <i>Overwatch</i> attacks, but is otherwise treated as a ground unit',
+            desc : 'Unit may traverse terrain vertically, uses [Flyer] rules when moving and for <i>Overwatch</i> attacks, but is otherwise treated as a ground unit.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 if(sizeVal == 0){
@@ -852,6 +878,9 @@ const tagInfo = {
                 if(ub_tags_checkByName('High Altitude Flyer')){
                     warn = warn + '<p>Unit already has [High Altitude Flyer] tag.</p>'
                 }
+                if(ub_tags_checkByName('Flyer')){
+                    warn = warn + '<p>Unit already has [Flyer] tag.</p>'
+                }
                 return warn;
             },
             eqt:'(<b>Size</b> * 2) + (<b>Move</b> / 2)'
@@ -866,6 +895,10 @@ const tagInfo = {
             },
             reqs : (rowId) => {
                 let warn = '';
+
+                if(ub_tags_checkByName('Broadside Fire Arc')){
+                    warn = warn + '<p>Unit <i>already has</i> [Broadside Fire Arc] tag.</p>';
+                }
                 if(ub_tags_checkByName('Hull Gun - I')){
                     warn = warn + '<p>Unit <i>already has</i> [Hull Gun - I] tag.</p>';
                 }
@@ -891,12 +924,12 @@ const tagInfo = {
             title : 'Mobile HQ',
             desc : '<b>+2</b> to all <i>Initiative Rolls</i> as long as this Unit is not destroyed.',
             func : (rowId) => {
-                return ub_row_change_points(rowId) * 0.25;
+                return ub_row_change_points(rowId) * 0.33;
             },
             reqs : (rowId) => {
                 return '';
             },
-            eqt:'<i>Unit base total COST</i> * 25%'
+            eqt:'<i>Unit base total COST</i> * 33%'
         },
         {
             title : 'Overheat',
@@ -1059,22 +1092,29 @@ const tagInfo = {
                 if(ub_tags_checkByName('Supercharger')){
                     warn = warn + '<p>Unit <i>already has</i> [Supercharger] tag.</p>';
                 }
+                if(ub_tags_checkByName('Stall Speed')){
+                    warn = warn + '<p>Unit <i>already has</i> [Stall Speed] tag.</p>';
+                }
                 return warn;
             },
             eqt:'(<b>Move</b> / <b>Size</b>) * <b>Size</b> | min cost 5pts.'
         },
         {
             title : 'Stall Speed',
-            desc : "Unit now has a Minimum Move distance of 1/3 normal move. It must always move AT LEAST this far in its Movement Phase. IF unit cannot complete this minimum move, it is destroyed in the Resolution Phase. This model cannot take Stable Firing Platform along with this.",
+            desc : "Unit now has a Minimum Move distance of 1/3 normal move. It must always move AT LEAST this far in its Movement Phase. IF unit cannot complete this minimum move, it is destroyed in the Resolution Phase. This model cannot take [Stable Firing Platform] along with this.",
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
 
-                return 0 - (moveVal / 3);
+                return 0 - (moveVal / 2);
             },
             reqs : (rowId) => {
+                let warn = '';
+                if(ub_tags_checkByName('Stable Fire Platform')){
+                    warn = warn + '<p>Unit <i>already</i> has [Stable Fire Platform] tag.</p>';
+                }
                 return '';
             },
-            eqt:'<i>subtract</i> (<b>Move</b> / 3)'
+            eqt:'<i>subtract</i> (<b>Move</b> / 2)'
         },
         {
             title : 'Supercharger',
