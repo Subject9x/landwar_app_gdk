@@ -695,7 +695,7 @@ const tagInfo = {
         },
         {
             title : 'Hero',
-            desc : 'Hero may suffer +1 Stress Point to allow every Friendly Unit in 8" to reroll 1 failed Stress Check this Turn.',
+            desc : 'Hero may suffer <b>+2 Stress</b> Point to allow every Friendly Unit in 8" to <b>reroll</b> 1 failed <i>Stress Check</i> per Turn. <b>IF</b> [Hero] unit is <b>destroyed</b>, <b>all</b> friendly units <b>immediately</b> suffer <b>+2 Stress</b>.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
@@ -705,7 +705,11 @@ const tagInfo = {
                 return sizeVal + (armorVal / 2) + ((moveVal + evadeVal) / 2);
             },
             reqs : (rowId) => {
-                return '';
+                let warn = '';
+                if(ub_tags_checkByName('Rank - Green')){
+                    warn = warn + '<p>Unit already has [Rank - Green] tag.</p>';
+                }
+                return warn;
             },
             eqt:'<b>Size</b> + (<b>Armor</b> / 2) + (<b>Move</b> + <b>Evade</b>) / 2'
         },
@@ -922,7 +926,7 @@ const tagInfo = {
         },
         {
             title : 'Mobile HQ',
-            desc : '<b>+2</b> to all <i>Initiative Rolls</i> as long as this Unit is not destroyed.',
+            desc : '<b>+2</b> to all <i>Initiative Rolls</i> as long as this Unit is not destroyed <b>or</b> <i>Panicked</i>.',
             func : (rowId) => {
                 return ub_row_change_points(rowId) * 0.33;
             },
