@@ -132,6 +132,7 @@ ipcMain.handle('ub-dialog-save-csv', async (event, dialogConfig, filedata)=>{
             });
           }
       );
+      srcWindow.webContents.send('ub-dialog-save-response', file.filePath);
     }
   });
 });
@@ -161,7 +162,7 @@ ipcMain.handle('ub-dialog-load-async', async (event, dialogConfig)=>{
           }
       })
       .on('end',()=>{
-        srcWindow.webContents.send('ub-dialog-load-response', JSON.stringify(importData));
+        srcWindow.webContents.send('ub-dialog-load-response', JSON.stringify(importData), "");
       });
     }
   });
@@ -421,7 +422,7 @@ ipcMain.handle('ub-open-sheet-import', async (event, dialogConfig)=>{
               setLastWindow(BrowserWindow.fromId(event.sender.id));
               
               newWindow.focus();
-              newWindow.webContents.send('ub-dialog-load-response', JSON.stringify(importData));
+              newWindow.webContents.send('ub-dialog-load-response', JSON.stringify(importData), file.filePaths[0]);
           }
           else{
             newWindow.close();
