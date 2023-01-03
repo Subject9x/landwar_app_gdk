@@ -250,7 +250,7 @@ const tagInfo = {
         },
         {
             title : 'Bomber-Dive',
-            desc : 'Unit may make a <b>free</b> <i>Ranged Attack</i> on a single target Unit that is within <b>2"</b> of this Units <i>end position</i> after its move. Any unit that is a target of a [Bomber-Dive] attack may make a <b>free</b> <i>Overwatch</i> Attack on this unit at <b>-1 ATK</b> (instead of -2). <b>Damage</b> is 33% of total <b>Damage-Ranged/b> (round up, minimum of 1).',
+            desc : 'Unit may make a <b>free</b> <i>Ranged Attack</i> on a single target Unit that is within <b>2"</b> of this Units <i>end position</i> after its move. Any unit that is a target of a [Bomber-Dive] attack may make a <b>free</b> <i>Overwatch</i> Attack on this unit at <b>-1 ATK</b> (instead of -2). <b>Damage</b> is 33% of total <b>Damage-Ranged</b> (round up, minimum of 1).',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
@@ -268,6 +268,9 @@ const tagInfo = {
                 }
                 if(ub_tags_checkByName('Bomber-Area')){
                     warn = warn + '<p>Unit requires [Bomber-Area] tag.</p>';
+                }
+                if(ub_tags_checkByName('Charger')){
+                    warn = warn + '<p>Unit <i>cannot have</i> [Charger] tag.</p>';
                 }
                 if(!hasJets && !hasFly && !hasHighFly){
                     warn = warn + '<p>Unit <i>must have</i> [Flyer] <b>or</b> [High Altitude Flyer] <b>or</b> [Jump Jets] tags.</p>';
@@ -336,11 +339,15 @@ const tagInfo = {
                 return (sizeVal *2) + (moveVal / 2);
             },
             reqs : (rowId) => {
+                let warn = '';
                 let moveVal = parseInt(document.getElementById(rowId + '_move'));
                 if(moveVal <= 0){
-                    return 'Unit must have a <b>[Move]</b> greater than 0.';
+                    warn = warn + '<p>Unit must have a <b>[Move]</b> greater than 0.</p>';
                 }
-                return '';
+                if(ub_tags_checkByName('Bomber-Dive')){
+                    warn = warn + '<p>Unit <i>cannot have</i> [Bomber-Dive] tag.</p>';
+                }
+                return warn;
             },
             eqt:'(<b>Size</b> * 2) + (<b>Move</b> / 2)'
         },
