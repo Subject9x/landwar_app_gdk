@@ -681,13 +681,13 @@ const tagInfo = {
         },
         {
             title : 'Heavy Armor I',
-            desc : 'Unit may reduce the <b>DMG</b> effect of <i>Armor Piercing</i> by <b>half</b>.',
+            desc : 'Unit may reduce <b>any</b> incoming <i>DMG</i> to itself by <b>half rounded up</b>, this occurs <b>before any other</b> TAGs are applied.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let evadeVal = parseInt(document.getElementById(rowId + '_evade').value);
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
-                return sizeVal + (armorVal / 2) + ((moveVal + evadeVal) / 4);
+                return sizeVal + (armorVal / 2) + ((moveVal + evadeVal) / 3);
             },
             reqs : (rowId) => {
                 let warn = '';
