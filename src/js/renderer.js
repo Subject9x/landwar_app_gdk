@@ -44,11 +44,15 @@ function nav_exit(){
 */
 
 function rb_rules_open_core(){
-    window.api.send('rb-open-rules-core');
+    window.api.send('rb-open-rules', 'rulebook_core');
 }
 
 function rb_rules_open_quickplay(){
-    window.api.send('rb-open-rules-quick');
+    window.api.send('rb-open-rules', 'rulebook_quickplay');
+}
+
+function rb_scenarios_open_core(){
+    window.api.send('rb-open-rules', 'rulebook_scenarios_basic');
 }
 
 function rb_rules_pdf_core(){
@@ -57,6 +61,10 @@ function rb_rules_pdf_core(){
 
 function rb_rules_pdf_quick(){
     window.api.send('rb-save-rules-quick', dialogSavePDFOptions, pdfSaveOptions);
+}
+
+function rb_scenarios_save_core(){
+    
 }
 
 /*

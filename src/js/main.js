@@ -171,7 +171,7 @@ ipcMain.handle('ub-dialog-load-async', async (event, dialogConfig)=>{
 /**
  * SIGNAL - OPEN RULES PAGE AS WINDOW
  */
-ipcMain.handle('rb-open-rules-core', (event)=>{
+ipcMain.handle('rb-open-rules', (event, htmlFile)=>{
   if(rulesWindow != null){
     if(isAppWindowOpen(rulesWindow)){
       rulesWindow.close();
@@ -190,33 +190,10 @@ ipcMain.handle('rb-open-rules-core', (event)=>{
   
   setLastWindow(BrowserWindow.fromId(event.sender.id));
 
-  rulesWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_core.html');
+  rulesWindow.loadFile('src/html/layout/pages/rulebooks/'+htmlFile+'.html');
   rulesWindow.focus();
 });
 
-
-ipcMain.handle('rb-open-rules-quick', (event)=>{
-  if(rulesInfoWindow != null){
-    if(isAppWindowOpen(rulesInfoWindow)){
-      rulesInfoWindow.close();
-      rulesInfoWindow = null;
-    }
-  }
-
-  rulesInfoWindow = new BrowserWindow({
-    width: 800,
-    height: 1280,
-    webPreferences: {
-      contextIsolation: true,
-      nodeIntegration: true
-    }
-  });
-
-  setLastWindow(BrowserWindow.fromId(event.sender.id));
-
-  rulesInfoWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_quickplay.html');
-  rulesInfoWindow.focus();
-});
 
 
 /**
