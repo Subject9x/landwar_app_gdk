@@ -80,12 +80,12 @@
                             <ol class="sectionOrderList">
                                 <li><i>Move Phase</i> is 2 rounds of activation.</li>
                                 <li>Each <i>Player</i> may move <i>up to</i> <b>1/2 their total</b> number of units on the board.</li>
+                                <li><i>Defense</i> must move their units <i>first</i>.</li>
                                 <li>Once all <i>Players</i> have completed ther first move set, then <i>Players</i> may move the <b>remaining</b> Units in their force using <i>Initiative</i> for player order.</li>
-                                <li><b>Panicked</b> - when Unit starts phase with this token, <i>remove</i> <b>1</b> <i>Stress Point</i>.</li>
-                                
+                                <li><b>IF</b> one Side has <b>more</b> Units than the other side; see <i>Unequal Units</i> below.</li>
+                                <li><b>Panicked</b> - when Unit starts phase with this token:</li>
                                     <ul>
-                                        <li><i>Defense</i> must activate the first Unit to move.</li>
-                                        <li><b>IF</b> one Side has <b>more</b> Units than the other side; see <i>Unequal Units</i> below.</li>
+                                        <i>remove</i> <b>1</b> <i>Stress Point.</i>
                                     </ul>
                                 </li>
                                 <li><i>When</i> moving a Unit, the controlling Player can select one of the following options:
@@ -111,10 +111,10 @@
                                 <div class="row-fill-16px"></div>
                                 <li>Complete selected Movement.
                                     <ul>
-                                        <li>Check <i>High Speed</i>.</li>
-                                        <li>Check for <i>Danger Close</i>.</li>
-                                        <li>Check for <i>Overwatch</i>.</li>
                                         <li>Check <i>Terrain</i>.</li>
+                                        <li>Check <i>High Speed</i>.</li>
+                                        <li>Check <i>Danger Close</i>.</li>
+                                        <li>Check <i>Overwatch</i>.</li>
                                     </ul>
                                 </li>
                             </ol>
@@ -122,11 +122,12 @@
                     </div>
                     <div class="row">
                         <div class="col-s-8 offset-s-2 col-4 offset-1 col-l-4 offset-l-1 rulePanel">
-                            <label class="ruleTitle"><u>Unequal Unit totals</u></label>
-                            <p><b>If</b> one side has more Units on the table compared to the other side, the side with <i>more</i> units must do the following:</p>
-                            <p>When that Player activates and moves 1 Unit for the <i>Movement</i> phase, they <b>must</b> move <i>at least</i> 1 additional Unit. 
-                                The Player must do this until the remaining Units they have to move can match 1-to-1 with the other Players remaining Units.</p>
-                            <p><b>note:</b> The point is to prevent the Player with numerically superior Units from moving <i>all of them</i> in 1 single move.</p>
+                            <label class="ruleTitle"><u>Terrain</u></label>
+                            <p>Unless otherwise specified, Units move 1/2 their <i>Move</i> value when:</p>
+                            <ul>
+                                <li>Moving <i>through</i> intervening terrain.</li>
+                                <li>Starting move <i>inside</i> terrain.</li>
+                            </ul>
                         </div>
                         <div class="col-s-8 offset-s-2 col-4 offset-1  col-l-4 offset-l-1 rulePanel">
                             <label class="ruleTitle"><u>High Speed</u></label>
@@ -162,13 +163,12 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-s-8 offset-s-2 col-6 offset-2 col-l-6 offset-l-2 rulePanel">
-                            <label class="ruleTitle"><u>Terrain</u></label>
-                            <p>Unless otherwise specified, Units move 1/2 their <i>Move</i> value when:</p>
-                            <ul>
-                                <li>Moving <i>through</i> intervening terrain.</li>
-                                <li>Starting move <i>inside</i> terrain.</li>
-                            </ul>
+                        <div class="col-s-8 offset-s-2 col-4 offset-1 col-l-4 offset-l-1 rulePanel">
+                            <label class="ruleTitle"><u>Unequal Unit totals</u></label>
+                            <p><b>If</b> one side has more Units on the table compared to the other side, the side with <i>more</i> units must do the following:</p>
+                            <p>When that Player activates and moves 1 Unit for the <i>Movement</i> phase, they <b>must</b> move <i>at least</i> 1 additional Unit. 
+                                The Player must do this until the remaining Units they have to move can match 1-to-1 with the other Players remaining Units.</p>
+                            <p><b>note:</b> The point is to prevent the Player with numerically superior Units from moving <i>all of them</i> in 1 single move.</p>
                         </div>
                     </div>
                 </div>
@@ -187,7 +187,7 @@
                             <h3>Combat Phase</h3>
                             <p><i>Offense</i> Players resolve <b>all</b> their <i>Attacks</i> first, then <i>Defense</i> players.</p>
                             <p><i>Attacks</i> are split into 2 categories - <b>Range</b> and <b>Melee</b>.</p>
-                            <p><i>Damage</i> from all Attacks are <b>not</b> resolved <b>until</b> the <i>Damage Phase</i>!</li>
+                            <p><i>Damage</i> from all Attacks are <b>not</b> applied until the <i>Resolution Phase</i>!</li>
                         </div>
                     </div>
                     <!--RANGED ATTACKS ============================ -->
@@ -197,12 +197,12 @@
                             <p>Requirements:</p>
                             <ul class="sectionOrderList">
                                 <li>Attacking Unit is not <b>currently</b> in <i>Melee Range(1")</i> of any Enemy Unit.</li>
-                                <li><i>Target</i> must be the <b>closest</b> Unit to the Attacker.</i>.
+                                <li><i>Target</i> must be the <b>closest</b> Unit to the Attacker in <i>Line of Sight</i>.
                                     <ul>
                                         <li>See <i>Focus Fire</i> below this section.</li>
                                     </ul>
                                 </li>
-                                <li>Attacking Unit <b>must have</b> <i>Line of Sight</i> to the Target Unit.</li>
+                                <li>Attacking Unit <b>must have</b> <i>Line of Sight</i> to the <b>Target</b> Unit.</li>
                                 <li><b>TAG rules</b> may override, add, or change these qualifications!</li>
                             </ul>
                         </div>
@@ -212,13 +212,13 @@
                             <label class="ruleTitle"><u>Range Brackets</u></label>
                             <p>There are only 3 main Range Brackets in the game.</p>
                             <ul class="sectionOrderList">
-                                <li><b>Melee</b> - 0" to 1". </li>
-                                <li><b>Effective Range</b> - <i>default</i> is 16".
+                                <li><b>Melee</b> - 0" to 1".</li>
+                                <li><b>Effective Range</b>, <i>default</i> is 16".
                                     <ul>
                                         <li >Units can have their <i>own</i> Effective Range using the <i>Range</i> stat on their Info Card.</li>
                                     </ul>
                                 </li>
-                                <li><b>Long Range</b> - <i>unlimited</i> distance.
+                                <li><b>Long Range</b>, <i>unlimited</i> distance.
                                     <ul>
                                         <li><i>Target</i> gains <b>+1 DEF</b> dice for this defense roll.</li>
                                     </ul>
@@ -271,7 +271,7 @@
                                     <div class="col-s-10 col-10 col-l-10 offset-s-1 offset-1 offset-l-1">
                                         <h3><i>RANGED Attacker</i> Dice Pool</h3>
                                         <ul class="sectionOrderList">
-                                            <li>Starting Amount: 4D6.</li>
+                                            <li>Starting Amount: 3D6.</li>
                                             <li>If Unit has <i>Panic Token</i>:
                                                 <ul>
                                                     <li>total Dice is <b>halved</b> and minimum of 1.</li>
@@ -301,7 +301,7 @@
                                     <div class="col-s-10 col-10 col-l-10 offset-s-1 offset-1 offset-l-1">
                                         <h3><i>RANGED Defender</i> Dice Pool</h3>
                                         <ul class="sectionOrderList">
-                                            <li>Starting Amount: 4D6</li>
+                                            <li>Starting Amount: 3D6</li>
                                             <li>If Unit has <i>Panic Token</i>:
                                                 <ul>
                                                     <li>total Dice is <b>halved</b> and minimum of 1.</li>
@@ -440,9 +440,9 @@
                                     </ul>
                                 </li>
                                 <li>Check <i>Target Destroyed</i>.</li>
-                                <li>Check <i>Armor Level</i>.</li>
+                                <li>Check <i>Heavy Fire</i>.</li>
                                 <li>Check <i>Critical Damage</i>.</li>
-                                <li>check <i>Focused Fire</i>.</li>
+                                <li>Check <i>Focused Fire</i>.</li>
                             </ul>
                         </div>
                     </div>
@@ -454,22 +454,23 @@
                                 <li>The <i>unit</i> is now considered <b>Destroyed</b>.</li>
                                 <li><b>Do Not</b> remove the unit <b>until</b> the <i>Resolution Phase</i> of <b>this</b> <i>Turn</i>.</li>
                                 <li>The Destroyed unit <b>may still make</b> their final attacks during this <i>Combat Phase</i>.</li>
-                                <li>Each <i>remaining</i>friendly Unit suffers <b>+1 Stress</b> point.</li>
+                                <li>Each <i>remaining</i> friendly Unit <i>in LoS</i> suffers <b>+1 Stress</b> point.</li>
                             </ul>
                         </div>
                         <div class="col-s-8 offset-s-2 col-4 offset-1 col-l-4 offset-l-1 rulePanel">
-                            <label class="ruleTitle"><u>Armor Level</u></label>
-                            <p><i>If</i> <i>Defender</i> <i>Armor</i> value falls <b>below</b> 1/2 of its starting value during <b>this</b> <i>Combat Phase</i>:</p>
+                            <label class="ruleTitle"><u>Heavy Fire</u></label>
+                            <p>For <b>1</b> <i>uncancelled</i> <b>ATK</b> hit of <b>6</b>:</p>
                             <ul class="sectionOrderList">
                                 <li><i>Defender</i> suffers <b>+1 Stress Point.</b></li>
                             </ul>
                         </div>
                         <div class="col-s-8 offset-s-2 col-4 offset-1 col-l-4 offset-l-1 rulePanel">
                             <label class="ruleTitle"><u>Critical Damage</u></label>
-                            <p><i>If</i> <i>Defender</i> takes <b>any</b> <i>Structure</i> damage and its <i>Armor</i> value is <b>below</b> 1/2 of its starting value:</p>
+                            <p><i>If Defender</i> takes <b>any</b> <i>Structure</i> damage:</p>
                             <ul class="sectionOrderList">
-                                <li><b>Ignore</b> the <i>Armor Level</i> check.</li>
+                                <li><b>Ignore</b> the <i>Heavy Fire</i> check.</li>
                                 <li><i>Defender</i> suffers <b>+2 Stress Points.</b></li>
+                                <li>Only applies <b>once per turn.</b></li>
                             </ul>
                         </div>
                         <div class="col-s-8 offset-s-2 col-4 offset-1 col-l-4 offset-l-1 rulePanel">

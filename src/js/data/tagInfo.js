@@ -962,7 +962,7 @@ const tagInfo = {
         },
         {
             title : 'Rank - Green',
-            desc : "Unit's <i>base</i> <b>ATK/DEF</b> change to <b>3 ATK</b> and <b>2 DEF</b>.",
+            desc : "Unit's <i>base</i> <b>ATK/DEF</b> change to <b>2 ATK</b> and <b>2 DEF</b>.",
             func : (rowId) => {
                 return 0 - ub_row_change_points(rowId) * 0.5; 
             },
@@ -980,9 +980,9 @@ const tagInfo = {
         },
         {
             title : 'Rank - Veteran',
-            desc : "Unit's ATK and DEF stats become 5 ATK Dice and 4 DEF Dice",
+            desc : "Unit's ATK and DEF stats become <b>4 ATK</b> and <b>4 DEF</b>.",
             func : (rowId) => {
-                return ub_row_change_points(rowId) * 0.33; 
+                return ub_row_change_points(rowId) * 0.4; 
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -994,11 +994,11 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'<i>Unit base total COST</i> * 33%'
+            eqt:'<i>Unit base total COST</i> * 40%'
         },
         {
             title : 'Rank - Elite',
-            desc : "Unit's ATK and DEF stats become 6 ATK Dice and 5 DEF Dice",
+            desc : "<p>Unit's ATK and DEF stats become <b>4 ATK</b> and <b>4 DEF</b>.</p><p><b>Heavy Fire</b> now requires <b>2</b> <i>uncancelled</i> 6's.</p>",
             func : (rowId) => {
                 return ub_row_change_points(rowId) * 0.5; 
             },
