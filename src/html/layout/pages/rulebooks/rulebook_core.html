@@ -105,7 +105,7 @@
                                                 <li>Unit may use its <b>Evade</b> value <b>IF</b> it moves <b>more than</b> 25% of its total <b>Move</b> value.</li>
                                             </ul>
                                         </li>
-                                        <li>Use <i>TAG</i> rules.</li>
+                                        <li>Use <i>TAG</i> rules, if Players are using TAG special rules for units, and a Unit has a TAG that allows specific movement, it can be used here.</li>
                                     </ul>
                                 </li>
                                 <div class="row-fill-16px"></div>
@@ -190,9 +190,10 @@
                             <p><i>Damage</i> from all Attacks are <b>not</b> applied until the <i>Resolution Phase</i>!</li>
                         </div>
                     </div>
-                    <!--RANGED ATTACKS ============================ -->
+                    <!--ATTACK TYPES ============================ -->
                     <div class="row">
-                        <div class="col-s-10 col-8 col-l-9 offset-s-1 offset-3 offset-l-2">
+                        <!--RANGED ATTACKS ============================ -->
+                        <div class="col-s-5 col-5 col-l-5 offset-s-1 offset-1 offset-l-1">
                             <h4>Ranged Attacks</h4>
                             <p>Requirements:</p>
                             <ul class="sectionOrderList">
@@ -204,6 +205,16 @@
                                 </li>
                                 <li>Attacking Unit <b>must have</b> <i>Line of Sight</i> to the <b>Target</b> Unit.</li>
                                 <li><b>TAG rules</b> may override, add, or change these qualifications!</li>
+                            </ul>
+                        </div>
+                        <!--MELEE ATTACKS ============================ -->
+                        <div class="col-s-5 col-5 col-l-5 offset-s-1 offset-1 offset-l-1">
+                            <h4>Melee Attacks</h4>
+                            <p>Requirements:</p>
+                            <ul class="sectionOrderList">
+                                <li>Unit <b>must have</b> a <i>Melee Damage</i> stat greater than 0.</li>
+                                <li>Target must be in <i>Melee Range</i> of Unit. - <i>default</i> 0-1".</li>
+                                <li>Target <b>must</b> be in the Attacker's <i>Forward Arc</i>. </li>
                             </ul>
                         </div>
                     </div>
@@ -247,18 +258,6 @@
                                         <li>Unit is <b>not</b> <i>Panicked</i> however, Player must check again in <i>Resolution Phase</i>.</li>
                                     </ul>
                                 </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!--MELEE ATTACKS ============================ -->
-                    <div class="row">
-                        <div class="col-s-10 col-8 col-l-9 offset-s-1 offset-3 offset-l-2">
-                            <h4>Melee Attacks</h4>
-                            <p>Requirements:</p>
-                            <ul class="sectionOrderList">
-                                <li>Unit <b>must have</b> a <i>Melee Damage</i> stat greater than 0.</li>
-                                <li>Target must be in <i>Melee Range</i> of Unit. - <i>default</i> 0-1".</li>
-                                <li>Target <b>must</b> be in the Attacker's <i>Forward Arc</i>. </li>
                             </ul>
                         </div>
                     </div>
@@ -441,7 +440,7 @@
                                 </li>
                                 <li>Check <i>Target Destroyed</i>.</li>
                                 <li>Check <i>Heavy Fire</i>.</li>
-                                <li>Check <i>Critical Damage</i>.</li>
+                                <li>Check <i>Crew Shaken</i></li>
                                 <li>Check <i>Focused Fire</i>.</li>
                             </ul>
                         </div>
@@ -465,12 +464,10 @@
                             </ul>
                         </div>
                         <div class="col-s-8 offset-s-2 col-4 offset-1 col-l-4 offset-l-1 rulePanel">
-                            <label class="ruleTitle"><u>Critical Damage</u></label>
-                            <p><i>If Defender</i> takes <b>any</b> <i>Structure</i> damage:</p>
+                            <label class="ruleTitle"><u>Crew Shaken</u></label>
+                            <p>If a Unit ends the Damage Phase with <b>any</b> <i>Structure</i> damage:</p>
                             <ul class="sectionOrderList">
-                                <li><b>Ignore</b> the <i>Heavy Fire</i> check.</li>
-                                <li><i>Defender</i> suffers <b>+2 Stress Points.</b></li>
-                                <li>Only applies <b>once per turn.</b></li>
+                                <li><i>Unit</i> suffers <b>+1 Stress Points.</b></li>
                             </ul>
                         </div>
                         <div class="col-s-8 offset-s-2 col-4 offset-1 col-l-4 offset-l-1 rulePanel">
@@ -629,7 +626,7 @@
                     <p>End of Core Rulebook.</p>
                     <p><i>TAG</i> rules can be found in the <i>TAG Supplement</i> or the <i>LANDWAR Game Dev Kit</i> app.</p>
                     <p><i>Scenarios</i> and their rules can be found in the <i>Scenario Supplement</i> or the <i>LANDWAR Game Dev Kit</i> app.</p>
-                    <p>2022 - Peter Roohr and Eamonn McHugh-Roohr</p>
+                    <p>2023 - Peter Roohr and Eamonn McHugh-Roohr</p>
                 </div>
             </div>
         </div>
