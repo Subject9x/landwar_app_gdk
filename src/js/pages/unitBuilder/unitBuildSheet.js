@@ -6,6 +6,8 @@ let searchArray = [];
 let tagWindow_tagArray = [];
 let row_tagArrays = {};
 
+let hasSaved = false;   //save-prompt feature
+
 function ub_sheet_close_window(event){
     window.api.send('close-window', dialogLoadOptionsUnitList);
     event.preventDefault();
@@ -566,6 +568,41 @@ function ub_row_remove(){
     }
     $('#unitTable tr:last').remove();
 }
+
+
+function ub_row_copy(){
+    let table = $('#unitTable')[0];
+    if(table.rows.length < 2){
+        return;
+    }
+   let lastRowId= $('#unitTable tr:last')[0].id;
+
+   let newRowId = ub_row_add();
+   $("#" + newRowId + '_name').val( $("#" + lastRowId + '_name')[0].value );
+   $("#" + newRowId + '_size').val( parseInt($("#" + lastRowId + '_size')[0].value) );
+   $("#" + newRowId + '_move').val( parseInt($("#" + lastRowId + '_move')[0].value) );
+   $("#" + newRowId + '_evade').val( parseInt($("#" + lastRowId + '_evade')[0].value) );
+   $("#" + newRowId + '_DMGM').val( parseInt($("#" + lastRowId + '_DMGM')[0].value) );
+   $("#" + newRowId + '_DMGR').val( parseInt($("#" + lastRowId + '_DMGR')[0].value) );
+   $("#" + newRowId + '_range').val( parseInt($("#" + lastRowId + '_range')[0].value) ) ;
+   $("#" + newRowId + '_armor').val( parseInt($("#" + lastRowId + '_armor')[0].value) ) ;
+   $("#" + newRowId + '_structure').val(  parseInt($("#" + lastRowId + '_structure')[0].value) ) ;
+   $("#" + newRowId + '_points').val( parseInt($("#" + lastRowId + '_points')[0].value) ) ;
+
+   let newArray = [];
+   ub_util_array_deepcpy(row_tagArrays[lastRowId], newArray);
+
+   row_tagArrays[newRowId] = newArray;
+   ub_row_change_points(newRowId);
+   ub_row_tag_validate(newRowId);
+
+   let tagTotal = parseFloat($("#" + newRowId + '_tagTotal')[0].innerHTML)
+   let unitTotal = parseFloat($("#" + newRowId + '_points')[0].innerHTML);
+   let finalTotal = Math.round(((unitTotal + tagTotal) + Number.EPSILON) * 100) / 100;
+   $("#" + newRowId + "_total")[0].innerHTML =  finalTotal;
+
+}
+
 
 /*
     Binder functions for unitBuilder
