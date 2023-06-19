@@ -417,8 +417,6 @@ function ub_row_tags_onclick(event){
 
     //zero-out the tag window array
     tagWindow_tagArray.length = 0;
-
-    tagWindow_tagArray.length = 0;
     ub_util_array_deepcpy(row_tagArrays[rowId], tagWindow_tagArray);
 
     //build the complete TAG list in the tag table.

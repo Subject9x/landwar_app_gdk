@@ -1,7 +1,8 @@
 
 
 const tagInfo = {
-   data :[ 
+    id : "core",
+    data :[ 
         {
             title : 'Advanced Gun Sights',
             desc : '<b>Target</b> of this Unit <b>cannot</b> have <b>+1 DEF</b> when attacked at <b>Long Range</b>.',
