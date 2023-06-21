@@ -379,13 +379,22 @@ const tagInfo = {
             title : 'Courage-I',
             desc : 'When Unit is making a Stress Check, Unit gets +1 to the D6 roll',
             func : (rowId) => {
+                let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
-                let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let structVal = parseInt(document.getElementById(rowId + '_structure').value);
 
-                
-                return ((moveVal / 3 + armorVal / 3 + structVal) - sizeVal) * 2.5;
+                if(sizeVal == 0){
+                    sizeVal = 1;
+                }
+                if(moveVal == 0){
+                    moveVal = 6;
+                }
+
+                val = moveVal + armorVal + sizeVal + structVal;
+                val = val / 4;
+
+                return val * 3;
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -396,26 +405,33 @@ const tagInfo = {
                 if(ub_tags_checkByName('Courage-II')){
                     warn = warn + '<p>Unit <i>already has</i> [Courage-II] tag.</p>';
                 }
-                if(ub_tags_checkByName('Courage-III')){
-                    warn = warn + '<p>Unit <i>already has</i> [Courage-III] tag.</p>';
-                }
                 if(ub_tags_checkByName('Fearless')){
                     warn = warn + '<p>Unit <i>already has</i> [Fearless] tag.</p>';
                 }
                 return warn;
             },
-            eqt:'(<b>Move</b> / 3) + (<b>Armor</b> / 3) + <b>Structure</b> - <b>Size</<b> * 2.5'
+            eqt:'<i>average</i> [<b>Size</b>, <b>Move</b>, <b>Armor</b>, <b>Structure</b>] * 3'
         },
         {
             title : 'Courage-II',
             desc : 'When Unit is making a Stress Check, Unit gets +2 to the D6 roll',
             func : (rowId) => {
+                let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
-                let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let structVal = parseInt(document.getElementById(rowId + '_structure').value);
-                
-                return ((moveVal / 2.5 + armorVal / 2.5 + structVal) - sizeVal) * 3;
+
+                if(sizeVal == 0){
+                    sizeVal = 1;
+                }
+                if(moveVal == 0){
+                    moveVal = 6;
+                }
+
+                val = moveVal + armorVal + sizeVal + structVal;
+                val = val / 4;
+
+                return val * 5;
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -426,55 +442,26 @@ const tagInfo = {
                 if(ub_tags_checkByName('Courage-I')){
                     warn = warn + '<p>Unit <i>already has</i> [Courage-I] tag.</p>';
                 }
-                if(ub_tags_checkByName('Courage-III')){
-                    warn = warn + '<p>Unit <i>already has</i> [Courage-III] tag.</p>';
-                }
                 if(ub_tags_checkByName('Fearless')){
                     warn = warn + '<p>Unit <i>already has</i> [Fearless] tag.</p>';
                 }
                 return warn;
             },
-            eqt:'(<b>Move</b> / 2.5) + (<b>Armor</b> / 2.5) + <b>Structure</b> - <b>Size</<b> * 3'
-        },
-        {
-            title : 'Courage-III',
-            desc : 'When Unit is making a Stress Check, Unit gets +3 to the D6 roll',
-            func : (rowId) => {
-                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
-                let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
-                let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
-                let structVal = parseInt(document.getElementById(rowId + '_structure').value);
-
-                return ((moveVal / 2 + armorVal / 2 + structVal) - sizeVal) * 3.5;
-            },
-            reqs : (rowId) => {
-                let warn = '';
-                let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
-                if(armorVal <= 0){
-                    warn = warn + '<p>Unit must have a <b>[Armor]</b> greater than 0.';
-                }
-                if(ub_tags_checkByName('Courage-I')){
-                    warn = warn + '<p>Unit <i>already has</i> [Courage-I] tag.</p>';
-                }
-                if(ub_tags_checkByName('Courage-II')){
-                    warn = warn + '<p>Unit <i>already has</i> [Courage-II] tag.</p>';
-                }
-                if(ub_tags_checkByName('Fearless')){
-                    warn = warn + '<p>Unit <i>already has</i> [Fearless] tag.</p>';
-                }
-                return warn;
-            },
-            eqt:'(<b>Move</b> / 2) + (<b>Armor</b> / 2) + <b>Structure</b> - <b>Size</<b> * 3.5'
+            eqt:'<i>average</i> [<b>Size</b>, <b>Move</b>, <b>Armor</b>, <b>Structure</b>] * 5'
         },
         {
             title : 'Crew-I',
             desc : 'For stress rolls, roll 2 and take the highest (represents crew morale and squad morale). Limit of Crew Points is (Size / 3)  + 2.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 if(sizeVal == 0){
                     sizeVal = 1;
                 }
-                return Math.max(0, ((1/sizeVal^2) * 12) - sizeVal);
+                if(moveVal == 0){
+                    moveVal = 8;
+                }
+                return Math.max(0, ((1/sizeVal^2) * 12) - sizeVal + moveVal / 3);
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -482,31 +469,29 @@ const tagInfo = {
                 if(sizeVal < 2){
                     warn = warn + '<p><b>[Size]</b> must be <i>greater than</i> 1.</p>';
                 }
-                if(ub_tags_checkByName('Courage-II')){
-                    warn = warn + '<p>Unit <i>already has</i> [Courage-II] tag.</p>';
-                }
-                if(ub_tags_checkByName('Courage-III')){
-                    warn = warn + '<p>Unit <i>already has</i> [Courage-III] tag.</p>';
-                }
                 if(ub_tags_checkByName('Fearless')){
                     warn = warn + '<p>Unit <i>already has</i> [Fearless] tag.</p>';
                 }
                 if(ub_tags_checkByName('Crew-II')){
                     warn = warn + '<p>Unit <i>already has</i> [Crew-II] tag.</p>';
                 }
-                if(ub_tags_checkByName('Crew-III')){
-                    warn = warn + '<p>Unit <i>already has</i> [Crew-III] tag.</p>';
-                }
                 return warn;
             },
-            eqt:'((1 / <b>Size</b> ^ 2) * 12) - <b>Size</b>'
+            eqt:'((1 / <b>Size</b> ^ 2) * 12) - <b>Size</b> + <b>Move</b> / 3'
         },
         {
             title : 'Crew-II',
             desc : 'For stress rolls, roll 3 and take the highest (represents crew morale and squad morale). Limit of Crew Points is (Size / 3)  + 2.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
-                return Math.max(0, ((1/sizeVal^2) * 15) - sizeVal);
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+                if(sizeVal == 0){
+                    sizeVal = 1;
+                }
+                if(moveVal == 0){
+                    moveVal = 8;
+                }
+                return Math.max(0, ((1/sizeVal^2) * 15) - sizeVal + moveVal / 3);
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -514,56 +499,15 @@ const tagInfo = {
                 if(sizeVal < 3){
                     warn = warn + '<p><b>[Size]</b> must be <i>greater than</i> 2.</p>';
                 }
-                if(ub_tags_checkByName('Courage-I')){
-                    warn = warn + '<p>Unit <i>already has</i> [Courage-I] tag.</p>';
-                }
-                if(ub_tags_checkByName('Courage-III')){
-                    warn = warn + '<p>Unit <i>already has</i> [Courage-III] tag.</p>';
-                }
                 if(ub_tags_checkByName('Fearless')){
                     warn = warn + '<p>Unit <i>already has</i> [Fearless] tag.</p>';
                 }
                 if(ub_tags_checkByName('Crew-I')){
                     warn = warn + '<p>Unit <i>already has</i> [Crew-I] tag.</p>';
                 }
-                if(ub_tags_checkByName('Crew-III')){
-                    warn = warn + '<p>Unit <i>already has</i> [Crew-III] tag.</p>';
-                }
                 return warn;
             },
-            eqt:'((1 / <b>Size</b> ^ 2) * 15) - <b>Size</b>'
-        },
-        {
-            title : 'Crew-III',
-            desc : 'For stress rolls, roll 4 and take the highest (represents crew morale and squad morale). Limit of Crew Points is (Size / 3)  + 2.',
-            func : (rowId) => {
-                let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
-                return Math.max(0, ((1/sizeVal^2) * 19) - sizeVal);
-            },
-            reqs : (rowId) => {
-                let warn = '';
-                let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
-                if(sizeVal < 5){
-                    warn = warn + '<p><b>[Size]</b> must be <i>greater than</i> 4.</p>';
-                }
-                if(ub_tags_checkByName('Courage-I')){
-                    warn = warn + '<p>Unit <i>already has</i> [Courage-II] tag.</p>';
-                }
-                if(ub_tags_checkByName('Courage-II')){
-                    warn = warn + '<p>Unit <i>already has</i> [Courage-III] tag.</p>';
-                }
-                if(ub_tags_checkByName('Fearless')){
-                    warn = warn + '<p>Unit <i>already has</i> [Fearless] tag.</p>';
-                }
-                if(ub_tags_checkByName('Crew-I')){
-                    warn = warn + '<p>Unit <i>already has</i> [Crew-I] tag.</p>';
-                }
-                if(ub_tags_checkByName('Crew-II')){
-                    warn = warn + '<p>Unit <i>already has</i> [Crew-II] tag.</p>';
-                }
-                return warn;
-            },
-            eqt:'((1 / <b>Size</b> ^ 2) * 19) - <b>Size</b>'
+            eqt:'((1 / <b>Size</b> ^ 2) * 15) - <b>Size</b> + <b>Move</b> / 3'
         },
         {
             title : 'Fearless',
