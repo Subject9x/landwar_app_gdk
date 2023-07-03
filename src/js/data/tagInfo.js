@@ -801,7 +801,7 @@ const tagInfo = {
         },
         {
             title : 'Inhibitor Munitions',
-            desc : 'IF this Unit hits its Target in a <i>Ranged Attack</i>, place a token next to that Unit. On the next move phase, that Unit may only move 1/2 its current speed. Remove token after next move phase regardless of target`s move. Effect does not stack. Ranged Attack deals 0 damage.',
+            desc : 'This Unit may choose to make a <b>DMG 0</b> <i>Ranged Attack</i>. <b>IF</b> attack hits the target, the targets <b>next</b> <i>Movement Phase</i> move is reduced to 1/2" <b>before</b> any other modifiers.',
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
