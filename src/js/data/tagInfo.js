@@ -218,13 +218,13 @@ const tagInfo = {
         },
         {
             title : 'Bomber-Area',
-            desc : '<p>Unit may make <i>Ranged Attacks</i> on <b>each</b> enemy Unit that it moves <b>over</b> during the <i>Movement Phase</i> within <b>2"</b> of the Unit.<ul><li><i>Damage</i> of each attack is 25% of total <b>Damage</b> value <b>rounded up</b>.</li><li> This attack <b>cannot be</b> <i>Indirect Fire</i></li><li>Treat like an <i>Overwatch</i> attack on the target.</li></ul></p>',
+            desc : '<p>When Unit makes their <i>Ranged Attack</i> this Turn, Unit may make an <b>additional</b> <i>Ranged Attack</i> on <b>each</b> enemy Unit that it moves <b>over</b> during the <i>Movement Phase</i> within <b>2"</b> of the Unit.<ul><li><i>Damage</i> of each attack is 33% of total <b>Damage</b> value <b>rounded up</b>.</li><li> This attack <b>cannot be</b> <i>Indirect Fire</i></li><li>Treat like an <i>Overwatch</i> attack on the target.</li></ul></p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
 
-                return uc_calc_Move(moveVal, sizeVal) * 0.5 + uc_calc_Damage_Range(rangeDamageVal) * 0.25;
+                return uc_calc_Move(moveVal, sizeVal) * 0.5 + uc_calc_Damage_Range(rangeDamageVal) * 0.6;
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -247,15 +247,16 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'(<b>Move Cost</b> / 2) + (<b>Range Damage Cost</b> / 4)'
+            eqt:'(<b>Move Cost</b> / 2) + (<b>Range Damage Cost</b> * 0.6)'
         },
         {
             title : 'Bomber-Dive',
-            desc : 'Unit may make a <b>free</b> <i>Ranged Attack</i> on a single target Unit that is within <b>2"</b> of this Units <i>end position</i> after its move. Any unit that is a target of a [Bomber-Dive] attack may make a <b>free</b> <i>Overwatch</i> Attack on this unit at <b>-1 ATK</b> (instead of -2). <b>Damage</b> is 33% of total <b>Damage-Ranged</b> (round up, minimum of 1).',
+            desc : 'Instead of making a normal <i>Ranged Attack</i>, This Unit may make 1 <i>Ranged Attack</i> on a single target Unit that is within <b>2"</b> of this Units <i>end position</i> after its move. Any unit that is a target of a [Bomber-Dive] attack may make a <b>free</b> <i>Overwatch</i> Attack on this unit at <b>-1 ATK</b> (instead of -2). <b>Damage</b> is 50% of total <b>Damage-Ranged</b> (round up, minimum of 1).',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
-                return Math.max(0, (moveVal / 2)- (sizeVal * 1.25));
+                let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
+                return Math.max(0, (moveVal / 2)- (sizeVal * 1.25) + (uc_calc_Damage_Range(rangeDamageVal) * 0.33 ));
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -278,11 +279,11 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'(<b>Move</b> / 2) - (<b>Size</b> * 1.25)'
+            eqt:'(<b>Move</b> / 2) - (<b>Size</b> * 1.25) + (<b>Damage-Ranged Cost</b> / 3)'
         },
         {
             title : 'Brawler',
-            desc : 'Must have <b>Melee DMG</b> > 0. May <b>Reroll 2 ATK</b> and <b>1 DEF</b> dice in <i>Melee Attacks</i>.',
+            desc : 'Must have <b>Melee DMG</b> > 0. May <b>+1 ATK</b> and <b>+1 DEF</b> dice in <i>Melee Attacks</i>.',
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
