@@ -12,6 +12,14 @@
     display: table;
 }
 
+.row-fill-64px{
+    min-height: 64px;
+}
+.row-fill-64px::after{
+    content:'';
+    clear:both;
+    display: table;
+}
 /*
     Layout: navbar
 */
