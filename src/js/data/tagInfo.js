@@ -626,14 +626,14 @@ const tagInfo = {
             eqt:'<b>Size</b> + (<i>Move Cost</i> * 0.33) + (<i>DMG-Melee</i> * 0.25)'
         },
         {
-            title : 'Heavy Armor I',
+            title : 'Heavy Armor',
             desc : 'Unit may reduce <b>any</b> incoming <i>DMG</i> to itself by <b>half rounded up</b>, this occurs <b>before any other</b> TAGs are applied.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
-                let evadeVal = parseInt(document.getElementById(rowId + '_evade').value);
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
-                return sizeVal + (armorVal / 2) + ((moveVal + evadeVal) / 3);
+
+                return uc_calc_Armor(armorVal, sizeVal) * 0.55 + moveVal;
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -644,7 +644,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'<b>Size</b> + (<b>Armor</b> / 2) + (<b>Move</b> + <b>Evade</b>) / 4'
+            eqt:'<b>Armor Cost</b> * 0.55 + <b>Move</b>'
         },
         {
             title : 'Hero',
@@ -736,7 +736,7 @@ const tagInfo = {
             func : (rowId) => {
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
 
-                return (uc_calc_Damage_Range(rangeDamageVal)*0.45);
+                return (uc_calc_Damage_Range(rangeDamageVal)*0.5);
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -748,7 +748,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'<b>Damage-Range<b> COST * 0.45'
+            eqt:'<b>Damage-Range<b> COST * 0.5'
         },
         {
             title : 'Indirect Fire',
@@ -802,7 +802,7 @@ const tagInfo = {
         },
         {
             title : 'Inhibitor Munitions',
-            desc : 'This Unit may choose to make a <b>DMG 0</b> <i>Ranged Attack</i>. <b>IF</b> attack hits the target, the targets <b>next</b> <i>Movement Phase</i> move is reduced to 1/2" <b>before</b> any other modifiers.',
+            desc : 'This Unit may choose to make an <i>additional</i> <b>DMG 0</b> <i>Ranged Attack</i>. <b>IF</b> attack hits the target, the targets <b>next</b> <i>Movement Phase</i> move is reduced to 1/2" <b>before</b> any other modifiers.',
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
@@ -848,7 +848,7 @@ const tagInfo = {
             func : (rowId) => {
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
 
-                return 0 - (uc_calc_Damage_Range(rangeDamageVal)/2);
+                return 0 - (uc_calc_Damage_Range(rangeDamageVal) * 0.6);
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -864,7 +864,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'<i>subtract</i> (<b>Damage-Range<b> <i>COST</i> / 2)'
+            eqt:'<i>subtract</i> (<b>Damage-Range<b> <i>COST</i> * 60%)'
         },
         {
             title : 'Limited Use Weapon',
@@ -890,7 +890,7 @@ const tagInfo = {
         },
         {
             title : 'Overheat',
-            desc : 'During <i>Combat Phase</i>, Unit may suffer <b>4 Stress Points</b> to re-roll the dice of the <b>Base ATK</b> roll. <b>Cannot</b> be combine with <b>[Fearless]</b>.',
+            desc : 'During <i>Combat Phase</i>, Unit may suffer <b>4 Stress Points</b> to re-roll <i>up to 4</i> <b>ATK<.b> dice. <b>Cannot</b> be combine with <b>[Fearless]</b>.',
             func : (rowId) => {
                 let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
@@ -962,18 +962,22 @@ const tagInfo = {
         },
         {
             title : 'Recon',
-            desc : "<b>+1</b> to <i>Initiative</i> <b>when</b> this model has <i>Line of Sight</i> on at least one Enemy model.",
+            desc : "<p><b>+2</b> to <i>Initiative Roll</i> <b>when</b> this model has <i>Line of Sight</i> on at least <b>TWO</b> Enemy models, Unit <b>cannot be</b> <i>Panicked</i>.</p><p>Bonus <b>does not</b> stack with multiple <i>Recon</i> units, but full bonus is granted so long as at least 1 <i>Recon</i> unit is not <b>destroyed</b>.</p>",
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 sizeVal = Math.max(1, sizeVal);
                 moveVal = Math.max(1, moveVal);
-                return ((1 / moveVal^2) * (sizeVal / 2 * 10));
+
+                let sizeCost = uc_calc_Size(sizeVal);
+                let moveCost = uc_calc_Move(moveVal, sizeVal);
+
+                return sizeCost + sizeCost / moveCost * 10;
             },
             reqs : (rowId) => {
                 return '';
             },
-            eqt:'((1 / <b>Move</b> ^ 2) * (<b>Size</b> / 2 * 10))'
+            eqt:'<b>Size Cost</b> + (<b>Size Cost</b> / <b>Move Cost</b>) * 10.'
         },
         {
             title : 'Self-Healing',
