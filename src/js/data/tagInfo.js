@@ -383,7 +383,7 @@ const tagInfo = {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
-                let structVal = parseInt(document.getElementById(rowId + '_structure').value);
+                //let structVal = parseInt(document.getElementById(rowId + '_structure').value);
 
                 if(sizeVal == 0){
                     sizeVal = 1;
@@ -392,7 +392,7 @@ const tagInfo = {
                     moveVal = 6;
                 }
 
-                val = moveVal + armorVal + sizeVal + structVal;
+                val = moveVal + armorVal + sizeVal; //+ structVal;
                 val = val / 4;
 
                 return val * 3;
@@ -420,7 +420,7 @@ const tagInfo = {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
-                let structVal = parseInt(document.getElementById(rowId + '_structure').value);
+                //let structVal = parseInt(document.getElementById(rowId + '_structure').value);
 
                 if(sizeVal == 0){
                     sizeVal = 1;
@@ -429,7 +429,7 @@ const tagInfo = {
                     moveVal = 6;
                 }
 
-                val = moveVal + armorVal + sizeVal + structVal;
+                val = moveVal + armorVal + sizeVal;//+ structVal;
                 val = val / 4;
 
                 return val * 5;

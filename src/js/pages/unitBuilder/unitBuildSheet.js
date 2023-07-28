@@ -544,7 +544,7 @@ function ub_row_add(){
     
     cellCount = ub_row_add_element_input_num(newRow, cellCount, 'input', newRowId, '_armor');
     
-    cellCount = ub_row_add_element_input_num(newRow, cellCount, 'input', newRowId, '_structure');
+    //cellCount = ub_row_add_element_input_num(newRow, cellCount, 'input', newRowId, '_structure');
     
     cellCount = ub_row_add_element_label_points(newRow, cellCount, 'label', newRowId, '_points');
 
@@ -584,7 +584,7 @@ function ub_row_copy(){
    $("#" + newRowId + '_DMGR').val( parseInt($("#" + lastRowId + '_DMGR')[0].value) );
    $("#" + newRowId + '_range').val( parseInt($("#" + lastRowId + '_range')[0].value) ) ;
    $("#" + newRowId + '_armor').val( parseInt($("#" + lastRowId + '_armor')[0].value) ) ;
-   $("#" + newRowId + '_structure').val(  parseInt($("#" + lastRowId + '_structure')[0].value) ) ;
+   //$("#" + newRowId + '_structure').val(  parseInt($("#" + lastRowId + '_structure')[0].value) ) ;
    $("#" + newRowId + '_points').val( parseInt($("#" + lastRowId + '_points')[0].value) ) ;
 
    let newArray = [];
@@ -615,7 +615,7 @@ function ub_row_change_points(rowId){
     let dmgRangeVal = parseInt($("#"+ rowId + '_DMGR')[0].value);
     let rangeVal = parseInt($("#"+ rowId + '_range')[0].value);
     let armorVal = parseInt($("#"+ rowId + '_armor')[0].value);
-    let structVal = parseInt($("#"+ rowId + '_structure')[0].value);
+    //let structVal = parseInt($("#"+ rowId + '_structure')[0].value);
 
     let sizeCost = uc_calc_Size(sizeVal);
     let moveCost = uc_calc_Move(moveVal, sizeVal);
@@ -624,7 +624,7 @@ function ub_row_change_points(rowId){
     let dmgRangeCost = uc_calc_Damage_Range(dmgRangeVal);
     let rangeCost = uc_calc_Range(moveVal, rangeVal, dmgRangeVal);
     let armorCost = uc_calc_Armor(armorVal, sizeVal);
-    let structCost = uc_calc_Structure(structVal,sizeVal);
+    //let structCost = uc_calc_Structure(structVal,sizeVal);
     
 
     //DEBUG ONLY
@@ -639,7 +639,7 @@ function ub_row_change_points(rowId){
     console.log('structCost= ' + structCost);*/
 
 
-    let pointsVal = uc_calc_baseCost(sizeCost, moveCost, evadeCost, dmgMeleeCost, dmgRangeCost, rangeCost, armorCost, structCost);
+    let pointsVal = uc_calc_baseCost(sizeCost, moveCost, evadeCost, dmgMeleeCost, dmgRangeCost, rangeCost, armorCost);//, structCost);
     pointsVal = Math.round((pointsVal + Number.EPSILON) * 100) / 100;
 
     $("#" + rowId+'_points')[0].innerHTML = pointsVal;

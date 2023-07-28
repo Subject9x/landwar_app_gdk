@@ -172,7 +172,7 @@ function ab_unitInfo_addData(parsedData){
                 row.querySelector("#range").innerHTML = objData.dmgRange;
                 row.querySelector("#dist").innerHTML = objData.range;
                 row.querySelector("#armor").innerHTML = objData.armor;
-                row.querySelector("#struct").innerHTML = objData.structure;
+                //row.querySelector("#struct").innerHTML = objData.structure;
                 row.querySelector("#tags").innerText = objData.tags;
                 row.querySelector("#tagTotal").innerHTML = objData.tagTotal;
                 row.querySelector("#points").innerHTML = objData.points;
@@ -235,7 +235,7 @@ function ab_armyList_parseData(parsedData){
                 newListRow.querySelector("#range").innerHTML = objData.dmgRange;
                 newListRow.querySelector("#dist").innerHTML = objData.range;
                 newListRow.querySelector("#armor").innerHTML = objData.armor;
-                newListRow.querySelector("#struct").innerHTML = objData.structure;
+                //newListRow.querySelector("#struct").innerHTML = objData.structure;
                 newListRow.querySelector("#tags").innerText = objData.tags;
                 newListRow.querySelector("#tagTotal").innerHTML = objData.tagTotal;
                 newListRow.querySelector("#points").innerHTML = objData.points;
@@ -302,7 +302,7 @@ function ab_unitInfo_addToList(unitRowId){
     newListRow.querySelector('#range').innerHTML = unitRow.querySelector('#range').innerHTML;
     newListRow.querySelector('#dist').innerHTML = unitRow.querySelector('#dist').innerHTML;
     newListRow.querySelector('#armor').innerHTML = unitRow.querySelector('#armor').innerHTML;
-    newListRow.querySelector('#struct').innerHTML = unitRow.querySelector('#struct').innerHTML;
+    //newListRow.querySelector('#struct').innerHTML = unitRow.querySelector('#struct').innerHTML;
     newListRow.querySelector('#points').innerHTML = unitRow.querySelector('#points').innerHTML;
     newListRow.querySelector('#total').innerHTML = unitRow.querySelector('#total').innerHTML;
     newListRow.querySelector('#tags').innerText = unitRow.querySelector('#tags').innerText;

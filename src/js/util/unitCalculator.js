@@ -50,10 +50,10 @@ function uc_calc_Armor(armorVal, sizeVal){
     return Math.max(0, (armorVal * 4) - (sizeVal * 2));
 }
 
-function uc_calc_Structure(structVal,sizeVal){
-    return Math.max(0, structVal - sizeVal);
-}
+//function uc_calc_Structure(structVal,sizeVal){
+//    return Math.max(0, structVal - sizeVal);
+//}
 
-function uc_calc_baseCost(sizeCost, moveCost, evadeCost, meleeCost, rangeDamageCost, rangeCost, armorCost, structCost){
-    return sizeCost + moveCost + evadeCost +  meleeCost +  rangeDamageCost +  rangeCost +  armorCost +  structCost;
+function uc_calc_baseCost(sizeCost, moveCost, evadeCost, meleeCost, rangeDamageCost, rangeCost, armorCost){ //, structCost){
+    return sizeCost + moveCost + evadeCost +  meleeCost +  rangeDamageCost +  rangeCost +  armorCost;// +  structCost;
 }

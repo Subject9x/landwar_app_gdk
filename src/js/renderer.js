@@ -112,7 +112,7 @@ function ucg_print_blanks_pdf(event){
             data.dmgRange = "";
             data.range = "";
             data.armor = "";
-            data.structure = "";
+            //data.structure = "";
             data.points = "";
             data.tags = "";
             data.tagTotal = "";
