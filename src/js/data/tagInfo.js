@@ -82,7 +82,7 @@ const tagInfo = {
         },
         {
             title : 'Armor Piercing - Melee',
-            desc : 'When applying Damage from this unit’s Melee attack. Up to <i>half</i> the damage may be applied to Target <b>Structure</b> <i>even if</i> the Target has remaining <b>Armor</b>.',
+            desc : 'When applying Damage from this unit’s Melee attack. <b>Half</b> of the <i>Damage</i> may be converted to <i>Stress Points</i>, 4 Dmg : 1 Stress.',
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
@@ -100,7 +100,7 @@ const tagInfo = {
         },
         {
             title : 'Armor Piercing - Ranged',
-            desc : 'When applying Damage from this unit’s Ranged attack. Up to <i>half</i> the damage may be applied to Target <b>Structure</b> <i>even if</i> the Target has remaining <b>Armor</b>.',
+            desc : 'When applying Damage from this unit’s Ranged attack.  <b>Half</b> of the <i>Damage</i> may be converted to <i>Stress Points</i>, 4 Dmg : 1 Stress.',
             func : (rowId) => {
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
                 return (uc_calc_Damage_Range(rangeDamageVal) * 0.9);
@@ -181,7 +181,7 @@ const tagInfo = {
         },
         {
             title : 'Blink',
-            desc : 'This Unit may ignore Overwatch and Terrain during the Movement Phase',
+            desc : 'This Unit may <b>ignore</b> <i>Overwatch</i> and <i>Terrain</i> during the <i>Movement Phase</i>.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 if(sizeVal == 0){
@@ -545,13 +545,13 @@ const tagInfo = {
         },
         {
             title : 'Flyer',
-            desc : 'Unit is considered as permanently above the ground. Unit may move and shoot <b>over</b> enemy Units and Terrain. Unit cannot use <b>Cover Bonus</b> for defense and <b>all</b> units have <i>Line of sight</i> to this unit. <b>Only</b> Units with [Flyer] or [Jump Jets] can choose <i>Melee Attacks</i> when applicable. ',
+            desc : 'Unit is considered as permanently above the ground. Unit may move and shoot <b>over</b> enemy Units and Terrain. Unit cannot use <b>Cover Bonus</b> for defense and <b>all</b> units have <i>Line of sight</i> to this unit. <b>Only</b> Units with <b>[Flyer]</b> or <b>[Jump Jets]</b> can choose <i>Melee Attacks</i> when applicable. ',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
 
-                return (((moveVal / 2) + (sizeVal * 1.52)) / 2) + (armorVal * 0.7);
+                return ((sizeVal - moveVal) / 2) + (armorVal * 2);
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -566,7 +566,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'(((<b>Move</b> / 2) + (<b>Size</b> * 1.25) / 2) + (<b>Armor</b> * 0.7)'
+            eqt:'((<b>Size</b> - <b>Move</b>) / 2) + (<b>Armor</b> * 2)'
         },
         {
             title : 'Fortification',
