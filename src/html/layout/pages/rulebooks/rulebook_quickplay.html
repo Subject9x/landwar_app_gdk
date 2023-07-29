@@ -88,7 +88,7 @@
                     <li><i>Check Line of Sight</i>: Enemy units block LoS, terrain may block Line of Sight.</li>
                     <li><i>Ranged Attack</i>: check for Effective Range vs Long Range</li>
                     <li><i>Melee Attack</i>: 0-1" range and facing enemy.</li>
-                    <li>Default <i>Attack(ATK)</i> dice pool is <b>4</b>.</li>
+                    <li>Default <i>Attack(ATK)</i> dice pool is <b>3</b>.</li>
                     <li>Default <i>Defense(DEF)</i> dice pool is <b>3</b>.</li>
                 </ul>
             </div>
@@ -100,7 +100,7 @@
             <div class="txt--center ">
                 <ul class="list--unstyled infoSmall txt--left">
                     <li><b>Attack:</b> <i>Stationary</i>  <b>+1 ATK</b></li>
-                    <li><b>Attack:</b> <i>Panicked</i>  <b>halve base ATK</b></li>
+                    <li><b>Attack:</b> <i>Panicked</i>  <b>halve ATK and DEF</b></li>
                     <li><b>Attack:</b> <i>High Speed</i> <b>-2 ATK</b> and <b>re-roll 2 DEF.</b></li>
                     <li><b>Attack:</b> <i>Overwatch</i> <b>-2 ATK</b></li>
                     <li><b>Defense:</b> <i>Long Range</i> <b>+1 DEF</b></i></li>
@@ -153,8 +153,8 @@
             </div>
             <div class="txt--center ">
                 <ul class="list--unstyled infoSmall txt--left">
-                    <li>+1 Stress for each attack that hits <i>Armor</i> when <i>Armor</i> is <b>below 1/2 total.</b></li>
-                    <li>+1 Stress <b>if</b> Unit took <b>any</b> <i>Armor</i> <b>damage this Turn at 1/3 or less.</b></li>
+                    <li>+1 Stress <b>if</b> Unit took <b>any</b> damage <i>when</i> <b>Armor</b> was 50% <i>or less</i>.</li>
+                    <li>+1 Stress <b>if</b> Unit took <b>any</b> damage <i>when</i> <b>Armor</b> was 75% <i>or less</i>.</li>
                     <li>+1 Stress <b>if</b> Unit was target of <b>3 or more</b> attacks this Turn.</li>
                     <li>Any <i>TAG</i> rules that apply as well.</li>
                 </ul>
@@ -167,8 +167,8 @@
             <div class="txt--center ">
                 <ul class="list--unstyled infoSmall txt--left">
                     <li>Each Unit with 1 or more <i>Stress Tokens</i> rolls <b>1D6</b>:</li>
-                    <li><b>If</b> result <b>greater than</b> total <i>Stress Tokens</i>, remove all tokens.</li>
-                    <li><b>If</b> result <b>equal or less than</b> total <i>Stress Tokens</i>, give unit 1 <i>Panicked</i> token.</li>
+                    <li><b>If</b> result <b>greater than or equal to</b> total <i>Stress Tokens</i>, remove all tokens.</li>
+                    <li><b>If</b> result <b>less than</b> total <i>Stress Tokens</i>, give unit 1 <i>Panicked</i> token.</li>
                 </ul>
             </div>
         </div>

@@ -134,8 +134,8 @@
                             <p>Whenever a Unit completes a <b>Normal</b> move where the <b>total</b> distance moved was <b>greater than</b> 11", the Unit has completed a <i>High Speed Move</i>.</p>
                             <p>Units during their <b>next</b> <i>Combat Phase</i> are given the following effects.</p>
                             <ul>
-                                <li><b>Base ATK</b> - 2. (Minimum of 1).</li>
-                                <li>may <b>re-roll 2 Base DEF</b> dice. </li>
+                                <li><b>ATK</b> - 2. (Minimum of 1).</li>
+                                <li>may <b>re-roll 2 DEF</b> dice. </li>
                             </ul>
                         </div>
                     </div>
@@ -465,7 +465,11 @@
                         </div>
                         <div class="col-s-8 offset-s-2 col-4 offset-1 col-l-4 offset-l-1 rulePanel">
                             <label class="ruleTitle"><u>Crew Shaken</u></label>
-                            <p>If a Unit <b>ends</b> the Damage Phase with <b>any</b> <i>Armor</i> damage <b>below</b> 50%:</p>
+                            <p>If a Unit <b>ends</b> the Damage Phase with <b>any</b> <i>Armor</i> damage <b>at or below</b> 50%:</p>
+                            <ul class="sectionOrderList">
+                                <li><i>Unit</i> suffers <b>+1 Stress Points.</b></li>
+                            </ul>
+                            <p>If a Unit <b>ends</b> the Damage Phase with <b>any</b> <i>Armor</i> damage <b>at or below</b> 75%:</p>
                             <ul class="sectionOrderList">
                                 <li><i>Unit</i> suffers <b>+1 Stress Points.</b></li>
                             </ul>
@@ -510,12 +514,12 @@
                             <ul class="sectionOrderList">
                                 <li><b>note:</b> <i>TAGS</i> may be applied for <i>Stress Checks</i> and tokens at this time.</li>
                                 <li><i>Controlling Player</i> rolls <b>1D6</b> for each of their Units with <i>Stress Tokens</i>.
-                                <li><i>If</i> the roll is <b>higher than</b> the <b>current</b> <i>Stress Tokens</i> for that Unit:
+                                <li><i>If</i> the roll is <b>equal or higher than</b> the <b>current</b> <i>Stress Tokens</i> for that Unit:
                                     <ul>
                                         <li>Player <b>removes all</b> <i>Stress Tokens</i> from the Unit.</li>
                                     </ul>
                                 </li>
-                                <li><i>If</i> the roll is <b>equal to or less than</b> the number of <i>Stress Tokens</i> for the Unit:
+                                <li><i>If</i> the roll is <b>less than</b> the number of <i>Stress Tokens</i> for the Unit:
                                     <ul>
                                         <li>Unit has become <i>Panicked</i>.</li>
                                         <li>Place a <i>Panicked</i> token next to the Unit or on its data card.</li>
