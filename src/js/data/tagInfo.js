@@ -805,7 +805,7 @@ const tagInfo = {
         },
         {
             title : 'Inhibitor Munitions',
-            desc : 'This Unit may choose to make an <i>additional</i> <b>DMG 0</b> <i>Ranged Attack</i>. <b>IF</b> attack hits the target, the targets <b>next</b> <i>Movement Phase</i> move is reduced to 1/2" <b>before</b> any other modifiers.',
+            desc : '<p>Player must declare this <b>before</b> the Unit makes its <i>Ranged Attack</i>.</p><p>Units <i>Ranged Attack</i> <b>DMG set to 0</b>. <b>When</b> attack hits the target, the targets <b>next</b> <i>Movement Phase</i> move is reduced to 1/2" <b>before</b> any other modifiers. This <b>will</b> change targets <i>Ini value</i>.</p>',
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
