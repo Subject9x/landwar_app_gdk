@@ -56,7 +56,7 @@ function uic_card_row_add(objData, newRowId){
     
     cardDiv.querySelector("#ucArmor").innerHTML = objData.armor;
     
-    cardDiv.querySelector("#ucStruc").innerHTML = objData.structure;
+    //cardDiv.querySelector("#ucStruc").innerHTML = objData.structure;
     
     cardDiv.querySelector("#ucPoints").innerHTML = '<b>' + objData.completeTotal + '</b>';
 

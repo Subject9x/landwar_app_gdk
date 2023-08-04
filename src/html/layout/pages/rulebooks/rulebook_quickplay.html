@@ -29,16 +29,15 @@
                 <li><i>Combat</i></li>
                 <li><i>Damage</i></li>
                 <li><i>Resolution</i></li>
-
             </ol>
         </div>
         <div class="grd-row-col-4-6 sectionPanel txt--left">
             <ul >
-                <li>Determine order for turn.</li>
-                <li>alternate moving 1/2 of eligible units.</b></li>
-                <li>alternate making attacks.</li>
-                <li>apply any damage from successful attacks.</li>
-                <li>remove destroyed units, check end game.</li>
+                <li>Determine <i>Initiative</i> for turn.</li>
+                <li>Move Units in <i>Initiative Order</i>. </li>
+                <li>Alternate making attacks.</li>
+                <li>Apply any damage from successful attacks.</li>
+                <li>Remove destroyed units, check end game.</li>
             </ul>
         </div>
     </div>
@@ -67,7 +66,7 @@
             </div>
             <div class="txt--center">
                 <ul class="list--unstyled infoSmall txt--left">
-                    <li>Players take turns moving 1/2 of their force at a time.</li>
+                    
                     <li><i>DEFENDER</i> makes the first move.</li>
                     <li><b>Stationary:</b> place token, Unit can rotate in place.</li>
                     <li><b>Normal:</b> Unit may move <b>up to</b> its current total <i>MV</i> value.</li>
@@ -88,7 +87,7 @@
                     <li><i>Check Line of Sight</i>: Enemy units block LoS, terrain may block Line of Sight.</li>
                     <li><i>Ranged Attack</i>: check for Effective Range vs Long Range</li>
                     <li><i>Melee Attack</i>: 0-1" range and facing enemy.</li>
-                    <li>Default <i>Attack(ATK)</i> dice pool is <b>4</b>.</li>
+                    <li>Default <i>Attack(ATK)</i> dice pool is <b>3</b>.</li>
                     <li>Default <i>Defense(DEF)</i> dice pool is <b>3</b>.</li>
                 </ul>
             </div>
@@ -100,7 +99,7 @@
             <div class="txt--center ">
                 <ul class="list--unstyled infoSmall txt--left">
                     <li><b>Attack:</b> <i>Stationary</i>  <b>+1 ATK</b></li>
-                    <li><b>Attack:</b> <i>Panicked</i>  <b>halve base ATK</b></li>
+                    <li><b>Attack:</b> <i>Panicked</i>  <b>halve ATK and DEF</b></li>
                     <li><b>Attack:</b> <i>High Speed</i> <b>-2 ATK</b> and <b>re-roll 2 DEF.</b></li>
                     <li><b>Attack:</b> <i>Overwatch</i> <b>-2 ATK</b></li>
                     <li><b>Defense:</b> <i>Long Range</i> <b>+1 DEF</b></i></li>
@@ -126,7 +125,7 @@
                     <li><b>Attacker counts each roll of 4+</b></li>
                     <li><b>Defender counts each roll of 5+</b></li>
                     <li>When Attacker success total is <b>greater than</b> Defender total, Target Unit takes <i>all the Damage from the attack.</i></li>
-                    <li>subtract Damage from Target's <b>Armor</b> stat first, then when Armor is 0, subtract from <b>Structure</b>.</li>
+                    <li>subtract Damage from Target's <b>Armor</b> stat.</li>
                     <li><i>Ranged Attack</i>: <b>missed shots</b> at <b>non-closest Target</b> +1 stress at Effective Range OR +2 at Long Range.</li>
                 </ul>
             </div>
@@ -137,8 +136,8 @@
             </div>
             <div class="txt--center ">
                 <ul class="list--unstyled infoSmall txt--left">
-                    <li><b>Any</b> Units reduced to <b>0 Structure</b> in the <i>Damage</i> phase are now marked as <b>Destroyed.</b></li>
-                    <li><i>Anytime</i> a Player loses <b>1 or more</b> Units in a Turn, <b>all</b> of their remaining Units suffer <b>+1 Stress</b>.</li>
+                    <li><b>Any</b> Units reduced to <b>0 Armor</b> in the <i>Damage</i> phase are now marked as <b>Destroyed.</b></li>
+                    <li><i>Anytime</i> a Player loses <b>1 or more</b> Units in a Turn, <b>all</b> Units within 6" suffer <b>+1 Stress</b>.</li>
                     <li><b>Any</b> Units with more than 0 <i>Stress</i> tokens must make a <i>Stress Check.</i></li>
                     <li><b>Any</b> Units with a <i>Panicked</i> token must make a <i>Stress Check.</i></li>
                 </ul>
@@ -153,8 +152,8 @@
             </div>
             <div class="txt--center ">
                 <ul class="list--unstyled infoSmall txt--left">
-                    <li>+1 Stress for each attack that hits <i>Armor</i> when <i>Armor</i> is <b>below 1/2 total.</b></li>
-                    <li>+2 Stress <b>if</b> Unit took <b>any</b> <i>Structure</i> <b>damage this Turn.</b></li>
+                    <li>+1 Stress <b>if</b> Unit took <b>any</b> damage <i>when</i> <b>Armor</b> was 50% <i>or less</i>.</li>
+                    <li>+1 Stress <b>if</b> Unit took <b>any</b> damage <i>when</i> <b>Armor</b> was 75% <i>or less</i>.</li>
                     <li>+1 Stress <b>if</b> Unit was target of <b>3 or more</b> attacks this Turn.</li>
                     <li>Any <i>TAG</i> rules that apply as well.</li>
                 </ul>
@@ -167,8 +166,8 @@
             <div class="txt--center ">
                 <ul class="list--unstyled infoSmall txt--left">
                     <li>Each Unit with 1 or more <i>Stress Tokens</i> rolls <b>1D6</b>:</li>
-                    <li><b>If</b> result <b>greater than</b> total <i>Stress Tokens</i>, remove all tokens.</li>
-                    <li><b>If</b> result <b>equal or less than</b> total <i>Stress Tokens</i>, give unit 1 <i>Panicked</i> token.</li>
+                    <li><b>If</b> result <b>greater than or equal to</b> total <i>Stress Tokens</i>, remove all tokens.</li>
+                    <li><b>If</b> result <b>less than</b> total <i>Stress Tokens</i>, give unit 1 <i>Panicked</i> token.</li>
                 </ul>
             </div>
         </div>
