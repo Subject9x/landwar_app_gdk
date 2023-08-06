@@ -55,8 +55,14 @@
             <div class="txt--center ">
                 <ul class="list--unstyled infoSmall txt--left">
                     <li>Players roll 1D6 <i>and</i> <b>add</b> any <i>INI</i> TAG mods and compare results.</li>
-                    <li><b>Highest</b> value Player becomes <i>ATTACKER</i> for turn. </li>
-                    <li><b>Lowest</b> value Player becomes <i>DEFENDER</i> for turn. </li>
+                    <li><b>Highest</b> value Player becomes <i>Offense</i> for turn. </li>
+                    <li><b>Lowest</b> value Player becomes <i>Defense</i> for turn. </li>
+                    <li>
+                        <b>Panicked</b>
+                        <ul>
+                            <li><b>any</b> <i>Units</i> with <i>Panicked</i> token <b>subtracts 1</b> from their <i>Stress</i> amount.</li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -66,12 +72,15 @@
             </div>
             <div class="txt--center">
                 <ul class="list--unstyled infoSmall txt--left">
-                    
-                    <li><i>DEFENDER</i> makes the first move.</li>
-                    <li><b>Stationary:</b> place token, Unit can rotate in place.</li>
-                    <li><b>Normal:</b> Unit may move <b>up to</b> its current total <i>MV</i> value.</li>
-                    <li><b>TAG:</b> make move as described in TAG rule.</li>
-                    <li><b>IF</b> <i>Panicked</i> <b>remove</b> 1 Stress point.</li>
+                    <li>all <i>Units</i> move in order of <b>lowest MV to highest.</b></li>
+                    <li><i>DEFENDER</i> loses all <b>MV ties</b> and must always move their units <b>first.</b></li>
+                    <li><i>Move Types</i>
+                        <ul>
+                            <li><b>Stationary:</b> place token, Unit can rotate in place.</li>
+                            <li><b>Normal:</b> Unit may move <b>up to</b> its current total <i>MV</i> value.</li>
+                            <li><b>TAG:</b> make move as described in TAG rule.</li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -84,6 +93,7 @@
             <div class="txt--center ">
                 <ul class="list--unstyled infoSmall txt--left">
                     <li>Any unit with <i>Melee</i> or <i>Ranged</i> values > 0 may make 1 attack.</li>
+                    <li>Target must be <b>closest</b> within <i>Line of Sight</i> or suffer Stress for missed attacks.</li>
                     <li><i>Check Line of Sight</i>: Enemy units block LoS, terrain may block Line of Sight.</li>
                     <li><i>Ranged Attack</i>: check for Effective Range vs Long Range</li>
                     <li><i>Melee Attack</i>: 0-1" range and facing enemy.</li>
@@ -110,9 +120,10 @@
         </div>
     </div>
 
-    <div class="row-fill-64px"></div>
-    <div class="row-fill-64px"></div>
-    <div class="row-fill-64px"></div>
+    <div id="pageBreak1">
+        <div class="row-fill-64px"></div>
+        <div class="row-fill-64px"></div>
+    </div>
 
     <div class="grd-row">
         <div class="grd-row-col-3-6 rulePanel">
