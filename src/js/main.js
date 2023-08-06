@@ -584,7 +584,7 @@ ipcMain.handle('ab-open-sheet-import', async (event, dialogConfig)=>{
               setLastWindow(BrowserWindow.fromId(event.sender.id));
 
               newWindow.focus();
-              newWindow.webContents.send('ab-dialog-load-response', JSON.stringify(importData));
+              newWindow.webContents.send('ab-dialog-load-response', JSON.stringify(importData), file.filePaths[0]);
           }
           else{
             newWindow.close();
@@ -620,7 +620,7 @@ ipcMain.handle('ab-open-sheet-import-info', async (event, dialogConfig)=>{
       .on('end',()=>{
         let dataString = JSON.stringify(importData);
         if(dataString != undefined){
-          srcWindow.webContents.send('ab-dialog-load-response-unitinfo', dataString);
+          srcWindow.webContents.send('ab-dialog-load-response-unitinfo', dataString, file.filePaths[0]);
         }
       });
     }
@@ -650,7 +650,7 @@ ipcMain.handle('ab-dialog-load-async', async (event, dialogConfig)=>{
       .on('end',()=>{
         if(importData.length > 0 ){
           let dataString = JSON.stringify(importData);
-          srcWindow.webContents.send('ab-dialog-load-response', dataString);  
+          srcWindow.webContents.send('ab-dialog-load-response', dataString, file.filePaths[0]);  
         }
       });
     }
@@ -674,12 +674,12 @@ function createWindowArmyBuildTagList() {
   return abTagList;
 }
 
-ipcMain.handle('ab-dialog-send-taglist', (event, tagList)=>{
+ipcMain.handle('ab-dialog-send-taglist', (event, pageData)=>{
 
   tagListWindow = createWindowArmyBuildTagList();
   tagListWindow.webContents.on('did-finish-load', () => {
-    if(tagList.length > 0){
-      let dataString = JSON.stringify(tagList);
+    if(pageData.data.length > 0){
+      let dataString = JSON.stringify(pageData);
 
       tagListWindow.webContents.send('ab-taglist-load-response', dataString);
       tagListWindow.focus();

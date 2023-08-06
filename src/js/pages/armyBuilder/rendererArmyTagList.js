@@ -1,6 +1,8 @@
-api.handle( 'ab-taglist-load-response', (event, data) => function(event, data){
+api.handle( 'ab-taglist-load-response', (event, data,) => function(event, data){
 
-    let printTagList = JSON.parse(data);
+    let pageData = JSON.parse(data);
+
+    let printTagList = pageData.data;
 
     let tagListRow = $("#tagListRows")[0];
     let tagLibHtml =  window.nodeFileSys.loadHTML("layout/pages/tagLibrary/tagLibViewList.html");;
@@ -29,6 +31,9 @@ api.handle( 'ab-taglist-load-response', (event, data) => function(event, data){
     }
     $("#tagViewClose").remove();
 
+    if(pageData.fileName != undefined && pageData.fileName.length > 0){
+        document.getElementById("fileName").innerHTML = "<h4>" + pageData.fileName + "</h4>";
+    }
     
     let opt = pdfSaveOptions;
     opt.printBackground = true;

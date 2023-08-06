@@ -100,7 +100,8 @@ function ab_control_new_print(event){
  */
 function ab_control_print_tags(event){
 
-    let sendTags = [];
+    let file = document.getElementById("file").textContent;
+    let sendTags = [];    
 
     $("#armyListDisplayTable>tbody>tr").each((index, tr)=>{
         if(index != 0){
@@ -128,7 +129,7 @@ function ab_control_print_tags(event){
             }
         }
     });
-    file_armyBuild_export_tags(sendTags);
+    file_armyBuild_export_tags(sendTags, file);
 }
 
 

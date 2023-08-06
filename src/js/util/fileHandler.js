@@ -26,7 +26,6 @@ function file_unitBuild_export_jsonRowArray(htmlUnitTable){
             data.dmgRange = parseInt(document.getElementById(rowItem.id + '_DMGR').value);
             data.range = parseInt(document.getElementById(rowItem.id + '_range').value);
             data.armor = parseInt(document.getElementById(rowItem.id + '_armor').value);
-            //data.structure = parseInt(document.getElementById(rowItem.id + '_structure').value);
             data.points = parseInt(document.getElementById(rowItem.id + '_points').innerHTML);
             data.tags = "";
 
@@ -78,7 +77,6 @@ function file_unitBuild_export(htmlUnitTable){
             data.dmgRange = parseInt(document.getElementById(rowItem.id + '_DMGR').value);
             data.range = parseInt(document.getElementById(rowItem.id + '_range').value);
             data.armor = parseInt(document.getElementById(rowItem.id + '_armor').value);
-            //data.structure = parseInt(document.getElementById(rowItem.id + '_structure').value);
             data.points = parseInt(document.getElementById(rowItem.id + '_points').innerHTML);
             
             let tagArray = row_tagArrays[rowItem.id];
@@ -119,7 +117,6 @@ function file_unitBuild_import(fileDataArray){
             $("#" + newRowId + '_DMGR').val(objData.dmgRange) ;
             $("#" + newRowId + '_range').val(objData.range) ;
             $("#" + newRowId + '_armor').val(objData.armor) ;
-            //$("#" + newRowId + '_structure').val(objData.structure) ;
             $("#" + newRowId + '_points').val(objData.points) ;
 
             let newArray = [];
@@ -164,7 +161,6 @@ function file_unitinfo_import(fileDataArray){
             $("#" + newRowId + '> #range').append(objData.dmgRange) ;
             $("#" + newRowId + '> #dist').append(objData.range) ;
             $("#" + newRowId + '> #armor').append(objData.armor) ;
-            //$("#" + newRowId + '> #struct').append(objData.structure) ;
             $("#" + newRowId + '> #tags').append(objData.newRowId) ;
             $("#" + newRowId + '> #points').append(objData.completeTotal) ;
 
@@ -249,7 +245,6 @@ function file_armyBuilder_exportList(htmlUnitTable){
         data.dmgRange = parseInt(rowItem.querySelector('#range').innerHTML);
         data.range = parseInt(rowItem.querySelector('#dist').innerHTML);
         data.armor = parseInt(rowItem.querySelector('#armor').innerHTML);
-        //data.structure = parseInt(rowItem.querySelector('#struct').innerHTML);
         data.points = parseInt(rowItem.querySelector('#points').innerHTML);
         data.tags = rowItem.querySelector('#tags').innerText;
         data.tagTotal = parseInt(rowItem.querySelector('#tagTotal').innerHTML);
@@ -269,11 +264,13 @@ function file_armyBuild_export_data(htmlUnitTable){
     window.api.send('ub-dialog-send-cardgen', exportData);
 }
 
-function file_armyBuild_export_tags(tagList){
+function file_armyBuild_export_tags(tagList, listName){
     if(tagList.length <= 0){
-        return;
+        return; 
     }
     
-    window.api.send('ab-dialog-send-taglist', tagList);
+    let pageData = {fileName:listName, data:tagList};
+
+    window.api.send('ab-dialog-send-taglist', pageData);
 }
 
