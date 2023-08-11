@@ -3,8 +3,68 @@ let armyListTableRowCount = 0;
 
 let unitData = []
 let armyListData = []
+let shapeshiftArr = [];
+
+function ab_util_hasShifter(unitName){
+    return shapeshiftArr.findIndex((element) => element == unitName);
+}
+/*
+    
+    //shapeshiftArray
+    let unitName =  $("#" + unitRowId + '_name')[0].value;
+    let shapeshiftId = shapeshiftArray.findIndex((element) => element == unitName);
+
+    if(ub_tags_checkByName('Shapeshifter')){
+        if(!shapeshiftArray.includes(unitName)){
+            shapeshiftArray.push(unitName);
+        }
+    }
+    else{
+        shapeshiftArray.splice(shapeshiftId, 1);
+        console.log("spliced array at " + shapeshiftId);    //debug
+    }
+*/
 
 let tagHover;
+
+function ab_tags_checkByName(tagName, tagArr){
+    if(tagArr.length === 0){
+        return false;
+    }
+    for(let tagIdx in tagArr){
+        let tagId = tagArr[parseInt(tagIdx)];
+        if(!Number.isNaN(tagId)){
+            if(tagInfo.data[tagId].title === tagName){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+function ab_util_string_to_arr(rowTags, tagArr){
+    if(rowTags !== undefined && rowTags.length > 0){
+        let rowTagsArr = rowTags.split(" ");
+        if(rowTagsArr.length > 1){
+            for(let rowTagIdx in rowTagsArr){
+                let tagStr = rowTagsArr[rowTagIdx];
+                if(tagStr != " " && tagStr != ""){
+                    tag = parseInt(tagStr);
+                    let add = true;
+                    for(let i in tagArr){
+                        let tagId = tagArr[i];
+                        if(tagId == tag){
+                            add = false;
+                        }
+                    }
+                    if(add){
+                        tagArr.push(tag);
+                    }
+                }
+            }
+        }
+    }
+}
 
 /*
     check duplicates in the unitTable (info, not army!)
@@ -38,8 +98,8 @@ function ab_util_check_unit(unitObjData){
 }
 
 function ab_sheet_close_window(event){
-    window.api.send('close-window', dialogLoadOptionsUnitList);
     event.preventDefault();
+    window.api.send('close-window', dialogLoadOptionsUnitList);
 }
 
 function ab_control_loadfile(event){
@@ -106,27 +166,7 @@ function ab_control_print_tags(event){
     $("#armyListDisplayTable>tbody>tr").each((index, tr)=>{
         if(index != 0){
             let rowTagsStr = tr.querySelector("#tags").innerHTML;
-            if(rowTagsStr !== undefined && rowTagsStr.length > 0){
-                let rowTagsArr = rowTagsStr.split(" ");
-                if(rowTagsArr.length > 1){
-                    for(let rowTagIdx in rowTagsArr){
-                        let tagStr = rowTagsArr[rowTagIdx];
-                        if(tagStr != " " && tagStr != ""){
-                            tag = parseInt(tagStr);
-                            let add = true;
-                            for(let i in sendTags){
-                                let tagId = sendTags[i];
-                                if(tagId == tag){
-                                    add = false;
-                                }
-                            }
-                            if(add){
-                                sendTags.push(tag);
-                            }
-                        }
-                    }
-                }
-            }
+            ab_util_string_to_arr(rowTagsStr, sendTags);
         }
     });
     file_armyBuild_export_tags(sendTags, file);
@@ -151,7 +191,9 @@ function ab_unitInfo_row_add(){
 }
 
 
-
+/*
+    called by response from loading existing army list file.
+*/
 function ab_unitInfo_addData(parsedData){
 
     for(let objIdx in parsedData){
@@ -166,6 +208,8 @@ function ab_unitInfo_addData(parsedData){
                 let row = $("#" + newRowId)[0];
     
                 row.querySelector("#name").innerHTML = objData.unitName;
+                let unitName = objData.unitName;
+
                 row.querySelector("#size").innerHTML = objData.size;
                 row.querySelector("#move").innerHTML = objData.move;
                 row.querySelector("#evade").innerHTML = objData.evade;
@@ -173,7 +217,6 @@ function ab_unitInfo_addData(parsedData){
                 row.querySelector("#range").innerHTML = objData.dmgRange;
                 row.querySelector("#dist").innerHTML = objData.range;
                 row.querySelector("#armor").innerHTML = objData.armor;
-                //row.querySelector("#struct").innerHTML = objData.structure;
                 row.querySelector("#tags").innerText = objData.tags;
                 row.querySelector("#tagTotal").innerHTML = objData.tagTotal;
                 row.querySelector("#points").innerHTML = objData.points;
@@ -192,6 +235,15 @@ function ab_unitInfo_addData(parsedData){
                         ab_tagRow_hide();
                     };
                   
+                    //Shapeshifter meta check
+                    let checkTags = [];
+                    ab_util_string_to_arr(objData.tags, checkTags);
+
+                    if(ab_tags_checkByName("Shapeshifter", checkTags)){
+                        if(!ab_util_hasShifter(unitName)){
+                            shapeshiftArr.push(row.querySelector("#name").innerHTML);
+                        }
+                    }
                 }       
 
                 let addBtn = row.querySelector('button');
@@ -236,7 +288,6 @@ function ab_armyList_parseData(parsedData){
                 newListRow.querySelector("#range").innerHTML = objData.dmgRange;
                 newListRow.querySelector("#dist").innerHTML = objData.range;
                 newListRow.querySelector("#armor").innerHTML = objData.armor;
-                //newListRow.querySelector("#struct").innerHTML = objData.structure;
                 newListRow.querySelector("#tags").innerText = objData.tags;
                 newListRow.querySelector("#tagTotal").innerHTML = objData.tagTotal;
                 newListRow.querySelector("#points").innerHTML = objData.points;
@@ -256,11 +307,17 @@ function ab_armyList_parseData(parsedData){
                         //leave
                         ab_tagRow_hide();
                     };
-                  
-                }     
+                    
+                    let checkTags = [];
+                    ab_util_string_to_arr(objData.tags, checkTags);
 
+                    if(ab_tags_checkByName("Shapeshifter", checkTags)){
+                        if(!ab_util_hasShifter(unitName)){
+                            shapeshiftArr.push(row.querySelector("#name").innerHTML);
+                        }
+                    }
+                } 
 
-            
                 let btnRemove = newListRow.querySelector('button');
                 btnRemove.setAttribute('id', 'btnRemove');
                 btnRemove.addEventListener("click", function(){
@@ -272,6 +329,11 @@ function ab_armyList_parseData(parsedData){
             }
         }
     }
+}
+
+
+function ab_unitData_addtoList(unitRowId, unitRowdiv){
+
 }
 
 /**
@@ -303,7 +365,6 @@ function ab_unitInfo_addToList(unitRowId){
     newListRow.querySelector('#range').innerHTML = unitRow.querySelector('#range').innerHTML;
     newListRow.querySelector('#dist').innerHTML = unitRow.querySelector('#dist').innerHTML;
     newListRow.querySelector('#armor').innerHTML = unitRow.querySelector('#armor').innerHTML;
-    //newListRow.querySelector('#struct').innerHTML = unitRow.querySelector('#struct').innerHTML;
     newListRow.querySelector('#points').innerHTML = unitRow.querySelector('#points').innerHTML;
     newListRow.querySelector('#total').innerHTML = unitRow.querySelector('#total').innerHTML;
     newListRow.querySelector('#tags').innerText = unitRow.querySelector('#tags').innerText;
@@ -322,6 +383,13 @@ function ab_unitInfo_addToList(unitRowId){
             //leave
             ab_tagRow_hide();
         };
+
+        let checkTags = [];
+        ab_util_string_to_arr(newListRow.querySelector('#tags').innerText, checkTags);
+
+        if(ab_tags_checkByName("Shapeshifter", checkTags)){
+            //TODO - shapeshifter
+        }
       
     } 
 
@@ -331,6 +399,8 @@ function ab_unitInfo_addToList(unitRowId){
         ab_armyList_removeEntry(newListRow.id);
         event.preventDefault();
     });
+
+
 
     ab_armyList_adjustTotalPoints(parseFloat(unitRow.querySelector('#total').innerHTML));
 }

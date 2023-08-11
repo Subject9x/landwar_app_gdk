@@ -38,7 +38,7 @@ function createWindow () {
     webPreferences: {
       preload: path.join(__dirname, '../js/preload.js'),
       contextIsolation: true,
-      nodeIntegration: true
+      nodeIntegration: true,
     }
   })
   //,
@@ -85,10 +85,9 @@ ipcMain.handle('quit-app', (event)=> app.quit());
 */
 
 //all-purpose window close signal, don't use for main view though, main view gets its own where it quits whole app.
-ipcMain.handle('close-window', (event)=>{
-  let srcWindow = BrowserWindow.fromId(event.sender.id);
+ipcMain.handle('close-window',  (evt, arg) =>{
+  let srcWindow = BrowserWindow.fromId(evt.sender.id);
 
-  
   if(srcWindow === lastWindowFocused){
     lastWindowFocused = mainWindow;
   }
@@ -101,8 +100,11 @@ ipcMain.handle('close-window', (event)=>{
       lastWindowFocused = mainWindow;
     }
   }
+  srcWindow.hide();
   srcWindow.close();
+  srcWindow = null;
 });
+
 
 /**
  * SIGNAL - SAVE CSV UNIT DATA
@@ -353,12 +355,7 @@ function createWindowUnitSheet(){
     }
   });
 
-  ubSheetNew.on('close', ()=>{
-    mainWindow.focus();
-    ubSheetNew = null;
-  });
   ubSheetNew.loadFile('src/html/layout/pages/unitBuilder/unitbuilderSheet.html');
-
   return ubSheetNew;
 }
 
@@ -366,8 +363,14 @@ ipcMain.handle('ub-open-sheet-new', (event)=>{
   let ubSheetNew = createWindowUnitSheet();
   
   setLastWindow(BrowserWindow.fromId(event.sender.id));
+  //ubSheetNew.focus();
 
-  ubSheetNew.focus();
+  
+  ubSheetNew.once('ready-to-show', () => {
+    ubSheetNew.show();
+    ubSheetNew.focus();
+  });
+
 });
 
 ipcMain.handle('ub-open-sheet-import', async (event, dialogConfig)=>{
@@ -397,9 +400,11 @@ ipcMain.handle('ub-open-sheet-import', async (event, dialogConfig)=>{
           let dataString =  JSON.stringify(importData);
           if(dataString.length > 0){
               setLastWindow(BrowserWindow.fromId(event.sender.id));
-              
-              newWindow.focus();
               newWindow.webContents.send('ub-dialog-load-response', JSON.stringify(importData), file.filePaths[0]);
+              newWindow.once('ready-to-show', () => {
+                newWindow.show();
+                newWindow.focus();
+              });
           }
           else{
             newWindow.close();
@@ -425,11 +430,7 @@ function createWindowUnitCard(){
       nodeIntegration: true
     }
   });
-
-  ubSheetNew.on('close', ()=>{
-    ubSheetNew = null;
-    mainWindow.focus();
-  });
+  
   ubSheetNew.loadFile('src/html/layout/pages/unitCardGen/unitCardSheet.html');
 
   return ubSheetNew;
@@ -447,6 +448,7 @@ ipcMain.handle('ub-dialog-send-cardgen', (event, unitData) => {
 
       newWindow.webContents.send('uic-dialog-load-response', dataString);
       newWindow.focus();
+
     }
     else{
       newWindow.close();

@@ -9,8 +9,9 @@ let row_tagArrays = {};
 let hasSaved = false;   //save-prompt feature
 
 function ub_sheet_close_window(event){
-    window.api.send('close-window', dialogLoadOptionsUnitList);
     event.preventDefault();
+    window.api.send('close-window', dialogLoadOptionsUnitList);
+    window.api.event
 }
 
 function ub_row_tag_ini(rowId){
@@ -371,8 +372,8 @@ function ub_tagModal_tagRow_check(tagRow){
     tagModal/close-or-save
 */
 function ub_tagModal_close(doSave){
+    let unitRowId = $('#tagWindow_rowId')[0].value;
     if(doSave){
-        let unitRowId = $('#tagWindow_rowId')[0].value;
         // let unitTagList = document.getElementById(unitRowId + '_tagList');
         let unitTagCost = $("#" + unitRowId + '_tagTotal')[0];
 
@@ -385,7 +386,6 @@ function ub_tagModal_close(doSave){
         let finalTotal = Math.round(((unitTotal + tagTotal) + Number.EPSILON) * 100) / 100;
         $("#" + unitRowId + "_total")[0].innerHTML =  finalTotal;
     }
-
 
     tagWindow.style.display = 'none';
     tagModal.setAttribute('hidden','true');

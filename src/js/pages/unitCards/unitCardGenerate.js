@@ -12,8 +12,8 @@ function uic_window_setData(unitCardData){
 }
 
 function uic_window_close(event){
-    window.api.send('close-window');
     event.preventDefault();
+    window.api.send('close-window');
 }
 
 /*
