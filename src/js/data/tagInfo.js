@@ -48,6 +48,25 @@ const tagInfo = {
             },
             eqt:'(<b>Move</b> / 2) + (<b>Armor</b> / 2)'
         },
+        
+        {
+            title : 'Alt-Mode',
+            desc : "<p>Pick a Unit with <i>[Multi-Mode]</i> at <b>equal or greater</b> points cost. <i>This</i> Unit becomes a <i>mode</i> for the <i>[Multi-Mode]</i> Unit to transform into during the game. <b>Only</b> the mode with the <b>highest</> <i>Total points cost</i> is paid for and becomes the <i>[Multi-Mode]</i> unit.</p>",
+            func : (rowId) => {
+                return 0;/*TODO*/
+            },
+            reqs : (rowId) => {
+                let warn = '';
+
+                let unitName = document.getElementById(rowId + '_name').value;
+                if( unitName === undefined || unitName.length == 0){
+                    warn = warn + '<p>Unit <b>must have</b> a <i>Unit Name</i> value for keyword matching.</p>';
+                }
+
+                return warn;
+            },
+            eqt:'Use the <b>highest</b> single Unit Cost from all shapes.'
+        },
         {
             title : 'Area Denial',
             desc : 'when comparing Unit totals for <i>Objective Secured</i>, this Unit counts as 2 instead of the normal 1.',
@@ -109,7 +128,7 @@ const tagInfo = {
                 let warn = '';
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
                 if(rangeDamageVal < 4){
-                    warn = warn + '<p>Unit must have a <b>[Range Damage]</b> greater than 0.</p>';
+                    warn = warn + '<p>Unit must have a <b>[Range Damage]</b> greater than 3.</p>';
                 }
                 return warn;
             },
@@ -354,7 +373,32 @@ const tagInfo = {
             eqt:'(<b>Size</b> * 2) + (<b>Move</b> / 2)'
         },
         {
-            title : 'Counter-Battery Intuition',
+            title : 'Cloaking Systems',
+            desc : '<p>Activate during <i>Initiative Phase</i> <b>before</b> the roll off!</p><p>Unit <i>Ini value</i> unmodified but <b>Move</b> will be halved <b>before</b> other modifiers.</p><p>Unit <b>+3 DEF</b> and <b>cannot</b> attack this turn.</p>',
+            func : (rowId, ) => {
+                let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+                if(sizeVal == 0){
+                    sizeVal = 1;
+                }
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+                if(moveVal == 0){
+                    moveVal = 1;
+                }
+                let moveCost = uc_calc_Move(moveVal, sizeVal);
+                
+                return (moveCost * 0.35) + (sizeVal / 2);
+            },
+            reqs : (rowId) => {
+                let warn = '';
+                if(ub_tags_checkByName('Heavy Armor')){
+                    warn = warn + '<p>Unit <i>cannot have</i> [Heavy Armor] tag.</p>';
+                }
+                return warn;
+            },
+            eqt:'(<b>Move COST</b> 35%) + (<b>Size</b> / 2)'
+        },
+        {
+            title : 'Counter-Battery',
             desc : 'Unit may use <b>Indirect Fire</b> on a Target this <i>Attack Phase</i> when the Target has attempted an <b>Indirect Fire</b> attack location within Unit`s <b>Range</b>.',
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
@@ -855,6 +899,15 @@ const tagInfo = {
             },
             reqs : (rowId) => {
                 let warn = '';
+                let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
+                let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
+
+                if(rangeVal <= 0){
+                    warn = warn + '<p>Unit must have a <b>[Range]</b> greater than 0.</p>';
+                }
+                if(rangeDamageVal <= 0){
+                    warn = warn + '<p>Unit must have a <b>[Range Damage]</b> greater than 0.</p>';
+                }
 
                 if(ub_tags_checkByName('Broadside Fire Arc')){
                     warn = warn + '<p>Unit <i>already has</i> [Broadside Fire Arc] tag.</p>';
@@ -867,7 +920,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'<i>subtract</i> (<b>Damage-Range<b> <i>COST</i> * 60%)'
+            eqt:'<i>Subtract</i> (<b>Damage-Range<b> <i>COST</i> * 60%)'
         },
         {
             title : 'Limited Use Weapon',
@@ -899,6 +952,24 @@ const tagInfo = {
             eqt:'<i>Unit base total COST</i> * 45%'
         },
         {
+            title : 'Multi-Mode',
+            desc : "<p>Pick a Unit with <i>[Alt-Mode]</i> at <b>equal or lesser</b> points cost. Instead of moving, you can replace this Unit with the selected <i>[Alt-Mode]</i> Unit. Replacement Unit <b>retains all damage and tokens</b>.</p><p><b>If</b> the damage exceeds that Unit's <b>Armor</b>, it is <b>destroyed</b>.</p>",
+            func : (rowId) => {
+                return 0;/*TODO*/
+            },
+            reqs : (rowId) => {
+                let warn = '';
+
+                let unitName = document.getElementById(rowId + '_name').value;
+                if( unitName === undefined || unitName.length == 0){
+                    warn = warn + '<p>Unit <b>must have</b> a <i>Unit Name</i> value for keyword matching.</p>';
+                }
+
+                return warn;
+            },
+            eqt:'Use the <b>highest</b> single Unit Cost from all shapes.'
+        },
+        {
             title : 'Overheat',
             desc : 'During <i>Combat Phase</i>, Unit may suffer <b>4 Stress Points</b> to re-roll <i>up to 4</i> <b>ATK<.b> dice. <b>Cannot</b> be combine with <b>[Fearless]</b>.',
             func : (rowId) => {
@@ -915,6 +986,37 @@ const tagInfo = {
                 return warn;
             },
             eqt:'(<b>Damage-Melee</b> * 2) + (<b>Damage-Range</b> * 2)'
+        },
+        {
+            title : 'Pack / Deploy',
+            desc : '<p>Player must choose whether this unit <i>moves</i> <b>OR</b> <i>attacks</i> on this turn.</p><p>At the <b>end</b> of the <i>Initiative Phase</i>, Units with this tag must declare if they will move or shoot this turn.</p>',
+            func : (rowId) => {
+                let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
+                let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
+
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+                let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+
+                let moveCost = uc_calc_Move(moveVal, sizeVal) * 0.85;
+                let rangeCost = uc_calc_Damage_Range(rangeDamageVal) * 0.85;
+                let meleeCost = uc_calc_Damage_Melee(meleeDamageVal, moveVal) * 0.85;
+
+                return 0 - (moveCost + rangeCost + meleeCost);
+            },
+            reqs : (rowId) => {
+                let warn = '';
+                let dmgVal = parseInt(document.getElementById(rowId + '_DMGM').value) + parseInt(document.getElementById(rowId + '_DMGR').value);
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value)
+
+                if(dmgVal < 1){
+                    warn = warn + '<p>Unit <b>must</b> have either a <i>Ranged</i> <b>or</b> <i>Melee</i> damage value.</p>';
+                }
+                if(moveVal < 1){
+                    warn = warn + '<p>Unit <b>must</b> have a <i>Move</i> value greater than <b>0</b>.</p>';
+                }
+                return warn;
+            },
+            eqt:'<i>Subtract</i> 85% of <b>Move Cost</b> and 85% of each <b>Melee/Range</b> costs.'
         },
         {
             title : 'Rank - Green',
@@ -1000,7 +1102,7 @@ const tagInfo = {
         },
         {
             title : 'Self-Healing',
-            desc : "Instead of Moving this turn, Unit may recover 1/3 round-down Armor points. All Attacks by this Unit this turn are at -4 ATK Dice",
+            desc : "Instead of Moving this turn, Unit may <b>gain back</b> 1/3 round-down Armor points. All Attacks by this Unit this turn are at <b>-4 ATK</b>.",
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
@@ -1011,17 +1113,6 @@ const tagInfo = {
                 return '';
             },
             eqt:'(<b>Armor</b> * 2) - <b>Size</b>'
-        },
-        {
-            title : 'Shapeshifter',
-            desc : "Treat as Transform, calculate costs as normal for Transform. Then, add this cost. Allows Unit to MOVE even if it has switched modes this turn.",
-            func : (rowId) => {
-                return 0;/*TODO*/
-            },
-            reqs : (rowId) => {
-                return '';
-            },
-            eqt:'TODO'
         },
         {
             title : 'Sharpshooter',
