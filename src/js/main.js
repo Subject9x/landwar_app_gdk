@@ -148,11 +148,11 @@ ipcMain.handle('ub-dialog-load-async', async (event, dialogConfig)=>{
   dialogConfig.defaultPath = lastFilePathUsed;
   
   let importData = [];
-  
+  let errrr;
   dialog.showOpenDialog(srcWindow, dialogConfig).then( (file) =>{
     if(!file.canceled && file.filePaths.length > 0){
       lastFilePathUsed = file.filePath;
-      fs
+      let reader = fs
       .createReadStream(file.filePaths[0].toString())
       .pipe(csv({separator : ','}))
       .on('data', (data) => {
@@ -161,10 +161,19 @@ ipcMain.handle('ub-dialog-load-async', async (event, dialogConfig)=>{
           }
           catch(err) {
             console.log(err.stack);
+            errrr = err;
           }
       })
+      .on('error', function(err){
+        console.log(err.stack);
+        errrr = err;
+      })
       .on('end',()=>{
-        srcWindow.webContents.send('ub-dialog-load-response', JSON.stringify(importData), "");
+        if(importData.length > 0){
+          if(srcWindow != null ){
+            srcWindow.webContents.send('ub-dialog-load-response', JSON.stringify(importData), "");
+          }
+        }
       });
     }
   });
@@ -401,6 +410,7 @@ ipcMain.handle('ub-open-sheet-import', async (event, dialogConfig)=>{
           if(dataString.length > 0){
               setLastWindow(BrowserWindow.fromId(event.sender.id));
               newWindow.webContents.send('ub-dialog-load-response', JSON.stringify(importData), file.filePaths[0]);
+              
               newWindow.once('ready-to-show', () => {
                 newWindow.show();
                 newWindow.focus();

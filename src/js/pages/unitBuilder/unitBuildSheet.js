@@ -99,8 +99,8 @@ function ub_control_save_select(event){
 }
 
 function ub_control_loadfile(event){
-    window.api.send('ub-dialog-load-async', dialogLoadOptionsUnitList);
     event.preventDefault();
+    window.api.send('ub-dialog-load-async', dialogLoadOptionsUnitList);
 }
 
 function ub_control_new_print(event){

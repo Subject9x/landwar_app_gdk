@@ -45,7 +45,7 @@ contextBridge.exposeInMainWorld(
   'api', 
   {
     send: ( channel, ...args ) => ipcRenderer.invoke( channel, ...args ),
-    handle: ( channel, callable, event, data ) => ipcRenderer.on( channel, callable( event, data ) )
+    handle: ( channel, callable, event, ...data ) => ipcRenderer.on( channel, callable( event, ...data ) )
 } )
 
 

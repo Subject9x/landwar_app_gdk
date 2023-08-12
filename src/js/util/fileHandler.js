@@ -102,7 +102,15 @@ function file_unitBuild_export(htmlUnitTable){
     todo - fileDataObj.data[] for 'single unit' / 'army list' files.
 */
 function file_unitBuild_import(fileDataArray){
+    if(fileDataArray.length <= 0){
+        console.log("warn: file_unitBuild_import(fileDataArray) was empty.");
+        return;
+    }
     let fileDataObj = JSON.parse(fileDataArray);
+    if(fileDataObj.length <= 0){
+        console.log("warn: file_unitBuild_import[fileDataObj] was empty.");
+        return;
+    }
 
     for(let objIdx in fileDataObj){
         let objData = fileDataObj[objIdx];
