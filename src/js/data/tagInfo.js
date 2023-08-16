@@ -5,7 +5,7 @@ const tagInfo = {
     data :[ 
         {
             title : 'Advanced Gun Sights',
-            desc : '<b>Target</b> of this Unit <b>cannot</b> have <b>+1 DEF</b> when attacked at <b>Long Range</b>.',
+            desc : '<p><i>Combat Phase</i></p><p><b>Target</b> of this Unit <b>cannot</b> have <b>+1 DEF</b> when attacked at <b>Long Range</b>.</p>',
             func : (rowId) =>{
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
@@ -29,7 +29,7 @@ const tagInfo = {
         },
         {
             title : 'Afterburner',
-            desc : 'During the <i>Movement Phase</i>, Unit may forego any <i>Attack</i> this turn to move <b>double</b> its <b>[Move]</b>.',
+            desc : '<p><i>Movement Phase</i></p><p>During the <i>Movement Phase</i>, Unit may forego any <i>Attack</i> this turn to move <b>double</b> its <b>[Move]</b>.</p>',
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
@@ -119,7 +119,7 @@ const tagInfo = {
         },
         {
             title : 'Armor Piercing - Ranged',
-            desc : 'When applying Damage from this unit’s Ranged attack.  <b>Half</b> of the <i>Damage</i> may be converted to <i>Stress Points</i>, 4 Dmg : 1 Stress.',
+            desc : '<p><i>Combat Phase</i></p><p>When applying Damage from this unit’s Ranged attack.  <b>Half</b> of the <i>Damage</i> may be converted to <i>Stress Points</i>, 4 Dmg : 1 Stress.</p>',
             func : (rowId) => {
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
                 return (uc_calc_Damage_Range(rangeDamageVal) * 0.9);
@@ -136,7 +136,7 @@ const tagInfo = {
         },
         {
             title : 'Artillery',
-            desc : 'Unit`s Ranged attack gains a blast radius of 6". When <i>Target</i> has any remaining <b>Armor</b>, DMG applied is reduced by <b> 1/2 before any other modifier</b>.',
+            desc : '<p><i>Combat Phase</i></p><p>Unit`s Ranged attack gains a blast radius of 6". When <i>Target</i> has any remaining <b>Armor</b>, DMG applied is reduced by <b> 1/2 before any other modifier</b>.</p>',
             func : (rowId) => {
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
                 return rangeDamageVal * 2;
@@ -152,29 +152,8 @@ const tagInfo = {
             eqt:'<b>Damage-Range</b> * 2'
         },
         {
-            title : 'Battering Ram',
-            desc : 'Units <i>Ranged Attacks</i> suffer <b>-3 ATK</b> but <b>ignore</b> <i>Stress Check</i> on Ram Attacks. <b>Damage</b> of Ram Attack will be <b>Size + 3</b>.',
-            func : (rowId) => {
-                let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
-                return sizeVal * 2;
-            },
-            reqs : (rowId) => {
-                let warn = '';
-                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
-                if(moveVal <= 0){
-                    warn = warn + '<p>Unit must have a <b>[Move]</b> greater than 0.</p>';
-                }
-                let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
-                if(armorVal <= 0){
-                    warn = warn + '<p>Unit must have a <b>[Armor]</b> greater than 0.</p>';
-                }
-                return warn;
-            },
-            eqt:'<b>Size</b> * 2'
-        },
-        {
             title : 'Battery',
-            desc : 'Unit may divide total Ranged DMG up into several attacks at different targets.',
+            desc : '<p><i>Combat Phase</i></p><p>Unit may divide total Ranged DMG up into several attacks at different targets.</p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 if(sizeVal == 0){
@@ -200,7 +179,7 @@ const tagInfo = {
         },
         {
             title : 'Blink',
-            desc : 'This Unit may <b>ignore</b> <i>Overwatch</i> and <i>Terrain</i> during the <i>Movement Phase</i>.',
+            desc : '<p><i>Movement Phase</i></p><p>This Unit may <b>ignore</b> <i>Overwatch</i> and <i>Terrain</i> during the <i>Movement Phase</i>.</p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 if(sizeVal == 0){
@@ -237,7 +216,7 @@ const tagInfo = {
         },
         {
             title : 'Bomber-Area',
-            desc : '<p>When Unit makes their <i>Ranged Attack</i> this Turn, Unit may make an <b>additional</b> <i>Ranged Attack</i> on <b>each</b> enemy Unit that it moves <b>over</b> during the <i>Movement Phase</i> within <b>2"</b> of the Unit.<ul><li><i>Damage</i> of each attack is 33% of total <b>Damage</b> value <b>rounded up</b>.</li><li> This attack <b>cannot be</b> <i>Indirect Fire</i></li><li>Treat like an <i>Overwatch</i> attack on the target.</li></ul></p>',
+            desc : '<p><i>Combat Phase</i></p><p>When Unit makes their <i>Ranged Attack</i> this Turn, Unit may make an <b>additional</b> <i>Ranged Attack</i> on <b>each</b> enemy Unit that it moves <b>over</b> during the <i>Movement Phase</i> within <b>2"</b> of the Unit.<ul><li><i>Damage</i> of each attack is 33% of total <b>Damage</b> value <b>rounded up</b>.</li><li> This attack <b>cannot be</b> <i>Indirect Fire</i></li><li>Treat like an <i>Overwatch</i> attack on the target.</li></ul></p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
@@ -270,7 +249,7 @@ const tagInfo = {
         },
         {
             title : 'Bomber-Dive',
-            desc : 'Instead of making a normal <i>Ranged Attack</i>, This Unit may make 1 <i>Ranged Attack</i> on a single target Unit that is within <b>2"</b> of this Units <i>end position</i> after its move. Any unit that is a target of a [Bomber-Dive] attack may make a <b>free</b> <i>Overwatch</i> Attack on this unit at <b>-1 ATK</b> (instead of -2). <b>Damage</b> is 50% of total <b>Damage-Ranged</b> (round up, minimum of 1).',
+            desc : '<p><i>Combat Phase</i></p><p>Instead of making a normal <i>Ranged Attack</i>, This Unit may make 1 <i>Ranged Attack</i> on a single target Unit that is within <b>2"</b> of this Units <i>end position</i> after its move. Any unit that is a target of a [Bomber-Dive] attack may make a <b>free</b> <i>Overwatch</i> Attack on this unit at <b>-1 ATK</b> (instead of -2). <b>Damage</b> is 50% of total <b>Damage-Ranged</b> (round up, minimum of 1).</p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
@@ -302,7 +281,7 @@ const tagInfo = {
         },
         {
             title : 'Brawler',
-            desc : 'Must have <b>Melee DMG</b> > 0. May <b>+1 ATK</b> and <b>+1 DEF</b> dice in <i>Melee Attacks</i>.',
+            desc : '<p><i>Combat Phase</i></p><p><b>+1 ATK</b> and <b>+1 DEF</b> in <i>Melee Attacks</i>.</p>',
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
@@ -319,7 +298,7 @@ const tagInfo = {
         },
         {
             title : 'Broadside Fire Arc',
-            desc : 'Unit may <b>only</b> make <i>Ranged Attacks</i> against targets that are <i>LEFT or RIGHT</i> of Units <i>Forward facing</i>, <b>but</b> Unit may make <b>1</b> <i>Ranged Attacks</i> per side of Unit.',
+            desc : '<p><i>Combat Phase</i></p><p>Unit may <b>only</b> make <i>Ranged Attacks</i> against targets that are <i>LEFT or RIGHT</i> of Units <i>Forward facing</i>, <b>but</b> Unit may make <b>1</b> <i>Ranged Attacks</i> per side of Unit.</p><p>Target models must be <i>inside</i> this Units left or right side, and cannot be counted for <i>both</i> at the same time.</p>',
             func : (rowId) => {
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
 
@@ -336,7 +315,7 @@ const tagInfo = {
         },
         {
             title : 'Cargo',
-            desc : 'Unit can instantly Pick Up an object if equal or smaller Size. \n <b>Size</b> of 0 is 1 for this tag <i>but not for tag cost</i>.',
+            desc : '<p><i>Movement Phase</i></p><p>Unit can instantly Pick Up an object if equal or smaller Size. \n <b>Size</b> of 0 is 1 for this tag <i>but not for tag cost</i>.</p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
@@ -350,7 +329,7 @@ const tagInfo = {
         },
         {
             title : 'Charger',
-            desc : 'Unit does not provoke <i>Overwatch</i> attacks.',
+            desc : '<p><i>Movement Phase</i></p><p>Unit does not provoke <i>Overwatch</i> attacks.</p>',
             func : (rowId, ) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 if(sizeVal == 0){
@@ -374,7 +353,7 @@ const tagInfo = {
         },
         {
             title : 'Cloaking Systems',
-            desc : '<p>Activate during <i>Initiative Phase</i> <b>before</b> the roll off!</p><p>Unit <i>Ini value</i> unmodified but <b>Move</b> will be halved <b>before</b> other modifiers.</p><p>Unit <b>+3 DEF</b> and <b>cannot</b> attack this turn.</p>',
+            desc : '<p><i>Initiative Phase</i> <b>before</b> the roll off!</p><p>Unit <i>Ini value</i> unmodified but <b>Move</b> will be halved <b>before</b> other modifiers.</p><p>Unit <b>+3 DEF</b> and <b>cannot</b> attack this turn.</p>',
             func : (rowId, ) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 if(sizeVal == 0){
@@ -399,7 +378,7 @@ const tagInfo = {
         },
         {
             title : 'Counter-Battery',
-            desc : 'Unit may use <b>Indirect Fire</b> on a Target this <i>Attack Phase</i> when the Target has attempted an <b>Indirect Fire</b> attack location within Unit`s <b>Range</b>.',
+            desc : '<p><i>Combat Phase</i></p><p>Unit may use <b>Indirect Fire</b> on a Target this <i>Attack Phase</i> when the Target has attempted an <b>Indirect Fire</b> attack location within Unit`s <b>Range</b>.</p>',
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
@@ -422,7 +401,7 @@ const tagInfo = {
         },
         {
             title : 'Courage-I',
-            desc : 'When Unit is making a Stress Check, Unit gets +1 to the D6 roll',
+            desc : '<p><i>Resolution Phase</i>.</p><p>When Unit is making a <i>Stress Check</i>, Unit gets <b>+1</b> to the D6 roll.</p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
@@ -459,7 +438,7 @@ const tagInfo = {
         },
         {
             title : 'Courage-II',
-            desc : 'When Unit is making a Stress Check, Unit gets +2 to the D6 roll',
+            desc : '<p><i>Resolution Phase</i>.</p><p>When Unit is making a <i>Stress Check</i>, Unit gets <b>+2</b> to the D6 roll.</p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
@@ -496,7 +475,7 @@ const tagInfo = {
         },
         {
             title : 'Crew-I',
-            desc : 'For stress rolls, roll 2 and take the highest (represents crew morale and squad morale). Limit of Crew Points is (Size / 3)  + 2.',
+            desc : '<p><i>Resolution Phase</i>.</p>For stress rolls, roll 2 and take the highest (represents crew morale and squad morale). Limit of Crew Points is (Size / 3)  + 2.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
@@ -526,7 +505,7 @@ const tagInfo = {
         },
         {
             title : 'Crew-II',
-            desc : 'For stress rolls, roll 3 and take the highest (represents crew morale and squad morale). Limit of Crew Points is (Size / 3)  + 2.',
+            desc : '<p><i>Resolution Phase</i>.</p>For stress rolls, roll 3 and take the highest (represents crew morale and squad morale). Limit of Crew Points is (Size / 3)  + 2.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
@@ -556,7 +535,7 @@ const tagInfo = {
         },
         {
             title : 'Fearless',
-            desc : 'Unit <i>automatically</i> passes any <i>Stress Check</i>.',
+            desc : '<p><i>Resolution Phase</i>.</p><p>Unit <i>automatically</i> passes any <i>Stress Check</i>.</p>',
             func : (rowId) => {
                 return ub_row_change_points(rowId) * 0.25;
             },
@@ -568,20 +547,17 @@ const tagInfo = {
                 if(ub_tags_checkByName('Courage-II')){
                     warn = warn + '<p>Unit <i>already has</i> [Courage-II] tag.</p>';
                 }
-                if(ub_tags_checkByName('Courage-III')){
-                    warn = warn + '<p>Unit <i>already has</i> [Courage-III] tag.</p>';
-                }
                 if(ub_tags_checkByName('Crew-I')){
                     warn = warn + '<p>Unit <i>already has</i> [Crew-I] tag.</p>';
                 }
                 if(ub_tags_checkByName('Crew-II')){
                     warn = warn + '<p>Unit <i>already has</i> [Crew-II] tag.</p>';
                 }
-                if(ub_tags_checkByName('Crew-III')){
-                    warn = warn + '<p>Unit <i>already has</i> [Crew-III] tag.</p>';
-                }
                 if(ub_tags_checkByName('Overheat')){
                     warn = warn + '<p>Unit <i>already has</i> [Overheat] tag.</p>';
+                }
+                if(ub_tags_checkByName('Hero')){
+                    warn = warn + '<p>Unit <i>already has</i> [Hero] tag.</p>';
                 }
                 return warn;
             },
@@ -614,7 +590,7 @@ const tagInfo = {
         },
         {
             title : 'Fortification',
-            desc : 'Unit may make unlimited <i>Overwatch</i> attacks.',
+            desc : '<p><i>Movement Phase</i>.</p><p>Unit may make unlimited <i>Overwatch</i> attacks.</p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
@@ -629,7 +605,7 @@ const tagInfo = {
         },
         {
             title : 'Forward Observer',
-            desc : '<p><b>Unit cannot be Panicked.</b></p><p>During <i>Initiaive Phase</i> Player may designate an enemy unit with <i>Line of Sight</i> to <b>this</b> unit. Targeted enemy Unit can be fired upon by friendly Units with <i>[Indirect Fire]</i> but ignore the to-hit penalty.</p>',
+            desc : '<p><i>Movement Phase</i>.</p><p><b>Unit cannot be Panicked.</b></p><p></p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 if(sizeVal == 0){
@@ -674,7 +650,7 @@ const tagInfo = {
         },
         {
             title : 'Heavy Armor',
-            desc : 'Unit may reduce <b>any</b> incoming <i>DMG</i> to itself by <b>half rounded up</b>, this occurs <b>before any other</b> TAGs are applied.',
+            desc : '<p><i>Combat Phase</i>.</p><p>Unit may reduce <b>any</b> incoming <i>DMG</i> to itself by <b>half rounded up</b>, this occurs <b>before any other</b> TAGs are applied.</p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
@@ -689,13 +665,17 @@ const tagInfo = {
                 if(evadeVal > 1){
                     warn = warn + '<p>Unit <b>Evade<b> must be <i>less than</i> <b>2</b>.';
                 }
+                
+                if(ub_tags_checkByName('Weak Rear Armor')){
+                    warn = warn + "<p>Unit <i>already has</i> [Weak Rear Armor].";
+                }
                 return warn;
             },
             eqt:'<b>Armor Cost</b> * 0.65 + <b>Move</b>'
         },
         {
             title : 'Hero',
-            desc : 'Hero may suffer <b>+2 Stress</b> Point to allow every Friendly Unit in 8" to <b>reroll</b> 1 failed <i>Stress Check</i> per Turn. <b>IF</b> [Hero] unit is <b>destroyed</b>, <b>all</b> friendly units <b>immediately</b> suffer <b>+2 Stress</b>.',
+            desc : '<p><i>Resolution Phase</i>.</p><p>Hero may suffer <b>+2 Stress</b> Point to allow every Friendly Unit in 8" to <b>reroll</b> 1 failed <i>Stress Check</i> per Turn. <b>IF</b> [Hero] unit is <b>destroyed</b>, <b>all</b> friendly units <b>immediately</b> suffer <b>+2 Stress</b>.</p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
@@ -759,7 +739,7 @@ const tagInfo = {
         },
         {
             title : 'Hull Gun - I',
-            desc : 'Unit <b>may</b> fire as if it has the <i>Limit Fire Arc</i> tag but may add <b>+25%</b> rounded-up of its DMG-R value to the attack.',
+            desc : '<p><i>Combat Phase</i>.</p><p>Unit <b>may</b> fire as if it has the <i>Limit Fire Arc</i> tag but may add <b>+25%</b> rounded-up of its DMG-R value to the attack.</p>',
             func : (rowId) => {
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
 
@@ -779,7 +759,7 @@ const tagInfo = {
         },
         {
             title : 'Hull Gun - II',
-            desc : 'Unit <b>may</b> fire as if it has the <i>Limit Fire Arc</i> tag but may add <b>+50%</b> rounded-up of its DMG-R value to the attack.',
+            desc : '<p><i>Combat Phase</i>.</p><p>Unit <b>may</b> fire as if it has the <i>Limit Fire Arc</i> tag but may add <b>+50%</b> rounded-up of its DMG-R value to the attack.</p>',
             func : (rowId) => {
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
 
@@ -799,7 +779,7 @@ const tagInfo = {
         },
         {
             title : 'Indirect Fire',
-            desc : 'Unit may select targets outside of LoS when making Ranged Attacks. <b>Each</b> Attack suffers <b>-2ATK</b> in Range, and <b>-3ATK</b> at <i>Long Range</i>.',
+            desc : '<p><i>Combat Phase</i>.</p><p>Unit may select targets <b>outside</b> <i>Line of Sight</i> when making <i>Ranged Attacks</i>. <b>Each</b> Attack suffers <b>-2ATK</b> in Range, and <b>-3ATK</b> at <i>Long Range</i>.</p>',
             func : (rowId) => {
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
                 let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
@@ -822,7 +802,7 @@ const tagInfo = {
         },
         {
             title : 'Inertial Dampers',
-            desc : '"When Move is greater than 12", treat this Unit as having moved only 11" in the Combat Phase.',
+            desc : '<p><i>Movemnt Phase</i></p><p>"When Move is greater than 12", treat this Unit as having moved only 11" in the Combat Phase.</p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 if(sizeVal == 0){
@@ -849,7 +829,7 @@ const tagInfo = {
         },
         {
             title : 'Inhibitor Munitions',
-            desc : '<p>Player must declare this <b>before</b> the Unit makes its <i>Ranged Attack</i>.</p><p>Units <i>Ranged Attack</i> <b>DMG set to 0</b>. <b>When</b> attack hits the target, the targets <b>next</b> <i>Movement Phase</i> move is reduced to 1/2" <b>before</b> any other modifiers. This <b>will</b> change targets <i>Ini value</i>.</p>',
+            desc : '<p><i>Combat Phase</i></p><p>Player must declare this <b>before</b> the Unit makes its <i>Ranged Attack</i>.</p><p>Units <i>Ranged Attack</i> <b>DMG set to 0</b>. <b>When</b> attack hits the target, the targets <b>next</b> <i>Movement Phase</i> move is reduced to 1/2" <b>before</b> any other modifiers. This <b>will</b> change targets <i>Ini value</i>.</p>',
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
@@ -862,15 +842,45 @@ const tagInfo = {
             eqt:'(<b>Move</b> / 2) + (<b>Range</b> / 2)'
         },
         {
+            title : 'Juggernaut',
+            desc : '<p><i>Movement Phase</i><p/><p>Units <i>Ranged Attacks</i> suffer <b>-3 ATK</b>.</p><p>Any time Unit enters <i>Melee Range</i> after moving <b>1/2 or more</b> of their current <i>Move Value</i>, <b>+Size/2</b> to Units next <i>Melee Attack</i>.</p>',
+            func : (rowId) => {
+                let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+                let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
+
+                return ((sizeVal * 3) + (moveVal + (moveVal * 0.5)) + meleeDamageVal) / 2;
+            },
+            reqs : (rowId) => {
+                let warn = '';
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+                if(moveVal <= 0){
+                    warn = warn + '<p>Unit must have a <b>[Move]</b> greater than 0.</p>';
+                }
+                let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
+                if(armorVal <= 0){
+                    warn = warn + '<p>Unit must have a <b>[Armor]</b> greater than 0.</p>';
+                }
+                let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
+                if(meleeDamageVal < 1){
+                    warn = warn + '<p>Unit must have <b>Damage-Melee</b> value.';
+                }
+                return warn;
+            },
+            eqt:'<i>average</i> (<b>Size</b> * 3) + (<b>Move</b> + 50%) + <b>DMG-M</b>'
+        },
+        {
             title : 'Jump Jets',
-            desc : 'Unit may traverse terrain vertically, uses [Flyer] rules when moving and for <i>Overwatch</i> attacks, but is otherwise treated as a ground unit.',
+            desc : '<p><i>Movement Phase</i></p><p>Unit may traverse terrain vertically, uses [Flyer] rules when moving and for <i>Overwatch</i> attacks, but is otherwise treated as a ground unit.</p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 if(sizeVal == 0){
                     sizeVal = 1;
                 }
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
-
+                if(moveVal == 0){
+                    moveVal = 1;
+                }
                 return (sizeVal * 2) + (moveVal / 2);
             },
             reqs : (rowId) => {
@@ -891,7 +901,7 @@ const tagInfo = {
         },
         {
             title : 'Limited Fire Arc',
-            desc : 'Reduce Ranged Damage Cost by 1/2. Unit may only make <i>Ranged Attacks</i> in the Forward or Rear Arc, you must choose before the game starts.',
+            desc : '<p><i>Combat Phase</i></p><p>Unit may only make <i>Ranged Attacks</i> in the Forward or Rear Arc, you must choose before the game starts.</p>',
             func : (rowId) => {
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
 
@@ -935,9 +945,9 @@ const tagInfo = {
         },
         {
             title : 'Mobile HQ',
-            desc : '<p><b>Unit cannot be Panicked.</b></p><p><b>+2</b> to <i>Initiative Rolls</i>.</p>',
+            desc : '<p><b>Unit cannot be <i>Panicked</i>.</b></p><p>Each Friendly Unit <b>+1</b> to their <i>Ini Value</i> during <i>Movement Phase</i>.</p>',
             func : (rowId) => {
-                return ub_row_change_points(rowId) * 0.45;
+                return ub_row_change_points(rowId) * 0.25;
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -949,7 +959,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'<i>Unit base total COST</i> * 45%'
+            eqt:'<i>Unit base total COST</i> * 25%'
         },
         {
             title : 'Multi-Mode',
@@ -971,7 +981,7 @@ const tagInfo = {
         },
         {
             title : 'Overheat',
-            desc : 'During <i>Combat Phase</i>, Unit may suffer <b>4 Stress Points</b> to re-roll <i>up to 4</i> <b>ATK<.b> dice. <b>Cannot</b> be combine with <b>[Fearless]</b>.',
+            desc : '<p><i>Combat Phase</i></p><p>During <i>Combat Phase</i>, Unit may suffer <b>4 Stress Points</b> to re-roll <i>up to 4</i> <b>ATK<.b> dice. <b>Cannot</b> be combine with <b>[Fearless]</b>.</p>',
             func : (rowId) => {
                 let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
@@ -1038,7 +1048,7 @@ const tagInfo = {
         },
         {
             title : 'Rank - Veteran',
-            desc : "Unit's ATK and DEF stats become <b>4 ATK</b> and <b>4 DEF</b>.",
+            desc : "<p>Unit gains <b>+1 INI</b> in <i>Movement Phase</i>.</p><p>Unit may <i>re-roll</i> <b>1 ATK</b> and <b>1 DEF</b> <i>per-turn</i>.</p>",
             func : (rowId) => {
                 return ub_row_change_points(rowId) * 0.4; 
             },
@@ -1052,11 +1062,11 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'<i>Unit base total COST</i> * 40%'
+            eqt:'<i>Unit base total COST</i> * 30%'
         },
         {
             title : 'Rank - Elite',
-            desc : "<p>Unit's ATK and DEF stats become <b>4 ATK</b> and <b>4 DEF</b>.</p><p><b>Heavy Fire</b> now requires <b>2</b> <i>uncancelled</i> 6's.</p>",
+            desc : "<p>Unit gains <b>+2 INI</b> in <i>Movement Phase</i>.</p><p>Unit may <i>re-roll</i> <b>1 ATK</b> and <b>1 DEF</b> <i>per-turn</i>.</p>",
             func : (rowId) => {
                 return ub_row_change_points(rowId) * 0.5; 
             },
@@ -1070,11 +1080,11 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'<i>Unit base total COST</i> * 50%'
+            eqt:'<i>Unit base total COST</i> * 60%'
         },
         {
             title : 'Recon',
-            desc : "<p><b>Unit cannot be Panicked.</b></p><p>During <i>Initiative Phase</i> <b>when</b> this Unit has <i>Line of Sight</i> to <i>at least</i> <b>2 Enemy Units</b>, Player gains <b>+2</b> to their <i>Initiative roll</i>.</p><p>This bonus <b>does not stack</b> with other <i>[Recon]</i> tags.</p>",
+            desc : "<p><i>Initiative Phase</i></p><p><b>Unit cannot be Panicked.</b></p><p>During <i>Initiative Phase</i> <b>when</b> this Unit has <i>Line of Sight</i> to <i>at least</i> <b>2 Enemy Units</b>, Player may give <b>+2 INI</b> to <i>another</i> Friendly Unit.</p><p>This bonus <b>does not stack</b> with other <i>[Recon]</i> tags.</p>",
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
@@ -1102,7 +1112,7 @@ const tagInfo = {
         },
         {
             title : 'Self-Healing',
-            desc : "Instead of Moving this turn, Unit may <b>gain back</b> 1/3 round-down Armor points. All Attacks by this Unit this turn are at <b>-4 ATK</b>.",
+            desc : "<p><i>Movement Phase</i></p><p>Instead of Moving this turn, Unit may <b>gain back</b> 1/3 round-down Armor points. All Attacks by this Unit this turn are at <b>-4 ATK</b>.</p>",
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
@@ -1116,7 +1126,7 @@ const tagInfo = {
         },
         {
             title : 'Sharpshooter',
-            desc : "Unit may <b>subtract 1</b> from <i>Stress Penalty</i> to ranged attacks at non-closest target.",
+            desc : "<p><i>Combat Phase</i></p></p>Unit may <b>subtract 1</b> from <i>Stress Penalty</i> to ranged attacks at non-closest target.</p>",
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
@@ -1144,7 +1154,7 @@ const tagInfo = {
         },
         {
             title : 'Stable Fire Platform',
-            desc : "Unit may <b>reroll</b> up to <b>2</b> ATK dice when <b>Stationary</b> during the <i>Movement Phase</i>. Cost less for slower units.",
+            desc : "<p><i>Combat Phase</i></p><p>Unit may <b>reroll</b> up to <b>2</b> ATK dice when <b>Stationary</b> during the <i>Movement Phase</i>. Cost less for slower units.</p>",
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
@@ -1172,7 +1182,7 @@ const tagInfo = {
         },
         {
             title : 'Stall Speed',
-            desc : "Unit now has a Minimum Move distance of 1/3 normal move. It must always move AT LEAST this far in its Movement Phase. IF unit cannot complete this minimum move, it is destroyed in the Resolution Phase. This model cannot take [Stable Firing Platform] along with this.",
+            desc : "<p><i>Movement Phase</i></p><p>Unit now has a Minimum Move distance of 1/3 normal move. It must always move AT LEAST this far in its Movement Phase. IF unit cannot complete this minimum move, it is destroyed in the Resolution Phase. This model cannot take [Stable Firing Platform] along with this.</p>",
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
 
@@ -1189,7 +1199,7 @@ const tagInfo = {
         },
         {
             title : 'Supercharger',
-            desc : "If Unit moved in the <i>Movement Phase</i>, Unit may move up to 25% its total <b>Move</b> immediately after this Turn's <i>Attack Phase</i>.",
+            desc : "<p><i>Movement Phase</i></p><p>If Unit moved in the <i>Movement Phase</i>, Unit may move up to 25% its total <b>Move</b> immediately after this Turn's <i>Attack Phase</i>.</p>",
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
@@ -1213,7 +1223,7 @@ const tagInfo = {
         },
         {
             title : 'Terrifying',
-            desc : 'When Unit has finished its move, <b>all</b> Enemy Units within 6" <b>immediately</b> suffer <b>1 Stress Point</b>',
+            desc : '<p><i>Movement Phase</i></p><p>When Unit has finished its move, <b>all</b> Enemy Units within 6" <b>immediately</b> suffer <b>1 Stress Point</b></p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 if(sizeVal == 0){
@@ -1230,7 +1240,7 @@ const tagInfo = {
         },
         {
             title : 'Thunderous Report',
-            desc : 'Target of this Unit suffers <b>+1 Stress</b> when taking <b>Damage</b> from <i>Ranged Attacks.</i> ',
+            desc : '<p><i>Combat Phase</i></p><p>Target of this Unit suffers <b>+1 Stress</b> when taking <b>Damage</b> from <i>Ranged Attacks.</i></p>',
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
@@ -1245,7 +1255,7 @@ const tagInfo = {
         },
         {
             title : 'Transport',
-            desc : "Unit can carry a number of <i>Friendly Units</i> whose <b>Sizes</b> when totaled are equal to or less than half this Unit's Size. \nSize 0 becomes Size 1 for this.",
+            desc : "<p><i>Movement Phase</i></p><p>Unit can carry a number of <i>Friendly Units</i> whose <b>Sizes</b> when totaled are equal to or less than half this Unit's Size. \nSize 0 becomes Size 1 for this.</p>",
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 if(sizeVal === 0){
@@ -1260,14 +1270,14 @@ const tagInfo = {
         },
         {
             title : 'Weak Rear Armor',
-            desc : "<b>If</b> Unit takes <i>any</i> <b>DMG</b> and the source of the damage is in the Unit's <i>Rear Facing Arc</i>, then Unit suffers <i>extra</i> <b>50% DMG</b> (<i>round up</i>) of the current attack.",
+            desc : "<p><i>Combat Phase</i></p><p><b>If</b> Unit takes <i>any</i> <b>DMG</b> and the source of the damage is in the Unit's <i>Rear Facing Arc</i>, then Unit suffers <i>extra</i> <b>50% DMG</b> (<i>round up</i>) of the current attack.</p>",
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
                 let armorCost = uc_calc_Armor(armorVal, sizeVal);
 
-                return 0 - ((armorCost * 0.67) - (moveVal / 2));
+                return 0 - ((armorCost * 0.4) + (moveVal / 2));
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -1276,9 +1286,9 @@ const tagInfo = {
                     warn = warn + "<p>Unit <i>already has</i> [Heavy Armor].";
                 }
 
-                return '';
+                return warn;
             },
-            eqt:'<i>subtract</i> ((<b>Armor COST</b> * 0.67) - (<b>Move</b> / 2))'
+            eqt:'<i>subtract</i> ((<b>Armor COST</b> * 0.4) + (<b>Move</b> / 2))'
         }
    ]
 };
