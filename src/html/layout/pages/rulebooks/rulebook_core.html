@@ -41,24 +41,32 @@
                         </div>
                         <div class="col-s-10 col-10 col-l-10 offset-s-1 offset-1 offset-l-1">
                             <ol class="sectionOrderList">
+                                <li><b>Panicked</b>: Units with this token:
+                                    <ul>
+                                        <i>remove</i> <b>1</b> <i>Stress Point.</i>
+                                    </ul>
+                                </li>
                                 <li>
                                     Each <i>side</i> rolls <b>1D6</b> and <b>compare</b> the results.
                                     <ul>
                                         <li>Each player rolls their <b>own</b> <i>Initiative</i> regardless of any alliances</li>
-                                        <li>Any <b>non-destroyed</b> Unit may use <i>TAGS</i> applicable to this phase.</li>
+                                        <li>Side with <b>higher</b> total has the <i>Advantage</i>.</li>
+                                        <li><b>IF</b> the totals are tied, player that lost <b>last turn</b> gets <i>Advantage</i>.</li>
                                     </ul>
                                 </li>
-                                <li>Side with <b>higher</b> total is the <i>Offense</i>.</li>
-                                <li>Side with <b>lower</b> total is the <i>Defense</i>.</li>
-                                <li><b>IF</b> the totals are tied, <i>Defense</i> player from <b>last turn</b> becomes <i>Offense Player</i>.</li>
-                                <li><i>Offense Player</i> wins <i>activation ties</i> during the <i>Movement Phase</i> and moves those units <b>after</b> the <i>Defense Player</i>.</li>
                                 <li>Resolve any <i>Initiative</i> effects or events now.</li>
-                                <li><b>Panicked</b> - when Unit starts phase with this token:</li>
-                                <ul>
-                                    <i>remove</i> <b>1</b> <i>Stress Point.</i>
-                                </ul>
                             </li>
                             </ol>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-s-8 offset-s-2 col-4 offset-1 col-l-4 offset-l-1 rulePanel">
+                            <label class="ruleTitle"><u>Advantage</u></label>
+                            <p></p>
+                            <ul>
+                                <li>Player gives <b>+2 INI</b> to 1 <i>not-Panicked</i> Unit.</li>
+                                <li>Player's Units win any <i>INI</i> ties and move <b>second</b>.</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -81,15 +89,14 @@
                             <ol class="sectionOrderList">
                                 <li><b>All</b> Units move in order of their <i>Ini Value</i> <b>lowest to highest.</b></li>
                                 <li><i>Ini Value</i> is a Unit's <b>current</b> <i>MV</i> stat <b>after</b> applying any modifiers.</li>
-                                <li><i>Defense</i> must move Units <b>first when</b> the <i>Ini Values</i> are tied.</li>
                                 <li><i>When</i> moving a Unit, the controlling Player can select one of the following options:
                                     <ul>
                                         <li>Declare <b>Stationary</b>.
                                             <ul>
                                                 <li>Unit <b>may</b> <i>Rotate</i> to a new Facing.</li>
                                                 <li>Unit <i>gains</i> <b>+1 ATK</b> for this <i>Combat Phase</i>.</li>
-                                                <li>Unit <b>cannot</b> use its <i>Evade</i> bonus for this <i>Combat Phase</i>.</li>
                                                 <li>Unit suffers <b>-1 DEF</b> on this <i>Combat Phase.</i></li>
+                                                <li>Unit <b>cannot</b> use its <i>Evade</i> bonus for this <i>Combat Phase</i>.</li>
                                             </ul>
                                         </li>
                                         <li>Make <b>Normal</b> move.
@@ -97,7 +104,7 @@
                                                 <li>Unit may move in any direction <b>up to</b> to their current <i>Move</i> value.</li>
                                                 <li>Unit <b>cannot</b> move <i>through</i> an <i>enemy</i> Unit.</li>
                                                 <li>Unit may change their Facing at the end of the move.</li>
-                                                <li>Unit may use its <b>Evade</b> value <b>IF</b> it moves <b>more than</b> 25% of its total <b>Move</b> value.</li>
+                                                <li>Unit may use its <b>Evade</b> value <b>IF</b> it moves <b>more than</b> 1/4 of its total <b>Move</b> value.</li>
                                             </ul>
                                         </li>
                                         <li>Use <i>TAG</i> rules, if Players are using TAG special rules for units, and a Unit has a TAG that allows specific movement, it can be used here.</li>
@@ -161,12 +168,9 @@
                 </div>
             </div>
         </div>
-
-        
-
-        <div class="row-fill-16px"></div>
-        <div class="row-fill-16px"></div>
-        <div class="row-fill-16px"></div>
+        <div class="row-fill-64px"></div>
+        <!-- <div class="row-fill-16px"></div>
+        <div class="row-fill-16px"></div> -->
         <!--===============================================================================================================-->
         <!-- COMBAT PHASE =================================================================================================-->
         <div class="row">
@@ -175,7 +179,7 @@
                     <div class="row">
                         <div class="col-s-10 col-8 col-l-6 offset-s-1 offset-1">
                             <h3>Combat Phase</h3>
-                            <p><i>Offense</i> Players resolve <b>all</b> their <i>Attacks</i> first, then <i>Defense</i> players.</p>
+                            <p>Player with <i>Advantage</i> resolves <b>all</b> their attacks first.</p>
                             <p><i>Attacks</i> are split into 2 categories - <b>Range</b> and <b>Melee</b>.</p>
                             <p><i>Damage</i> from all Attacks are <b>not</b> applied until the <i>Resolution Phase</i>!</li>
                         </div>
@@ -188,12 +192,12 @@
                             <p>Requirements:</p>
                             <ul class="sectionOrderList">
                                 <li>Attacking Unit is not <b>currently</b> in <i>Melee Range(1")</i> of any Enemy Unit.</li>
+                                <li>Attacking Unit <b>must have</b> <i>Line of Sight</i> to the <b>Target</b> Unit.</li>
                                 <li><i>Target</i> must be the <b>closest</b> Unit to the Attacker in <i>Line of Sight</i>.
                                     <ul>
                                         <li>See <i>Focus Fire</i> below this section.</li>
                                     </ul>
                                 </li>
-                                <li>Attacking Unit <b>must have</b> <i>Line of Sight</i> to the <b>Target</b> Unit.</li>
                                 <li><b>TAG rules</b> may override, add, or change these qualifications!</li>
                             </ul>
                         </div>
@@ -221,7 +225,7 @@
                                 </li>
                                 <li><b>Long Range</b>, <i>unlimited</i> distance.
                                     <ul>
-                                        <li><i>Target</i> gains <b>+1 DEF</b> dice for this defense roll.</li>
+                                        <li><i>Target</i> gains <b>+1 DEF</b> dice.</li>
                                     </ul>
                                 </li>
                             </ul>
@@ -352,7 +356,7 @@
                                     <div class="col-s-10 col-10 col-l-10 offset-s-1 offset-1 offset-l-1">
                                         <h3><i>MELEE Attacker</i> Dice Pool</h3>
                                         <ul class="sectionOrderList">
-                                            <li>Starting Amount: 4D6</li>
+                                            <li>Starting Amount: 3D6</li>
                                             <li>If Unit has <i>Panic Token</i>:
                                                 <ul>
                                                     <li>total Dice is <b>halved</b> and minimum of 1.</li>
@@ -429,9 +433,9 @@
                                     </ul>
                                 </li>
                                 <li>Check <i>Target Destroyed</i>.</li>
-                                <li>Check <i>Heavy Fire</i>.</li>
+                                <!-- <li>Check <i>Heavy Fire</i>.</li> -->
                                 <li>Check <i>Crew Shaken</i></li>
-                                <li>Check <i>Focused Fire</i>.</li>
+                                <li>Check <i>Suppressing Fire</i>.</li>
                             </ul>
                         </div>
                     </div>
@@ -448,13 +452,13 @@
                                         <li>Each <i>remaining</i> friendly Unit <i>in LoS and 6"</i> suffers <b>+1 Stress</b> point.</li>
                                     </ul>
                                 </div>
-                                <div class="row  rulePanel">
+                                <!-- <div class="row  rulePanel">
                                     <label class="ruleTitle"><u>Heavy Fire</u></label>
                                     <p>For <b>1</b> <i>uncancelled</i> <b>ATK</b> hit of <b>6</b>:</p>
                                     <ul class="sectionOrderList">
                                         <li><i>Defender</i> suffers <b>+1 Stress Point.</b></li>
                                     </ul>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                         <div class="col-s-6 col-5 col-4">
@@ -471,10 +475,10 @@
                                     </ul>
                                 </div>
                                 <div class="row rulePanel">
-                                    <label class="ruleTitle"><u>Focused Fire</u></label>
+                                    <label class="ruleTitle"><u>Suppressing Fire</u></label>
                                     <p><i>If</i> <i>Defender</i> was attacked <b>(regardless of hits)</b> by <b>3 or more</b> enemy Units this turn:</p>
                                     <ul class="sectionOrderList">
-                                        <li><i>Defender</i> suffers <b>+1 Stress Point.</b></li>
+                                        <li><i>Defender</i> suffers <b>+2 Stress Point.</b></li>
                                     </ul>
                                 </div>
                             </div>

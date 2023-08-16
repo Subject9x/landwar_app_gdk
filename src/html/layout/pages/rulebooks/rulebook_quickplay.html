@@ -33,7 +33,7 @@
         </div>
         <div class="grd-row-col-4-6 sectionPanel txt--left">
             <ul >
-                <li>Determine <i>Initiative</i> for turn.</li>
+                <li>Determine <i>Advantage</i> for turn.</li>
                 <li>Move Units in <i>Initiative Order</i>. </li>
                 <li>Alternate making attacks.</li>
                 <li>Apply any damage from successful attacks.</li>
@@ -54,15 +54,19 @@
             </div>
             <div class="txt--center ">
                 <ul class="list--unstyled infoSmall txt--left">
-                    <li>Players roll 1D6 <i>and</i> <b>add</b> any <i>INI</i> TAG mods and compare results.</li>
-                    <li><b>Highest</b> value Player becomes <i>Offense</i> for turn. </li>
-                    <li><b>Lowest</b> value Player becomes <i>Defense</i> for turn. </li>
                     <li>
                         <b>Panicked</b>
                         <ul>
                             <li><b>any</b> <i>Units</i> with <i>Panicked</i> token <b>subtracts 1</b> from their <i>Stress</i> amount.</li>
                         </ul>
                     </li>
+                    <li>Players each roll 1D6.</li>
+                    <li><b>Highest</b> value Player becomes gains<i>Advantage</i> for turn.
+                        <ul>
+                            <li>assign <b>+2 INI</b> to a single <i>non-panicked</i> Unit.</li>
+                        </ul>
+                    </li>
+                    <li>Resolve any <i>[TAG]</i> rules for this phase.</li>
                 </ul>
             </div>
         </div>
@@ -73,7 +77,7 @@
             <div class="txt--center">
                 <ul class="list--unstyled infoSmall txt--left">
                     <li>all <i>Units</i> move in order of <b>lowest MV to highest.</b></li>
-                    <li><i>DEFENDER</i> loses all <b>MV ties</b> and must always move their units <b>first.</b></li>
+                    <li><i>Advantage</i> Player moves <b>second</b> on all <i>ties</i> of Move Value.</li>
                     <li><i>Move Types</i>
                         <ul>
                             <li><b>Stationary:</b> place token, Unit can rotate in place.</li>
@@ -81,6 +85,7 @@
                             <li><b>TAG:</b> make move as described in TAG rule.</li>
                         </ul>
                     </li>
+                    <li>Check <i>Danger Close</i>, <i>Overwatch</i>, mark any <i>High Speed</i> moves.</li>
                 </ul>
             </div>
         </div>
@@ -92,13 +97,13 @@
             </div>
             <div class="txt--center ">
                 <ul class="list--unstyled infoSmall txt--left">
-                    <li>Any unit with <i>Melee</i> or <i>Ranged</i> values > 0 may make 1 attack.</li>
+                    <li>Any unit with <i>Melee</i> or <i>Ranged</i> values may make 1 attack.</li>
                     <li>Target must be <b>closest</b> within <i>Line of Sight</i> or suffer Stress for missed attacks.</li>
                     <li><i>Check Line of Sight</i>: Enemy units block LoS, terrain may block Line of Sight.</li>
                     <li><i>Ranged Attack</i>: check for Effective Range vs Long Range</li>
                     <li><i>Melee Attack</i>: 0-1" range and facing enemy.</li>
-                    <li>Default <i>Attack(ATK)</i> dice pool is <b>3</b>.</li>
-                    <li>Default <i>Defense(DEF)</i> dice pool is <b>3</b>.</li>
+                    <li>Basic <i>ATK</i> dice pool is <b>3</b>.</li>
+                    <li>Basic <i>DEF</i> dice pool is <b>3</b>.</li>
                 </ul>
             </div>
         </div>
@@ -107,14 +112,19 @@
                 <b>Combat Modifiers</b>
             </div>
             <div class="txt--center ">
+                <p><b>ATTACK</b></p>
                 <ul class="list--unstyled infoSmall txt--left">
-                    <li><b>Attack:</b> <i>Stationary</i>  <b>+1 ATK</b></li>
-                    <li><b>Attack:</b> <i>Panicked</i>  <b>halve ATK and DEF</b></li>
-                    <li><b>Attack:</b> <i>High Speed</i> <b>-2 ATK</b> and <b>re-roll 2 DEF.</b></li>
-                    <li><b>Attack:</b> <i>Overwatch</i> <b>-2 ATK</b></li>
-                    <li><b>Defense:</b> <i>Long Range</i> <b>+1 DEF</b></i></li>
-                    <li><b>Defense:</b> <i>Moved more than 1/4 MV</i> - may spend <i>Evade</i> points on DEF rolls.</li>
-                    <li><b>Defense:</b> <i>Cover</i> - may re-reroll <b>half base DEF dice.</b></li>
+                    <li><i>Stationary</i>  <b>+1 ATK</b></li>
+                    <li><i>Panicked</i>  <b>-3 ATK, -3 DEF</b> to minimum of <b>1.</b></li>
+                    <li><i>High Speed</i> <b>-2 ATK</b></li>
+                    <li><i>Overwatch</i> <b>-2 ATK</b></li>
+                </ul>
+                <p><b>DEFENSE</b></p>
+                <ul class="list--unstyled infoSmall txt--left">
+                    <li><i>Long Range</i> <b>+1 DEF</b></i></li>
+                    <li><i>Moved more than 1/4 MV</i> - may spend <i>Evade</i> points on DEF rolls.</li>
+                    <li><i>High Speed</i>:  <b>re-roll 2 DEF.</b></li>
+                    <li><i>Cover</i> - may re-reroll <b>half base DEF dice.</b></li>
                 </ul>
             </div>
         </div>
