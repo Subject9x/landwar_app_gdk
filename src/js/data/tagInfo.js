@@ -432,6 +432,9 @@ const tagInfo = {
                 if(ub_tags_checkByName('Fearless')){
                     warn = warn + '<p>Unit <i>already has</i> [Fearless] tag.</p>';
                 }
+                if(ub_tags_checkByName('Overheat')){
+                    warn = warn + '<p>Unit <i>already has</i> [Overheat] tag.</p>';
+                }
                 return warn;
             },
             eqt:'<i>average</i> [<b>Size</b>, <b>Move</b>, <b>Armor</b>] * 2'
@@ -469,6 +472,9 @@ const tagInfo = {
                 if(ub_tags_checkByName('Fearless')){
                     warn = warn + '<p>Unit <i>already has</i> [Fearless] tag.</p>';
                 }
+                if(ub_tags_checkByName('Overheat')){
+                    warn = warn + '<p>Unit <i>already has</i> [Overheat] tag.</p>';
+                }
                 return warn;
             },
             eqt:'<i>average</i> [<b>Size</b>, <b>Move</b>, <b>Armor</b>] * 4'
@@ -483,21 +489,32 @@ const tagInfo = {
                     sizeVal = 1;
                 }
                 if(moveVal == 0){
-                    moveVal = 8;
+                    moveVal = 3;
                 }
                 return Math.max(0, ((1/sizeVal^2) * 12) - sizeVal + moveVal / 3);
             },
             reqs : (rowId) => {
                 let warn = '';
+                
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
-                if(sizeVal < 2){
-                    warn = warn + '<p><b>[Size]</b> must be <i>greater than</i> 1.</p>';
+                if(sizeVal == 0){
+                    warn = warn + '<p>Unit must have <i>Size</i> > 0.</p>';
+                }
+
+                if(ub_tags_checkByName('Courage-I')){
+                    warn = warn + '<p>Unit <i>already has</i> [Courage-I] tag.</p>';
+                }
+                if(ub_tags_checkByName('Courage-II')){
+                    warn = warn + '<p>Unit <i>already has</i> [Courage-II] tag.</p>';
                 }
                 if(ub_tags_checkByName('Fearless')){
                     warn = warn + '<p>Unit <i>already has</i> [Fearless] tag.</p>';
                 }
                 if(ub_tags_checkByName('Crew-II')){
                     warn = warn + '<p>Unit <i>already has</i> [Crew-II] tag.</p>';
+                }
+                if(ub_tags_checkByName('Overheat')){
+                    warn = warn + '<p>Unit <i>already has</i> [Overheat] tag.</p>';
                 }
                 return warn;
             },
@@ -510,10 +527,10 @@ const tagInfo = {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 if(sizeVal == 0){
-                    sizeVal = 1;
+                    sizeVal = 2;
                 }
                 if(moveVal == 0){
-                    moveVal = 8;
+                    moveVal = 3;
                 }
                 return Math.max(0, ((1/sizeVal^2) * 15) - sizeVal + moveVal / 3);
             },
@@ -523,11 +540,20 @@ const tagInfo = {
                 if(sizeVal < 3){
                     warn = warn + '<p><b>[Size]</b> must be <i>greater than</i> 2.</p>';
                 }
+                if(ub_tags_checkByName('Courage-I')){
+                    warn = warn + '<p>Unit <i>already has</i> [Courage-I] tag.</p>';
+                }
+                if(ub_tags_checkByName('Courage-II')){
+                    warn = warn + '<p>Unit <i>already has</i> [Courage-II] tag.</p>';
+                }
                 if(ub_tags_checkByName('Fearless')){
                     warn = warn + '<p>Unit <i>already has</i> [Fearless] tag.</p>';
                 }
                 if(ub_tags_checkByName('Crew-I')){
                     warn = warn + '<p>Unit <i>already has</i> [Crew-I] tag.</p>';
+                }
+                if(ub_tags_checkByName('Overheat')){
+                    warn = warn + '<p>Unit <i>already has</i> [Overheat] tag.</p>';
                 }
                 return warn;
             },
@@ -605,13 +631,16 @@ const tagInfo = {
         },
         {
             title : 'Forward Observer',
-            desc : '<p><i>Movement Phase</i>.</p><p><b>Unit cannot be Panicked.</b></p><p></p>',
+            desc : '<p><i>Movement Phase</i>.</p><p><b>Unit cannot be Panicked.</b></p><p>Unit suffers <b>-1 DEF</b> and <b>-2 Evade</b> to mark 1 enemy Unit in <i>Line of Sight</i>. Friendly Units may treat marked target as if in <i>Line of Sight</i> for this <i>Combat Phase</i>.</p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 if(sizeVal == 0){
                     sizeVal = 1;
                 }
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+                if(moveVal == 0){
+                    moveVal = 6;
+                }
 
                 return ((1/sizeVal^2) * 10) + (moveVal / 2);
             },
@@ -621,32 +650,45 @@ const tagInfo = {
                 if(ub_tags_checkByName('Recon')){
                     warn = warn + '<p>Unit <i>already has</i> [Recon].';
                 }
-                return '';
+                if(ub_tags_checkByName('Mobile HQ')){
+                    warn = warn + '<p>Unit <i>already has</i> [Mobile HQ].';
+                }
+                return warn;
             },
             eqt:'((1 / <b>Size</b> ^ 2) * 10 ) + (<b>Move</b> / 2)'
         },
         {
             title : 'Grappler',
-            desc : 'if target starts movement base-to-base, and tries to move away, Grappler may make a <b>free</b> <i>Overwatch</i> attack on the moving unit using <b>Melee Damage</b>.',
+            desc : '<p><i>Movement Phase</i></p><p>Unit may <b>ignore</b> the <i>Danger Close</i> movement rule when it moves.</p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
-                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
-                let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);                
                 
                 let moveCost = uc_calc_Move(moveVal, sizeVal);
-                let meleeCost = uc_calc_Damage_Melee(meleeDamageVal, moveVal);
 
-                return sizeVal + (moveCost * 0.33)  + (meleeCost * 0.25);
+                if(sizeVal == 0){
+                    sizeVal = 2;
+                }
+
+                if(moveVal == 0){
+                    moveVal = 4;
+                }
+
+                return sizeVal + (moveCost * 0.25);
             },
             reqs : (rowId) => {
                 let warn = '';
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
                 if(meleeDamageVal < 1){
-                    warn = warn + '<p>Unit <b>Melee Damage</b> must be greater than <b>0</b>.';
+                    warn = warn + '<p>Unit <b>Melee Damage</b> must be greater than <b>0</b>.</p>';
+                }
+                if(moveVal < 1){
+                    warn = warn + '<p>Unit must have a <i>Move value</i>.</p>'
                 }
                 return warn;
             },
-            eqt:'<b>Size</b> + (<i>Move Cost</i> * 0.33) + (<i>DMG-Melee</i> * 0.25)'
+            eqt:'<b>Size</b> + (<i>Move Cost</i> * 0.25)'
         },
         {
             title : 'Heavy Armor',
@@ -843,7 +885,7 @@ const tagInfo = {
         },
         {
             title : 'Juggernaut',
-            desc : '<p><i>Movement Phase</i><p/><p>Units <i>Ranged Attacks</i> suffer <b>-3 ATK</b>.</p><p>Any time Unit enters <i>Melee Range</i> after moving <b>1/2 or more</b> of their current <i>Move Value</i>, <b>+Size/2</b> to Units next <i>Melee Attack</i>.</p>',
+            desc : '<p><i>Movement Phase</i><p/><p>Units <i>Ranged Attacks</i> suffer <b>-1 ATK</b>.</p><p>Any time Unit enters <i>Melee Range</i> after moving <b>1/2 or more</b> of their current <i>Move Value</i>, <b>+Size/2</b> to Units next <i>Melee Attack</i>.</p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
