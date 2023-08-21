@@ -7,7 +7,6 @@
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
     <link rel="stylesheet" href="../../../../../node_modules/jquery-ui/dist/themes/base/jquery-ui.min.css" />
     <link rel="stylesheet" href="../../../../../node_modules/furtive/css/furtive.min.css" />
-    <!--<link rel="stylesheet" href="../../../../css/base_responsive.css"/>-->
     <link rel="stylesheet" href="../../../../css/styles.css"/>
     <link rel="stylesheet" href="../../../../css/pages/rulebook/rulebook.css"/>
 </head>
@@ -31,7 +30,6 @@
         <input id="blank_DMGR" type="number" value="0" disabled />
         <input id="blank_range" type="number" value="0" disabled />
         <input id="blank_armor" type="number" value="0"  disabled />
-        <!-- <input id="blank_structure" type="number" value="0" disabled /> -->
         <input id="blank_tags" type="text" value="" disabled />
     </div>
 
@@ -45,6 +43,7 @@ window.addEventListener('DOMContentLoaded',function(){
     let tagListRow = $("#tagListRows")[0];
     let tagLibHtml = tag_rules_pdf_getHtml();
 
+    let rowCount = 0;
     for(let tagId in tagInfo.data){
         let tagItem = tagInfo.data[tagId];
     
@@ -54,11 +53,11 @@ window.addEventListener('DOMContentLoaded',function(){
         newRowDiv.className += 'grd-row';
 
         let span = newRowDiv.appendChild(document.createElement('div'));
-        span.className += 'grd-row-col-1-6--sm grd-row-col-1-6--md grd-row-col-1-6--lg';
+        span.className += 'grd-row-col-1 ';
 
         let viewDiv = newRowDiv.appendChild(document.createElement('div'));
         viewDiv.id = newRowDiv.id + "_viewDiv";
-        viewDiv.className += 'grd-row-col-4-6--sm grd-row-col-4-6--md grd-row-col-4-6--lg';
+        viewDiv.className += 'grd-row-col-4-6--sm grd-row-col-4-6--md grd-row-col-4-6--lg txt--center';
         viewDiv.innerHTML = tagLibHtml;
         viewDiv.querySelector("#tagWindow_descTitle").innerHTML =  tagItem.title;
         viewDiv.querySelector("#tagWindow_descText").innerHTML =  tagItem.desc;
@@ -67,6 +66,13 @@ window.addEventListener('DOMContentLoaded',function(){
         let tagViewDiv = viewDiv.querySelector('#tagView');
         tagViewDiv.removeChild(tagViewDiv.children[0]);
         tagViewDiv.id ="";
+        
+        if(rowCount % 4 > 2){
+            let brk = document.createElement('div');
+            brk.classList.add('pagebreak');
+            tagViewDiv.appendChild(brk);
+        }
+        rowCount++;
     }
     $("#tagViewClose").remove();
 });

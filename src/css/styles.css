@@ -2,6 +2,9 @@
     All the style layering that goes on top of base_responsive.
 */
 
+@media print {
+    .pagebreak { page-break-before: always; } /* page-break-after works, as well */
+}
 
 .row-fill-16px{
     min-height: 16px;
@@ -16,6 +19,15 @@
     min-height: 64px;
 }
 .row-fill-64px::after{
+    content:'';
+    clear:both;
+    display: table;
+}
+
+.row-fill-128px{
+    min-height: 128px;
+}
+.row-fill-128px::after{
     content:'';
     clear:both;
     display: table;

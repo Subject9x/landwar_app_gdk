@@ -5,87 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>LANDWAR GDK v0.4.0</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-    <link rel="stylesheet" href="../../../../css/base_responsive.css"/>
+    <!-- <link rel="stylesheet" href="../../../../css/base_responsive.css"/> -->
+    <link rel="stylesheet" href="../../../../../node_modules/furtive/css/furtive.min.css">
     <link rel="stylesheet" href="../../../../css/styles.css"/>
     <link rel="stylesheet" href="../../../../css/pages/rulebook/rulebook.css"/>
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-s-4 col-3 col-l-2 offset-s-1 offset-1 offset-l-1">
-                <h2>LANDWAR</h2> <h3>Core Rules</h3> <h4>v1.0.0</h4>
-            </div>
-            <div class="col-s-6 col-s-7 col-l-8">
-
-                <ul>
-                    <li>Turn Phases -
-                        <ol>
-                            <li>Initiative</li>
-                            <li>Movement</li>
-                            <li>Combat</li>
-                            <li>Damage</li>
-                            <li>Resolution</li>
-                        </ol>
-                    </li>
-                </ul>
+    <div class="grd">
+        <div class="grd-row">
+            <div class="grd-row-col-6 txt--center">
+                <h2><i>LANDWAR</i></h2> <h3>Core Rules</h3> v1.0.0
             </div>
         </div>
-        <!-- INITIATIVE PHASE ===========================================================================================-->
-        <div class="row">
-            <div class="col-s-12 col-12 col-l-12">
-                <div class="container sectionPanel">
-                    <div class="row">
-                        <div class="col-s-6 col-6 col-l-6 offset-s-1 offset-1">
-                            <h3>Initiative Phase</h3>
-                            <p>Players determine who will activate their first units during the following phases.</p>
-                        </div>
-                        <div class="col-s-10 col-10 col-l-10 offset-s-1 offset-1 offset-l-1">
-                            <ol class="sectionOrderList">
-                                <li><b>Panicked</b>: Units with this token:
-                                    <ul>
-                                        <i>remove</i> <b>1</b> <i>Stress Point.</i>
-                                    </ul>
-                                </li>
-                                <li>
-                                    Each <i>side</i> rolls <b>1D6</b> and <b>compare</b> the results.
-                                    <ul>
-                                        <li>Each player rolls their <b>own</b> <i>Initiative</i> regardless of any alliances</li>
-                                        <li>Side with <b>higher</b> total has the <i>Advantage</i>.</li>
-                                        <li><b>IF</b> the totals are tied, player that lost <b>last turn</b> gets <i>Advantage</i>.</li>
-                                    </ul>
-                                </li>
-                                <li>Resolve any <i>Initiative</i> effects or events now.</li>
-                            </li>
-                            </ol>
+        <div class="grd-row">
+            <div class="grd-row-col-6">
+                <div class="grd">
+                    <div class="grd-row">
+                        <div class="grd-row-col-6 txt--center">
+                            <h4><u>Turn Phases</u></h4>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-s-8 offset-s-2 col-4 offset-1 col-l-4 offset-l-1 rulePanel">
-                            <label class="ruleTitle"><u>Advantage</u></label>
-                            <p></p>
-                            <ul>
-                                <li>Player gives <b>+2 INI</b> to 1 <i>not-Panicked</i> Unit.</li>
-                                <li>Player's Units win any <i>INI</i> ties and move <b>second</b>.</li>
-                            </ul>
-                        </div>
+                    <div class="grd-row txt-left">
+                            <div class="grd-row-col-2-6 txt--left">1. Initiative</div>
+                            <div class="grd-row-col-2-6 txt--left">2. Movement</div>
+                            <div class="grd-row-col-2-6 txt--left">3. Combat</div>
+                            <div class="grd-row-col-2-6 txt--left">4. Damage</div>
+                            <div class="grd-row-col-2-6 txt--left">5. Resolution</div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- INITIATIVE PHASE ===========================================================================================-->
+        <div class="grd-row">
+            <div class="grd-row-col-6">
+                <div class="grd">
+                    <div class="grd-row txt--center">
+                        <div class="grd-row-col-6">
+                            <h3><u>Initiative Phase</u></h3>
+                            <p>Players determine who will activate their first units during the following phases.</p>
+                        </div>
+                    </div>
+                    <div class="grd-row">
+                        <ol class="sectionOrderList">
+                            <li><b>Panicked</b>: Units with this token:
+                                <ul>
+                                    <i>remove</i> <b>1</b> <i>Stress Point.</i>
+                                </ul>
+                            </li>
+                            <li>
+                                Each <i>side</i> rolls <b>1D6</b> and <b>compare</b> the results.
+                                <ul>
+                                    <li>Each player rolls their <b>own</b> <i>Initiative</i> regardless of any alliances</li>
+                                    <li>Side with <b>higher</b> total has the <i>Advantage</i>.</li>
+                                    <li><b>IF</b> the totals are tied, player that lost <b>last turn</b> gets <i>Advantage</i>.</li>
+                                </ul>
+                            </li>
+                            <li>Resolve any <i>Initiative</i> effects or events now.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="grd">
         <!--===============================================================================================================-->
         <!-- MOVEMENT PHASE ===============================================================================================-->
-        <div class="row">
-            <div class="col-s-12 col-12 col-l-12">
-                <div class="container sectionPanel">
-                    <div class="row">
-                        <div class="col-s-6 col-6 col-l-6 offset-s-1 offset-1">
-                            <h3>Movement Phase</h3>
-                            <p>Players take turns moving Units during this phase.</p>
+        <div class="grd-row">
+            <div class="grd-row-col-6">
+                <div class="grd">
+                    <div class="grd-row">
+                        <div class="grd-row-col-6 txt--center">
+                            <h3><u>Movement Phase</u></h3>
                             <p>Units resolve their movement in the following sequence.</p>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-s-11 col-11 col-l-11 offset-s-1 offset-1 offset-l-1">
+                    <div class="grd-row">
+                        <div class="grd-row-col-6">
                             <ol class="sectionOrderList">
                                 <li><b>All</b> Units move in order of their <i>Ini Value</i> <b>lowest to highest.</b></li>
                                 <li><i>Ini Value</i> is a Unit's <b>current</b> <i>MV</i> stat <b>after</b> applying any modifiers.</li>
@@ -110,19 +105,16 @@
                                         <li>Use <i>TAG</i> rules, if Players are using TAG special rules for units, and a Unit has a TAG that allows specific movement, it can be used here.</li>
                                     </ul>
                                 </li>
-                                <li>Complete selected Movement and check for the following:
-                                    <ul>
-                                        <li><i>Terrain</i>.</li>
-                                        <li><i>High Speed</i>.</li>
-                                        <li><i>Danger Close</i>.</li>
-                                        <li><i>Overwatch</i>.</li>
-                                    </ul>
+                                <li>Complete selected Movement and check for these rules:
                                 </li>
                             </ol>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-s-8 offset-s-2 col-4 offset-1 col-l-4 offset-l-1 rulePanel">
+                  
+                    <div class="pagebreak"> </div>
+
+                    <div class="grd-row">
+                        <div class="grd-row-col-3-6 rulePanel">
                             <label class="ruleTitle"><u>Terrain</u></label>
                             <p>Unless otherwise specified, Units move 1/2 their <i>Move</i> value when:</p>
                             <ul>
@@ -130,18 +122,18 @@
                                 <li>Starting move <i>inside</i> terrain.</li>
                             </ul>
                         </div>
-                        <div class="col-s-8 offset-s-2 col-4 offset-1  col-l-4 offset-l-1 rulePanel">
+                        <div class="grd-row-col-3-6 rulePanel">
                             <label class="ruleTitle"><u>High Speed</u></label>
                             <p>Whenever a Unit completes a <b>Normal</b> move where the <b>total</b> distance moved was <b>greater than</b> 11", the Unit has completed a <i>High Speed Move</i>.</p>
                             <p>Units during their <b>this</b> <i>Combat Phase</i> are given the following effects.</p>
                             <ul>
-                                <li><b>ATK</b> - 2. (Minimum of 1).</li>
+                                <li><b>-2ATK</b> (Minimum of 1).</li>
                                 <li><b>re-roll 2 DEF</b>dice. </li>
                             </ul>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-s-8 offset-s-2 col-4 offset-1 col-l-4 offset-l-1 rulePanel">
+                    <div class="grd-row">
+                        <div class="grd-row-col-3-6 rulePanel">
                             <label class="ruleTitle"><u>Danger Close</u></label>
                             <ul>
                                 <li>When a Unit <b>starts</b> their Move 1" <b>or less</b> from at least 1 Enemy Unit.
@@ -152,7 +144,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-s-8 offset-s-2 col-4 offset-1 col-l-4 offset-l-1 rulePanel">
+                        <div class="grd-row-col-3-6 rulePanel">
                             <label class="ruleTitle"><u>Overwatch</u></label>
                             <p>Enemy Unit can make an <b>immediate</b> <i>Ranged Attack</i> at <b>-2 ATK</b> with the following conditions:</p>
                             <ul>
@@ -163,34 +155,29 @@
                             </ul>
                         </div>
                     </div>
-                    <!-- disabling unequal units check -->
-                    <!-- <div class="row"><div class="col-s-8 offset-s-2 col-4 offset-1 col-l-4 offset-l-1 rulePanel"><label class="ruleTitle"><u>Unequal Unit totals</u></label><p><b>If</b> one side has more Units on the table compared to the other side, the side with <i>more</i> units must do the following:</p>                    <p>When that Player activates and moves 1 Unit for the <i>Movement</i> phase, they <b>must</b> move <i>at least</i> 1 additional Unit.                         The Player must do this until the remaining Units they have to move can match 1-to-1 with the other Players remaining Units.</p>                        <p><b>note:</b> The point is to prevent the Player with numerically superior Units from moving <i>all of them</i> in 1 single move.</p></div></div> -->
                 </div>
             </div>
         </div>
-        <div class="row-fill-64px"></div>
-        <!-- <div class="row-fill-16px"></div>
-        <div class="row-fill-16px"></div> -->
+        <div class="pagebreak"> </div>
         <!--===============================================================================================================-->
         <!-- COMBAT PHASE =================================================================================================-->
-        <div class="row">
-            <div class="col-s-12 col-12 col-l-12">
-                <div class="container sectionPanel">
-                    <div class="row">
-                        <div class="col-s-10 col-8 col-l-6 offset-s-1 offset-1">
-                            <h3>Combat Phase</h3>
+        <div class="grd-row">
+            <div class="grd-row-col-6">
+                <div class="grd">
+                    <div class="grd-row">
+                        <div class="grd-row-col-6 txt--center">
+                            <h3><u>Combat Phase</u></h3>
                             <p>Player with <i>Advantage</i> resolves <b>all</b> their attacks first.</p>
                             <p><i>Attacks</i> are split into 2 categories - <b>Range</b> and <b>Melee</b>.</p>
                             <p><i>Damage</i> from all Attacks are <b>not</b> applied until the <i>Resolution Phase</i>!</li>
                         </div>
                     </div>
                     <!--ATTACK TYPES ============================ -->
-                    <div class="row">
+                    <div class="grd-row">
                         <!--RANGED ATTACKS ============================ -->
-                        <div class="col-s-5 col-5 col-l-5 offset-s-1 offset-1 offset-l-1">
+                        <div class="grd-row-col-3-6 txt--center">
                             <h4>Ranged Attacks</h4>
-                            <p>Requirements:</p>
-                            <ul class="sectionOrderList">
+                            <ul class="sectionOrderList txt--left">
                                 <li>Attacking Unit is not <b>currently</b> in <i>Melee Range(1")</i> of any Enemy Unit.</li>
                                 <li>Attacking Unit <b>must have</b> <i>Line of Sight</i> to the <b>Target</b> Unit.</li>
                                 <li><i>Target</i> must be the <b>closest</b> Unit to the Attacker in <i>Line of Sight</i>.
@@ -202,18 +189,17 @@
                             </ul>
                         </div>
                         <!--MELEE ATTACKS ============================ -->
-                        <div class="col-s-5 col-5 col-l-5 offset-s-1 offset-1 offset-l-1">
+                        <div class="grd-row-col-3-6 txt--center">
                             <h4>Melee Attacks</h4>
-                            <p>Requirements:</p>
-                            <ul class="sectionOrderList">
+                            <ul class="sectionOrderList txt--left">
                                 <li>Unit <b>must have</b> a <i>Melee Damage</i> stat greater than 0.</li>
                                 <li>Target must be in <i>Melee Range</i> of Unit. - <i>default</i> 0-1".</li>
                                 <li>Target <b>must</b> be in the Attacker's <i>Forward Arc</i>. </li>
                             </ul>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-s-8 offset-s-2 col-4 offset-1 col-l-4 offset-l-1 rulePanel">
+                    <div class="grd-row">
+                        <div class="grd-row-col-3-6 rulePanel">
                             <label class="ruleTitle"><u>Range Brackets</u></label>
                             <p>There are only 3 main Range Brackets in the game.</p>
                             <ul class="sectionOrderList">
@@ -230,7 +216,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-s-8 offset-s-2 col-4 offset-1 col-l-4 offset-l-1 rulePanel">
+                        <div class="grd-row-col-3-6 rulePanel">
                             <label class="ruleTitle"><u>Focus Fire</u></label>
                             <p>When a Unit makes a <i>Ranged Attack</i> they <b>can</b> select the <b>non-closest</b> valid Target under the following limits:</p>
                             <ul class="sectionOrderList">
@@ -246,24 +232,19 @@
                                         <li>Unit suffers +1 <i>Stress</i> <b>for each</b> attack that <b>misses.</b></li>
                                     </ul>
                                 </li>
-                                <li><b>IF</b> added <i>Stress</i> would trigger a <i>Stress Check</i> roll for one before Attacking.
-                                    <ul>
-                                        <li>If the Unit <b>fails</b> the <i>Stress check</i> they <b>may not</b> attack this <i>Phase</i>.</li>
-                                        <li>Unit is <b>not</b> <i>Panicked</i> however, Player must check again in <i>Resolution Phase</i>.</li>
-                                    </ul>
-                                </li>
                             </ul>
                         </div>
                     </div>
+                    <div class="pagebreak"> </div>
                     <!--ATTACK RESOLUTION-->
-                    <div class="row">
-                        <div class="col-s-5 offset-s-1 col-5 offset-1 col-l-5 offset-l-1">
+                    <div class="grd-row">
+                        <div class="grd-row-col-3-6 thinPanel">
                             <!----- PANEL LEFT--------------------------------------------------->
-                            <div class="container"> 
-                                <div class="row">
-                                    <div class="col-s-10 col-10 col-l-10 offset-s-1 offset-1 offset-l-1">
-                                        <h3><i>RANGED Attacker</i> Dice Pool</h3>
-                                        <ul class="sectionOrderList">
+                            <div class="grd"> 
+                                <div class="grd-row">
+                                    <div class="grd-row-col-6 txt--center">
+                                        <label class="subHeading"><i>RANGED Attacker</i> Dice Pool</label>
+                                        <ul class="sectionOrderList txt--left">
                                             <li>Starting Amount: 3D6.</li>
                                             <li>If Unit has <i>Panic Token</i>:
                                                 <ul>
@@ -276,10 +257,19 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-s-9 offset-s-1 col-9 offset-1 col-l-9 offset-l-1 rulePanel">
+                                <div class="grd-row">
+                                    <div class="grd-row-col-6 rulePanel">
                                         <label class="ruleTitle"><u>Short Range Attack</u></label>
                                         <p><i>When</i> the Target is <b>1" to 4" away.</b></p>
+                                        <ul class="sectionOrderList">
+                                            <li><i>Attacker</i> gains <b>+1 ATK.</b></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="grd-row">
+                                    <div class="grd-row-col-6 rulePanel">
+                                        <label class="ruleTitle"><u>Stationary</u></label>
+                                        <p><i>When</i> the attacker was <b>Stationary</b> during the <i>Movement Phase</i></p>
                                         <ul class="sectionOrderList">
                                             <li><i>Attacker</i> gains <b>+1 ATK.</b></li>
                                         </ul>
@@ -288,12 +278,12 @@
                             </div>
                         </div>
                         <!----- PANEL RIGHT--------------------------------------------------->
-                        <div class="col-s-5 col-5 col-l-5">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-s-10 col-10 col-l-10 offset-s-1 offset-1 offset-l-1">
-                                        <h3><i>RANGED Defender</i> Dice Pool</h3>
-                                        <ul class="sectionOrderList">
+                        <div class="grd-row-col-3-6 thinPanel">
+                            <div class="grd">
+                                <div class="grd-row">
+                                    <div class="grd-row-col-6 txt--center">
+                                        <label class="subHeading"><i>RANGED Defender</i> Dice Pool</label>
+                                        <ul class="sectionOrderList txt--left">
                                             <li>Starting Amount: 3D6</li>
                                             <li>If Unit has <i>Panic Token</i>:
                                                 <ul>
@@ -307,8 +297,8 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-s-10 col-10 col-l-10 rulePanel">
+                                <div class="grd-row">
+                                    <div class="grd-row-col-6 rulePanel">
                                         <label class="ruleTitle"><u>Long Range Attack</u></label>
                                         <p><i>When</i> the Target is at <b>Long Range</b></p>
                                         <ul class="sectionOrderList">
@@ -316,8 +306,8 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-s-10 col-10 col-l-10 rulePanel">
+                                <div class="grd-row">
+                                    <div class="grd-row-col-6 rulePanel">
                                         <label class="ruleTitle"><u>Defender in Cover</u></label>
                                         <p><i>If</i> <i>Defender</i> is <b>behind or in</b> a board object <i>agreed</i> as 'Cover':</b></p>
                                         <ul class="sectionOrderList">
@@ -325,8 +315,8 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-s-10 col-10 col-l-10 rulePanel">
+                                <div class="grd-row">
+                                    <div class="grd-row-col-6 rulePanel">
                                         <label class="ruleTitle"><u>Evasion Bonus</u></label>
                                         <p><i>If</i> Target <b>was not</b> <i>Stationary</i> during this Turn's <i>Movement Phase</i></p>
                                         <p><i>If</i> Target <b>moved 1/4(25%) or more</b> of their current <i>MOVE</i>.</p>
@@ -336,8 +326,8 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-s-10 col-10 col-l-10 rulePanel">
+                                <div class="grd-row">
+                                    <div class="grd-row-col-6 rulePanel">
                                         <label class="ruleTitle"><u>High Speed Move</u></label>
                                         <p><i>If</i> <i>Attacker</i> moved <b>12" or more</b> during this Turn's <i>Movement Phase</i>:</p>
                                         <ul class="sectionOrderList">
@@ -348,14 +338,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="pagebreak"> </div>
+                    <div class="grd-row">
                         <!----- PANEL LEFT--------------------------------------------------->
-                        <div class="col-s-5 offset-s-1 col-5 offset-1 col-l-5 offset-l-1">
-                            <div class="container"> 
-                                <div class="row">
-                                    <div class="col-s-10 col-10 col-l-10 offset-s-1 offset-1 offset-l-1">
-                                        <h3><i>MELEE Attacker</i> Dice Pool</h3>
-                                        <ul class="sectionOrderList">
+                        <div class="grd-row-col-3-6 thinPanel">
+                            <div class="grd"> 
+                                <div class="grd-row">
+                                    <div class="grd-row-col-6 txt--center">
+                                        <label class="subHeading"><i>MELEE Attacker</i> Dice Pool</label>
+                                        <ul class="sectionOrderList txt--left">
                                             <li>Starting Amount: 3D6</li>
                                             <li>If Unit has <i>Panic Token</i>:
                                                 <ul>
@@ -370,12 +361,12 @@
                             </div>
                         </div>
                         <!----- PANEL RIGHT--------------------------------------------------->
-                        <div class="col-s-5 col-5 col-l-5">
-                            <div class="container"> 
-                                <div class="row">
-                                    <div class="col-s-10 col-10 col-l-10 offset-s-1 offset-1 offset-l-1">
-                                        <h3><i>MELEE Defender</i> Dice Pool</h3>
-                                        <ul class="sectionOrderList">
+                        <div class="grd-row-col-3-6 thinPanel">
+                            <div class="grd"> 
+                                <div class="grd-row">
+                                    <div class="grd-row-col-6 txt--center">
+                                        <label class="subHeading"><i>MELEE Defender</i> Dice Pool</label>
+                                        <ul class="sectionOrderList txt--left">
                                             <li>Starting Amount: 3D6</li>
                                             <li>If Unit has <i>Panic Token</i>:
                                                 <ul>
@@ -392,8 +383,8 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-s-10 col-10 col-l-10 rulePanel">
+                                <div class="grd-row">
+                                    <div class="grd-row-col-6 rulePanel">
                                         <label class="ruleTitle"><u>Evasion Bonus</u></label>
                                         <p><i>If</i> Target <b>was not</b> <i>Stationary</i> during this Turn's <i>Movement Phase</i>:</i></p>
                                         <ul class="sectionOrderList">
@@ -404,27 +395,37 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-s-10 col-10 col-l-10 offset-s-1 offset-1 offset-l-1 rulepanel">
-                            <h4>Resolve Attacks</h4>
+                    <div class="grd-row">
+                        <div class="grd-row-col-6 rulepanel txt--center">
+                            <h4><b>Resolve Attacks</b></h4>
                             <p>Now Players assemble the dice they will need to roll to see if the Attack is successful or not.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="pagebreak"> </div>
         <!-- =============================================================================================================== -->
         <!-- DAMAGE PHASE =================================================================================================-->
-        <div class="row">
-            <div class="col-s-12 col-12 col-l-12">
-                <div class="container sectionPanel">
-                    <div class="row">
-                        <div class="col-s-6 col-6 col-l-6 offset-s-1 offset-1">
-                            <h3>Damage Phase</h3>
-                            <p>Now both <i>Attacker</i> and <i>Defender</i> roll their pools of D6s.</p>
-                            <p><i>Attacker</i>: <i>each</i> <b>4+</b> is 1 'success'.</p>
-                            <p><i>Defender</i>: <i>each</i> <b>5+</b> is 1 'success'.</p>
-                            <p>Compare the two rolls:</p>
+        <div class="grd-row">
+            <div class="grd-row-col-6">
+                <div class="grd">
+                    <div class="grd-row">
+                        <div class="grd-row-col-6 txt--center">
+                            <h3><u>Damage Phase</u></h3>
+                        </div>
+                    </div>
+                    <div class="grd-row">
+                        <div class="grd-row-col-3-6 txt--left">
+                            <ul>
+                                <li><i>Attacker</i> and <i>Defender</i> roll their D6s.</li>
+                                <li><i>Attacker</i>: <i>each</i> <b>4+</b> is 1 'success'.</li>
+                                <li><i>Defender</i>: <i>each</i> <b>5+</b> is 1 'success'.</li>
+                                <li>Compare the two rolls:</li>
+                            </ul>
+                        </div>
+                        <div class="colSpanner-32px"></div>
+                        <div class="grd-row-col-3-6 thinPanel">
                             <ul class="sectionOrderList">
                                 <li><b>For Each</b> <i>Defender Success</i>, <b>remove 1</b> <i>Attacker Success</i>.</li>
                                 <li><b>If</b> <i>Attacker</i> has <b>1 or more</b> <i>Success</i> remaining.
@@ -433,16 +434,15 @@
                                     </ul>
                                 </li>
                                 <li>Check <i>Target Destroyed</i>.</li>
-                                <!-- <li>Check <i>Heavy Fire</i>.</li> -->
                                 <li>Check <i>Crew Shaken</i></li>
                                 <li>Check <i>Suppressing Fire</i>.</li>
                             </ul>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="offset-1 offset-l-1 col-s-6 col-5 col-4">
-                            <div class="container">
-                                <div class="row rulePanel">
+                    <div class="grd-row">
+                        <div class="grd-row-col-6">
+                            <div class="grd">
+                                <div class="grd-row rulePanel">
                                     <label class="ruleTitle"><u>Target Destroyed</u></label>
                                     <p><i>When</i> the <i>Defenders</i> <i>Armor</i> stat is <b>reduced to 0</b>:</p>
                                     <ul class="sectionOrderList">
@@ -452,18 +452,13 @@
                                         <li>Each <i>remaining</i> friendly Unit <i>in LoS and 6"</i> suffers <b>+1 Stress</b> point.</li>
                                     </ul>
                                 </div>
-                                <!-- <div class="row  rulePanel">
-                                    <label class="ruleTitle"><u>Heavy Fire</u></label>
-                                    <p>For <b>1</b> <i>uncancelled</i> <b>ATK</b> hit of <b>6</b>:</p>
-                                    <ul class="sectionOrderList">
-                                        <li><i>Defender</i> suffers <b>+1 Stress Point.</b></li>
-                                    </ul>
-                                </div> -->
                             </div>
                         </div>
-                        <div class="col-s-6 col-5 col-4">
-                            <div class="container">
-                                <div class="row rulePanel">
+                    </div>
+                    <div class="grd-row">
+                        <div class="grd-row-col-6">
+                            <div class="grd">
+                                <div class="grd-row rulePanel">
                                     <label class="ruleTitle"><u>Crew Shaken</u></label>
                                     <p>If a Unit <b>ends</b> the Damage Phase with <b>any</b> <i>Armor</i> damage <b>at or below</b> 50%:</p>
                                     <ul class="sectionOrderList">
@@ -474,7 +469,13 @@
                                         <li><i>Unit</i> suffers <b>+1 Stress Points.</b></li>
                                     </ul>
                                 </div>
-                                <div class="row rulePanel">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grd-row">
+                        <div class="grd-row-col-6">
+                            <div class="grd">
+                                <div class="grd-row rulePanel">
                                     <label class="ruleTitle"><u>Suppressing Fire</u></label>
                                     <p><i>If</i> <i>Defender</i> was attacked <b>(regardless of hits)</b> by <b>3 or more</b> enemy Units this turn:</p>
                                     <ul class="sectionOrderList">
@@ -484,33 +485,38 @@
                             </div>
                         </div>
                     </div>
+                    <div class="grd-row">
+                        <div class="grd-row-col-6 rulepanel txt--center">
+                            <label class="subHeading">Additional Attacks</label>
+                            <p>Players continue to make and resolve attacks as needed or declared until any-or-all Units that can attack, have done so.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-s-10 col-10 col-l-10 offset-s-1 offset-1 offset-l-1 rulepanel">
-                <h3>Additional Attacks</h3>
-                <p>Players continue to make and resolve attacks as needed or declared until any-or-all Units that can attack, have done so.</p>
-            </div>
-        </div>
+        <div class="pagebreak"> </div>
         <!-- =============================================================================================================== -->
         <!-- Resolution PHASE =================================================================================================-->
-        <div class="row">
-            <div class="col-s-12 col-12 col-l-12">
-                <div class="container sectionPanel">
-                    <div class="row">
-                        <div class="col-s-6 col-6 col-l-6 offset-s-1 offset-1">
-                            <h3>Resolution Phase</h3>
+        <div class="grd-row">
+            <div class="grd-row-col-6">
+                <div class="grd">
+                    <div class="grd-row">
+                        <div class="grd-row-col-6 txt--center">
+                            <h3><u>Resolution Phase</u></h3>
+                        </div>
+                    </div>
+                    <div class="grd-row">
+                        <div class="grd-row-col-6">
                             <p>All <b>damage</b> from the <i>Combat Phase</i> is applied now.</p>
                             <p>Units that have been <b>destroyed</b> are removed at this time.</p>
                             <ul class="sectionOrderList">
-                                <li>Check <i>Panic and Stress</i>.</li>
+                                <li>Check <i>Panic</i> and <i>Stress</i>.</li>
                                 <li>Check for <i>Victory Conditions</i>.</li>
                             </ul>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-s-8 offset-s-2 col-6 offset-1 col-l-4 offset-l-1 rulePanel">
+                    <div class="grd-row">
+                        <div class="grd-row-col-6 rulePanel">
                             <label class="ruleTitle"><u>Panic and Stress</u></label>
                             <p><b>Any non-Destroyed</b> Unit with <b>1 or more</b> <i>Stress Tokens</i> must make a <i>Stress Check</i>.</p>
                             <ul class="sectionOrderList">
@@ -530,8 +536,8 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-s-8 offset-s-2 col-6 offset-1 col-l-4 offset-l-1 rulePanel">
+                    <div class="grd-row">
+                        <div class="grd-row-col-6 rulePanel">
                             <label class="ruleTitle"><u>Victory Conditions</u></label>
                             <p>At the end of the entire turn, players will check if the <i>Victory Conditions</i> for the match have been satisfied.</p>
                             <ul class="sectionOrderList">
@@ -543,110 +549,92 @@
                 </div>
             </div>
         </div>
+        <div class="pagebreak"> </div>
         <!-- =============================================================================================================== -->
         <!-- NOTES SECTION =================================================================================================-->
-        <div class="row">
-            <div class="col-s-12 col-12 col-l-12">
-                <div class="container sectionPanel">
-                    <h3>REFERENCE</h3>
-                    <p>Finally, at the end for reference are some important concepts that are used during gameplay.</p>
+        <div class="grd-row">
+            <div class="grd-row-col-6">
+                <div class="grd">
+                    <div class="grd-row">
+                        <div class="grd-row-col-6 txt--center">
+                            <h3>REFERENCE</h3>
+                            <p>Finally, at the end for reference are some important concepts that are used during gameplay.</p>
+                        </div>
+                    </div>
+                    <div class="grd-row">
+                        <div class="grd-row-col-6 rulePanel">
+                            <label class="ruleTitle"><u>TAGS - Talent, Ability, Gear, Specials</u></label>
+                            <p><i>TAGS</i> are an <b>optional</b> set of special rules for enhancing Units in your army.</p>
+                            <ul class="sectionOrderList">
+                                <li>A <i>TAG</i> will declare <b>when</b> it can be used or applied.</li>
+                                <li><b>Each Unit</b> can only use <b>each of its</b> TAGS <b>once per Turn.</b></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="grd-row">
+                        <div class="grd-row-col-6 rulePanel">
+                            <label class="ruleTitle"><u>Dice Mechanics</u></label>
+                            <ul class="sectionOrderList">
+                                <li>Adding and Subtracting dice to a roll <b>must happen before</b> any rolls are made.</li>
+                                <li>Each dice in a situation can only <b>be re-rolled ONCE</b>.</li>
+                                <li>Keyword: <b>must re-roll</b>; Player must re-roll all dice up to the number required.</li>
+                                <li>Keyword: <b>may</b> Player can <i>choose</i> a number of dice to re-roll up to the set total.</li>
+                                <li>Dice  Modifiers are applied <b>AFTER</b> re-rolls.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="grd-row">
+                        <div class="grd-row-col-6 rulePanel">
+                            <label class="ruleTitle"><u>Line of Sight</u></label>
+                            <p>Primary method to determine if a Unit can see other Units, usually for Attacks.</p>
+                            <p><b>Basic Method</b></p>
+                            <ul class="sectionOrderList">
+                                <li>Draw a line from the <i>center</i> of the model of the Unit.</li>
+                                <li>to the <i>center</i> of the model of any target Units.</li>
+                                <li><b>If</b> the line is <b>not</b> obstructed by <b>enemy</b> models <b>or</b> <i>Terrain Objects</i>, then <u>Line of Sight</u> is achieved.</li>
+                            </ul>
+                            <p><b>Advanced Methods</b><i>(OPTIONAL)</i></p>
+                            <ul class="sectionOrderList">
+                                <li><b>Compare</b> the <i>[Size]</i> values of <b>all</b> models that are between the Unit and a target.</li>
+                                <li><i>If</i> the Unit's <i>[Size]</i> value is <b>greater than</b> the blocking model, then <u>Line of Sight</u> is achieved.</li>
+                                <li><i>If</i> the <b>Target's</b> <i>[Size]</i> value is <b>greater than</b> the blocking model, then <u>Line of Sight</u> is achieved.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="pagebreak"> </div>
+                    <div class="grd-row">
+                        <div class="grd-row-col-6 rulePanel">
+                            <label class="ruleTitle"><u>Terrain Rules</u></label>
+                            <p>Terrain for LANDWAR can be varied and complex, its completely up to the players and materials they have available.</p>
+                            <p><b>Basic Rules</b></p>
+                            <ul class="sectionOrderList">
+                                <li><b>For each</b> <i>Terrain Object</i> Players must agree on its general properties:
+                                    <ul>
+                                        <li>Does the object block <u>Line of Sight</u>?</li>
+                                        <li>Can Units move <i>into and out of</i> the object?</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <p><b>Advanced Rules</b><i>(OPTIONAL)</i></p>
+                            <ul class="sectionOrderList">
+                                <li><b>For each</b> <i>Terrain Object</i> Players <b>must assign</b> properties:
+                                    <ul>
+                                        <li><i>[Size]</i> value, used with <u>Line of Sight</u> <i>advanced method</i>.</li>
+                                        <li><i>[Armor]</i> value <i>(OPTIONAL)</i>, allows <i>Terrain Object</i> to be attacked like a normal Unit and <b>destroyed</b>.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-s-10 offset-s-1 col-8 offset-2 col-l-6 offset-l-3 rulePanel">
-                <label class="ruleTitle"><u>TAGS - Talent, Ability, Gear, Specialist</u></label>
-                <p><i>TAGS</i> are an <b>optional</b> set of special rules for enhancing Units in your army.</p>
-                <ul class="sectionOrderList">
-                    <li>A <i>TAG</i> will declare <b>when</b> it can be used or applied.</li>
-                    <li><b>Each Unit</b> can only use <b>each of its</b> TAGS <b>once per Turn.</b></li>
-                </ul>
-            </div>
-        </div>
-        <!-- disabling Unequal Units, current move mechanics don't need this.-->
-        <!-- <div class="row">
-            <div class="col-s-10 offset-s-1 col-8 offset-2 col-l-6 offset-l-3 rulePanel">
-                <label class="ruleTitle"><u>Unequal Units</u></label>
-                <p>This occurs when one Player or side ends up with a force larger than their opponent.</p>
-                <p>the idea behind this rule is to make sure the Player with more units spreads their movements out instead of simply being able to activate most Units at once.</p>
-                <ul class="sectionOrderList">
-                    <li>During the <i>Initiative Phase</i> <b>after</b> determining Attacker and Defender.</li>
-                    <li>Player with most Units must group their Units into as-equal number of groups as possible using <i>Link Tokens</i>.</li>
-                    <li>When the player with <i>Link Tokens</i> goes to activate a unit, they <b>must</b> activated <b>all</b> Units in the token group.</li>
-                    <li>Units in a <i>Link Token</i> group:
-                        <ul>
-                            <li><b>Do not</b> have to have the same move.</li>
-                            <li><b>Do not</b> have to move in the same direction.</li>
-                            <li><b>Do not</b> have to attack the same target.</li>
-                            <li><b>Do not</b> share any resources, <i>Panic Tokents</i>, or <i>TAG</i> bonuses.</li>
-                        </ul>
-                    </li>
-                    <li><b>After</b> the Player has moved <b>all</b> Units in the group, <b>remove</b> the <i>Link Tokens</i> from <b>that</b> group.</li>
-                </ul>
-            </div>
-        </div> -->
-        <div class="row">
-            <div class="col-s-10 offset-s-1 col-8 offset-2 col-l-6 offset-l-3 rulePanel">
-                <label class="ruleTitle"><u>Dice Mechanics</u></label>
-                <ul class="sectionOrderList">
-                    <li>Adding and Subtracting dice to a roll <b>must happen before</b> any rolls are made.</li>
-                    <li>Each dice in a situation can only <b>be re-rolled ONCE</b>.</li>
-                    <li>Keyword: <b>must re-roll</b>; Player must re-roll all dice up to the number required.</li>
-                    <li>Keyword: <b>may</b> Player can <i>choose</i> a number of dice to re-roll up to the set total.</li>
-                    <li>Dice  Modifiers are applied <b>AFTER</b> re-rolls.</li>
-                </ul>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-s-10 offset-s-1 col-8 offset-2 col-l-6 offset-l-3 rulePanel">
-                <label class="ruleTitle"><u>Line of Sight</u></label>
-                <p>Primary method to determine if a Unit can see other Units, usually for Attacks.</p>
-                <p><b>Basic Method</b></p>
-                <ul class="sectionOrderList">
-                    <li>Draw a line from the <i>center</i> of the model of the Unit.</li>
-                    <li>to the <i>center</i> of the model of any target Units.</li>
-                    <li><b>If</b> the line is <b>not</b> obstructed by <b>enemy</b> models <b>or</b> <i>Terrain Objects</i>, then <u>Line of Sight</u> is achieved.</li>
-                </ul>
-                <p><b>Advanced Methods</b><i>(OPTIONAL)</i></p>
-                <ul class="sectionOrderList">
-                    <li><b>Compare</b> the <i>[Size]</i> values of <b>all</b> models that are between the Unit and a target.</li>
-                    <li><i>If</i> the Unit's <i>[Size]</i> value is <b>greater than</b> the blocking model, then <u>Line of Sight</u> is achieved.</li>
-                    <li><i>If</i> the <b>Target's</b> <i>[Size]</i> value is <b>greater than</b> the blocking model, then <u>Line of Sight</u> is achieved.</li>
-                </ul>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-s-10 offset-s-1 col-8 offset-2 col-l-6 offset-l-3 rulePanel">
-                <label class="ruleTitle"><u>Terrain Rules</u></label>
-                <p>Terrain for LANDWAR can be varied and complex, its completely up to the players and materials they have available.</p>
-                <p><b>Basic Rules</b></p>
-                <ul class="sectionOrderList">
-                    <li><b>For each</b> <i>Terrain Object</i> Players must agree on its general properties:
-                        <ul>
-                            <li>Does the object block <u>Line of Sight</u>?</li>
-                            <li>Can Units move <i>into and out of</i> the object?</li>
-                        </ul>
-                    </li>
-                </ul>
-                <p><b>Advanced Rules</b><i>(OPTIONAL)</i></p>
-                <ul class="sectionOrderList">
-                    <li><b>For each</b> <i>Terrain Object</i> Players <b>must assign</b> properties:
-                        <ul>
-                            <li><i>[Size]</i> value, used with <u>Line of Sight</u> <i>advanced method</i>.</li>
-                            <li><i>[Armor]</i> value <i>(OPTIONAL)</i>, allows <i>Terrain Object</i> to be attacked like a normal Unit and <b>destroyed</b>.</li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-s-12 col-12 col-l-12">
-                <div class="container sectionPanel">
-                    <p>End of Core Rulebook.</p>
-                    <p><i>TAG</i> rules can be found in the <i>TAG Supplement</i> or the <i>LANDWAR Game Dev Kit</i> app.</p>
-                    <p><i>Scenarios</i> and their rules can be found in the <i>Scenario Supplement</i> or the <i>LANDWAR Game Dev Kit</i> app.</p>
-                    <p>2023 - Peter Roohr and Eamonn McHugh-Roohr</p>
-                </div>
+        <div class="grd-row">
+            <div class="grd-row-col-6">
+                <p>End of Core Rulebook.</p>
+                <p><i>TAG</i> rules can be found in the <i>TAG Supplement</i> or the <i>LANDWAR Game Dev Kit</i> app.</p>
+                <p><i>Scenarios</i> and their rules can be found in the <i>Scenario Supplement</i> or the <i>LANDWAR Game Dev Kit</i> app.</p>
+                <p>2023 - Peter Roohr and Eamonn McHugh-Roohr</p>
             </div>
         </div>
     </div>

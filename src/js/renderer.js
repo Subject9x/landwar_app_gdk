@@ -64,7 +64,7 @@ function rb_rules_pdf_quick(){
 }
 
 function rb_scenarios_save_core(){
-    
+    window.api.send('rb-save-scenario', dialogSavePDFOptions, pdfSaveOptions);
 }
 
 /*

@@ -139,16 +139,14 @@
     
         //Page: Tag Lib
         tl_buildTable();
-        $("#tagLibBtnCore")[0].addEventListener('click', () => {
+        $("#tagLibBtnCore")[0].addEventListener('click', (event) => {
+            event.preventDefault();
             tag_rules_pdf_core();
         });
     
         //Page: UnitBuilder
 
         //Page: Unit Cards
-        $("#tagLibBtnCore")[0].addEventListener('click', () => {
-            tag_rules_pdf_core();
-        });
 
         //Page: Force Builder
 

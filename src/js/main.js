@@ -230,30 +230,33 @@ ipcMain.handle('rb-save-rules-core', (event, pdfSavedialog, pdfOptionSave)=>{
   });
   rulesWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_core.html');
   rulesWindow.focus();
+  rulesWindow.on('ready-to-show', ()=>{
+    pdfSavedialog.defaultPath = lastFilePathUsed;
 
-  pdfSavedialog.defaultPath = lastFilePathUsed;
-
-  dialog.showSaveDialog(rulesWindow, pdfSavedialog).then( file =>{
-    console.log(file); 
-    if(!file.canceled){
-      lastFilePathUsed = file.filePath;
-      let win = BrowserWindow.getFocusedWindow();
-
-      win.webContents.printToPDF(pdfOptionSave).then(data => {
-          fs.writeFile(file.filePath.toString(), data, function (err) {
-              if (err) {
-                  console.log(err);
-              } else {
-                  console.log('PDF Generated Successfully');
-                  rulesWindow.close();
-                  rulesWindow = null;
-              }
-          });
-      }).catch(error => {
-          console.log(error)
-      });
-    }
+    dialog.showSaveDialog(rulesWindow, pdfSavedialog).then( file =>{
+      console.log(file); 
+      if(!file.canceled){
+        lastFilePathUsed = file.filePath;
+        let win = BrowserWindow.getFocusedWindow();
+  
+        win.webContents.printToPDF(pdfOptionSave).then(data => {
+            fs.writeFile(file.filePath.toString(), data, function (err) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log('PDF Generated Successfully');
+                    rulesWindow.close();
+                    rulesWindow = null;
+                }
+            });
+        }).catch(error => {
+            console.log(error)
+        });
+      }
+    });
   });
+
+
 })
 
 ipcMain.handle('rb-save-rules-quick', (event, pdfSavedialog, pdfOptionSave)=>{
@@ -302,6 +305,51 @@ ipcMain.handle('rb-save-rules-quick', (event, pdfSavedialog, pdfOptionSave)=>{
   });
 })
 
+ipcMain.handle('rb-save-scenario', (event, pdfSavedialog, pdfOptionSave)=>{
+
+  if(rulesWindow != null){
+    if(isAppWindowOpen(rulesWindow)){
+      rulesWindow.close();
+      rulesWindow = null;
+    }
+  }
+
+  rulesWindow = new BrowserWindow({
+    width: 637.5,
+    maxWidth: 637.5,
+    height: 825,
+    webPreferences: {
+      contextIsolation: true,
+      nodeIntegration: true
+    }
+  });
+  rulesWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_scenarios_basic.html');
+  rulesWindow.focus();
+
+  pdfSavedialog.defaultPath = lastFilePathUsed;
+
+  dialog.showSaveDialog(rulesWindow, pdfSavedialog).then( file =>{
+    console.log(file); 
+    if(!file.canceled){
+      lastFilePathUsed = file.filePath;
+      let win = BrowserWindow.getFocusedWindow();
+
+      win.webContents.printToPDF(pdfOptionSave).then(data => {
+          fs.writeFile(file.filePath.toString(), data, function (err) {
+              if (err) {
+                  console.log(err);
+              } else {
+                  console.log('PDF Generated Successfully');
+                  rulesWindow.close();
+                  rulesWindow = null;
+              }
+          });
+      }).catch(error => {
+          console.log(error)
+      });
+    }
+  });
+})
 
 ipcMain.handle('tag-save-core', (event, pdfSavedialog, pdfOptionSave)=>{
 
