@@ -67,6 +67,10 @@ function rb_scenarios_save_core(){
     window.api.send('rb-save-scenario', dialogSavePDFOptions, pdfSaveOptions);
 }
 
+function rb_unit_cost_save(){
+    window.api.send('rb-save-unit-cost', dialogSavePDFOptions, pdfSaveOptions);
+}
+
 /*
     Javascript layer for page: UnitBuilder
 */
@@ -91,7 +95,6 @@ function ucg_control_sheet_new(){
 function ucg_control_sheet_import(){
     window.api.send('uic-open-sheet-import', dialogLoadOptionsUnitList);
 }
-
 
 function ucg_print_blanks_pdf(event){
     event.preventDefault();

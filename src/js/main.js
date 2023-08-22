@@ -398,6 +398,53 @@ pdfSavedialog.defaultPath = lastFilePathUsed;
   });
 })
 
+ipcMain.handle('rb-save-unit-cost', (event, pdfSavedialog, pdfOptionSave)=>{
+
+  if(tagCoreWindow != null){
+    if(isAppWindowOpen(tagCoreWindow)){
+      tagCoreWindow.close();
+      tagCoreWindow = null;
+    }
+  }
+
+  tagCoreWindow = new BrowserWindow({
+    width: 637.5,
+    maxWidth: 637.5,
+    height: 825,
+    webPreferences: {
+      contextIsolation: true,
+      preload: path.join(__dirname, '../js/preload.js'),
+      nodeIntegration: true
+    }
+  });
+  tagCoreWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_core_unit_cost.html');
+  tagCoreWindow.focus();
+
+pdfSavedialog.defaultPath = lastFilePathUsed;
+
+  dialog.showSaveDialog(tagCoreWindow, pdfSavedialog).then( file =>{
+    console.log(file); 
+    if(!file.canceled){
+      lastFilePathUsed = file.filePath;
+      let win = BrowserWindow.getFocusedWindow();
+
+      win.webContents.printToPDF(pdfOptionSave).then(data => {
+          fs.writeFile(file.filePath.toString(), data, function (err) {
+              if (err) {
+                  console.log(err);
+              } else {
+                  console.log('PDF Generated Successfully');
+                  tagCoreWindow.close();
+                  tagCoreWindow = null;
+              }
+          });
+      }).catch(error => {
+          console.log(error)
+      });
+    }
+  });
+})
+
 /**
  * SIGNAL - UNIT BUILDER NEW SHEET
  */
