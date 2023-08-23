@@ -39,6 +39,7 @@ function createWindow () {
       preload: path.join(__dirname, '../js/preload.js'),
       contextIsolation: true,
       nodeIntegration: true,
+      devTools : false
     }
   })
   //,
@@ -195,7 +196,8 @@ ipcMain.handle('rb-open-rules', (event, htmlFile)=>{
     height: 1280,
     webPreferences: {
       contextIsolation: true,
-      nodeIntegration: true
+      nodeIntegration: true,
+      devTools : false
     }
   });
   
@@ -225,7 +227,8 @@ ipcMain.handle('rb-save-rules-core', (event, pdfSavedialog, pdfOptionSave)=>{
     height: 825,
     webPreferences: {
       contextIsolation: true,
-      nodeIntegration: true
+      nodeIntegration: true,
+      devTools : false
     }
   });
   rulesWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_core.html');
@@ -274,7 +277,8 @@ ipcMain.handle('rb-save-rules-quick', (event, pdfSavedialog, pdfOptionSave)=>{
     height: 825,
     webPreferences: {
       contextIsolation: true,
-      nodeIntegration: true
+      nodeIntegration: true,
+      devTools : false
     }
   });
   rulesWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_quickplay.html');
@@ -320,7 +324,8 @@ ipcMain.handle('rb-save-scenario', (event, pdfSavedialog, pdfOptionSave)=>{
     height: 825,
     webPreferences: {
       contextIsolation: true,
-      nodeIntegration: true
+      nodeIntegration: true,
+      devTools : false
     }
   });
   rulesWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_scenarios_basic.html');
@@ -367,7 +372,8 @@ ipcMain.handle('tag-save-core', (event, pdfSavedialog, pdfOptionSave)=>{
     webPreferences: {
       contextIsolation: true,
       preload: path.join(__dirname, '../js/preload.js'),
-      nodeIntegration: true
+      nodeIntegration: true,
+      devTools : false
     }
   });
   tagCoreWindow.loadFile('src/html/layout/pages/tagLibrary/tagLibPrintCore.html');
@@ -414,7 +420,8 @@ ipcMain.handle('rb-save-unit-cost', (event, pdfSavedialog, pdfOptionSave)=>{
     webPreferences: {
       contextIsolation: true,
       preload: path.join(__dirname, '../js/preload.js'),
-      nodeIntegration: true
+      nodeIntegration: true,
+      devTools : false
     }
   });
   tagCoreWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_core_unit_cost.html');
@@ -455,7 +462,8 @@ function createWindowUnitSheet(){
     webPreferences: {
       contextIsolation: true,
       preload: path.join(__dirname, '../js/preload.js'),
-      nodeIntegration: true
+      nodeIntegration: true,
+      devTools : false
     }
   });
 
@@ -532,7 +540,8 @@ function createWindowUnitCard(){
     webPreferences: {
       contextIsolation: true,
       preload: path.join(__dirname, '../js/preload.js'),
-      nodeIntegration: true
+      nodeIntegration: true,
+      devTools : false
     }
   });
   
@@ -645,7 +654,8 @@ ipcMain.handle('uic-save-sheet', (event, pdfSavedialog, pdfOptionSave, unitCardD
     webPreferences: {
       contextIsolation: true,
       preload: path.join(__dirname, '../js/preload.js'),
-      nodeIntegration: true
+      nodeIntegration: true,
+      devTools : false
     }
   });
 
@@ -777,7 +787,8 @@ function createWindowArmyBuildTagList() {
     webPreferences: {
       contextIsolation: true,
       preload: path.join(__dirname, '../js/preload.js'),
-      nodeIntegration: true
+      nodeIntegration: true,
+      devTools : false
     }
   });
 
