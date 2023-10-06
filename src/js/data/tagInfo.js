@@ -1154,17 +1154,20 @@ const tagInfo = {
         },
         {
             title : 'Self-Healing',
-            desc : "<p><i>Movement Phase</i></p><p>Instead of Moving this turn, Unit may <b>gain back</b> 1/3 round-down Armor points. All Attacks by this Unit this turn are at <b>-4 ATK</b>.</p>",
+            desc : "<p><i>Movement Phase</i></p><p>Player declares using this tag, Unit's <i>Move Value</i> is <b>reduced by half</b> including <i>Ini Value</i>. Unit <b>may not make any attacks this turn</b>.</p><p>Unit may <b>regain</b> a number of <i>Armor</i> equal to <i>Size</i> value.</p>",
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+                
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
+                let armorCost = uc_calc_Armor(armorVal, sizeVal);
 
-                return Math.max(0, (armorVal * 2) - sizeVal);
+                return (armorCost * 0.2) + (moveVal / 2) + sizeVal;
             },
             reqs : (rowId) => {
                 return '';
             },
-            eqt:'(<b>Armor</b> * 2) - <b>Size</b>'
+            eqt:'(+20% of <b>Armor COST</b>) + (<b>Move</b> / 2) + <b>Size</b>'
         },
         {
             title : 'Sharpshooter',
