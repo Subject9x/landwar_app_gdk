@@ -309,6 +309,9 @@ const tagInfo = {
                 if(ub_tags_checkByName('Limited Fire Arc')){
                     warn = warn + '<p>Unit <i>already has</i> [Limited Fire Arc] tag.</p>';
                 }
+                if(ub_tags_checkByName('Narrow Fire Arc')){
+                    warn = warn + '<p>Unit <i>already has</i> [Limited Fire Arc] tag.</p>';
+                }
                 return warn;
             },
             eqt:'(<b>Damage-Range<b> <i>COST</i> * 0.5)'
@@ -770,7 +773,7 @@ const tagInfo = {
         },
         {
             title : 'Hole where your house was',
-            desc : 'Once per game, once per this tag, Player may remove 1 piece of Terrain during the Combat Phase.',
+            desc : '<p><i>Combat Phase</i>.<p>Once per game, once per this tag, <i>Player</i> may <b>remove 1</b> piece of Terrain when this unit is activated. For the next <b>2</b> <i>Turns</i>, Unit may only move as normal, and suffers <b>+2</b> Stress.</p>',
             func : (rowId) => {
                 return 0;  /*TODO */
             },
@@ -947,7 +950,7 @@ const tagInfo = {
             func : (rowId) => {
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
 
-                return 0 - (uc_calc_Damage_Range(rangeDamageVal) * 0.6);
+                return 0 - (uc_calc_Damage_Range(rangeDamageVal) * 0.45);
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -970,9 +973,12 @@ const tagInfo = {
                 if(ub_tags_checkByName('Hull Gun - II')){
                     warn = warn + '<p>Unit <i>already has</i> [Hull Gun - II] tag.</p>';
                 }
+                if(ub_tags_checkByName('Narrow Fire Arc')){
+                    warn = warn + '<p>Unit <i>already has</i> [Narrow Fire Arc] tag.</p>';
+                }
                 return warn;
             },
-            eqt:'<i>Subtract</i> (<b>Damage-Range<b> <i>COST</i> * 60%)'
+            eqt:'<i>Subtract</i> (<b>Damage-Range<b> <i>COST</i> * 45%)'
         },
         {
             title : 'Limited Use Weapon',
@@ -984,6 +990,37 @@ const tagInfo = {
                 return '';
             },
             eqt:'TODO'
+        },
+        {
+            title : 'Minimum Range',
+            desc : '<p><i>Combat Phase</i></p><p>When making a <b>Range Attack</b>, the Target <b>cannot be</b> 8" <i>or closer<i/> to the Unit.</p>',
+            func : (rowId) => {
+                let sizeVal = parseInt(document.getElementById(rowId + '_size').value)
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value)
+                let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
+                let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
+                let evadeVal  = parseInt(document.getElementById(rowId + '_evade').value);
+
+                if(sizeVal == 0){
+                    sizeVal  = 1;
+                }
+
+                return 0 - (uc_calc_Range(moveVal, rangeVal, rangeDamageVal) * 0.4) + (uc_calc_Evade(sizeVal, evadeVal, moveVal) * 0.1);
+            },
+            reqs : (rowId) => {
+                let warn = '';
+                let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
+                let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
+
+                if(rangeVal <= 0){
+                    warn = warn + '<p>Unit must have a <b>[Range]</b> greater than 0.</p>';
+                }
+                if(rangeDamageVal <= 0){
+                    warn = warn + '<p>Unit must have a <b>[Range Damage]</b> greater than 0.</p>';
+                }
+                return warn;
+            },
+            eqt:'<i>Subtract</i> (<b>Damage-Range<b> <i>COST</i> * 60%)'
         },
         {
             title : 'Mobile HQ',
@@ -1020,6 +1057,36 @@ const tagInfo = {
                 return warn;
             },
             eqt:'Use the <b>highest</b> single Unit Cost from all shapes.'
+        },
+        {
+            title : 'Narrow Fire Arc',
+            desc : '<p><i>Combat Phase</i></p><p>Targets of this Unit`s <i>Ranged Attacks</i> must be 1/4 model width inside the <b>width</b> of this Unit`s model. <i>Minimum width of 1" for Unit width.</i>.</p>',
+            func : (rowId) => {
+                let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
+
+                return 0 - (uc_calc_Damage_Range(rangeDamageVal) * 0.6);
+            },
+            reqs : (rowId) => {
+                let warn = '';
+                let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
+                let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
+
+                if(rangeVal <= 0){
+                    warn = warn + '<p>Unit must have a <b>[Range]</b> greater than 0.</p>';
+                }
+                if(rangeDamageVal <= 0){
+                    warn = warn + '<p>Unit must have a <b>[Range Damage]</b> greater than 0.</p>';
+                }
+
+                if(ub_tags_checkByName('Broadside Fire Arc')){
+                    warn = warn + '<p>Unit <i>already has</i> [Broadside Fire Arc] tag.</p>';
+                }
+                if(ub_tags_checkByName('Limited Fire Arc')){
+                    warn = warn + '<p>Unit <i>already has</i> [Limited Fire Arc] tag.</p>';
+                }
+                return warn;
+            },
+            eqt:'<i>Subtract</i> (<b>Damage-Range<b> <i>COST</i> * 60%)'
         },
         {
             title : 'Overheat',
@@ -1198,6 +1265,26 @@ const tagInfo = {
             eqt:'(<b>Damage-Range</b> / 2) + (<b>Range</b> / 2) + (<b>Move</b> / 4) - <b>Size</b>'
         },
         {
+            title : 'Slow to stop',
+            desc : "<p><i>Movement Phase</i></p><p><b>If</b> Unit is declared <i>Stationary</i> and they moved the <i>previous Turn</i>, Unit <b>must</b> move a distance of <b>25% <i>Move</i></b>, minimum <b>2''</b>. <b>If</b> Unit enters melee range of an enemy, this <b>does not</b> count for <i>Danger Close</i> or any other melee, ramming effects.</p>",
+            func : (rowId) => {
+                let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+
+                return 0 - (uc_calc_Move(moveVal, sizeVal) * 0.15);
+            },
+            reqs : (rowId) => {
+                let warn = '';
+
+                if(ub_tags_checkByName('Stall Speed')){
+                    warn = warn + "<p>Unit <i>already has</i> [Stall Speed] tag.</p>";
+                }
+
+                return warn;
+            },
+            eqt:'<i>subtract</i>  15% of <b>Move COST</b>'
+        },
+        {
             title : 'Stable Fire Platform',
             desc : "<p><i>Combat Phase</i></p><p>Unit may <b>reroll</b> up to <b>2</b> ATK dice when <b>Stationary</b> during the <i>Movement Phase</i>. Cost less for slower units.</p>",
             func : (rowId) => {
@@ -1227,7 +1314,7 @@ const tagInfo = {
         },
         {
             title : 'Stall Speed',
-            desc : "<p><i>Movement Phase</i></p><p>Unit now has a Minimum Move distance of 1/3 normal move. It must always move AT LEAST this far in its Movement Phase. IF unit cannot complete this minimum move, it is destroyed in the Resolution Phase. This model cannot take [Stable Firing Platform] along with this.</p>",
+            desc : "<p><i>Movement Phase</i></p><p>Unit now has a Minimum Move distance of 1/3 normal move. It must always move AT LEAST this far in its Movement Phase. IF unit cannot complete this minimum move, it is destroyed in the Resolution Phase. This model cannot take <i>[Stable Firing Platform]</i> along with this.</p>",
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
 
