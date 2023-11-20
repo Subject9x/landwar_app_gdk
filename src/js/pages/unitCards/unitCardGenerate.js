@@ -6,9 +6,11 @@ let unitTableRowCount = 0;
 
 let row_tagArrays = {};
 let sheetData;
+let unitRowTemplate =  window.nodeFileSys.loadHTML('layout/pages/unitCardGen/unitInfoCardraw.html');
 
 function uic_window_setData(unitCardData){
     sheetData = unitCardData;
+   // unitRowTemplate = window.nodeFileSys.loadHTML('layout/pages/unitCardGen/unitInfoCardraw.html');
 }
 
 function uic_window_close(event){
@@ -20,7 +22,7 @@ function uic_window_close(event){
     UNIT ROW FUNCTIONS
 */
 function uic_row_add(){
-    let table = $("#unitTable")[0];
+    let table = document.querySelector("#unitTable");
     let newRow = table.insertRow();
 
     let rowTemplate = window.nodeFileSys.loadHTML('layout/pages/unitCardGen/unitRow.html');
@@ -33,12 +35,13 @@ function uic_row_add(){
 }
 
 function uic_card_row_add(objData, newRowId){
-    let cardTable = $('#cardTable')[0];
-
+    let cardTable = document.querySelector("#cardTable");
+    
     let cardDiv = document.createElement('div');
+
     cardDiv.style = "float: left;";
     cardDiv.setAttribute('id', 'unit'+ unitTableRowCount); //already incremented to right value by preceding uic_row_add() call.
-    cardDiv.innerHTML = window.nodeFileSys.loadHTML('layout/pages/unitCardGen/unitInfoCardraw.html');
+    cardDiv.innerHTML = unitRowTemplate;
 
     cardDiv.querySelector("#ucName").innerHTML = objData.unitName;
 
@@ -70,8 +73,8 @@ function uic_card_row_add(objData, newRowId){
             tagList.appendChild(tagItem);
         }
     }
-    cardTable.appendChild(cardDiv);
 
+    cardTable.appendChild(cardDiv);
 }
 
 

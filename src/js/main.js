@@ -39,7 +39,7 @@ function createWindow () {
       preload: path.join(__dirname, '../js/preload.js'),
       contextIsolation: true,
       nodeIntegration: true,
-      devTools : false
+      devTools : true
     }
   })
   //,
@@ -541,7 +541,7 @@ function createWindowUnitCard(){
       contextIsolation: true,
       preload: path.join(__dirname, '../js/preload.js'),
       nodeIntegration: true,
-      devTools : false
+      devTools : true
     }
   });
   

@@ -1,23 +1,30 @@
 <!--Page Template - unit info card preview-->
-<div class="uic-main-sm">
+<div  class="uic-main-sm" >
     <div class="uic-header-row-sm">
-        <div class="uic-name-sm" id="ucName"></div>
-        <div class="uic-points-sm" id="ucPoints"></div>
+        <div class="uic-info-panel-sm">
+           <div class="uic-name-sm" id="ucName"><label id="ucName" ></label></div>
+           <div class="uic-stat-row-sm">
+               <div class="uic-stat-row-label-sm"><label id="ucSize" ></label></div>
+               <div class="uic-stat-row-fill-sm"></div>
+               <div class="uic-stat-row-label-sm"><label id="ucMove" ></label></div>
+               <div class="uic-stat-row-fill-sm"></div>
+               <div class="uic-stat-row-label-sm"><label id="ucEvade" ></label></div>
+               <div class="uic-stat-row-fill-sm"></div>
+               <div class="uic-stat-row-label-sm"><label id="ucArmor" ></label></div>
+           </div>
+        </div>
+        <div class="uic-points-sm" ><label id="ucPoints" ></label></div>
     </div>
-    <div class="uic-stat-row-label-sm">
-        <div class="uic-stat-row-icon-sm"><label id="ucSize"></label></div>
-        <div class="uic-stat-row-icon-sm"><label id="ucMove"></label></div>
-        <div class="uic-stat-row-icon-sm"><label id="ucEvade"></label></div>
-        <div class="uic-stat-row-icon-sm"><label id="ucArmor"></label></div>
-        <!-- <div class="uic-stat-row-icon-sm"><label id="ucStruc"></label></div> -->
-    </div>
-    <div class="uic-stat-attack-row-sm">
-        <div class="uic-stat-row-icon-sm"><label id="ucMel"></label></div>
-        <div class="uic-stat-row-icon-sm"><label id="ucRange"></label></div>
-        <div class="uic-stat-row-icon-sm"><label id="ucDist"></label></div>
-    </div>
-    <div class="uic-tag-row-sm"></div>
-    <div class="uic-tag-row-sm">
-        <ul id="ucKeywords" class="list--unstyled uic-keyword-word-sm txt--left"></ul>
+     <div class="uic-atk-tag-row-sm">
+        <div class="uic-attack-panel-sm">
+               <div class="uic-stat-row-label-sm"><label id="ucMel" ></label></div>
+               <div class="uic-atk-row-fill-sm-mid"></div>
+               <div class="uic-stat-row-label-sm"><label id="ucRange" ></label></div>
+               <div class="uic-stat-row-fill-sm"></div>
+               <div class="uic-stat-row-label-sm"><label id="ucDist" ></label></div>
+         </div>
+        <div class="uic-tag-panel-sm">
+           <ul id="ucKeywords" class="list--unstyled uic-keyword-word-sm txt--left"> </ul>
+        </div>
     </div>
 </div>
