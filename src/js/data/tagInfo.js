@@ -993,7 +993,7 @@ const tagInfo = {
         },
         {
             title : 'Minimum Range',
-            desc : '<p><i>Combat Phase</i></p><p>When making a <b>Range Attack</b>, the Target <b>cannot be</b> 8" <i>or closer<i/> to the Unit.</p>',
+            desc : '<p><i>Combat Phase</i></p><p>When making a <b>Range Attack</b>, the Target <b>cannot be</b> 6" <i>or closer<i/> to the Unit.</p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value)
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value)
@@ -1005,7 +1005,7 @@ const tagInfo = {
                     sizeVal  = 1;
                 }
 
-                return 0 - (uc_calc_Range(moveVal, rangeVal, rangeDamageVal) * 0.4) + (uc_calc_Evade(sizeVal, evadeVal, moveVal) * 0.1);
+                return (0 + (uc_calc_Evade(sizeVal, evadeVal, moveVal) * 0.1)) - ((uc_calc_Range(moveVal, rangeVal, rangeDamageVal) * 0.5) + sizeVal);
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -1020,7 +1020,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'<i>Subtract</i> (<b>Damage-Range<b> <i>COST</i> * 60%)'
+            eqt:'<i>Subtract</i> (<b>Range<b> <i>COST</i> * 50%) and <b>Size</b> <i>Value</i> from total.'
         },
         {
             title : 'Mobile HQ',
@@ -1220,6 +1220,26 @@ const tagInfo = {
             eqt:'<b>Size Cost</b> + (<b>Size Cost</b> / <b>Move Cost</b>) * 10.'
         },
         {
+            title : 'Rolling Stop',
+            desc : "<p><i>Movement Phase</i></p><p><b>If</b> Unit is declared <i>Stationary</i> and they moved the <i>previous Turn</i>, Unit <b>must</b> move a distance of <b>25% <i>Move</i></b>, minimum <b>2''</b>. <b>If</b> Unit enters melee range of an enemy, this <b>does not</b> count for <i>Danger Close</i> or any other melee, ramming effects.</p>",
+            func : (rowId) => {
+                let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+
+                return 0 - (uc_calc_Move(moveVal, sizeVal) * 0.15);
+            },
+            reqs : (rowId) => {
+                let warn = '';
+
+                if(ub_tags_checkByName('Stall Speed')){
+                    warn = warn + "<p>Unit <i>already has</i> [Stall Speed] tag.</p>";
+                }
+
+                return warn;
+            },
+            eqt:'<i>subtract</i>  15% of <b>Move COST</b>'
+        },
+        {
             title : 'Self-Healing',
             desc : "<p><i>Movement Phase</i></p><p>Player declares using this tag, Unit's <i>Move Value</i> is <b>reduced by half</b> including <i>Ini Value</i>. Unit <b>may not make any attacks this turn</b>.</p><p>Unit may <b>regain</b> a number of <i>Armor</i> equal to <i>Size</i> value.</p>",
             func : (rowId) => {
@@ -1263,26 +1283,6 @@ const tagInfo = {
                 return warn;
             },
             eqt:'(<b>Damage-Range</b> / 2) + (<b>Range</b> / 2) + (<b>Move</b> / 4) - <b>Size</b>'
-        },
-        {
-            title : 'Slow to stop',
-            desc : "<p><i>Movement Phase</i></p><p><b>If</b> Unit is declared <i>Stationary</i> and they moved the <i>previous Turn</i>, Unit <b>must</b> move a distance of <b>25% <i>Move</i></b>, minimum <b>2''</b>. <b>If</b> Unit enters melee range of an enemy, this <b>does not</b> count for <i>Danger Close</i> or any other melee, ramming effects.</p>",
-            func : (rowId) => {
-                let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
-                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
-
-                return 0 - (uc_calc_Move(moveVal, sizeVal) * 0.15);
-            },
-            reqs : (rowId) => {
-                let warn = '';
-
-                if(ub_tags_checkByName('Stall Speed')){
-                    warn = warn + "<p>Unit <i>already has</i> [Stall Speed] tag.</p>";
-                }
-
-                return warn;
-            },
-            eqt:'<i>subtract</i>  15% of <b>Move COST</b>'
         },
         {
             title : 'Stable Fire Platform',
