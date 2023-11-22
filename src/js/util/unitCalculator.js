@@ -1,7 +1,7 @@
 /*
     Core Unit cost calculator function.
 
-    Unit Builder Rules v0.037
+    Unit Builder Rules v0.5
 
         Core Stat Equations, TAGS are elsewhere.
 
@@ -40,7 +40,10 @@ function uc_calc_Range(moveVal, rangeVal, rangeDamageVal){
     if(rangeVal === 0){
         return 0;
     }
-    return Math.max(0, (moveVal / 2) + (rangeVal - 16) + rangeDamageVal);
+    if(rangeDamageVal === 0){
+        return 0;
+    }
+    return Math.max(0, (moveVal / 2) + ((rangeVal / 16) * rangeVal) + (rangeDamageVal / 2));
 }
 
 function uc_calc_Armor(armorVal, sizeVal){
