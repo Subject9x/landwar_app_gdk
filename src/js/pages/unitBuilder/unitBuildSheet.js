@@ -564,6 +564,11 @@ function ub_row_remove(){
     if(table.rows.length < 2){
         return;
     }
+
+    let rowId = $('#unitTable tr:last').id;
+
+    delete row_tagArrays[rowId];
+
     $('#unitTable tr:last').remove();
 }
 
