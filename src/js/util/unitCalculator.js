@@ -50,7 +50,18 @@ function uc_calc_Armor(armorVal, sizeVal){
     if(armorVal === 0){
         return 0;
     }
-    return Math.max(0, (armorVal * 4) - (sizeVal * 2));
+
+    let armorFrac = armorVal * 0.33;
+    armorVal = armorVal - armorFrac;
+    
+    armorFrac = armorFrac * 2;
+    armorVal = armorVal * 4;
+
+    armorVal = armorVal + armorFrac;
+
+
+
+    return Math.max(0, (armorVal - sizeVal));
 }
 
 //function uc_calc_Structure(structVal,sizeVal){

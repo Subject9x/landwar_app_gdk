@@ -22,10 +22,11 @@ function tl_buildTable(){
     let tagCount = 0;
     let celCount = 5;
     let tagRow;
-   
-    for(let tagId in tagInfo.data){
-        let tagItem = tagInfo.data[tagId];
-        
+
+    for(let tagId in sortedTags){
+        //let tagItem = tagInfo.data[tagId];
+        let tagItem = sortedTags[tagId];
+
         if(celCount == 5){
             tagRow = tagTable.insertRow();
             celCount = 0;
@@ -39,7 +40,7 @@ function tl_buildTable(){
         let button =  cel.children[0];
 
         button.innerHTML = tagItem.title
-        button.id = tagCount;
+        button.id = tagItem.id;
         button.addEventListener('click', ()=>{
             tl_showTag(cel.children[0].id);
         });
@@ -49,10 +50,14 @@ function tl_buildTable(){
     }
 }
 
-
 function tl_showTag(celData){
-    let tagId = parseInt(celData);
+    let tagId = celData;
     let tagViewModal = $('#tagLibModal')[0];
+
+    let tagData = sortedTags.find(isTag, tagId);
+    if(tagData == undefined){
+        return;
+    }
     
     tagViewModal.innerHTML = '';
     tagViewModal.removeAttribute('hidden');
@@ -65,8 +70,6 @@ function tl_showTag(celData){
         $('#tagView')[0].style.display = 'none';
         $('#tagLibModal')[0].innerHTML = '';
     });
-
-    let tagData = tagInfo.data[tagId];
 
     $('#tagWindow_descTitle')[0].innerHTML = '<h4>'+ tagData.title + '</h4>';
     $('#tagWindow_descText')[0].innerHTML = tagData.desc;

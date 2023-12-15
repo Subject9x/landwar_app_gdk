@@ -1,4 +1,5 @@
 
+let sortedTags = [];
 
 const tagInfo = {
     id : "core",
@@ -576,7 +577,7 @@ const tagInfo = {
             title : 'Fearless',
             desc : '<p><i>Resolution Phase</i>.</p><p>Unit <i>automatically</i> passes any <i>Stress Check</i>.</p>',
             func : (rowId) => {
-                return ub_row_change_points(rowId) * 0.25;
+                return ub_row_change_points(rowId) * 0.35;
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -600,7 +601,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'<i>Unit base total COST</i> * 25%'
+            eqt:'<i>Unit base total COST</i> * 35%'
         },
         {
             title : 'Flyer',
@@ -711,14 +712,14 @@ const tagInfo = {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
 
-                return uc_calc_Armor(armorVal, sizeVal) * 0.65 + moveVal;
+                return uc_calc_Armor(armorVal, sizeVal) * 0.8 + (moveVal * 1.25);
             },
             reqs : (rowId) => {
                 let warn = '';
                 let evadeVal = parseInt(document.getElementById(rowId + '_evade').value);
                 
-                if(evadeVal > 1){
-                    warn = warn + '<p>Unit <b>Evade<b> must be <i>less than</i> <b>2</b>.';
+                if(evadeVal > 0){
+                    warn = warn + '<p>Unit <b>Evade<b> must be <b>0</b>.';
                 }
                 
                 if(ub_tags_checkByName('Weak Rear Armor')){
@@ -726,7 +727,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'<b>Armor Cost</b> * 0.65 + <b>Move</b>'
+            eqt:'(<b>Armor Cost</b> * 0.8) + (<b>Move</b> * 1.25)'
         },
         {
             title : 'Hero',
@@ -1479,6 +1480,30 @@ const tagInfo = {
                 return warn;
             },
             eqt:'<i>subtract</i> ((<b>Armor COST</b> * 0.4) + (<b>Move</b> / 2))'
+        },
+        {
+            title : 'Coordinated Fire',
+            desc : '<p><i>Combat Phase</i></p><p><b>Once per Turn</b>, when this Unit makes a <i>Ranged Attack</i>; <b>before</b> rolling, Player may declare <b>up to 2</b> other Friendly Units within <b>8”</b>. All selected units <b>must</b> fire at the same target, but each unit gains <b>+1 ATK</b>.</p><p>Ranged Attacks are resolved as normal but affected Units <b>cannot</b> use any <i>TAG</i> that would split their <i>Ranged Damage</i>,but <b>+1 Stress</b> for missed attacks. Secondary Units can only be selected <b>once</b> per Turn for this <i>TAG</i>.</p>',
+            func : (rowId) => {
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+                let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
+                let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
+                let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
+
+                return (moveVal / 1.5) + (armorVal / 3) + (rangeVal / 2) + (rangeDamageVal / 2);
+            },
+            reqs : (rowId) => {
+                let warn = '';
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+                if(moveVal <= 0){
+                    warn = warn + '<p>Unit must have a <b>[Move]</b> greater than 0.</p>';
+                }
+                if(ub_tags_checkByName('Stable Fire Platform')){
+                    warn = warn + '<p>Unit <i>already has</i> [Stable Fire Platform] tag.</p>';
+                }
+                return warn;
+            },
+            eqt:'(<b>Move</b> / 1.5) + (<b>Armor</b> / 3) + (<b>Range</b> / 1.5) + (<b>DMG-R</b> / 2)'
         }
    ]
 };
@@ -1490,5 +1515,26 @@ function tagInfo_hasTag(tagName){
             tagId = tag;
         }
     }
+
     return tagId;
+}
+
+
+function isTag(element, index, array){
+    if(element.id == this){
+        return element;
+    }
+    return undefined;
+}
+
+//run me once at app boot.
+function initializeSortedTagList(){
+    let tagCount = 0;
+    for(let tagId in tagInfo.data){
+        let tag = tagInfo.data[tagId];
+        tagCount++;
+        tag.id = tagCount;
+        sortedTags.push(tag);
+    }
+    sortedTags = sortedTags.sort((a, b) => a.title.localeCompare(b.title));
 }

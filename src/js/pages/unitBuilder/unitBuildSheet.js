@@ -165,9 +165,11 @@ function ub_tags_checkByName(tagName){
         return false;
     }
     for(let tagIdx in tagWindow_tagArray){
+        
         let tagId = tagWindow_tagArray[parseInt(tagIdx)];
+
         if(!Number.isNaN(tagId)){
-            if(tagInfo.data[tagId].title === tagName){
+            if(sortedTags.find(isTag, tagId).title === tagName){
                 return true;
             }
         }
@@ -209,10 +211,10 @@ function ub_tagModal_validate_tags(){
 
     let tagRuleList = $("#tagRulesListData>tbody")[0];
     let tagRow = tagRuleList.childNodes[1];
-    for(let tag in tagInfo.data){
+    for(let tag in sortedTags){
 
         let tagId = tagRow.children[1].children[1].value;
-        let tagObj = tagInfo.data[tagId];
+        let tagObj = sortedTags.find(isTag, tagId);
         let isCheck = tagRow.children[1].children[0].checked;
 
         let cost = tagObj.func(rowId);
@@ -231,9 +233,9 @@ function ub_tagModal_validate_tags(){
         if(warn && !isCheck){
             tagRow.classList.remove('tagRuleLineActive');
             tagRow.children[2].children[0].innerHTML = "";
-            if(ub_tags_checkExisting(tagId, tagWindow_tagArray)){
+            if(ub_tags_checkExisting(tagObj.id, tagWindow_tagArray)){
                 tagTotalCost = tagTotalCost - cost;
-                tagWindow_tagArray = ub_tagModal_update_tagArray(tagId, isCheck);
+                tagWindow_tagArray = ub_tagModal_update_tagArray(tagObj.id, isCheck);
             }
         }
         
@@ -254,16 +256,16 @@ function ub_tagModal_tag_check_req(rowId){
     let tagCacheArray = row_tagArrays[rowId];
     //
     let tagId = 0;
-    for(let tag in tagInfo.data){
+    for(let tag in sortedTags){
 
         tagId = tag;
-        let tagObj = tagInfo.data[tagId];
+        let tagObj = sortedTags.find(isTag, tagId);
 
-        let isCheck = ub_tags_checkExisting(tagId, tagCacheArray);
+        let isCheck = ub_tags_checkExisting(tagObj.id, tagCacheArray);
 
         if(isCheck){
 
-            let warn = tagInfo.data[tagId].reqs(rowId);
+            let warn = tagObj.reqs(rowId);
             if(warn){
                 isCheck = false;
             }
@@ -272,10 +274,10 @@ function ub_tagModal_tag_check_req(rowId){
             cost = parseFloat(cost.toFixed(1));
 
             if(!isCheck){
-                if(ub_tags_checkExisting(tagId, tagCacheArray)){
+                if(ub_tags_checkExisting(tagObj.id, tagCacheArray)){
                     tagTotalCost = tagTotalCost - cost; 
                 }
-                tagCacheArray = ub_tagModal_update_tagArray(tagId, isCheck);
+                tagCacheArray = ub_tagModal_update_tagArray(tagObj.id, isCheck);
             }
         }
     }
@@ -292,15 +294,17 @@ function ub_tagModal_tagRow_clickInfo(tagRow){
     let tagEqt = $('#tagWindow_equation')[0];
     let tagId = parseInt(tagRow.children[1].children[1].value);
 
+    let tagObj = sortedTags.find(isTag, tagId);
+
     tagText.innerHTML = '';
-    tagText.innerHTML = tagInfo.data[tagId].desc;
+    tagText.innerHTML = tagObj.desc;
 
     tagTitle.innerHTML = '';
-    tagTitle.innerHTML = '<h3>' + tagInfo.data[tagId].title + '</h3>';
+    tagTitle.innerHTML = '<h3>' + tagObj.title + '</h3>';
 
     tagEqt.innerHTML = '';
 
-    if( tagInfo.data[tagId].reqs !== undefined){
+    if( tagObj.reqs !== undefined){
         let warn = ub_tagModal_tagRow_reqs(tagRow);
         if(warn){
             tagRow.children[1].children[0].checked = false;
@@ -311,8 +315,8 @@ function ub_tagModal_tagRow_clickInfo(tagRow){
         }
     }
 
-    if(tagInfo.data[tagId].eqt !== undefined){
-        tagEqt.innerHTML = tagInfo.data[tagId].eqt;
+    if(tagObj.eqt !== undefined){
+        tagEqt.innerHTML = tagObj.eqt;
     }
 }
 
@@ -322,7 +326,10 @@ function ub_tagModal_tagRow_clickInfo(tagRow){
 */
 function ub_tagModal_tagRow_reqs(tagRow){
     let tagId = parseInt(tagRow.children[1].children[1].value);
-    let warn = tagInfo.data[tagId].reqs($('#tagWindow_rowId')[0].value);
+
+    let tagObj = sortedTags.find(isTag, tagId);
+
+    let warn = tagObj.reqs($('#tagWindow_rowId')[0].value);
     if(warn === ''){
         $('#tagWindow_descWarn')[0].innerHTML = "";
         tagRow.classList.remove('tagRuleLineDisable');
@@ -339,7 +346,9 @@ function ub_tagModal_tagRow_reqs(tagRow){
 function ub_tagModal_tagRow_check(tagRow){
     let isCheck = tagRow.children[1].children[0].checked;
     let tagId = tagRow.children[1].children[1].value;
-    let tagObj = tagInfo.data[tagId];
+    
+    let tagObj = sortedTags.find(isTag, tagId);
+
     let rowId = $('#tagWindow_rowId')[0].value;
     let tagCost = parseFloat($('#tagWindow_tagCost')[0].innerHTML);
     let unitTotal = parseFloat($('#tagWindow_baseCost')[0].innerHTML);
@@ -361,7 +370,7 @@ function ub_tagModal_tagRow_check(tagRow){
         tagCost = tagCost - cost; 
     }
 
-    tagWindow_tagArray = ub_tagModal_update_tagArray(tagId, isCheck);
+    tagWindow_tagArray = ub_tagModal_update_tagArray(tagObj.id, isCheck);
 
     $("#tagWindow_tagCost")[0].innerHTML = Math.round((tagCost + Number.EPSILON) * 100) / 100;
     $("#tagWindow_totalCost")[0].innerHTML = Math.round(((unitTotal + tagCost) + Number.EPSILON) * 100) / 100;
@@ -422,12 +431,13 @@ function ub_row_tags_onclick(event){
     //build the complete TAG list in the tag table.
     let tagRuleList = $("#tagRulesListData>tbody")[0];
     let tagCost = 0;
-    for(let tag in tagInfo.data){
+    for(let tag in sortedTags){
         let tagRuleRow = tagRuleList.insertRow();
+        let tagObj = sortedTags[tag];
 
         tagRuleRow.innerHTML = window.nodeFileSys.loadHTML('layout/pages/unitBuilder/tagRulesRow.html');
         //set title and rollover for tag label.
-        tagRuleRow.children[0].innerHTML = tagInfo.data[tag].title;
+        tagRuleRow.children[0].innerHTML = tagObj.title;
         tagRuleRow.children[0].classList.add('tagRuleLineHover');
         tagRuleRow.children[0].addEventListener('click', ()=>{ub_tagModal_tagRow_clickInfo(tagRuleRow);});
 
@@ -435,12 +445,12 @@ function ub_row_tags_onclick(event){
         tagRuleRow.children[1].children[0].addEventListener('click', ()=>{ub_tagModal_tagRow_check(tagRuleRow);});
 
         //set tag id related to tagInfo[x]
-        tagRuleRow.children[1].children[1].value = "" + tag + "";
+        tagRuleRow.children[1].children[1].value = tagObj.id;
 
-        let isCheck = ub_tags_checkExisting(tag, tagWindow_tagArray);
+        let isCheck = ub_tags_checkExisting(tagObj.id, tagWindow_tagArray);
         
         if(isCheck){
-            let cost = tagInfo.data[tag].func(rowId);
+            let cost = tagObj.func(rowId);
             cost = parseFloat(cost.toFixed(1));
 
             tagRuleRow.classList.add('tagRuleLineActive');
@@ -622,7 +632,7 @@ function ub_row_change_points(rowId){
     let armorVal = parseInt($("#"+ rowId + '_armor')[0].value);
     //let structVal = parseInt($("#"+ rowId + '_structure')[0].value);
 
-    let sizeCost = uc_calc_Size(sizeVal);
+    let sizeCost = sizeVal;//uc_calc_Size(sizeVal);
     let moveCost = uc_calc_Move(moveVal, sizeVal);
     let evadeCost = uc_calc_Evade(sizeVal, evadeVal, moveVal);
     let dmgMeleeCost = uc_calc_Damage_Melee(dmgMeleeVal, moveVal);
@@ -669,7 +679,7 @@ function ub_row_tag_validate(rowId){
     let removeThese = [];
     for(let idx in rowArray){
         let tagId = rowArray[idx];
-        let tagData = tagInfo.data[tagId];
+        let tagData = sortedTags.find(isTag, tagId);
         let tagCost = tagData.func(rowId);
         if(tagData.reqs(rowId) !== ''){
             undoCost += (tagCost * -1);

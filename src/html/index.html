@@ -36,6 +36,9 @@
 
     document.addEventListener('DOMContentLoaded',function(){
 
+        //boot list of tag Ids, before alpha sorting
+        initializeSortedTagList();
+
         //Build index.html with everything needed.
         navBar.innerHTML = window.nodeFileSys.loadHTML('layout/navbar_default.html');
     

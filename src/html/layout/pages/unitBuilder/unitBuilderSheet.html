@@ -91,6 +91,9 @@
 <script type="text/javascript" src="../../../../js/pages/unitBuilder/unitBuildSheet.js"></script>
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded',function(){
+
+        initializeSortedTagList();
+
         $('#btnAddUnit')[0].addEventListener('click', ()=>{
             ub_row_add();
         });
