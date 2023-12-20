@@ -69,7 +69,7 @@ function uic_card_row_add(objData, newRowId){
     if(tagArr.length > 0){
         for(let tagNum in tagArr){
             tagItem = document.createElement('li');
-            tagItem.innerHTML = tagInfo.data[tagArr[tagNum]].title;
+            tagItem.innerHTML = sortedTags.find(isTag, [tagArr[tagNum]]).title;
             tagList.appendChild(tagItem);
         }
     }

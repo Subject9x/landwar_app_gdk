@@ -68,6 +68,10 @@ function ub_control_delete_select(){
         if(index != 0){
             let elm = $("#"+tr.id + "_select")[0];
             if(elm.checked === true){
+
+                row_tagArrays[tr.id].length = 0;
+                delete row_tagArrays[""+tr.id];
+
                 $("#"+tr.id)[0].remove();
             }
         }
@@ -112,7 +116,6 @@ function ub_control_new_print(event){
         return;
     }
 
-    
     $("#unitTable>tbody>tr").each((index, tr)=>{
         if(index != 0){
             let elm = $("#"+tr.id + "_select")[0];
@@ -426,7 +429,10 @@ function ub_row_tags_onclick(event){
 
     //zero-out the tag window array
     tagWindow_tagArray.length = 0;
-    ub_util_array_deepcpy(row_tagArrays[rowId], tagWindow_tagArray);
+    let rowTagArr = row_tagArrays[rowId];
+    if(rowTagArr.length > 0){
+        ub_util_array_deepcpy(row_tagArrays[rowId], tagWindow_tagArray);
+    }
 
     //build the complete TAG list in the tag table.
     let tagRuleList = $("#tagRulesListData>tbody")[0];
@@ -575,9 +581,10 @@ function ub_row_remove(){
         return;
     }
 
-    let rowId = $('#unitTable tr:last').id;
+    let rowId = $('#unitTable tr:last')[0].id;
 
-    delete row_tagArrays[rowId];
+    row_tagArrays[rowId].length = 0;
+    delete row_tagArrays[""+rowId];
 
     $('#unitTable tr:last').remove();
 }
@@ -588,32 +595,34 @@ function ub_row_copy(){
     if(table.rows.length < 2){
         return;
     }
-   let lastRowId= $('#unitTable tr:last')[0].id;
+    let lastRowId= $('#unitTable tr:last')[0].id;
 
-   let newRowId = ub_row_add();
-   $("#" + newRowId + '_name').val( $("#" + lastRowId + '_name')[0].value );
-   $("#" + newRowId + '_size').val( parseInt($("#" + lastRowId + '_size')[0].value) );
-   $("#" + newRowId + '_move').val( parseInt($("#" + lastRowId + '_move')[0].value) );
-   $("#" + newRowId + '_evade').val( parseInt($("#" + lastRowId + '_evade')[0].value) );
-   $("#" + newRowId + '_DMGM').val( parseInt($("#" + lastRowId + '_DMGM')[0].value) );
-   $("#" + newRowId + '_DMGR').val( parseInt($("#" + lastRowId + '_DMGR')[0].value) );
-   $("#" + newRowId + '_range').val( parseInt($("#" + lastRowId + '_range')[0].value) ) ;
-   $("#" + newRowId + '_armor').val( parseInt($("#" + lastRowId + '_armor')[0].value) ) ;
-   //$("#" + newRowId + '_structure').val(  parseInt($("#" + lastRowId + '_structure')[0].value) ) ;
-   $("#" + newRowId + '_points').val( parseInt($("#" + lastRowId + '_points')[0].value) ) ;
+    let newRowId = ub_row_add();
+    $("#" + newRowId + '_name').val( $("#" + lastRowId + '_name')[0].value );
+    $("#" + newRowId + '_size').val( parseInt($("#" + lastRowId + '_size')[0].value) );
+    $("#" + newRowId + '_move').val( parseInt($("#" + lastRowId + '_move')[0].value) );
+    $("#" + newRowId + '_evade').val( parseInt($("#" + lastRowId + '_evade')[0].value) );
+    $("#" + newRowId + '_DMGM').val( parseInt($("#" + lastRowId + '_DMGM')[0].value) );
+    $("#" + newRowId + '_DMGR').val( parseInt($("#" + lastRowId + '_DMGR')[0].value) );
+    $("#" + newRowId + '_range').val( parseInt($("#" + lastRowId + '_range')[0].value) ) ;
+    $("#" + newRowId + '_armor').val( parseInt($("#" + lastRowId + '_armor')[0].value) ) ;
 
-   let newArray = [];
-   ub_util_array_deepcpy(row_tagArrays[lastRowId], newArray);
+    $("#" + newRowId + '_points').val( parseInt($("#" + lastRowId + '_points')[0].value) ) ;
 
-   row_tagArrays[newRowId] = newArray;
-   ub_row_change_points(newRowId);
-   ub_row_tag_validate(newRowId);
+    //let newArray = [];
+    //row_tagArrays[newRowId] = newArray;
+    let prevRowArr = row_tagArrays[lastRowId];
+    if(prevRowArr.length > 0){
+        ub_util_array_deepcpy(row_tagArrays[lastRowId], row_tagArrays[newRowId]);
+    }
 
-   let tagTotal = parseFloat($("#" + newRowId + '_tagTotal')[0].innerHTML)
-   let unitTotal = parseFloat($("#" + newRowId + '_points')[0].innerHTML);
-   let finalTotal = Math.round(((unitTotal + tagTotal) + Number.EPSILON) * 100) / 100;
-   $("#" + newRowId + "_total")[0].innerHTML =  finalTotal;
+    ub_row_change_points(newRowId);
+    ub_row_tag_validate(newRowId);
 
+    let tagTotal = parseFloat($("#" + newRowId + '_tagTotal')[0].innerHTML)
+    let unitTotal = parseFloat($("#" + newRowId + '_points')[0].innerHTML);
+    let finalTotal = Math.round(((unitTotal + tagTotal) + Number.EPSILON) * 100) / 100;
+    $("#" + newRowId + "_total")[0].innerHTML =  finalTotal;
 }
 
 
@@ -668,27 +677,34 @@ function ub_row_change_points(rowId){
 */
 function ub_row_tag_validate(rowId){
     let rowArray = row_tagArrays[rowId];
-    if(rowArray.length === 0){
+    if(rowArray.length == 0){
         return;
     }
+    let cachetagWindowArr = tagWindow_tagArray; //cache pointer
 
     let newTagCost = 0;
     let undoCost = 0;
     let tagTotal = 0;
 
     let removeThese = [];
+    tagWindow_tagArray = rowArray;// ub_tags_checkByName() needs this for univerals calls
     for(let idx in rowArray){
         let tagId = rowArray[idx];
         let tagData = sortedTags.find(isTag, tagId);
         let tagCost = tagData.func(rowId);
-        if(tagData.reqs(rowId) !== ''){
+        let req = tagData.reqs(rowId);
+        if(req !== ''){
             undoCost += (tagCost * -1);
             removeThese.push(idx);
+            //debug
+            // console.log(document.getElementById(rowId + "_name").val + " |reqs=");
+            // console.log(tagId + ":req[" + req + "]");
         }
         else{
             newTagCost =  newTagCost + tagCost;
         }
     }
+
     tagTotal = newTagCost + undoCost;
     tagTotal = Math.round((tagTotal + Number.EPSILON) * 100) / 100;
     
@@ -699,6 +715,8 @@ function ub_row_tag_validate(rowId){
         let index = removeThese[idx];
         rowArray = rowArray.splice(index, 1);
     }
+    //uh preserve previous value?
+    tagWindow_tagArray = cachetagWindowArr;
 }
 /*
     TD <input> onChange binding.

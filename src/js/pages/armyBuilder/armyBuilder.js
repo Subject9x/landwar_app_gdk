@@ -455,7 +455,7 @@ function ab_tagRow_show(rowId, event){
         for(let tagNum in unitTags){
             if(unitTags[tagNum] != ""){
                 tagItem = document.createElement('li');
-                tagItem.innerHTML = tagInfo.data[unitTags[tagNum]].title;
+                tagItem.innerHTML = sortedTags.find(isTag, [unitTags[tagNum]]).title;
                 tagList.appendChild(tagItem);
             }
         }
