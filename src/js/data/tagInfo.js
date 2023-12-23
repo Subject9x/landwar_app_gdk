@@ -840,8 +840,8 @@ const tagInfo = {
             eqt:'<b>Damage-Range<b> COST * 0.4'
         },
         {
-            title : 'Indirect Fire',
-            desc : '<p><i>Combat Phase</i>.</p><p>Unit may select targets <b>outside</b> <i>Line of Sight</i> when making <i>Ranged Attacks</i>. Target <b>must</b> be within <b>50% of</b> <i>Effective Range</i> of the attacking Unit. Unit suffers <b>+1<b/> additional <i>Stress for missed ranged attacks under the <i>Focus Fire</i> rule.</p>',
+            title : 'Indirect Fire - I',
+            desc : '<p><i>Combat Phase</i>.</p><p>Unit may select targets <b>outside</b> <i>Line of Sight</i> when making <i>Ranged Attacks</i>. Target <b>must</b> be within <b>50% of</b> <i>Effective Range</i> of the attacking Unit.</p>',
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
@@ -849,7 +849,7 @@ const tagInfo = {
                 
                 let rangeCost = uc_calc_Range(moveVal, rangeVal, rangeDamageVal);
 
-                return (rangeDamageVal / 2) + (rangeCost * 0.33);
+                return (rangeDamageVal / 2) + (rangeCost * 0.45);
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -862,12 +862,16 @@ const tagInfo = {
                     warn = warn + '<p>Unit must have a <b>[Range Damage]</b> greater than 0.</p>';
                 }
 
+                if(ub_tags_checkByName('Field Artillery')){
+                    warn = warn + '<p>Unit must have the <i>[Field Artillery]</i> tag.</p>';
+                }
+
                 // if(!ub_tags_checkByName('Minimum Range')){
                 //     warn = warn + '<p>Unit must have the <i>[Minimum Range]</i> tag.</p>';
                 // }
                 return warn;
             },
-            eqt:'(<b>Damage-Range</b> / 3) + (30% of <b>Range Cost</b>)'
+            eqt:'(<b>Damage-Range</b> / 3) + (45% of <b>Range Cost</b>)'
         },
         {
             title : 'Inertial Dampers',
@@ -1017,7 +1021,7 @@ const tagInfo = {
         },
         {
             title : 'Minimum Range',
-            desc : "<p><i>Combat Phase</i></p><p>When making a <b>Range Attack</b>, the Target <b>cannot be</b> 25% <b>or less</b> of Unit's <i>Effective Range</i> close, <b>minimum 8\"</b>.</p><p><b>[Indirect Fire]</b> if the Unit has this tag, Unit may select targets within <b>100%</b> of <i>Effective Range</i>.</p>",
+            desc : "<p><i>Combat Phase</i></p><p>When making a <b>Range Attack</b>, the Target <b>cannot be</b> 25% <b>or less</b> of Unit's <i>Effective Range</i> close, <b>minimum 8\"</b>.</p><p><b>[Field Artillery]</b> if the Unit has this tag, Unit may select targets within <b>100%</b> of <i>Effective Range</i>.</p>",
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value)
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value)
@@ -1529,6 +1533,38 @@ const tagInfo = {
                 return warn;
             },
             eqt:'<i>none</i> '
+        },
+        {
+            title : 'Field Artillery',
+            desc : '<p><i>Combat Phase</i>.</p><p>Unit may select targets <b>outside</b> <i>Line of Sight</i> when making <i>Ranged Attacks</i>. Target <b>cannot</b> be at <i>Long Range</i> of the attacking Unit.</p>',
+            func : (rowId) => {
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+                let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
+                let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
+                
+                let rangeCost = uc_calc_Range(moveVal, rangeVal, rangeDamageVal);
+
+                return (rangeDamageVal / 3) + (rangeCost * 0.65);
+            },
+            reqs : (rowId) => {
+                let warn = '';
+                let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
+                if(rangeVal <= 0){
+                    warn = warn + '<p>Unit must have a <b>[Range]</b> greater than 0.</p>';
+                }
+                let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
+                if(rangeDamageVal <= 0){
+                    warn = warn + '<p>Unit must have a <b>[Range Damage]</b> greater than 0.</p>';
+                }
+                if(ub_tags_checkByName('Indirect Fire - I')){
+                    warn = warn + '<p>Unit must have the <i>[Indirect Fire - I]</i> tag.</p>';
+                }
+                // if(!ub_tags_checkByName('Minimum Range')){
+                //     warn = warn + '<p>Unit must have the <i>[Minimum Range]</i> tag.</p>';
+                // }
+                return warn;
+            },
+            eqt:'(<b>Damage-Range</b> / 3) + (65% of <b>Range Cost</b>)'
         }
    ]
 };

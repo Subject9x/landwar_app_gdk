@@ -1,7 +1,7 @@
 /*
     Core Unit cost calculator function.
 
-    Unit Builder Rules v0.5
+    Unit Builder Rules v0.6
 
         Core Stat Equations, TAGS are elsewhere.
 
