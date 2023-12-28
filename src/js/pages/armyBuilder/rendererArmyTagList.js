@@ -9,7 +9,7 @@ api.handle( 'ab-taglist-load-response', (event, data,) => function(event, data){
 
     for(let tagIndex in printTagList){
         let tagId = printTagList[tagIndex];
-        let tagItem = tagInfo.data[tagId];
+        let tagItem = sortedTags.find(isTag, tagId);
     
         
         let newRowDiv = tagListRow.appendChild(document.createElement('div'));
