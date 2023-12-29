@@ -1124,12 +1124,12 @@ const tagInfo = {
         },
         {
             title : 'Overheat',
-            desc : '<p><i>Combat Phase</i></p><p>During <i>Combat Phase</i>, Unit may suffer <b>3 Stress Points</b> to re-roll <i>up to 3</i> <b>ATK</b> dice. <b>Cannot</b> be combine with <b>[Fearless]</b>.</p>',
+            desc : '<p><i>Combat Phase</i></p><p>During <i>Combat Phase</i>, Unit may suffer <b>3 Stress Points</b> to re-roll <i>up to 3</i> <b>ATK</b> dice. <b>Cannot</b> be combined with <b>[Fearless]</b>.</p>',
             func : (rowId) => {
                 let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
-
-                return (meleeDamageVal * 2) + (rangeDamageVal * 2);
+                let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
+                return (((meleeDamageVal + rangeDamageVal) / 2) * 3) + (rangeVal / 3);
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -1138,7 +1138,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'(<b>Damage-Melee</b> * 2) + (<b>Damage-Range</b> * 2)'
+            eqt:'(<i>average</i> <b>Damage-Melee</b> and <b>Damage-Range</b>) * 3 + (<b>Range</b> / 3)'
         },
         {
             title : 'Pack / Deploy',
