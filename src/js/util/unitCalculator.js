@@ -61,7 +61,7 @@ function uc_calc_Armor(armorVal, sizeVal){
 
 
 
-    return Math.max(0, (armorVal - sizeVal));
+    return Math.max(0, (armorVal - sizeVal / 2));
 }
 
 //function uc_calc_Structure(structVal,sizeVal){
