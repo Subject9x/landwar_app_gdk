@@ -56,12 +56,16 @@
                                 Each <i>side</i> rolls <b>3D6</b> and <b>totals</b> their results.
                                 <ul>
                                     <li>Each player rolls their <b>own</b> <i>Initiative</i> regardless of any alliances.</li>
-                                    <li>Side with <b>higher</b> total has the <i>Advantage</i>.</li>
+                                    <li>Side with <b>higher</b> total has the <i>Advantage</i>.
+                                        <p>See <i>Refernce</i> for multiplayer initiative.</p>
+                                    </li>
                                     <li><b>IF</b> the totals are tied, player that lost <b>last turn</b> gets <i>Advantage</i>.</li>
                                 </ul>
                             </li>
+                            <li><b>-1 INI</b> for each Unit that is <i>Panicked</i></li>
+                            <!-- <li>The player with <b>less</b> Units gains <b>+1 INI</b> for each unit more that the opponent has on the table.</li> -->
                             <li>Resolve any <i>Initiative</i> effects or events now.</li>
-                            <li>Winner of Initiative may choose to move first or later.</li>
+                            <li>Player with <i>Advantage</i> choose moving first or second.</li>
                         </ol>
                     </div>
                 </div>
@@ -90,7 +94,7 @@
                                             <ul>
                                                 <li>Unit <b>may</b> <i>Rotate</i> to a new Facing.</li>
                                                 <li>Unit <i>gains</i> <b>+1 ATK</b> for this <i>Combat Phase</i>.</li>
-                                                <li>Unit suffers <b>-1 DEF</b> on this <i>Combat Phase.</i></li>
+                                                <!-- 2/5/2024 - this should have been removed earlier. <li>Unit suffers <b>-1 DEF</b> on this <i>Combat Phase.</i></li> -->
                                                 <li>Unit <b>cannot</b> use its <i>Evade</i> bonus for this <i>Combat Phase</i>.</li>
                                             </ul>
                                         </li>
@@ -105,8 +109,7 @@
                                         <li>Use <i>TAG</i> rules, if Players are using TAG special rules for units, and a Unit has a TAG that allows specific movement, it can be used here.</li>
                                     </ul>
                                 </li>
-                                <li>Complete selected Movement and check for these rules:
-                                </li>
+                                <li>Complete selected Movement and check for these rules: </li>
                             </ol>
                         </div>
                     </div>
@@ -124,7 +127,7 @@
                         </div>
                         <div class="grd-row-col-3-6 rulePanel">
                             <label class="ruleTitle"><u>High Speed</u></label>
-                            <p>Whenever a Unit completes a <b>Normal</b> move where the <b>total</b> distance moved was <b>greater than</b> 11", the Unit has completed a <i>High Speed Move</i>.</p>
+                            <p>Whenever a Unit completes a <b>Normal</b> move where the <b>total</b> distance moved was <b>greater than</b> 12", the Unit has completed a <i>High Speed Move</i>.</p>
                             <p>Units during their <b>this</b> <i>Combat Phase</i> are given the following effects.</p>
                             <ul>
                                 <li><b>-2ATK</b> (Minimum of 1).</li>
@@ -139,11 +142,26 @@
                                 <li>When a Unit <b>starts</b> their Move 1" <b>or less</b> from at least 1 Enemy Unit.
                                     <ul>
                                         <li>Unit may only move <b>half</b> their current <i>Move</i> value.</li>
-                                        <li><b>One</b> enemy unit may make a free <i>Overwatch</i> attack against the Unit but can only be a <i>Melee</i> Attack.</li>
+                                        <!--<li><b>One</b> enemy unit may make a free <i>Overwatch</i> attack against the Unit but can only be a <i>Melee</i> Attack.</li>-->
+                                        <li>Unit suffers <b>+1 Stress</b>.</li>
                                     </ul>
                                 </li>
                             </ul>
                         </div>
+                        <div class="grd-row-col-3-6 rulePanel">
+                            <label class="ruleTitle"><u>Flanking Attempt</u></label>
+                            <p>Unit potentially suffers <b>+1 Stress</b> when trying to flank an enemy unit.</p>
+                            <ul>
+                                <li><i>Panicked</i> Units <b>cannot</b> attempt <i>Flanking</i>.</li>
+                                <li>When a Unit moves from the <i>Forward</i> arc to the <i>Rear</i> arc of an Enemy Unit.
+                                    <ul>
+                                        <li><b>IF</b> the Unit was in Target's <i>Line of Sight</i> at the <b>start and end</b> of the move.</li>
+                                        <li><b>IF</b> the Unit <b>ends</b> their Move 8" <b>or less</b> from the Target Unit.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- 
                         <div class="grd-row-col-3-6 rulePanel">
                             <label class="ruleTitle"><u>Overwatch</u></label>
                             <p>Enemy Unit can make an <b>immediate</b> <i>Ranged Attack</i> at <b>-2 ATK</b> and <b>Damage 50% rounded down</b> with the following conditions:</p>
@@ -153,7 +171,7 @@
                                 <li><b>IF</b> the Unit was in Target's <i>Line of Sight</i> at the <b>start and end</b> of the move.</li>
                                 <li><b>IF</b> the Unit <b>ends</b> their Move 8" <b>or less</b> from the Target Unit.</li>
                             </ul>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -252,7 +270,6 @@
                                                 </ul>
                                             </li>
                                             <li><i>Stationary</i>: <i>Attacker</i> gains <b>+1 ATK</b> dice.</li>
-                                            <li>Check <i>Short Range</i>.</li>
                                             <li><b>Apply</b> any <b>TAG rules</b> to the <b>ATK</b> amount.</li>
                                         </ul>
                                     </div>
@@ -311,7 +328,9 @@
                                         <label class="ruleTitle"><u>Defender in Cover</u></label>
                                         <p><i>If</i> <i>Defender</i> is <b>behind or in</b> a board object <i>agreed</i> as 'Cover':</b></p>
                                         <ul class="sectionOrderList">
-                                            <li><i>Defender</i> may <b>re-roll</b> half their <b>total</b> dice, but <i>object is removed from board</i></li>
+                                            <li><i>Defender</i> gains <b>+1</b> <i>Evasion</i> <b>for each Attack against the target.</b> These cannot be used later.</li>
+                                            <li>OR</li>
+                                            <li><i>Defender</i> may <b>re-roll</b> half their <b>total</b> dice, but <b>Cover object is removed from board!</b></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -378,7 +397,7 @@
                                                     <li><i>Stationary</i>: <i>Defender</i> cannot use <i>Evasion</i> stat.</li>
                                                 </ul>
                                             </li>
-                                            <li>Check <i>High Speed Move</i>.</li>
+                                            <li>Check <i>High Speed Move</i>, <i>Cover</i>, <i>Evasion</i>.</li>
                                             <li><b>Apply</b> any <b>TAG rules</b> to the <b>DEF</b> amount.</li>
                                         </ul>
                                     </div>
@@ -623,6 +642,20 @@
                                         <li><i>[Armor]</i> value <i>(OPTIONAL)</i>, allows <i>Terrain Object</i> to be attacked like a normal Unit and <b>destroyed</b>.</li>
                                     </ul>
                                 </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="grd-row">
+                        <div class="grd-row-col-6 rulePanel">
+                            <label class="ruleTitle"><u>Overwatch</u></label>
+                            <p><b>Advanced Rules!</b><i>(OPTIONAL)</i></p>
+                            <p>This is very optional rule, it provides an 'interrupt' that players can cause during the movement phase.</p>
+                            <p>Enemy Unit can make an <b>immediate</b> <i>Ranged Attack</i> at <b>-2 ATK</b> and <b>Damage 50% rounded down</b> with the following conditions:</p>
+                            <ul>
+                                <li><i>Panicked</i> Units <b>cannot</b> make Overwatch attacks.</li>
+                                <li>When a Unit moves from the <i>Forward</i> arc to the <i>Rear</i> arc of an Enemy Unit.</li>
+                                <li><b>IF</b> the Unit was in Target's <i>Line of Sight</i> at the <b>start and end</b> of the move.</li>
+                                <li><b>IF</b> the Unit <b>ends</b> their Move 8" <b>or less</b> from the Target Unit.</li>
                             </ul>
                         </div>
                     </div>

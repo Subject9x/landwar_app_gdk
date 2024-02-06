@@ -165,7 +165,7 @@ const tagInfo = {
         },
         {
             title : 'Blast',
-            desc : '<p><i>Combat Phase</i></p><p>When this Unit makes a <i>Ranged Attack</i>, select a Target unit as normal, and make the attack roll. <b>If</b> the attack hits, Target takes <b>25% round down</b> damage. The remaining damage is split <b>equally</b> across units within a 6" radius of the <b>Target regardless of LoS.</b></p><p>Attacker picks which units are hit first. <i>Stationary</i> units must also be picked first and are hit automatically <b>even if they are friendly</b>, other units may avoid damage on 1 D6 roll of 5+. </p>',
+            desc : '<p><i>Combat Phase</i></p><p>When this Unit makes a <i>Ranged Attack</i>, Player may declare this attack is using <i>[Blast]</i>. Select a Target unit as normal, and make the attack roll. <b>If</b> the attack hits, Target takes <b>25% round down</b> damage and <b>+1 Stress</b>. The remaining damage is split <b>equally</b> across <b>all</b> units within a 6" radius of the <b>Target regardless of LoS.</b></p><p>Attacker picks which units are hit first. <i>Stationary</i> units must also be picked first and are hit automatically <b>even if they are friendly</b>, other units may avoid damage on 1 D6 roll of 5+.</p>',
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
@@ -190,7 +190,7 @@ const tagInfo = {
         },
         {
             title : 'Blink',
-            desc : '<p><i>Movement Phase</i></p><p>This Unit may <b>ignore</b> <i>Overwatch</i> and <i>Terrain</i> during the <i>Movement Phase</i>.</p>',
+            desc : '<p><i>Movement Phase</i></p><p>This Unit may <b>ignore</b> <i>Terrain</i> movement restrictions, and may move through enemy units during the <i>Movement Phase</i>.</p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 if(sizeVal == 0){
@@ -227,7 +227,7 @@ const tagInfo = {
         },
         {
             title : 'Bomber-Area',
-            desc : '<p><i>Combat Phase</i></p><p>When Unit makes their <i>Ranged Attack</i> this Turn, Unit may make an <b>additional</b> <i>Ranged Attack</i> on <b>each</b> enemy Unit that it moves <b>over</b> during the <i>Movement Phase</i> within <b>2"</b> of the Unit.<ul><li><i>Damage</i> of each attack is 33% of total <b>Damage</b> value <b>rounded up</b>.</li><li> This attack <b>cannot be</b> <i>Indirect Fire</i></li><li>Treat like an <i>Overwatch</i> attack on the target.</li></ul></p>',
+            desc : '<p><i>Combat Phase</i></p><p>When Unit makes their <i>Ranged Attack</i> this Turn, Unit may make an <b>additional</b> <i>Ranged Attack</i> on <b>each</b> enemy Unit that it moves <b>over</b> during the <i>Movement Phase</i> within <b>2"</b> of the Unit.<ul><li><i>Damage</i> of each attack is 33% of total <b>Damage</b> value <b>rounded up</b>.</li><li> This attack <b>cannot be</b> <i>Indirect Fire</i></li><li>These attacks are at <b>-2 ATK</b>.</li></ul></p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
@@ -260,7 +260,7 @@ const tagInfo = {
         },
         {
             title : 'Bomber-Dive',
-            desc : '<p><i>Combat Phase</i></p><p>Instead of making a normal <i>Ranged Attack</i>, This Unit may make 1 <i>Ranged Attack</i> on a single target Unit that is within <b>2"</b> of this Units <i>end position</i> after its move. Any unit that is a target of a [Bomber-Dive] attack may make a <b>free</b> <i>Overwatch</i> Attack on this unit at <b>-1 ATK</b> (instead of -2). <b>Damage</b> is 50% of total <b>Damage-Ranged</b> (round up, minimum of 1).</p>',
+            desc : '<p><i>Combat Phase</i></p><p>Instead of making a normal <i>Ranged Attack</i>, This Unit may make 1 <i>Ranged Attack</i> on a single target Unit that is within <b>2"</b> of this Units <i>end position</i> after its move. Any unit that is a target of a [Bomber-Dive] attack may make a <b>free</b> Attack on this unit at <b>-1 ATK</b>. <b>Damage</b> is 50% of total <b>Damage-Ranged</b> (round up, minimum of 1).</p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
@@ -343,7 +343,7 @@ const tagInfo = {
         },
         {
             title : 'Charger',
-            desc : '<p><i>Movement Phase</i></p><p>Unit does not provoke <i>Overwatch</i> attacks.</p>',
+            desc : '<p><i>Movement Phase</i></p><p>Unit does not suffer <i>Stress</i> penalty for <i>Flanking</i>.</p>',
             func : (rowId, ) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 if(sizeVal == 0){
@@ -429,8 +429,7 @@ const tagInfo = {
                     moveVal = 6;
                 }
 
-                val = moveVal + armorVal + sizeVal; //+ structVal;
-                val = val / 4;
+                val = (moveVal + armorVal + sizeVal) / 4; //+ structVal;
 
                 return val * 3;
             },
@@ -469,8 +468,7 @@ const tagInfo = {
                     moveVal = 6;
                 }
 
-                val = moveVal + armorVal + sizeVal;//+ structVal;
-                val = val / 4;
+                val = (moveVal + armorVal + sizeVal) / 4;//+ structVal;
 
                 return val * 5;
             },
@@ -630,7 +628,7 @@ const tagInfo = {
         },
         {
             title : 'Fortification',
-            desc : '<p><i>Movement Phase</i>.</p><p>Unit may make unlimited <i>Overwatch</i> attacks.</p>',
+            desc : '<p><i>Movement Phase</i>.</p><p>Unit ignores <i>Flanking</i> penalty when <i>Stationary</i>. Enemy Units <i>Flanking</i> suffer additional <b>+1  Stress</i>.</p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
@@ -751,7 +749,7 @@ const tagInfo = {
         },
         {
             title : 'High Altitude Flyer',
-            desc : '<b>Ignore</b> [Indirect Fire] attacks. <b>Ignore</b> <i>Overwatch</i> for <b>any</b> Unit missing the [High Altitude Flyer] or [Flyer] tag. Ground Units can only use <i>Long Range</i> attacks on this model. Any [High Altitude Flyer] or [Flyer] can use <i>Effective Range</i> and <i>Melee</i> attacks where applicable.',
+            desc : '<b>Ignore</b> [Indirect Fire] attacks. <b>Ignore</b> <i>Flanking</i> for <b>any</b> Unit missing the [High Altitude Flyer] or [Flyer] tag. Ground Units can only use <i>Long Range</i> attacks on this model. Any [High Altitude Flyer] or [Flyer] can use <i>Effective Range</i> and <i>Melee</i> attacks where applicable.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
@@ -944,7 +942,7 @@ const tagInfo = {
         },
         {
             title : 'Jump Jets',
-            desc : '<p><i>Movement Phase</i></p><p>Unit may traverse terrain vertically, uses [Flyer] rules when moving and for <i>Overwatch</i> attacks, but is otherwise treated as a ground unit.</p>',
+            desc : '<p><i>Movement Phase</i></p><p>Unit may traverse terrain vertically, uses [Flyer] rules when moving, but is otherwise treated as a ground unit. Unit still subject to <i>Flanking</i> check.</p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 if(sizeVal == 0){
@@ -1010,7 +1008,7 @@ const tagInfo = {
         },
         {
             title : 'Limited Use Weapon',
-            desc : '<p><i>Combat Phase</i></p><p>Unit has an extra weapon and use at specificed ATK and specified range in place of its normal attack or an overwatch attack. Discard after use.</p>',
+            desc : '<p><i>Combat Phase</i></p><p>Unit has an extra weapon and use at specificed ATK and specified range in place of its normal attack. Discard after use.</p>',
             func : (rowId) => {
                 return 0; /*TODO*/
             },
