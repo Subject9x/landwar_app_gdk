@@ -367,7 +367,7 @@ const tagInfo = {
         },
         {
             title : 'Cloaking Systems',
-            desc : '<p><i>Initiative Phase</i> <b>before</b> the roll off!</p><p>Unit <i>Ini value</i> unmodified but <b>Move</b> will be halved <b>before</b> other modifiers.</p><p>Unit <b>+3 DEF</b> and <b>cannot</b> attack this turn.</p>',
+            desc : '<p><i>Initiative Phase</i> <b>before</b> the roll off!</p><p>Unit <b>cannot</b> make any <i>Attacks</i> this turn. Unit does not <b>cause</b> <i>Flanking</i> stress. Unit may only move <b>half</b> their current <i>Move</i> value.</p><p>Unit gains <b>+2 DEF</b>, or <b>+3 DEF</b> IF <i>Stationary</i>.</p>',
             func : (rowId, ) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 if(sizeVal == 0){
@@ -379,7 +379,7 @@ const tagInfo = {
                 }
                 let moveCost = uc_calc_Move(moveVal, sizeVal);
                 
-                return (moveCost * 0.35) + (sizeVal / 2);
+                return (moveCost * 0.45) + (sizeVal / 2);
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -388,7 +388,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'(<b>Move COST</b> 35%) + (<b>Size</b> / 2)'
+            eqt:'(<b>Move COST</b> 45%) + (<b>Size</b> / 2)'
         },
         {
             title : 'Counter-Battery',
