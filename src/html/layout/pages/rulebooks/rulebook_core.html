@@ -42,7 +42,7 @@
                     <div class="grd-row txt--center">
                         <div class="grd-row-col-6">
                             <h3><u>Initiative Phase</u></h3>
-                            <p>Players determine who will activate their first units during the following phases.</p>
+                            <p>Players determine who will activate their units during the turn's phases.</p>
                         </div>
                     </div>
                     <div class="grd-row">
@@ -57,7 +57,7 @@
                                 <ul>
                                     <li>Each player rolls their <b>own</b> <i>Initiative</i> regardless of any alliances.</li>
                                     <li>Side with <b>higher</b> total has the <i>Advantage</i>.
-                                        <p>See <i>Refernce</i> for multiplayer initiative.</p>
+                                        <p>See <i>Reference</i> for multiplayer initiative.</p>
                                     </li>
                                     <li><b>IF</b> the totals are tied, player that lost <b>last turn</b> gets <i>Advantage</i>.</li>
                                 </ul>
@@ -65,7 +65,7 @@
                             <li><b>-1 INI</b> for each Unit that is <i>Panicked</i></li>
                             <!-- <li>The player with <b>less</b> Units gains <b>+1 INI</b> for each unit more that the opponent has on the table.</li> -->
                             <li>Resolve any <i>Initiative</i> effects or events now.</li>
-                            <li>Player with <i>Advantage</i> choose moving first or second.</li>
+                            <li>Player with <i>Advantage</i> <b>chooses</b> <i>Moving</i> first or last.</li>
                         </ol>
                     </div>
                 </div>
@@ -81,7 +81,6 @@
                     <div class="grd-row">
                         <div class="grd-row-col-6 txt--center">
                             <h3><u>Movement Phase</u></h3>
-                            <p>Units resolve their movement in the following sequence.</p>
                         </div>
                     </div>
                     <div class="grd-row">
@@ -185,9 +184,7 @@
                     <div class="grd-row">
                         <div class="grd-row-col-6 txt--center">
                             <h3><u>Combat Phase</u></h3>
-                            <p>Player with <i>Advantage</i> resolves <b>all</b> their attacks first.</p>
-                            <p><i>Attacks</i> are split into 2 categories - <b>Range</b> and <b>Melee</b>.</p>
-                            <p><i>Damage</i> from all Attacks are <b>not</b> applied until the <i>Resolution Phase</i>!</li>
+                            <p>Player with <i>Advantage</i> resolves <b>all</b> their attacks first. <i>Attacks</i> are split into 2 categories - <b>Range</b> and <b>Melee</b>. <i>Damage</i> from all Attacks are <b>not</b> applied until the <i>Resolution Phase</i>!</p>
                         </div>
                     </div>
                     <!--ATTACK TYPES ============================ -->
@@ -329,8 +326,7 @@
                                         <p><i>If</i> <i>Defender</i> is <b>behind or in</b> a board object <i>agreed</i> as 'Cover':</b></p>
                                         <ul class="sectionOrderList">
                                             <li><i>Defender</i> gains <b>+1</b> <i>Evasion</i> <b>for each Attack against the target.</b> These cannot be used later.</li>
-                                            <li>OR</li>
-                                            <li><i>Defender</i> may <b>re-roll</b> half their <b>total</b> dice, but <b>Cover object is removed from board!</b></li>
+                                            <li><b>OR</b> <i>Defender</i> may <b>re-roll</b> half their <b>total</b> dice, but <b>Cover object is removed from board!</b></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -348,7 +344,7 @@
                                 <div class="grd-row">
                                     <div class="grd-row-col-6 rulePanel">
                                         <label class="ruleTitle"><u>High Speed Move</u></label>
-                                        <p><i>If</i> <i>Attacker</i> moved <b>12" or more</b> during this Turn's <i>Movement Phase</i>:</p>
+                                        <p><i>If</i> <i>Attacker</i> moved <b>14" or more</b> during this Turn's <i>Movement Phase</i>:</p>
                                         <ul class="sectionOrderList">
                                             <li><i>Defender</i> may <b>re-roll</b> up to <b>2 DEF</b> dice.</li>
                                         </ul>
@@ -461,15 +457,17 @@
                     <div class="grd-row">
                         <div class="grd-row-col-6">
                             <div class="grd">
-                                <div class="grd-row rulePanel">
-                                    <label class="ruleTitle"><u>Target Destroyed</u></label>
-                                    <p><i>When</i> the <i>Defenders</i> <i>Armor</i> stat is <b>reduced to 0</b>:</p>
-                                    <ul class="sectionOrderList">
-                                        <li>The <i>unit</i> is now considered <b>Destroyed</b>.</li>
-                                        <li><b>Do Not</b> remove the unit <b>until</b> the <i>Resolution Phase</i> of <b>this</b> <i>Turn</i>.</li>
-                                        <li>The Destroyed unit <b>may still make</b> their final attacks during this <i>Combat Phase</i>.</li>
-                                        <li>Each <i>remaining</i> friendly Unit <i>in LoS and 6"</i> suffers <b>+1 Stress</b> point.</li>
-                                    </ul>
+                                <div class="grd-row">
+                                    <div class="grd-row-col-6 rulePanel">
+                                        <label class="ruleTitle"><u>Target Destroyed</u></label>
+                                        <p><i>When</i> the <i>Defenders</i> <i>Armor</i> stat is <b>reduced to 0</b>:</p>
+                                        <ul class="sectionOrderList">
+                                            <li>The <i>unit</i> is now considered <b>Destroyed</b>.</li>
+                                            <li><b>Do Not</b> remove the unit <b>until</b> the <i>Resolution Phase</i> of <b>this</b> <i>Turn</i>.</li>
+                                            <li>The Destroyed unit <b>may still make</b> their final attacks during this <i>Combat Phase</i>.</li>
+                                            <li>Each <i>remaining</i> friendly Unit <i>in LoS and 6"</i> suffers <b>+1 Stress</b> point.</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -477,16 +475,16 @@
                     <div class="grd-row">
                         <div class="grd-row-col-6">
                             <div class="grd">
-                                <div class="grd-row rulePanel">
-                                    <label class="ruleTitle"><u>Crew Shaken</u></label>
-                                    <p>If a Unit <b>ends</b> the Damage Phase with <b>any</b> <i>Armor</i> damage <b>at or below</b> 50%:</p>
-                                    <ul class="sectionOrderList">
-                                        <li><i>Unit</i> suffers <b>+1 Stress Points.</b></li>
-                                    </ul>
-                                    <p>If a Unit <b>ends</b> the Damage Phase with <b>any</b> <i>Armor</i> damage <b>at or below</b> 75%:</p>
-                                    <ul class="sectionOrderList">
-                                        <li><i>Unit</i> suffers <b>+1 Stress Points.</b></li>
-                                    </ul>
+                                <div class="grd-row">
+                                    <div class="grd-row-col-6 rulePanel">
+                                        <label class="ruleTitle"><u>Crew Shaken</u></label>
+                                        <p>When a Unit has taken <i>any</i> <b>Damage</b> this turn:</p>
+                                        <ul class="sectionOrderList">
+                                            <li><b>+1 Stress</b> if <i>Armor</i> less than or equal to 50% starting total.</li>
+                                            <li><b>+1 Stress</b> if <i>Armor</i> less than or equal to 25% starting total.</li>
+                                            <li>effects are <b>cumulative</b>.</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -494,12 +492,14 @@
                     <div class="grd-row">
                         <div class="grd-row-col-6">
                             <div class="grd">
-                                <div class="grd-row rulePanel">
-                                    <label class="ruleTitle"><u>Suppressing Fire</u></label>
-                                    <p><i>If</i> <i>Defender</i> was attacked <b>(regardless of hits)</b> by <b>3 or more</b> enemy Units this turn:</p>
-                                    <ul class="sectionOrderList">
-                                        <li><i>Defender</i> suffers <b>+2 Stress Point.</b></li>
-                                    </ul>
+                                <div class="grd-row">
+                                    <div class="grd-row-col-6 rulePanel">
+                                        <label class="ruleTitle"><u>Suppressing Fire</u></label>
+                                        <p><i>If</i> <i>Defender</i> was attacked <b>(regardless of hits)</b> by <b>3 or more</b> enemy Units this turn:</p>
+                                        <ul class="sectionOrderList">
+                                            <li><i>Defender</i> suffers <b>+2 Stress Point.</b></li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -599,6 +599,18 @@
                                 <li>Keyword: <b>must re-roll</b>; Player must re-roll all dice up to the number required.</li>
                                 <li>Keyword: <b>may</b> Player can <i>choose</i> a number of dice to re-roll up to the set total.</li>
                                 <li>Dice  Modifiers are applied <b>AFTER</b> re-rolls.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="grd-row">
+                        <div class="grd-row-col-6 rulePanel">
+                            <label class="ruleTitle"><u>Multiplayer Initiative.</u></label>
+                            <p>Players or Scenarios may have situations where multiple players are allied with each other.</p>
+                            <ul class="sectionOrderList">
+                                <li>As stated, each player rolls their <i>Initiative</i> roll <b>separately</b> including their army's modifiers.</li>
+                                <li>Initiative order is then based on the comparison of every player's roll, with lowest player going first.</li>
+                                <li>The player with <i>Advantage</i> cannot grant this status on any of their allies (unless otherwise specified).</li>
+                                <li>The player with <i>Advantage</i> <b>can</b> elect to move <b>first</b> but to do this, all players <b>reverse</b> the initiative order.</li>
                             </ul>
                         </div>
                     </div>

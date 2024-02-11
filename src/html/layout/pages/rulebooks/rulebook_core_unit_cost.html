@@ -51,7 +51,7 @@
                 </div>
                 <div class="grd-row">
                     <div class="grd-row-col-6">
-                        <p><b>Cost = </b> <i>Size Value</i> * 2.</p>
+                        <p><b>Cost = </b> <i>Size Value</i></p>
                         <p>Size influences several other core stats, such as Movement, and Armor.</p>
                         <p>Additionally, Size plays a key role in several TAG costs as well.</p>
                         <p>Smaller size units pay less for movement but more for armor.</p>
@@ -174,7 +174,9 @@
                 </div>
                 <div class="grd-row">
                     <div class="grd-row-col-6">
-                        <p><b>Cost = </b> (<i>Armor</i> * 4) - (<i>Size</i> * 2).</p>
+                        <p>Armor Sub cost 1: (33%  <i>Armor</i> ) * 2</p>
+                        <p>Armor Sub cost 2: (<i>Armor</i> - 33%) * 4</p>
+                        <p><b>Cost = </b> (<i> Sub1</i> + <i>Sub2</i>) - (<i>Size</i> * 2).</p>
                         <p>Armor is the primary health pool of every unit in the game.</p>
                         <p>Units suffer additional stress when Armor is below 50% of its starting value.</p>
                         <p>Larger size units pay less for armor.</p>
