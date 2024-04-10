@@ -113,11 +113,11 @@
 <script type="text/javascript" src="../../../../js/pages/armyBuilder/armyBuilder.js"></script>
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded',function(){
+        initializeSortedTagList();
         $('#abArmyListClose')[0].addEventListener('click', (event) =>{
             ab_sheet_close_window(event);
         });
         tagHover = document.getElementById('abTagView');
-        initializeSortedTagList();
     });
 </script>
 </html>

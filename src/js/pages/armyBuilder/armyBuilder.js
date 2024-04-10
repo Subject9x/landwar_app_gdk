@@ -34,7 +34,9 @@ function ab_tags_checkByName(tagName, tagArr){
     for(let tagIdx in tagArr){
         let tagId = tagArr[parseInt(tagIdx)];
         if(!Number.isNaN(tagId)){
-            if(tagInfo.data[tagId].title === tagName){
+
+            
+            if(sortedTags.find(isTag, tagId).title === tagName){
                 return true;
             }
         }
