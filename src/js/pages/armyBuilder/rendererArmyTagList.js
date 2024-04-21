@@ -10,7 +10,10 @@ api.handle( 'ab-taglist-load-response', (event, data,) => function(event, data){
     for(let tagIndex in printTagList){
         let tagId = printTagList[tagIndex];
         let tagItem = sortedTags.find(isTag, tagId);
-    
+
+        if(tagItem === null || tagItem === undefined || Object.keys(tagItem).length <= 0 || tagItem["disabled"] ){
+            continue;
+        }
         
         let newRowDiv = tagListRow.appendChild(document.createElement('div'));
         newRowDiv.id = "tagRow" + tagIndex;

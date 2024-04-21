@@ -40,13 +40,18 @@
 <script type="text/javascript" src="../../../../../node_modules/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript">
 window.addEventListener('DOMContentLoaded',function(){
+    initializeSortedTagList();
+
     let tagListRow = $("#tagListRows")[0];
     let tagLibHtml = tag_rules_pdf_getHtml();
 
     let rowCount = 0;
-    for(let tagId in tagInfo.data){
-        let tagItem = tagInfo.data[tagId];
-    
+    for(let tagId in sortedTags){
+        let tagItem = sortedTags[tagId];
+        
+        if(tagItem === null || tagItem === undefined || Object.keys(tagItem).length <= 0 || tagItem["disabled"] == true){
+            continue;
+        }
         
         let newRowDiv = tagListRow.appendChild(document.createElement('div'));
         newRowDiv.id = "tagRow" + tagId;

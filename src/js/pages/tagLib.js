@@ -24,8 +24,11 @@ function tl_buildTable(){
     let tagRow;
 
     for(let tagId in sortedTags){
-        //let tagItem = tagInfo.data[tagId];
         let tagItem = sortedTags[tagId];
+
+        if(tagItem === null || tagItem === undefined || Object.keys(tagItem).length <= 0 || tagItem["disabled"]){
+            continue;
+        }
 
         if(celCount == 5){
             tagRow = tagTable.insertRow();
@@ -55,7 +58,7 @@ function tl_showTag(celData){
     let tagViewModal = $('#tagLibModal')[0];
 
     let tagData = sortedTags.find(isTag, tagId);
-    if(tagData == undefined){
+    if(tagData === null || tagData === undefined || Object.keys(tagData).length <= 0 || tagData["disabled"]){
         return;
     }
     

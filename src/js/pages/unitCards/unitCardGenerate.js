@@ -68,9 +68,12 @@ function uic_card_row_add(objData, newRowId){
     let tagItem;
     if(tagArr.length > 0){
         for(let tagNum in tagArr){
-            tagItem = document.createElement('li');
-            tagItem.innerHTML = sortedTags.find(isTag, [tagArr[tagNum]]).title;
-            tagList.appendChild(tagItem);
+            let tagObj = sortedTags.find(isTag, [tagArr[tagNum]]);
+            if(tagObj !== null && tagObj !== undefined && Object.keys(tagObj).length > 0 && !tagObj["disabled"]){
+                tagItem = document.createElement('li');
+                tagItem.innerHTML = tagObj.title;
+                tagList.appendChild(tagItem);
+            }
         }
     }
 

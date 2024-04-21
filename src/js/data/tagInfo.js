@@ -52,21 +52,24 @@ const tagInfo = {
         
         {
             title : 'Alt-Mode',
-            desc : "<p>Pick a Unit with <i>[Multi-Mode]</i> at <b>equal or greater</b> points cost. <i>This</i> Unit becomes a <i>mode</i> for the <i>[Multi-Mode]</i> Unit to transform into during the game. <b>Only</b> the mode with the <b>highest</> <i>Total points cost</i> is paid for and becomes the <i>[Multi-Mode]</i> unit.</p>",
+            disabled : true,
+            // desc : "<p>Pick a Unit with <i>[Multi-Mode]</i> at <b>equal or greater</b> points cost. <i>This</i> Unit becomes a <i>mode</i> for the <i>[Multi-Mode]</i> Unit to transform into during the game. <b>Only</b> the mode with the <b>highest</> <i>Total points cost</i> is paid for and becomes the <i>[Multi-Mode]</i> unit.</p>",
+            desc : "",
             func : (rowId) => {
                 return 0;/*TODO*/
             },
             reqs : (rowId) => {
-                let warn = '';
+                // let warn = '';
 
-                let unitName = document.getElementById(rowId + '_name').value;
-                if( unitName === undefined || unitName.length == 0){
-                    warn = warn + '<p>Unit <b>must have</b> a <i>Unit Name</i> value for keyword matching.</p>';
-                }
+                // let unitName = document.getElementById(rowId + '_name').value;
+                // if( unitName === undefined || unitName.length == 0){
+                //     warn = warn + '<p>Unit <b>must have</b> a <i>Unit Name</i> value for keyword matching.</p>';
+                // }
 
-                return warn;
+                // return warn;
+                return '';
             },
-            eqt:'Use the <b>highest</b> single Unit Cost from all shapes.'
+            // eqt:'Use the <b>highest</b> single Unit Cost from all shapes.'
         },
         {
             title : 'Area Denial',
@@ -1068,21 +1071,23 @@ const tagInfo = {
         },
         {
             title : 'Multi-Mode',
-            desc : "<p>Pick a Unit with <i>[Alt-Mode]</i> at <b>equal or lesser</b> points cost. Instead of moving, you can replace this Unit with the selected <i>[Alt-Mode]</i> Unit. Replacement Unit <b>retains all damage and tokens</b>.</p><p><b>If</b> the damage exceeds that Unit's <b>Armor</b>, it is <b>destroyed</b>.</p>",
+            // desc : "<p>Pick a Unit with <i>[Alt-Mode]</i> at <b>equal or lesser</b> points cost. Instead of moving, you can replace this Unit with the selected <i>[Alt-Mode]</i> Unit. Replacement Unit <b>retains all damage and tokens</b>.</p><p><b>If</b> the damage exceeds that Unit's <b>Armor</b>, it is <b>destroyed</b>.</p>",
+            disabled : true,
             func : (rowId) => {
                 return 0;/*TODO*/
             },
             reqs : (rowId) => {
-                let warn = '';
+                // let warn = '';
 
-                let unitName = document.getElementById(rowId + '_name').value;
-                if( unitName === undefined || unitName.length == 0){
-                    warn = warn + '<p>Unit <b>must have</b> a <i>Unit Name</i> value for keyword matching.</p>';
-                }
+                // let unitName = document.getElementById(rowId + '_name').value;
+                // if( unitName === undefined || unitName.length == 0){
+                //     warn = warn + '<p>Unit <b>must have</b> a <i>Unit Name</i> value for keyword matching.</p>';
+                // }
 
-                return warn;
+                // return warn;
+                return '';
             },
-            eqt:'Use the <b>highest</b> single Unit Cost from all shapes.'
+            // eqt:'Use the <b>highest</b> single Unit Cost from all shapes.'
         },
         {
             title : 'Narrow Fire Arc',
@@ -1519,21 +1524,25 @@ const tagInfo = {
             },
             eqt:'(<b>Move</b> / 1.5) + (<b>Armor</b> / 3) + (<b>Range</b> / 1.5) + (<b>DMG-R</b> / 2)'
         },
+        // moved to advanced rules.
         {
             title : 'Composite Unit',
-            desc : '<p>Player may use <b>1</b> model to represent <i>multiple</i> Unit Info cards. Each Unit Card must have <b>matching</b> <i>Size, Move</i> stats. Attacking players may <b>choose</b> which Unit Info Card to target whenever the <i>model</i> is the target of an attack. Unit is destroyed when the <b>last</b> Unit Info Card is destroyed, but each specific Unit Card is disabled when its Armor reached 0.</p>',
+            disabled : true,
+            // desc : '<p>Player may use <b>1</b> model to represent <i>multiple</i> Unit Info cards. Each Unit Card must have <b>matching</b> <i>Size, Move</i> stats. Attacking players may <b>choose</b> which Unit Info Card to target whenever the <i>model</i> is the target of an attack. Unit is destroyed when the <b>last</b> Unit Info Card is destroyed, but each specific Unit Card is disabled when its Armor reached 0.</p>',
+            desc : '',
             func : (rowId) => {
                 return 0;
             },
             reqs : (rowId) => {
-                let warn = '';
-                let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+                // let warn = '';
+                // let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 
-                if(sizeVal <= 0){
-                    warn = warn + '<p>Unit must have a <b>[Size]</b> greater than 0.</p>';
-                }
+                // if(sizeVal <= 0){
+                //     warn = warn + '<p>Unit must have a <b>[Size]</b> greater than 0.</p>';
+                // }
 
-                return warn;
+                // return warn;
+                return '';
             },
             eqt:'<i>none</i> '
         },
@@ -1575,8 +1584,11 @@ const tagInfo = {
 function tagInfo_hasTag(tagName){
     let tagId = -1;
     for(let tag in tagInfo.data){
-        if(tagInfo.data[tag].title === tagName){
-            tagId = tag;
+        let tagObj = tagInfo.data[tag];
+        if(tagObj === null || tagObj === undefined || Object.keys(tagObj).length <= 0 || tagObj["disabled"]){
+            if(tagObj.title === tagName){
+                tagId = tag;
+            }
         }
     }
 
@@ -1596,6 +1608,11 @@ function initializeSortedTagList(){
     let tagCount = 0;
     for(let tagId in tagInfo.data){
         let tag = tagInfo.data[tagId];
+
+        // if(tag === null || tag === undefined || Object.keys(tag).length <= 0 || tag["disabled"]){
+        //     continue;
+        // }
+
         tagCount++;
         tag.id = tagCount;
         sortedTags.push(tag);

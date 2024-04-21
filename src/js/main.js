@@ -463,7 +463,7 @@ function createWindowUnitSheet(){
       contextIsolation: true,
       preload: path.join(__dirname, '../js/preload.js'),
       nodeIntegration: true,
-      devTools : false
+      devTools : true
     }
   });
 
@@ -655,7 +655,7 @@ ipcMain.handle('uic-save-sheet', (event, pdfSavedialog, pdfOptionSave, unitCardD
       contextIsolation: true,
       preload: path.join(__dirname, '../js/preload.js'),
       nodeIntegration: true,
-      devTools : false
+      devTools : true
     }
   });
 
@@ -788,7 +788,7 @@ function createWindowArmyBuildTagList() {
       contextIsolation: true,
       preload: path.join(__dirname, '../js/preload.js'),
       nodeIntegration: true,
-      devTools : false
+      devTools : true
     }
   });
 

@@ -172,8 +172,13 @@ function ub_tags_checkByName(tagName){
         let tagId = tagWindow_tagArray[parseInt(tagIdx)];
 
         if(!Number.isNaN(tagId)){
-            if(sortedTags.find(isTag, tagId).title === tagName){
-                return true;
+            let tag = sortedTags.find(isTag, tagId);
+            if(tag !== null && tag !== undefined && Object.keys(tag).length > 0){
+                if(!tag["disabled"]){
+                    if(tag.title === tagName){
+                        return true;
+                    }
+                }
             }
         }
     }
@@ -218,6 +223,12 @@ function ub_tagModal_validate_tags(){
 
         let tagId = tagRow.children[1].children[1].value;
         let tagObj = sortedTags.find(isTag, tagId);
+
+        if(tagObj === null || tagObj === undefined || Object.keys(tagObj).length <= 0 || tagObj["disabled"]){
+            tagRow = tagRow.nextSibling;
+            continue;
+        }
+
         let isCheck = tagRow.children[1].children[0].checked;
 
         let cost = tagObj.func(rowId);
@@ -263,6 +274,9 @@ function ub_tagModal_tag_check_req(rowId){
 
         tagId = tag;
         let tagObj = sortedTags.find(isTag, tagId);
+        if(tagObj === null || tagObj === undefined || Object.keys(tagObj).length <= 0 || tagObj["disabled"]){
+            continue;
+        }
 
         let isCheck = ub_tags_checkExisting(tagObj.id, tagCacheArray);
 
@@ -298,6 +312,9 @@ function ub_tagModal_tagRow_clickInfo(tagRow){
     let tagId = parseInt(tagRow.children[1].children[1].value);
 
     let tagObj = sortedTags.find(isTag, tagId);
+    if(tagObj === null || tagObj === undefined || Object.keys(tagObj).length <= 0 || tagObj["disabled"]){
+        return;
+    }
 
     tagText.innerHTML = '';
     tagText.innerHTML = tagObj.desc;
@@ -331,6 +348,9 @@ function ub_tagModal_tagRow_reqs(tagRow){
     let tagId = parseInt(tagRow.children[1].children[1].value);
 
     let tagObj = sortedTags.find(isTag, tagId);
+    if(tagObj === null || tagObj === undefined || Object.keys(tagObj).length <= 0 || tagObj["disabled"]){
+        return;
+    }
 
     let warn = tagObj.reqs($('#tagWindow_rowId')[0].value);
     if(warn === ''){
@@ -351,6 +371,9 @@ function ub_tagModal_tagRow_check(tagRow){
     let tagId = tagRow.children[1].children[1].value;
     
     let tagObj = sortedTags.find(isTag, tagId);
+    if(tagObj === null || tagObj === undefined || Object.keys(tagObj).length <= 0 || tagObj["disabled"]){
+        return;
+    }
 
     let rowId = $('#tagWindow_rowId')[0].value;
     let tagCost = parseFloat($('#tagWindow_tagCost')[0].innerHTML);
@@ -440,6 +463,10 @@ function ub_row_tags_onclick(event){
     for(let tag in sortedTags){
         let tagRuleRow = tagRuleList.insertRow();
         let tagObj = sortedTags[tag];
+        
+        if(tagObj === null || tagObj === undefined || Object.keys(tagObj).length <= 0 ){
+            continue;
+        }
 
         tagRuleRow.innerHTML = window.nodeFileSys.loadHTML('layout/pages/unitBuilder/tagRulesRow.html');
         //set title and rollover for tag label.
@@ -467,6 +494,10 @@ function ub_row_tags_onclick(event){
         else{
             tagRuleRow.children[2].children[0].innerHTML = "";
             tagRuleRow.children[1].children[0].checked = false;
+        }
+        
+        if(tagObj["disabled"]){
+            tagRuleRow.setAttribute('hidden', true);
         }
     }
 
@@ -691,6 +722,11 @@ function ub_row_tag_validate(rowId){
     for(let idx in rowArray){
         let tagId = rowArray[idx];
         let tagData = sortedTags.find(isTag, tagId);
+
+        if(tagData === null || tagData === undefined || Object.keys(tagData).length <= 0 || tagData["disabled"]){
+            continue;
+        }
+
         let tagCost = tagData.func(rowId);
         let req = tagData.reqs(rowId);
         if(req !== ''){

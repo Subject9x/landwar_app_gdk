@@ -35,9 +35,13 @@ function ab_tags_checkByName(tagName, tagArr){
         let tagId = tagArr[parseInt(tagIdx)];
         if(!Number.isNaN(tagId)){
 
-            
-            if(sortedTags.find(isTag, tagId).title === tagName){
-                return true;
+            let tag = sortedTags.find(isTag, tagId);
+            if(tag !== null && tag !== undefined && Object.keys(tag).length > 0){
+                if(!tag["disabled"]){
+                    if(tag.title === tagName){
+                        return true;
+                    }
+                }
             }
         }
     }
@@ -456,9 +460,12 @@ function ab_tagRow_show(rowId, event){
     if(unitTags.length > 0){
         for(let tagNum in unitTags){
             if(unitTags[tagNum] != ""){
-                tagItem = document.createElement('li');
-                tagItem.innerHTML = sortedTags.find(isTag, [unitTags[tagNum]]).title;
-                tagList.appendChild(tagItem);
+                let tagObj = sortedTags.find(isTag, [unitTags[tagNum]]);
+                if(tagObj !== null && tagObj !== undefined && Object.keys(tagObj).length > 0 && !tagObj["disabled"]){
+                    tagItem = document.createElement('li');
+                    tagItem.innerHTML = tagObj.title;
+                    tagList.appendChild(tagItem);
+                }
             }
         }
     }
