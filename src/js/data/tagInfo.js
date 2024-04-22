@@ -1127,7 +1127,7 @@ const tagInfo = {
         },
         {
             title : 'Overheat',
-            desc : '<p><i>Combat Phase</i></p><p>During <i>Combat Phase</i>, Unit may suffer <b>3 Stress Points</b> to re-roll <i>up to 3</i> <b>ATK</b> dice. <b>Cannot</b> be combined with <b>[Fearless]</b>.</p>',
+            desc : '<p><i>Combat Phase</i></p><p><b>Unit cannot be Panicked.</b></p><p>During <i>Combat Phase</i>, Unit may suffer <b>3 Stress Points</b> to re-roll <i>up to 3</i> <b>ATK</b> dice. <b>Cannot</b> be combined with <b>[Fearless]</b>.</p>',
             func : (rowId) => {
                 let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
