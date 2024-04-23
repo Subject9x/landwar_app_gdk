@@ -138,11 +138,12 @@
                         <div class="grd-row-col-3-6 rulePanel">
                             <label class="ruleTitle"><u>Danger Close</u></label>
                             <ul>
-                                <li>When a Unit <b>starts</b> their Move 1" <b>or less</b> from at least 1 Enemy Unit.
+                                <li>When a Unit <b>starts</b> their Move 2" <b>or less</b> from at least 1 Enemy Unit that has <i>Melee</i> <b>greater than 0</b>
                                     <ul>
                                         <li>Unit may only move <b>half</b> their current <i>Move</i> value.</li>
-                                        <!--<li><b>One</b> enemy unit may make a free <i>Overwatch</i> attack against the Unit but can only be a <i>Melee</i> Attack.</li>-->
                                         <li>Unit suffers <b>+1 Stress</b>.</li>
+                                        <li>Unit suffers <b>-1 ATK</b> for <i>Ranged Attacks</i> this turn.</li>
+                                        <li>When targeting any Unit that was in <i>Melee Range</i> before Unit's move, Unit suffers additional <b>-1 ATK</b> for <i>Ranged Attacks</i>.</li>
                                     </ul>
                                 </li>
                             </ul>
@@ -160,17 +161,6 @@
                                 </li>
                             </ul>
                         </div>
-                        <!-- 
-                        <div class="grd-row-col-3-6 rulePanel">
-                            <label class="ruleTitle"><u>Overwatch</u></label>
-                            <p>Enemy Unit can make an <b>immediate</b> <i>Ranged Attack</i> at <b>-2 ATK</b> and <b>Damage 50% rounded down</b> with the following conditions:</p>
-                            <ul>
-                                <li><i>Panicked</i> Units <b>cannot</b> make Overwatch attacks.</li>
-                                <li>When a Unit moves from the <i>Forward</i> arc to the <i>Rear</i> arc of an Enemy Unit.</li>
-                                <li><b>IF</b> the Unit was in Target's <i>Line of Sight</i> at the <b>start and end</b> of the move.</li>
-                                <li><b>IF</b> the Unit <b>ends</b> their Move 8" <b>or less</b> from the Target Unit.</li>
-                            </ul>
-                        </div> -->
                     </div>
                 </div>
             </div>

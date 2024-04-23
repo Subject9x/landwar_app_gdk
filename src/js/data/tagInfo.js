@@ -106,7 +106,7 @@ const tagInfo = {
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
-                return (uc_calc_Damage_Melee(meleeDamageVal, moveVal) * 0.8);
+                return (uc_calc_Damage_Melee(meleeDamageVal, moveVal) * 0.6);
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -116,7 +116,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'<i>Melee Damage COST</i> * 80%'
+            eqt:'<i>Melee Damage COST</i> * 60%'
         },
         {
             title : 'Armor Piercing - Ranged',
@@ -353,7 +353,7 @@ const tagInfo = {
                     sizeVal = 1;
                 }
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
-                return (sizeVal *2) + (moveVal / 2);
+                return (sizeVal * 1.5) + (moveVal / 2);
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -366,7 +366,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'(<b>Size</b> * 2) + (<b>Move</b> / 2)'
+            eqt:'(<b>Size</b> * 1.5) + (<b>Move</b> / 2)'
         },
         {
             title : 'Cloaking Systems',
@@ -689,7 +689,7 @@ const tagInfo = {
                     moveVal = 4;
                 }
 
-                return sizeVal + (moveCost * 0.25);
+                return (0 - (sizeVal * 0.5)) + (moveCost * 0.25);
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -703,7 +703,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'<b>Size</b> + (<i>Move Cost</i> * 0.25)'
+            eqt:'(0 - (<b>Size</b> * %50)) + (<i>Move Cost</i> * 0.25)'
         },
         {
             title : 'Heavy Armor',
@@ -917,13 +917,13 @@ const tagInfo = {
         },
         {
             title : 'Juggernaut',
-            desc : '<p><i>Movement Phase</i><p/><p>Units <i>Ranged Attacks</i> suffer <b>-1 ATK</b>.</p><p>Any time Unit enters <i>Melee Range</i> after moving <b>1/2 or more</b> of their current <i>Move Value</i>, <b>+Size/2</b> to Units next <i>Melee Attack</i>.</p>',
+            desc : '<p><i>Movement Phase</i><p/><p>Units <i>Ranged Attacks</i> suffer <b>-1 ATK</b>.</p><p>Any time Unit enters <i>Melee Range</i> after moving <b>1/2 or more</b> of their current <i>Move Value</i>, <b>+Size / 2</b> to Units next <i>Melee Attack</i>.</p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
 
-                return ((sizeVal * 3) + (moveVal + (moveVal * 0.5)) + meleeDamageVal) / 2;
+                return (sizeVal * 0.5) + (moveVal * 0.5) + (meleeDamageVal * 0.25);
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -941,7 +941,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'<i>average</i> (<b>Size</b> * 3) + (<b>Move</b> + 50%) + <b>DMG-M</b>'
+            eqt:'(50% <b>Size</b> round down) + (50% <b>Move</b> round down) + (<b>Damage-Melee</b> 25% round up)'
         },
         {
             title : 'Jump Jets',
@@ -1406,12 +1406,12 @@ const tagInfo = {
         },
         {
             title : 'Supercharger',
-            desc : "<p><i>Movement Phase</i></p><p>If Unit moved in the <i>Movement Phase</i>, Unit may move up to 25% its total <b>Move</b> immediately after this Turn's <i>Attack Phase</i>.</p>",
+            desc : "<p><i>Movement Phase</i></p><p>If Unit moved in the <i>Movement Phase</i>, Unit may move up to 33% its total <b>Move</b> immediately after this Turn's <i>Attack Phase</i>.</p>",
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 
-                let cost = sizeVal / moveVal * moveVal;
+                let cost =((sizeVal / moveVal) * (moveVal * 0.4));
 
                 return cost;
             },
@@ -1426,7 +1426,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'(<b>Size</b> / <b>Move</b>) * <b>Move</b>'
+            eqt:'(<b>Size</b> / <b>Move</b>) * (40% <b>Move</b> )'
         },
         {
             title : 'Terrifying',

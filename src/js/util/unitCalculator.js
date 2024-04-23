@@ -29,7 +29,8 @@ function uc_calc_Damage_Melee(meleeDamageVal, moveVal){
     if(meleeDamageVal === 0){
         return 0;
     }
-    return (meleeDamageVal * 2) + (moveVal / 4) ;
+    // return (meleeDamageVal * 2) + (moveVal / 4) ;
+    return meleeDamageVal + (moveVal / 4) ;
 }
 
 function uc_calc_Damage_Range(rangeDamageVal){
