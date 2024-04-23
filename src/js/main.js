@@ -61,6 +61,22 @@ function setLastWindow(prevWindow){
   }
 }
 
+function close_window(evt, window){
+  
+  if(window === lastWindowFocused){
+    lastWindowFocused = mainWindow;
+  }
+  else{
+    if(lastWindowFocused !== null && lastWindowFocused !== undefined){
+      lastWindowFocused.focus();
+    }
+    else{
+      mainWindow.focus();
+      lastWindowFocused = mainWindow;
+    }
+  }
+}
+
 //API call - app has first loaded.
 app.whenReady().then(() => {
   createWindow();
@@ -87,6 +103,8 @@ ipcMain.handle('quit-app', (event)=> app.quit());
 
 //all-purpose window close signal, don't use for main view though, main view gets its own where it quits whole app.
 ipcMain.handle('close-window',  (evt, arg) =>{
+  console.log(evt);
+  console.log(arg);
   let srcWindow = BrowserWindow.fromId(evt.sender.id);
 
   if(srcWindow === lastWindowFocused){
@@ -543,7 +561,7 @@ function createWindowUnitCard(){
       nodeIntegration: true,
       devTools : true
     }
-  });
+  });  
   
   ubSheetNew.loadFile('src/html/layout/pages/unitCardGen/unitCardSheet.html');
 
@@ -791,7 +809,7 @@ function createWindowArmyBuildTagList() {
       devTools : true
     }
   });
-
+  
   abTagList.loadFile('src/html/layout/pages/armyBuilder/armyListTagPrintable.html');
   
   return abTagList;

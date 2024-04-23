@@ -111,7 +111,9 @@ function file_unitBuild_import(fileDataArray){
         console.log("warn: file_unitBuild_import[fileDataObj] was empty.");
         return;
     }
-
+    let base = 0;
+    let tag = 0;
+    let total = 0;
     for(let objIdx in fileDataObj){
         let objData = fileDataObj[objIdx];
 
@@ -119,13 +121,13 @@ function file_unitBuild_import(fileDataArray){
             let newRowId = ub_row_add();
             $("#" + newRowId + '_name').val(objData.unitName);
             $("#" + newRowId + '_size').val(objData.size);
-            $("#" + newRowId + '_move').val(objData.move) ;
-            $("#" + newRowId + '_evade').val(objData.evade) ;
-            $("#" + newRowId + '_DMGM').val(objData.dmgMelee) ;
-            $("#" + newRowId + '_DMGR').val(objData.dmgRange) ;
-            $("#" + newRowId + '_range').val(objData.range) ;
-            $("#" + newRowId + '_armor').val(objData.armor) ;
-            $("#" + newRowId + '_points').val(objData.points) ;
+            $("#" + newRowId + '_move').val(objData.move);
+            $("#" + newRowId + '_evade').val(objData.evade);
+            $("#" + newRowId + '_DMGM').val(objData.dmgMelee);
+            $("#" + newRowId + '_DMGR').val(objData.dmgRange);
+            $("#" + newRowId + '_range').val(objData.range);
+            $("#" + newRowId + '_armor').val(objData.armor);
+            $("#" + newRowId + '_points').val(objData.points);
 
             let newArray = [];
             if(objData.tags.length > 0){
@@ -144,8 +146,13 @@ function file_unitBuild_import(fileDataArray){
             let unitTotal = parseFloat($("#" + newRowId + '_points')[0].innerHTML);
             let finalTotal = Math.round(((unitTotal + tagTotal) + Number.EPSILON) * 100) / 100;
             $("#" + newRowId + "_total")[0].innerHTML =  finalTotal;
+
+            base = base + unitTotal;
+            tag = tag + tagTotal;
+            total = total + finalTotal;
         }
     }
+    ub_update_sheet_totals(base, tag, total);
 }
 
 /**
