@@ -6,6 +6,10 @@ let searchArray = [];
 let tagWindow_tagArray = [];
 let row_tagArrays = {};
 
+let totalBase = 0;
+let totalTags = 0;
+let totalAll = 0;
+
 let hasSaved = false;   //save-prompt feature
 
 function ub_sheet_close_window(event){
@@ -70,6 +74,12 @@ function ub_control_delete_select(){
             if(elm.checked === true){
 
                 row_tagArrays[tr.id].length = 0;
+
+                let tagTotal = parseFloat($("#" + tr.id + '_tagTotal')[0].innerHTML)
+                let unitTotal = parseFloat($("#" + tr.id + '_points')[0].innerHTML);
+                let finalTotal = parseFloat($("#" + tr.id + '_total')[0].innerHTML);
+                ub_update_sheet_totals((0 - unitTotal), (0 - tagTotal), (0 - finalTotal));
+
                 delete row_tagArrays[""+tr.id];
 
                 $("#"+tr.id)[0].remove();
@@ -86,7 +96,6 @@ function ub_control_save_select(event){
     if(tableData.rows <= 1){
         return;
     }
-
     
     $("#unitTable>tbody>tr").each((index, tr)=>{
         if(index != 0){
@@ -210,7 +219,6 @@ function ub_tagModal_update_tagArray(newVal, addMe){
 
 /*
     re-run all tag requirements on incoming row_tagArray value.
-
 */
 function ub_tagModal_validate_tags(){
     let rowId = $("#tagWindow_rowId")[0].value;
@@ -420,6 +428,9 @@ function ub_tagModal_close(doSave){
         let unitTotal = parseFloat($("#" + unitRowId + '_points')[0].innerHTML);
         let finalTotal = Math.round(((unitTotal + tagTotal) + Number.EPSILON) * 100) / 100;
         $("#" + unitRowId + "_total")[0].innerHTML =  finalTotal;
+
+        ub_update_sheet_totals(unitTotal, tagTotal, finalTotal);
+
     }
 
     tagWindow.style.display = 'none';
@@ -591,8 +602,6 @@ function ub_row_add(){
     
     cellCount = ub_row_add_element_input_num(newRow, cellCount, 'input', newRowId, '_armor');
     
-    //cellCount = ub_row_add_element_input_num(newRow, cellCount, 'input', newRowId, '_structure');
-    
     cellCount = ub_row_add_element_label_points(newRow, cellCount, 'label', newRowId, '_points');
 
     cellCount = ub_row_add_element_tag(newRow, cellCount, 'button', newRowId, '_tags');
@@ -614,10 +623,17 @@ function ub_row_remove(){
 
     let rowId = $('#unitTable tr:last')[0].id;
 
+
+    let tagTotal = parseFloat($("#" + rowId + '_tagTotal')[0].innerHTML)
+    let unitTotal = parseFloat($("#" + rowId + '_points')[0].innerHTML);
+    let finalTotal = parseFloat($("#" + rowId + '_total')[0].innerHTML);
+
     row_tagArrays[rowId].length = 0;
     delete row_tagArrays[""+rowId];
 
     $('#unitTable tr:last').remove();
+
+    ub_update_sheet_totals((0 - unitTotal), (0 - tagTotal), (0 - finalTotal));
 }
 
 
@@ -654,6 +670,8 @@ function ub_row_copy(){
     let unitTotal = parseFloat($("#" + newRowId + '_points')[0].innerHTML);
     let finalTotal = Math.round(((unitTotal + tagTotal) + Number.EPSILON) * 100) / 100;
     $("#" + newRowId + "_total")[0].innerHTML =  finalTotal;
+
+    ub_update_sheet_totals(unitTotal, tagTotal, finalTotal);
 }
 
 
@@ -670,7 +688,6 @@ function ub_row_change_points(rowId){
     let dmgRangeVal = parseInt($("#"+ rowId + '_DMGR')[0].value);
     let rangeVal = parseInt($("#"+ rowId + '_range')[0].value);
     let armorVal = parseInt($("#"+ rowId + '_armor')[0].value);
-    //let structVal = parseInt($("#"+ rowId + '_structure')[0].value);
 
     let sizeCost = sizeVal;//uc_calc_Size(sizeVal);
     let moveCost = uc_calc_Move(moveVal, sizeVal);
@@ -679,8 +696,6 @@ function ub_row_change_points(rowId){
     let dmgRangeCost = uc_calc_Damage_Range(dmgRangeVal);
     let rangeCost = uc_calc_Range(moveVal, rangeVal, dmgRangeVal);
     let armorCost = uc_calc_Armor(armorVal, sizeVal);
-    //let structCost = uc_calc_Structure(structVal,sizeVal);
-    
 
     //DEBUG ONLY
     /*console.log('-------------change-------------------');
@@ -691,15 +706,13 @@ function ub_row_change_points(rowId){
     console.log('dmgRangeCost= ' + dmgRangeCost);
     console.log('rangeCost= ' + rangeCost);
     console.log('armorCost= ' + armorCost);
-    console.log('structCost= ' + structCost);*/
+    */
 
-
-    let pointsVal = uc_calc_baseCost(sizeCost, moveCost, evadeCost, dmgMeleeCost, dmgRangeCost, rangeCost, armorCost);//, structCost);
+    let pointsVal = uc_calc_baseCost(sizeCost, moveCost, evadeCost, dmgMeleeCost, dmgRangeCost, rangeCost, armorCost);
     pointsVal = Math.round((pointsVal + Number.EPSILON) * 100) / 100;
 
     $("#" + rowId+'_points')[0].innerHTML = pointsVal;
 
-    
     return pointsVal;
 }
 
@@ -773,6 +786,19 @@ function ub_row_on_change_event(event){
     let unitTotal = parseFloat($("#" + thisRowId + '_points')[0].innerHTML);
     let finalTotal = Math.round(((unitTotal + tagTotal) + Number.EPSILON) * 100) / 100;
     $("#" + thisRowId + "_total")[0].innerHTML =  finalTotal;
+
+    ub_update_sheet_totals(unitTotal, tagTotal, finalTotal);
     
     event.preventDefault();
+}
+
+function ub_update_sheet_totals(addBase, addTag, addTotal){
+
+    totalBase = totalBase + addBase;
+    totalTags = totalTags + addTag;
+    totalAll = totalAll + addTotal;
+
+    document.querySelector('#totalBase').innerHTML = Math.round(totalBase + Number.EPSILON);
+    document.querySelector('#totalTags').innerHTML = Math.round(totalTags + Number.EPSILON);
+    document.querySelector('#totalAll').innerHTML = Math.round(totalAll + Number.EPSILON);
 }
