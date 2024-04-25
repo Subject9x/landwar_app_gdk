@@ -74,18 +74,13 @@ function ub_control_delete_select(){
             if(elm.checked === true){
 
                 row_tagArrays[tr.id].length = 0;
-
-                let tagTotal = parseFloat($("#" + tr.id + '_tagTotal')[0].innerHTML)
-                let unitTotal = parseFloat($("#" + tr.id + '_points')[0].innerHTML);
-                let finalTotal = parseFloat($("#" + tr.id + '_total')[0].innerHTML);
-                ub_update_sheet_totals((0 - unitTotal), (0 - tagTotal), (0 - finalTotal));
-
                 delete row_tagArrays[""+tr.id];
 
                 $("#"+tr.id)[0].remove();
             }
         }
     });
+    ub_update_sheet_totals();
 }
 
 function ub_control_save_select(event){
@@ -429,7 +424,7 @@ function ub_tagModal_close(doSave){
         let finalTotal = Math.round(((unitTotal + tagTotal) + Number.EPSILON) * 100) / 100;
         $("#" + unitRowId + "_total")[0].innerHTML =  finalTotal;
 
-        ub_update_sheet_totals(unitTotal, tagTotal, finalTotal);
+        ub_update_sheet_totals();
 
     }
 
@@ -622,18 +617,11 @@ function ub_row_remove(){
     }
 
     let rowId = $('#unitTable tr:last')[0].id;
-
-
-    let tagTotal = parseFloat($("#" + rowId + '_tagTotal')[0].innerHTML)
-    let unitTotal = parseFloat($("#" + rowId + '_points')[0].innerHTML);
-    let finalTotal = parseFloat($("#" + rowId + '_total')[0].innerHTML);
-
     row_tagArrays[rowId].length = 0;
     delete row_tagArrays[""+rowId];
 
     $('#unitTable tr:last').remove();
-
-    ub_update_sheet_totals((0 - unitTotal), (0 - tagTotal), (0 - finalTotal));
+    ub_update_sheet_totals();
 }
 
 
@@ -671,7 +659,7 @@ function ub_row_copy(){
     let finalTotal = Math.round(((unitTotal + tagTotal) + Number.EPSILON) * 100) / 100;
     $("#" + newRowId + "_total")[0].innerHTML =  finalTotal;
 
-    ub_update_sheet_totals(unitTotal, tagTotal, finalTotal);
+    ub_update_sheet_totals();
 }
 
 
@@ -689,7 +677,7 @@ function ub_row_change_points(rowId){
     let rangeVal = parseInt($("#"+ rowId + '_range')[0].value);
     let armorVal = parseInt($("#"+ rowId + '_armor')[0].value);
 
-    let sizeCost = sizeVal;//uc_calc_Size(sizeVal);
+    let sizeCost = uc_calc_Size(sizeVal);
     let moveCost = uc_calc_Move(moveVal, sizeVal);
     let evadeCost = uc_calc_Evade(sizeVal, evadeVal, moveVal);
     let dmgMeleeCost = uc_calc_Damage_Melee(dmgMeleeVal, moveVal);
@@ -787,16 +775,32 @@ function ub_row_on_change_event(event){
     let finalTotal = Math.round(((unitTotal + tagTotal) + Number.EPSILON) * 100) / 100;
     $("#" + thisRowId + "_total")[0].innerHTML =  finalTotal;
 
-    ub_update_sheet_totals(unitTotal, tagTotal, finalTotal);
+    ub_update_sheet_totals();
     
     event.preventDefault();
 }
 
-function ub_update_sheet_totals(addBase, addTag, addTotal){
+function ub_update_sheet_totals(){
 
-    totalBase = totalBase + addBase;
-    totalTags = totalTags + addTag;
-    totalAll = totalAll + addTotal;
+    let rowTableBody = $("#unitTable>tbody")[0];
+    if(rowTableBody.rows.length <= 1){
+        return;
+    }
+    totalBase = 0;
+    totalTags = 0;
+    totalAll = 0;
+    
+    $("#unitTable>tbody>tr").each((index, tr)=>{
+        if(index != 0){
+            let tagTotal = parseFloat($("#" + tr.id + '_tagTotal')[0].innerHTML)
+            let unitTotal = parseFloat($("#" + tr.id + '_points')[0].innerHTML);
+            let finalTotal = parseFloat($("#" + tr.id + '_total')[0].innerHTML);
+            
+            totalBase = totalBase + unitTotal;
+            totalTags = totalTags + tagTotal;
+            totalAll = totalAll + finalTotal; 
+        }
+    });
 
     document.querySelector('#totalBase').innerHTML = Math.round(totalBase + Number.EPSILON);
     document.querySelector('#totalTags').innerHTML = Math.round(totalTags + Number.EPSILON);
