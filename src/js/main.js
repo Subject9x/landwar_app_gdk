@@ -39,7 +39,8 @@ function createWindow () {
       preload: path.join(__dirname, '../js/preload.js'),
       contextIsolation: true,
       nodeIntegration: true,
-      devTools : true
+      devTools : true,
+      frame : false
     }
   })
   //,
@@ -103,8 +104,7 @@ ipcMain.handle('quit-app', (event)=> app.quit());
 
 //all-purpose window close signal, don't use for main view though, main view gets its own where it quits whole app.
 ipcMain.handle('close-window',  (evt, arg) =>{
-  console.log(evt);
-  console.log(arg);
+  evt.preventDefault();
   let srcWindow = BrowserWindow.fromId(evt.sender.id);
 
   if(srcWindow === lastWindowFocused){
@@ -120,8 +120,10 @@ ipcMain.handle('close-window',  (evt, arg) =>{
     }
   }
   srcWindow.hide();
-  srcWindow.close();
-  srcWindow = null;
+  setTimeout(() => {
+    srcWindow.close();
+    srcWindow = null;
+  }, 500);
 });
 
 
@@ -215,7 +217,8 @@ ipcMain.handle('rb-open-rules', (event, htmlFile)=>{
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: true,
-      devTools : false
+      devTools : false,
+      frame : false
     }
   });
   
@@ -246,7 +249,8 @@ ipcMain.handle('rb-save-rules-core', (event, pdfSavedialog, pdfOptionSave)=>{
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: true,
-      devTools : false
+      devTools : false,
+      frame : false
     }
   });
   rulesWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_core.html');
@@ -296,7 +300,8 @@ ipcMain.handle('rb-save-rules-quick', (event, pdfSavedialog, pdfOptionSave)=>{
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: true,
-      devTools : false
+      devTools : false,
+      frame : false
     }
   });
   rulesWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_quickplay.html');
@@ -343,7 +348,8 @@ ipcMain.handle('rb-save-scenario', (event, pdfSavedialog, pdfOptionSave)=>{
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: true,
-      devTools : false
+      devTools : false,
+      frame : false
     }
   });
   rulesWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_scenarios_basic.html');
@@ -391,7 +397,8 @@ ipcMain.handle('tag-save-core', (event, pdfSavedialog, pdfOptionSave)=>{
       contextIsolation: true,
       preload: path.join(__dirname, '../js/preload.js'),
       nodeIntegration: true,
-      devTools : false
+      devTools : false,
+      frame : false
     }
   });
   tagCoreWindow.loadFile('src/html/layout/pages/tagLibrary/tagLibPrintCore.html');
@@ -439,7 +446,8 @@ ipcMain.handle('rb-save-unit-cost', (event, pdfSavedialog, pdfOptionSave)=>{
       contextIsolation: true,
       preload: path.join(__dirname, '../js/preload.js'),
       nodeIntegration: true,
-      devTools : false
+      devTools : false,
+      frame : false
     }
   });
   tagCoreWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_core_unit_cost.html');
@@ -481,7 +489,8 @@ function createWindowUnitSheet(){
       contextIsolation: true,
       preload: path.join(__dirname, '../js/preload.js'),
       nodeIntegration: true,
-      devTools : true
+      devTools : true,
+      frame : false
     }
   });
 
@@ -559,7 +568,8 @@ function createWindowUnitCard(){
       contextIsolation: true,
       preload: path.join(__dirname, '../js/preload.js'),
       nodeIntegration: true,
-      devTools : true
+      devTools : true,
+      frame : false
     }
   });  
   
@@ -673,7 +683,8 @@ ipcMain.handle('uic-save-sheet', (event, pdfSavedialog, pdfOptionSave, unitCardD
       contextIsolation: true,
       preload: path.join(__dirname, '../js/preload.js'),
       nodeIntegration: true,
-      devTools : true
+      devTools : true,
+      frame : false
     }
   });
 
@@ -806,7 +817,8 @@ function createWindowArmyBuildTagList() {
       contextIsolation: true,
       preload: path.join(__dirname, '../js/preload.js'),
       nodeIntegration: true,
-      devTools : true
+      devTools : true,
+      frame : false
     }
   });
   

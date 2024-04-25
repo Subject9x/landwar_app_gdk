@@ -146,13 +146,9 @@ function file_unitBuild_import(fileDataArray){
             let unitTotal = parseFloat($("#" + newRowId + '_points')[0].innerHTML);
             let finalTotal = Math.round(((unitTotal + tagTotal) + Number.EPSILON) * 100) / 100;
             $("#" + newRowId + "_total")[0].innerHTML =  finalTotal;
-
-            base = base + unitTotal;
-            tag = tag + tagTotal;
-            total = total + finalTotal;
         }
     }
-    ub_update_sheet_totals(base, tag, total);
+    ub_update_sheet_totals();
 }
 
 /**

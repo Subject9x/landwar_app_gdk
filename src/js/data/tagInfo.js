@@ -499,14 +499,18 @@ const tagInfo = {
             desc : '<p><i>Resolution Phase</i>.</p>For stress rolls, roll 2D6 and take the highest (represents crew morale and squad morale). Limit of Crew Points is (Size / 3)  + 2.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
-                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+                let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
+
                 if(sizeVal == 0){
                     sizeVal = 1;
                 }
-                if(moveVal == 0){
-                    moveVal = 3;
+                if(armorVal == 0){
+                    armorVal = 1;
                 }
-                return Math.max(0, ((1/sizeVal^2) * 12) - sizeVal + moveVal / 3);
+
+                let sizeRaise = Math.pow(sizeVal, 2);
+                
+                return ((1/ sizeRaise) * 20) * armorVal;
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -533,21 +537,24 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'((1 / <b>Size</b> ^ 2) * 12) - <b>Size</b> + <b>Move</b> / 3'
+            eqt:'((1 / <b>Size</b> ^ 2) * 20) * <b>Armor</b>'
         },
         {
             title : 'Crew-II',
             desc : '<p><i>Resolution Phase</i>.</p>For stress rolls, roll 3D6 and take the highest (represents crew morale and squad morale). Limit of Crew Points is (Size / 3)  + 2.',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
-                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+                let armorVal = parseInt(document.getElementById(rowId + '_armor').value);
+
                 if(sizeVal == 0){
-                    sizeVal = 2;
+                    sizeVal = 1;
                 }
-                if(moveVal == 0){
-                    moveVal = 3;
+                if(armorVal == 0){
+                    armorVal = 1;
                 }
-                return Math.max(0, ((1/sizeVal^2) * 15) - sizeVal + moveVal / 3);
+                let sizeRaise = Math.pow(sizeVal, 2);
+
+                return ((1 / sizeRaise) * 33) * armorVal;
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -572,7 +579,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'((1 / <b>Size</b> ^ 2) * 15) - <b>Size</b> + <b>Move</b> / 3'
+            eqt:'((1 / <b>Size</b> ^ 2) * 33) * <b>Armor</b>'
         },
         {
             title : 'Fearless',
@@ -649,15 +656,23 @@ const tagInfo = {
             desc : '<p><i>Movement Phase</i>.</p><p><b>Unit cannot be Panicked.</b></p><p>Unit suffers <b>-1 DEF</b> and <b>-2 Evade</b> to mark 1 enemy Unit in <i>Line of Sight</i>. Friendly Units may treat marked target as if in <i>Line of Sight</i> for this <i>Combat Phase</i>.</p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 if(sizeVal == 0){
                     sizeVal = 1;
                 }
-                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 if(moveVal == 0){
-                    moveVal = 6;
+                    moveVal = 1;
                 }
 
-                return ((1/sizeVal^2) * 10) + (moveVal / 2);
+                // let moveRaise = Math.pow(moveVal, 2);
+                // return ((1/moveRaise) * 50) * (sizeVal*2);
+                let sub = (sizeVal * 3) - (moveVal / 2);
+                if(sub <= 0){
+                    sub = sizeVal;
+                }
+                sub = sub / 2;
+                return sub;
+
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -1433,17 +1448,28 @@ const tagInfo = {
             desc : '<p><i>Movement Phase</i></p><p>When Unit has finished its move, <b>all</b> Enemy Units within 6" <b>immediately</b> suffer <b>1 Stress Point</b></p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
-                if(sizeVal == 0){
+                if(sizeVal === 0){
                     sizeVal = 1;
                 }
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+                if(moveVal === 0){
+                    moveVal = 1;
+                }
+                let sizeRaise = Math.pow(sizeVal, 2);
+                let sub = ((1 / sizeRaise) * moveVal) * 25;
+                
+                return sub;
 
-                return ((1 / sizeVal^2) * 10) + moveVal;
             },
             reqs : (rowId) => {
-                return '';
+                let warn = '';
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+                if(moveVal <= 0){
+                    warn = warn + "<p>Unit must have a <i>Move val</i> <b>greater than 0</b>.";
+                }
+                return warn;
             },
-            eqt:'((1 / <b>Size</b>^2) * 10) + (<b>Move</b> - 6) / 2'
+            eqt:'((1 / <b>Size</b>^2) * <b>Move</b>) * 25'
         },
         {
             title : 'Thunderous Report',
