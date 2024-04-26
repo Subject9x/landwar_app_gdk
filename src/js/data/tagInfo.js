@@ -73,7 +73,7 @@ const tagInfo = {
         },
         {
             title : 'Area Denial',
-            desc : "<p><i>Resolution Phase</i></p><p>When checking for <i>Local Objectives</i> and comparing remaining total Armor; <b>add 50% <i>Size Value</i></b> of Unit to Unit's <b>current</b> <i>Armor</i>.</p>",
+            desc : "<p><i>Resolution Phase</i></p><p>Unit cannot be <i>Panicked</i></p><p>When checking for <i>Local Objectives</i> and comparing remaining total Armor; <b>add 50% <i>Size Value</i></b> of Unit to Unit's <b>current</b> <i>Armor</i>.</p>",
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 if(sizeVal == 0){
@@ -664,8 +664,6 @@ const tagInfo = {
                     moveVal = 1;
                 }
 
-                // let moveRaise = Math.pow(moveVal, 2);
-                // return ((1/moveRaise) * 50) * (sizeVal*2);
                 let sub = (sizeVal * 3) - (moveVal / 2);
                 if(sub <= 0){
                     sub = sizeVal;
@@ -799,15 +797,16 @@ const tagInfo = {
             eqt:'((((<b>Move</b> / 2) + (<b>Size</b> * 1.25) / 2) + (<b>Armor</b> * 0.7)) * 2'
         },
         {
+            disabled : true,
             title : 'Hole where your house was',
-            desc : '<p><i>Combat Phase</i>.<p>Once per game, once per this tag, <i>Player</i> may <b>remove 1</b> piece of Terrain when this unit is activated. For the next <b>2</b> <i>Turns</i>, Unit may only move as normal, and suffers <b>+2</b> Stress.</p>',
+            //desc : '<p><i>Combat Phase</i>.<p>Once per game, once per this tag, <i>Player</i> may <b>remove 1</b> piece of Terrain when this unit is activated. For the next <b>2</b> <i>Turns</i>, Unit may only move as normal, and suffers <b>+2</b> Stress.</p>',
             func : (rowId) => {
                 return 0;  /*TODO */
             },
             reqs : (rowId) => {
                 return '';
             },
-            eqt:''
+            //eqt:''
         },
         {
             title : 'Hull Gun - I',
@@ -1025,15 +1024,16 @@ const tagInfo = {
             eqt:'<i>Subtract</i> (<b>Damage-Range<b> <i>COST</i> * 45%)'
         },
         {
+            disabled : true,
             title : 'Limited Use Weapon',
-            desc : '<p><i>Combat Phase</i></p><p>Unit has an extra weapon and use at specificed ATK and specified range in place of its normal attack. Discard after use.</p>',
+            // desc : '<p><i>Combat Phase</i></p><p>Unit has an extra weapon and use at specificed ATK and specified range in place of its normal attack. Discard after use.</p>',
             func : (rowId) => {
                 return 0; /*TODO*/
             },
             reqs : (rowId) => {
                 return '';
             },
-            eqt:'TODO'
+            // eqt:'TODO'
         },
         {
             title : 'Minimum Range',
@@ -1106,7 +1106,7 @@ const tagInfo = {
         },
         {
             title : 'Narrow Fire Arc',
-            desc : "<p><i>Combat Phase</i></p><p>Targets of this Unit's <i>Ranged Attacks</i> must be 1/4 model width inside the <b>width</b> of this Unit`s model. <i>Minimum width of 1\" for Unit width.</i>.</p>",
+            desc : "<p><i>Combat Phase</i></p><p>Targets of this Unit's <i>Ranged Attacks</i> must be 1/2 Target-model width inside the <b>width</b> of this Unit`s model. <i>Minimum width of 1\" for Unit width.</i>.</p>",
             func : (rowId) => {
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
 
@@ -1473,13 +1473,13 @@ const tagInfo = {
         },
         {
             title : 'Thunderous Report',
-            desc : '<p><i>Combat Phase</i></p><p>Target of this Unit suffers <b>+1 Stress</b> when taking <b>Damage</b> from <i>Ranged Attacks.</i></p>',
+            desc : '<p><i>Combat Phase</i></p><p>Target of this Unit suffers <b>+1 Stress</b> from <i>Ranged Attacks.</i></p>',
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
 
-                return (moveVal/2) + (rangeVal * 1.25) - rangeDamageVal;
+                return ((moveVal/3) + (rangeVal * 1.15)) - rangeDamageVal;
             },
             reqs : (rowId) => {
                 return '';
