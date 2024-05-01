@@ -309,6 +309,8 @@ function ub_tagModal_tag_check_req(rowId){
     tagModal window funcs
 */
 function ub_tagModal_tagRow_clickInfo(tagRow){
+    
+
     let tagText = $('#tagWindow_descText')[0];
     let tagTitle = $('#tagWindow_descTitle')[0];
     let tagEqt = $('#tagWindow_equation')[0];
@@ -447,7 +449,9 @@ function ub_row_tags_onclick(event){
     tagModal.removeAttribute('hidden');
     tagModal.innerHTML = window.nodeFileSys.loadHTML('layout/pages/unitBuilder/tagWindow.html');
 
-    let tagWindow = $('#tagWindow')[0];
+    let tagWindow = document.querySelector('#tagWindow');
+
+    document.querySelector('#tagWindow_unitName').innerHTML =  document.querySelector("#"+ rowId + '_name').value;
 
     //set hidden input to parent rowId from the unit table
     $('#tagWindow_rowId')[0].value = rowId;
