@@ -139,6 +139,13 @@
         $('#btnCoreScenariosSave')[0].addEventListener('click', ()=>{
             rb_scenarios_save_core();
         });
+        document.querySelector('#btnModuleComposite').addEventListener('click', ()=>{rb_modules_open_compositeUnit();});
+        document.querySelector('#btnModuleCompositeSave').addEventListener('click', ()=>{rb_modules_save_compositeUnit();});
+        document.querySelector('#btnModuleMultiMode').addEventListener('click', ()=>{rb_modules_open_multiModeUnit();});
+        document.querySelector('#btnModuleMultiModeSave').addEventListener('click', ()=>{rb_modules_save_multiModeUnit();});
+        
+
+
         
         //Page: Tag Lib
         tl_buildTable();

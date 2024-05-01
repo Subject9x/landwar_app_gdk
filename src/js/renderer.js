@@ -71,6 +71,20 @@ function rb_unit_cost_save(){
     window.api.send('rb-save-unit-cost', dialogSavePDFOptions, pdfSaveOptions);
 }
 
+
+function rb_modules_open_compositeUnit(){
+    window.api.send('rb-open-rules', '/modules/module_composite_unit');
+}
+function rb_modules_save_compositeUnit(){
+    window.api.send('rb-save-unit-cost', dialogSavePDFOptions, pdfSaveOptions);
+}
+function rb_modules_open_multiModeUnit(){
+    window.api.send('rb-open-rules', '/modules/module_multi_mode_unit');
+}
+function rb_modules_save_multiModeUnit(){
+    window.api.send('rb-save-unit-cost', dialogSavePDFOptions, pdfSaveOptions);
+}
+
 /*
     Javascript layer for page: UnitBuilder
 */
