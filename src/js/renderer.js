@@ -84,11 +84,16 @@ function rb_modules_open_multiModeUnit(){
 function rb_modules_save_multiModeUnit(){
     window.api.send('rb-save-unit-cost', dialogSavePDFOptions, pdfSaveOptions);
 }
+function rb_modules_open_limitUseWeap(){
+    window.api.send('rb-open-rules', '/modules/module_limited_use_item');
+}
+function rb_modules_save_limitUseWeap(){
+    window.api.send('rb-save-unit-cost', dialogSavePDFOptions, pdfSaveOptions);
+}
 
 /*
     Javascript layer for page: UnitBuilder
 */
-
 function ub_control_sheet_new(){
     window.api.send('ub-open-sheet-new');
 }
