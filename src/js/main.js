@@ -119,11 +119,13 @@ ipcMain.handle('close-window',  (evt, arg) =>{
       lastWindowFocused = mainWindow;
     }
   }
-  srcWindow.hide();
-  setTimeout(() => {
-    srcWindow.close();
-    srcWindow = null;
-  }, 500);
+  if(srcWindow !== null && srcWindow !== undefined){
+    srcWindow.hide();
+    setTimeout(() => {
+      srcWindow.close();
+      srcWindow = null;
+    }, 500);
+  }
 });
 
 

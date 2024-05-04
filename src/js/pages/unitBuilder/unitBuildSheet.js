@@ -155,12 +155,12 @@ function ub_get_rowid(rowTagVal){
     check if #unitRow tag list has a given tag already.
 */
 function ub_tags_checkExisting(tagId, srcArray){
-    let tagVal = parseInt(tagId);
+    //let tagVal = parseInt(tagId);
     if(srcArray.length === 0){
         return false;
     }
     for(let tagIdx in srcArray){
-        if(tagVal !== NaN && tagVal === srcArray[tagIdx]){
+        if(tagId !== NaN && tagId === srcArray[tagIdx]){
             return true;
         }
     }
@@ -173,7 +173,7 @@ function ub_tags_checkByName(tagName){
     }
     for(let tagIdx in tagWindow_tagArray){
         
-        let tagId = tagWindow_tagArray[parseInt(tagIdx)];
+        let tagId = tagWindow_tagArray[tagIdx];
 
         if(!Number.isNaN(tagId)){
             let tag = sortedTags.find(isTag, tagId);
@@ -194,16 +194,14 @@ function ub_tags_checkByName(tagName){
     update the _tagBuffer value.
 */
 function ub_tagModal_update_tagArray(newVal, addMe){
-    let intNewVal = parseInt(newVal);
-    
     if(addMe){
         if(!ub_tags_checkExisting(newVal, tagWindow_tagArray)){
-            tagWindow_tagArray.push(intNewVal);
+            tagWindow_tagArray.push(newVal);
         }
     }
     else{
         if(ub_tags_checkExisting(newVal, tagWindow_tagArray)){
-            let idx = tagWindow_tagArray.indexOf(intNewVal);
+            let idx = tagWindow_tagArray.indexOf(newVal);
             if(idx > -1){
                 tagWindow_tagArray.splice(idx, 1);
             }
@@ -250,9 +248,9 @@ function ub_tagModal_validate_tags(){
         if(warn && !isCheck){
             tagRow.classList.remove('tagRuleLineActive');
             tagRow.children[2].children[0].innerHTML = "";
-            if(ub_tags_checkExisting(tagObj.id, tagWindow_tagArray)){
+            if(ub_tags_checkExisting(tagObj.abrv, tagWindow_tagArray)){
                 tagTotalCost = tagTotalCost - cost;
-                tagWindow_tagArray = ub_tagModal_update_tagArray(tagObj.id, isCheck);
+                tagWindow_tagArray = ub_tagModal_update_tagArray(tagObj.abrv, isCheck);
             }
         }
         
@@ -281,7 +279,7 @@ function ub_tagModal_tag_check_req(rowId){
             continue;
         }
 
-        let isCheck = ub_tags_checkExisting(tagObj.id, tagCacheArray);
+        let isCheck = ub_tags_checkExisting(tagObj.abrv, tagCacheArray);
 
         if(isCheck){
 
@@ -294,10 +292,10 @@ function ub_tagModal_tag_check_req(rowId){
             cost = parseFloat(cost.toFixed(1));
 
             if(!isCheck){
-                if(ub_tags_checkExisting(tagObj.id, tagCacheArray)){
+                if(ub_tags_checkExisting(tagObj.abrv, tagCacheArray)){
                     tagTotalCost = tagTotalCost - cost; 
                 }
-                tagCacheArray = ub_tagModal_update_tagArray(tagObj.id, isCheck);
+                tagCacheArray = ub_tagModal_update_tagArray(tagObj.abrv, isCheck);
             }
         }
     }
@@ -314,7 +312,7 @@ function ub_tagModal_tagRow_clickInfo(tagRow){
     let tagText = $('#tagWindow_descText')[0];
     let tagTitle = $('#tagWindow_descTitle')[0];
     let tagEqt = $('#tagWindow_equation')[0];
-    let tagId = parseInt(tagRow.children[1].children[1].value);
+    let tagId = tagRow.children[1].children[1].value;
 
     let tagObj = sortedTags.find(isTag, tagId);
     if(tagObj === null || tagObj === undefined || Object.keys(tagObj).length <= 0 || tagObj["disabled"]){
@@ -350,7 +348,7 @@ function ub_tagModal_tagRow_clickInfo(tagRow){
         runs the reqs() function of the tag and returns true/false
 */
 function ub_tagModal_tagRow_reqs(tagRow){
-    let tagId = parseInt(tagRow.children[1].children[1].value);
+    let tagId = tagRow.children[1].children[1].value;
 
     let tagObj = sortedTags.find(isTag, tagId);
     if(tagObj === null || tagObj === undefined || Object.keys(tagObj).length <= 0 || tagObj["disabled"]){
@@ -401,7 +399,7 @@ function ub_tagModal_tagRow_check(tagRow){
         tagCost = tagCost - cost; 
     }
 
-    tagWindow_tagArray = ub_tagModal_update_tagArray(tagObj.id, isCheck);
+    tagWindow_tagArray = ub_tagModal_update_tagArray(tagObj.abrv, isCheck);
 
     $("#tagWindow_tagCost")[0].innerHTML = Math.round((tagCost + Number.EPSILON) * 100) / 100;
     $("#tagWindow_totalCost")[0].innerHTML = Math.round(((unitTotal + tagCost) + Number.EPSILON) * 100) / 100;
@@ -427,7 +425,6 @@ function ub_tagModal_close(doSave){
         $("#" + unitRowId + "_total")[0].innerHTML =  finalTotal;
 
         ub_update_sheet_totals();
-
     }
 
     tagWindow.style.display = 'none';
@@ -454,7 +451,8 @@ function ub_row_tags_onclick(event){
     document.querySelector('#tagWindow_unitName').innerHTML =  document.querySelector("#"+ rowId + '_name').value;
 
     //set hidden input to parent rowId from the unit table
-    $('#tagWindow_rowId')[0].value = rowId;
+    //$('#tagWindow_rowId')[0].value = rowId;
+    document.querySelector('#tagWindow_rowId').value = rowId;
     tagWindow.style.display = 'block';
 
     //set base total display in tagWindow
@@ -488,9 +486,10 @@ function ub_row_tags_onclick(event){
         tagRuleRow.children[1].children[0].addEventListener('click', ()=>{ub_tagModal_tagRow_check(tagRuleRow);});
 
         //set tag id related to tagInfo[x]
-        tagRuleRow.children[1].children[1].value = tagObj.id;
+        tagRuleRow.children[1].children[1].value = tagObj.abrv;
 
-        let isCheck = ub_tags_checkExisting(tagObj.id, tagWindow_tagArray);
+        //let isCheck = ub_tags_checkExisting(tagObj.id, tagWindow_tagArray);
+        let isCheck = ub_tags_checkExisting(tagObj.abrv, tagWindow_tagArray);
         
         if(isCheck){
             let cost = tagObj.func(rowId);
@@ -643,10 +642,9 @@ function ub_row_copy(){
     $("#" + newRowId + '_evade').val( parseInt($("#" + lastRowId + '_evade')[0].value) );
     $("#" + newRowId + '_DMGM').val( parseInt($("#" + lastRowId + '_DMGM')[0].value) );
     $("#" + newRowId + '_DMGR').val( parseInt($("#" + lastRowId + '_DMGR')[0].value) );
-    $("#" + newRowId + '_range').val( parseInt($("#" + lastRowId + '_range')[0].value) ) ;
-    $("#" + newRowId + '_armor').val( parseInt($("#" + lastRowId + '_armor')[0].value) ) ;
-
-    $("#" + newRowId + '_points').val( parseInt($("#" + lastRowId + '_points')[0].value) ) ;
+    $("#" + newRowId + '_range').val( parseInt($("#" + lastRowId + '_range')[0].value) );
+    $("#" + newRowId + '_armor').val( parseInt($("#" + lastRowId + '_armor')[0].value) );
+    $("#" + newRowId + '_points').val( parseInt($("#" + lastRowId + '_points')[0].value) );
 
     //let newArray = [];
     //row_tagArrays[newRowId] = newArray;

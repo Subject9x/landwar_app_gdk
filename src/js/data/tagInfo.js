@@ -5,6 +5,7 @@ const tagInfo = {
     id : "core",
     data :[ 
         {
+            abrv: 'ADVGS',
             title : 'Advanced Gun Sights',
             desc : '<p><i>Combat Phase</i></p><p><b>Target</b> of this Unit <b>cannot</b> have <b>+1 DEF</b> when attacked at <b>Long Range</b>.</p>',
             func : (rowId) =>{
@@ -23,12 +24,19 @@ const tagInfo = {
                 if(rangeVal < 1){
                     warn = warn + "<p>Cannot have <b>[Range Distance]</b> of 0.</p>";
                 }
+                if(ub_tags_checkByName('Optimal Range - Short')){
+                    warn = warn + '<p>Unit already has the <b>[Optimal Range - Short]</b> tag.</p>';
+                }
+                if(ub_tags_checkByName('Optimal Range - Long')){
+                    warn = warn + '<p>Unit already has the <b>[Optimal Range - Long]</b> tag.</p>';
+                }
 
                 return warn;
             },
             eqt:'(<b>Move</b> / 2) + (<b>DMG-R</b> / 2) + (<b>Range</b> / 2)'
         },
         {
+            abrv: 'AFTBRN',
             title : 'Afterburner',
             desc : '<p><i>Movement Phase</i></p><p>During the <i>Movement Phase</i>, Unit may forego any <i>Attack</i> this turn to move <b>double</b> its <b>[Move]</b>.</p>',
             func : (rowId) => {
@@ -48,30 +56,31 @@ const tagInfo = {
                 return warn;
             },
             eqt:'(<b>Move</b> / 2) + (<b>Armor</b> / 2)'
-        },
-        
-        {
-            title : 'Alt-Mode',
-            disabled : true,
-            // desc : "<p>Pick a Unit with <i>[Multi-Mode]</i> at <b>equal or greater</b> points cost. <i>This</i> Unit becomes a <i>mode</i> for the <i>[Multi-Mode]</i> Unit to transform into during the game. <b>Only</b> the mode with the <b>highest</> <i>Total points cost</i> is paid for and becomes the <i>[Multi-Mode]</i> unit.</p>",
-            desc : "",
-            func : (rowId) => {
-                return 0;/*TODO*/
-            },
-            reqs : (rowId) => {
-                // let warn = '';
+        },        
+        // {
+        //     abrv: 'ALTMDE',
+        //     title : 'Alt-Mode',
+        //     disabled : true,
+        //     // desc : "<p>Pick a Unit with <i>[Multi-Mode]</i> at <b>equal or greater</b> points cost. <i>This</i> Unit becomes a <i>mode</i> for the <i>[Multi-Mode]</i> Unit to transform into during the game. <b>Only</b> the mode with the <b>highest</> <i>Total points cost</i> is paid for and becomes the <i>[Multi-Mode]</i> unit.</p>",
+        //     desc : "",
+        //     func : (rowId) => {
+        //         return 0;/*TODO*/
+        //     },
+        //     reqs : (rowId) => {
+        //         // let warn = '';
 
-                // let unitName = document.getElementById(rowId + '_name').value;
-                // if( unitName === undefined || unitName.length == 0){
-                //     warn = warn + '<p>Unit <b>must have</b> a <i>Unit Name</i> value for keyword matching.</p>';
-                // }
+        //         // let unitName = document.getElementById(rowId + '_name').value;
+        //         // if( unitName === undefined || unitName.length == 0){
+        //         //     warn = warn + '<p>Unit <b>must have</b> a <i>Unit Name</i> value for keyword matching.</p>';
+        //         // }
 
-                // return warn;
-                return '';
-            },
-            // eqt:'Use the <b>highest</b> single Unit Cost from all shapes.'
-        },
+        //         // return warn;
+        //         return '';
+        //     },
+        //     // eqt:'Use the <b>highest</b> single Unit Cost from all shapes.'
+        // },
         {
+            abrv: 'ARDNEL',
             title : 'Area Denial',
             desc : "<p><i>Resolution Phase</i></p><p>Unit cannot be <i>Panicked</i></p><p>When checking for <i>Local Objectives</i> and comparing remaining total Armor; <b>add 50% <i>Size Value</i></b> of Unit to Unit's <b>current</b> <i>Armor</i>.</p>",
             func : (rowId) => {
@@ -101,6 +110,7 @@ const tagInfo = {
             eqt:'<b>Size</b> * 1.5'
         },
         {
+            abrv: 'AP-MEL',
             title : 'Armor Piercing - Melee',
             desc : "<p><i>Combat Phase</i></p><p>When applying Damage from this unit's <i>Melee</i> attack; <b>If</b> Target has the <i>[Heavy Armor]</b> tag, <b>ignore it</b>. If Target does not have this tag, Target suffers <b>+2 Stress</b> along with the damage of the attack.</p>",
             func : (rowId) => {
@@ -119,6 +129,7 @@ const tagInfo = {
             eqt:'<i>Melee Damage COST</i> * 80%'
         },
         {
+            abrv: 'AP-RNG',
             title : 'Armor Piercing - Ranged',
             desc : "<p><i>Combat Phase</i></p><p>When applying Damage from this unit's <i>Ranged</i> attack; <b>If</b> Target has the <i>[Heavy Armor]</b> tag, <b>ignore it</b>. If Target does not have this tag, Target suffers <b>+2 Stress</b> along with the damage of the attack.</p>",
             func : (rowId) => {
@@ -136,6 +147,7 @@ const tagInfo = {
             eqt:'<i>Range Damage COST</i> * 80%'
         },
         {
+            abrv: 'BTRY',
             title : 'Battery',
             desc : '<p><i>Combat Phase</i></p><p>Unit may divide total Ranged DMG up into several attacks at different targets.</p>',
             func : (rowId) => {
@@ -150,11 +162,11 @@ const tagInfo = {
             reqs : (rowId) => {
                 let warn = '';
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
-                if(rangeDamageVal <= 0){
-                    warn = warn + '<p>Unit must have a <b>[Damage-Range]</b> greater than 0.</p>';
+                if(rangeDamageVal <= 1){
+                    warn = warn + '<p>Unit must have a <b>[Damage-Range]</b> greater than 1.</p>';
                 }
                 let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
-                if(rangeVal <= 0){
+                if(rangeVal < 1){
                     warn = warn + '<p>Unit must have a <b>[Range]</b> greater than 0.</p>';
                 }
 
@@ -167,6 +179,7 @@ const tagInfo = {
             eqt:'((<b>Range</b> / 2) + <b>Damage-Range</b>) - <b>Size</b>'
         },
         {
+            abrv: 'BLAST',
             title : 'Blast',
             desc : '<p><i>Combat Phase</i></p><p>When this Unit makes a <i>Ranged Attack</i>, Player may declare this attack is using <i>[Blast]</i>. Select a Target unit as normal, and make the attack roll. <b>If</b> the attack hits, Target takes <b>25% round down</b> damage and <b>+1 Stress</b>. The remaining damage is split <b>equally</b> across <b>all</b> units within a 6" radius of the <b>Target regardless of LoS.</b></p><p>Attacker picks which units are hit first. <i>Stationary</i> units must also be picked first and are hit automatically <b>even if they are friendly</b>, other units may avoid damage on 1 D6 roll of 5+.</p>',
             func : (rowId) => {
@@ -192,6 +205,7 @@ const tagInfo = {
             eqt:'(<b>Move</b> / 4) + (<b>Range</b> / 3) + (<b>Damage-Range</b> / 2)'
         },
         {
+            abrv: 'BLNK',
             title : 'Blink',
             desc : '<p><i>Movement Phase</i></p><p>This Unit may <b>ignore</b> <i>Terrain</i> movement restrictions, and may move through enemy units during the <i>Movement Phase</i>.</p>',
             func : (rowId) => {
@@ -229,6 +243,7 @@ const tagInfo = {
             eqt:'<b>Move COST</b> * 2'
         },
         {
+            abrv: 'BMBR-AR',
             title : 'Bomber-Area',
             desc : '<p><i>Combat Phase</i></p><p>When Unit makes their <i>Ranged Attack</i> this Turn, Unit may make an <b>additional</b> <i>Ranged Attack</i> on <b>each</b> enemy Unit that it moves <b>over</b> during the <i>Movement Phase</i> within <b>2"</b> of the Unit.<ul><li><i>Damage</i> of each attack is 33% of total <b>Damage</b> value <b>rounded up</b>.</li><li> This attack <b>cannot be</b> <i>Indirect Fire</i></li><li>These attacks are at <b>-2 ATK</b>.</li></ul></p>',
             func : (rowId) => {
@@ -262,6 +277,7 @@ const tagInfo = {
             eqt:'(<b>Move Cost</b> / 2) + (<b>Range Damage Cost</b> * 0.6)'
         },
         {
+            abrv: 'BMBR-DV',
             title : 'Bomber-Dive',
             desc : '<p><i>Combat Phase</i></p><p>Instead of making a normal <i>Ranged Attack</i>, This Unit may make 1 <i>Ranged Attack</i> on a single target Unit that is within <b>2"</b> of this Units <i>end position</i> after its move. Any unit that is a target of a [Bomber-Dive] attack may make a <b>free</b> Attack on this unit at <b>-1 ATK</b>. <b>Damage</b> is 50% of total <b>Damage-Ranged</b> (round up, minimum of 1).</p>',
             func : (rowId) => {
@@ -294,6 +310,7 @@ const tagInfo = {
             eqt:'(<b>Move</b> / 2) - (<b>Size</b> * 1.25) + (<b>Damage-Ranged Cost</b> / 3)'
         },
         {
+            abrv: 'BRWL',
             title : 'Brawler',
             desc : '<p><i>Combat Phase</i></p><p><b>+1 ATK</b> and <b>+1 DEF</b> in <i>Melee Attacks</i>.</p>',
             func : (rowId) => {
@@ -302,15 +319,20 @@ const tagInfo = {
                 return uc_calc_Damage_Melee(meleeDamageVal, moveVal) * 0.67;
             },
             reqs : (rowId) => {
+                let warn = '';
                 let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
                 if(meleeDamageVal < 1){
-                    return 'Unit must have a <b>[Melee Damage]</b> greater than 0.';
+                    warn = warn + '<p>Unit must have a <b>[Melee Damage]</b> greater than 0.</p>';
                 }
-                return '';
+                if(ub_tags_checkByName('Optimal Range - Long')){
+                    warn = warn + '<p>Unit already has the <b>[Optimal Range - Long]</b> tag.</p>';
+                }
+                return warn;
             },
             eqt:'<b>Damage-Melee COST</b> * 67%'
         },
         {
+            abrv: 'ARC-BRD',
             title : 'Broadside Fire Arc',
             desc : '<p><i>Combat Phase</i></p><p>Unit may <b>only</b> make <i>Ranged Attacks</i> against targets that are <i>LEFT or RIGHT</i> of Units <i>Forward facing</i>, <b>but</b> Unit may make <b>1</b> <i>Ranged Attacks</i> per side of Unit.</p><p>Target models must be <i>inside</i> this Units left or right side, and cannot be counted for <i>both</i> at the same time.</p>',
             func : (rowId) => {
@@ -331,6 +353,7 @@ const tagInfo = {
             eqt:'(<b>Damage-Range<b> <i>COST</i> * 0.5)'
         },
         {
+            abrv: 'CARG',
             title : 'Cargo',
             desc : '<p><i>Movement Phase</i></p><p>Unit can instantly Pick Up an object if equal or smaller Size. \n <b>Size</b> of 0 is 1 for this tag <i>but not for tag cost</i>.</p>',
             func : (rowId) => {
@@ -345,6 +368,7 @@ const tagInfo = {
             eqt:'(<b>Move</b> /2) + <b>Armor</b> - (<b>Size</b> * 2)'
         },
         {
+            abrv: 'CHRGR',
             title : 'Charger',
             desc : '<p><i>Movement Phase</i></p><p>Unit does not suffer <i>Stress</i> penalty for <i>Flanking</i>.</p>',
             func : (rowId, ) => {
@@ -369,6 +393,7 @@ const tagInfo = {
             eqt:'(<b>Size</b> * 2) + (<b>Move</b> / 2)'
         },
         {
+            abrv: 'CLOAK',
             title : 'Cloaking Systems',
             desc : '<p><i>Initiative Phase</i> <b>before</b> the roll off!</p><p>Unit <b>cannot</b> make any <i>Attacks</i> this turn. Unit does not <b>cause</b> <i>Flanking</i> stress. Unit may only move <b>half</b> their current <i>Move</i> value.</p><p>Unit gains <b>+2 DEF</b>, or <b>+3 DEF</b> IF <i>Stationary</i>.</p>',
             func : (rowId, ) => {
@@ -394,6 +419,7 @@ const tagInfo = {
             eqt:'(<b>Move COST</b> 45%) + (<b>Size</b> / 2)'
         },
         {
+            abrv: 'CNTR-BATT',
             title : 'Counter-Battery',
             desc : '<p><i>Combat Phase</i></p><p>Unit may use <b>Indirect Fire</b> on a Target this <i>Attack Phase</i> when the Target has attempted an <b>Indirect Fire</b> attack location within Unit`s <b>Range</b>.</p>',
             func : (rowId) => {
@@ -417,6 +443,7 @@ const tagInfo = {
             eqt:'(<b>Damage-Range</b> / 3) + (<b>Range</b> / 3) + (<b>Move</b> / 3)'
         },
         {
+            abrv: 'CRG1',
             title : 'Courage-I',
             desc : '<p><i>Resolution Phase</i>.</p><p>When Unit is making a <i>Stress Check</i>, Unit gets <b>+1</b> to the D6 roll.</p>',
             func : (rowId) => {
@@ -456,6 +483,7 @@ const tagInfo = {
             eqt:'<i>average</i> [<b>Size</b>, <b>Move</b>, <b>Armor</b>] * 2'
         },
         {
+            abrv: 'CRG2',
             title : 'Courage-II',
             desc : '<p><i>Resolution Phase</i>.</p><p>When Unit is making a <i>Stress Check</i>, Unit gets <b>+2</b> to the D6 roll.</p>',
             func : (rowId) => {
@@ -495,6 +523,7 @@ const tagInfo = {
             eqt:'<i>average</i> [<b>Size</b>, <b>Move</b>, <b>Armor</b>] * 5'
         },
         {
+            abrv: 'CRW1',
             title : 'Crew-I',
             desc : '<p><i>Resolution Phase</i>.</p>For stress rolls, roll 2D6 and take the highest (represents crew morale and squad morale). Limit of Crew Points is (Size / 3)  + 2.',
             func : (rowId) => {
@@ -540,6 +569,7 @@ const tagInfo = {
             eqt:'((1 / <b>Size</b> ^ 2) * 20) * <b>Armor</b>'
         },
         {
+            abrv: 'CRW2',
             title : 'Crew-II',
             desc : '<p><i>Resolution Phase</i>.</p>For stress rolls, roll 3D6 and take the highest (represents crew morale and squad morale). Limit of Crew Points is (Size / 3)  + 2.',
             func : (rowId) => {
@@ -582,6 +612,7 @@ const tagInfo = {
             eqt:'((1 / <b>Size</b> ^ 2) * 33) * <b>Armor</b>'
         },
         {
+            abrv: 'FRLS',
             title : 'Fearless',
             desc : '<p><i>Resolution Phase</i>.</p><p>Unit <i>automatically</i> passes any <i>Stress Check</i>.</p>',
             func : (rowId) => {
@@ -612,6 +643,7 @@ const tagInfo = {
             eqt:'<i>Unit base total COST</i> * 35%'
         },
         {
+            abrv: 'FLY',
             title : 'Flyer',
             desc : 'Unit is considered as permanently above the ground. Unit may move and shoot <b>over</b> enemy Units and Terrain. Unit cannot use <b>Cover Bonus</b> for defense and <b>all</b> units have <i>Line of sight</i> to this unit. <b>Only</b> Units with <b>[Flyer]</b> or <b>[Jump Jets]</b> can choose <i>Melee Attacks</i> when applicable. ',
             func : (rowId) => {
@@ -637,6 +669,7 @@ const tagInfo = {
             eqt:'((<b>Size</b> - <b>Move</b>) / 2) + (<b>Armor</b> * 2)'
         },
         {
+            abrv: 'FORT',
             title : 'Fortification',
             desc : '<p><i>Movement Phase</i>.</p><p>Unit ignores <i>Flanking</i> penalty when <i>Stationary</i>. Enemy Units <i>Flanking</i> suffer additional <b>+1  Stress</i>.</p>',
             func : (rowId) => {
@@ -652,6 +685,7 @@ const tagInfo = {
             eqt:'(<b>Move</b> - <b>Size</b>) + (<b>Damage-Range</b> / 2)'
         },
         {
+            abrv: 'FWRDOBS',
             title : 'Forward Observer',
             desc : '<p><i>Movement Phase</i>.</p><p><b>Unit cannot be Panicked.</b></p><p>Unit suffers <b>-1 DEF</b> and <b>-2 Evade</b> to mark 1 enemy Unit in <i>Line of Sight</i>. Friendly Units may treat marked target as if in <i>Line of Sight</i> for this <i>Combat Phase</i>.</p>',
             func : (rowId) => {
@@ -686,6 +720,7 @@ const tagInfo = {
             eqt:'((1 / <b>Size</b> ^ 2) * 10 ) + (<b>Move</b> / 2)'
         },
         {
+            abrv: 'GRPL',
             title : 'Grappler',
             desc : '<p><i>Movement Phase</i></p><p>Unit may <b>ignore</b> the <i>Danger Close</i> movement rule when it moves.</p>',
             func : (rowId) => {
@@ -719,6 +754,7 @@ const tagInfo = {
             eqt:'<b>Size</b> + (<i>Move Cost</i> * 0.25)'
         },
         {
+            abrv: 'HVYARM',
             title : 'Heavy Armor',
             desc : '<p><i>Combat Phase</i>.</p><p>Unit may reduce <b>any</b> incoming <i>DMG</i> to itself by <b>half rounded down</b>, this occurs <b>before any other</b> TAGs are applied.</p>',
             func : (rowId) => {
@@ -744,6 +780,7 @@ const tagInfo = {
             eqt:'(<b>Armor Cost</b> * 0.8) + (<b>Move</b> * 1.25)'
         },
         {
+            abrv: 'HERO',
             title : 'Hero',
             desc : '<p><i>Resolution Phase</i>.</p><p>Hero may suffer <b>+2 Stress</b> Point to allow every Friendly Unit in 8" to <b>reroll</b> 1 failed <i>Stress Check</i> per Turn. <b>IF</b> [Hero] unit is <b>destroyed</b>, <b>all</b> friendly units <b>immediately</b> suffer <b>+2 Stress</b>.</p>',
             func : (rowId) => {
@@ -764,6 +801,7 @@ const tagInfo = {
             eqt:'<b>Size</b> + (<b>Armor</b> / 2) + (<b>Move</b> + <b>Evade</b>) / 2'
         },
         {
+            abrv: 'HIALT',
             title : 'High Altitude Flyer',
             desc : '<b>Ignore</b> [Indirect Fire] attacks. <b>Ignore</b> <i>Flanking</i> for <b>any</b> Unit missing the [High Altitude Flyer] or [Flyer] tag. Ground Units can only use <i>Long Range</i> attacks on this model. Any [High Altitude Flyer] or [Flyer] can use <i>Effective Range</i> and <i>Melee</i> attacks where applicable.',
             func : (rowId) => {
@@ -796,19 +834,20 @@ const tagInfo = {
             },
             eqt:'((((<b>Move</b> / 2) + (<b>Size</b> * 1.25) / 2) + (<b>Armor</b> * 0.7)) * 2'
         },
+        // {
+        //     disabled : true,
+        //     title : 'Hole where your house was',
+        //     //desc : '<p><i>Combat Phase</i>.<p>Once per game, once per this tag, <i>Player</i> may <b>remove 1</b> piece of Terrain when this unit is activated. For the next <b>2</b> <i>Turns</i>, Unit may only move as normal, and suffers <b>+2</b> Stress.</p>',
+        //     func : (rowId) => {
+        //         return 0;  /*TODO */
+        //     },
+        //     reqs : (rowId) => {
+        //         return '';
+        //     },
+        //     //eqt:''
+        // },
         {
-            disabled : true,
-            title : 'Hole where your house was',
-            //desc : '<p><i>Combat Phase</i>.<p>Once per game, once per this tag, <i>Player</i> may <b>remove 1</b> piece of Terrain when this unit is activated. For the next <b>2</b> <i>Turns</i>, Unit may only move as normal, and suffers <b>+2</b> Stress.</p>',
-            func : (rowId) => {
-                return 0;  /*TODO */
-            },
-            reqs : (rowId) => {
-                return '';
-            },
-            //eqt:''
-        },
-        {
+            abrv: 'HLGUN1',
             title : 'Hull Gun - I',
             desc : '<p><i>Combat Phase</i>.</p><p>Unit <b>may</b> fire as if it has the <i>Limit Fire Arc</i> tag but may add <b>+25%</b> rounded-up of its DMG-R value to the attack.</p>',
             func : (rowId) => {
@@ -832,6 +871,7 @@ const tagInfo = {
             eqt:'<b>Damage-Range<b> COST * 0.2'
         },
         {
+            abrv: 'HLGUN2',
             title : 'Hull Gun - II',
             desc : '<p><i>Combat Phase</i>.</p><p>Unit <b>may</b> fire as if it has the <i>Limit Fire Arc</i> tag but may add <b>+50%</b> rounded-up of its DMG-R value to the attack.</p>',
             func : (rowId) => {
@@ -855,6 +895,7 @@ const tagInfo = {
             eqt:'<b>Damage-Range<b> COST * 0.4'
         },
         {
+            abrv: 'IF',
             title : 'Indirect Fire',
             desc : '<p><i>Combat Phase</i>.</p><p>Unit may select targets <b>outside</b> <i>Line of Sight</i> when making <i>Ranged Attacks</i>. Target <b>must</b> be within <b>50% of</b> <i>Effective Range</i> of the attacking Unit.</p>',
             func : (rowId) => {
@@ -889,6 +930,7 @@ const tagInfo = {
             eqt:'(<b>Damage-Range</b> / 3) + (45% of <b>Range Cost</b>)'
         },
         {
+            abrv: 'INERTIAL',
             title : 'Inertial Dampers',
             desc : '<p><i>Movemnt Phase</i></p><p>"When Move is greater than 12", treat this Unit as having moved only 11" in the Combat Phase.</p>',
             func : (rowId) => {
@@ -916,6 +958,7 @@ const tagInfo = {
             eqt:'(<b>Size</b> * 1.25) + (<b>Move</b> + <b>Evade</b>) / 1.5'
         },
         {
+            abrv: 'INHBTMNS',
             title : 'Inhibitor Munitions',
             desc : '<p><i>Combat Phase</i></p><p>Player must declare this <b>before</b> the Unit makes its <i>Ranged Attack</i>.</p><p>Units <i>Ranged Attack</i> <b>DMG set to 0</b>. <b>When</b> attack hits the target, the targets <b>next</b> <i>Movement Phase</i> move is reduced to 1/2 <b>before</b> any other modifiers.</p>',
             func : (rowId) => {
@@ -930,6 +973,7 @@ const tagInfo = {
             eqt:'(<b>Move</b> / 2) + (<b>Range</b> / 2)'
         },
         {
+            abrv: 'JGRNAT',
             title : 'Juggernaut',
             desc : '<p><i>Movement Phase</i><p/><p>Units <i>Ranged Attacks</i> suffer <b>-1 ATK</b>.</p><p>Any time Unit enters <i>Melee Range</i> after moving <b>1/2 or more</b> of their current <i>Move Value</i>, <b>+Size/2</b> to Units next <i>Melee Attack</i>.</p>',
             func : (rowId) => {
@@ -958,6 +1002,7 @@ const tagInfo = {
             eqt:'<i>average</i> (<b>Size</b> * 3) + (<b>Move</b> + 50%) + <b>DMG-M</b>'
         },
         {
+            abrv: 'JJ',
             title : 'Jump Jets',
             desc : '<p><i>Movement Phase</i></p><p>Unit may traverse terrain vertically, uses [Flyer] rules when moving, but is otherwise treated as a ground unit. Unit still subject to <i>Flanking</i> check.</p>',
             func : (rowId) => {
@@ -988,6 +1033,7 @@ const tagInfo = {
             eqt:'(<b>Size</b> * 2) + (<b>Move</b> / 2)'
         },
         {
+            abrv: 'ARC-LFA',
             title : 'Limited Fire Arc',
             desc : '<p><i>Combat Phase</i></p><p>Unit may only make <i>Ranged Attacks</i> in the Forward or Rear Arc, you must choose before the game starts.</p>',
             func : (rowId) => {
@@ -1023,19 +1069,20 @@ const tagInfo = {
             },
             eqt:'<i>Subtract</i> (<b>Damage-Range<b> <i>COST</i> * 45%)'
         },
+        // {
+        //     disabled : true,
+        //     title : 'Limited Use Weapon',
+        //     // desc : '<p><i>Combat Phase</i></p><p>Unit has an extra weapon and use at specificed ATK and specified range in place of its normal attack. Discard after use.</p>',
+        //     func : (rowId) => {
+        //         return 0; /*TODO*/
+        //     },
+        //     reqs : (rowId) => {
+        //         return '';
+        //     },
+        //     // eqt:'TODO'
+        // },
         {
-            disabled : true,
-            title : 'Limited Use Weapon',
-            // desc : '<p><i>Combat Phase</i></p><p>Unit has an extra weapon and use at specificed ATK and specified range in place of its normal attack. Discard after use.</p>',
-            func : (rowId) => {
-                return 0; /*TODO*/
-            },
-            reqs : (rowId) => {
-                return '';
-            },
-            // eqt:'TODO'
-        },
-        {
+            abrv: 'RNGMIN',
             title : 'Minimum Range',
             desc : "<p><i>Combat Phase</i></p><p>When making a <b>Range Attack</b>, the Target <b>cannot be</b> 25% <b>or less</b> of Unit's <i>Effective Range</i> close, <b>minimum 8\"</b>.</p><p><b>[Field Artillery]</b> if the Unit has this tag, Unit may select targets within <b>100%</b> of <i>Effective Range</i>.</p>",
             func : (rowId) => {
@@ -1062,11 +1109,20 @@ const tagInfo = {
                 if(rangeDamageVal <= 0){
                     warn = warn + '<p>Unit must have a <b>[Range Damage]</b> greater than 0.</p>';
                 }
+                if(ub_tags_checkByName('Optimal Range - Long')){
+                    warn = warn + '<p>Unit already has the <b>[Optimal Range - Long]</b> tag.</p>';
+                }
+                if(ub_tags_checkByName('Optimal Range - Short')){
+                    warn = warn + '<p>Unit already has the <b>[Optimal Range - Short]</b> tag.</p>';
+                }
+                
+
                 return warn;
             },
             eqt:'<i>Subtract</i> (<b>Range<b> <i>COST</i> * 50%) and <b>Size</b> <i>Value</i> from total.'
         },
         {
+            abrv: 'MHQ',
             title : 'Mobile HQ',
             desc : '<p><i>Initiative Phase</i></p><p><b>Unit cannot be <i>Panicked</i>.</b></p><p>Player may add <b>+2</b> to their <i>initiative roll</i>.</p>',
             func : (rowId) => {
@@ -1084,27 +1140,28 @@ const tagInfo = {
             },
             eqt:'<i>Unit base total COST</i> * 33%'
         },
-        {
-            title : 'Multi-Mode',
-            // desc : "<p>Pick a Unit with <i>[Alt-Mode]</i> at <b>equal or lesser</b> points cost. Instead of moving, you can replace this Unit with the selected <i>[Alt-Mode]</i> Unit. Replacement Unit <b>retains all damage and tokens</b>.</p><p><b>If</b> the damage exceeds that Unit's <b>Armor</b>, it is <b>destroyed</b>.</p>",
-            disabled : true,
-            func : (rowId) => {
-                return 0;/*TODO*/
-            },
-            reqs : (rowId) => {
-                // let warn = '';
+        // {
+        //     title : 'Multi-Mode',
+        //     // desc : "<p>Pick a Unit with <i>[Alt-Mode]</i> at <b>equal or lesser</b> points cost. Instead of moving, you can replace this Unit with the selected <i>[Alt-Mode]</i> Unit. Replacement Unit <b>retains all damage and tokens</b>.</p><p><b>If</b> the damage exceeds that Unit's <b>Armor</b>, it is <b>destroyed</b>.</p>",
+        //     disabled : true,
+        //     func : (rowId) => {
+        //         return 0;/*TODO*/
+        //     },
+        //     reqs : (rowId) => {
+        //         // let warn = '';
 
-                // let unitName = document.getElementById(rowId + '_name').value;
-                // if( unitName === undefined || unitName.length == 0){
-                //     warn = warn + '<p>Unit <b>must have</b> a <i>Unit Name</i> value for keyword matching.</p>';
-                // }
+        //         // let unitName = document.getElementById(rowId + '_name').value;
+        //         // if( unitName === undefined || unitName.length == 0){
+        //         //     warn = warn + '<p>Unit <b>must have</b> a <i>Unit Name</i> value for keyword matching.</p>';
+        //         // }
 
-                // return warn;
-                return '';
-            },
-            // eqt:'Use the <b>highest</b> single Unit Cost from all shapes.'
-        },
+        //         // return warn;
+        //         return '';
+        //     },
+        //     // eqt:'Use the <b>highest</b> single Unit Cost from all shapes.'
+        // },
         {
+            abrv: 'ARC-NAR',
             title : 'Narrow Fire Arc',
             desc : "<p><i>Combat Phase</i></p><p>Targets of this Unit's <i>Ranged Attacks</i> must be 1/2 Target-model width inside the <b>width</b> of this Unit`s model. <i>Minimum width of 1\" for Unit width.</i>.</p>",
             func : (rowId) => {
@@ -1141,6 +1198,7 @@ const tagInfo = {
             eqt:'<i>Subtract</i> (<b>Damage-Range<b> <i>COST</i> * 60%)'
         },
         {
+            abrv: 'OVRHT',
             title : 'Overheat',
             desc : '<p><i>Combat Phase</i></p><p><b>Unit cannot be Panicked.</b></p><p>During <i>Combat Phase</i>, Unit may suffer <b>3 Stress Points</b> to re-roll <i>up to 3</i> <b>ATK</b> dice. <b>Cannot</b> be combined with <b>[Fearless]</b>.</p>',
             func : (rowId) => {
@@ -1159,6 +1217,7 @@ const tagInfo = {
             eqt:'(<i>average</i> <b>Damage-Melee</b> and <b>Damage-Range</b>) * 3 + (<b>Range</b> / 3)'
         },
         {
+            abrv: 'PCKDEPL',
             title : 'Pack / Deploy',
             desc : '<p>Player must choose whether this unit <i>moves</i> <b>OR</b> <i>attacks</i> on this turn.</p><p>At the <b>end</b> of the <i>Initiative Phase</i>, Units with this tag must declare if they will move or shoot this turn.</p>',
             func : (rowId) => {
@@ -1190,6 +1249,7 @@ const tagInfo = {
             eqt:'<i>Subtract</i> 85% of <b>Move Cost</b> and 85% of each <b>Melee/Range</b> costs.'
         },
         {
+            abrv: 'RNKG',
             title : 'Rank - Green',
             desc : "Unit's <i>base</i> <b>ATK/DEF</b> change to <b>2 ATK</b> and <b>2 DEF</b>.",
             func : (rowId) => {
@@ -1208,6 +1268,7 @@ const tagInfo = {
             eqt:'<i>subtract Unit base total COST</i> * 85%'
         },
         {
+            abrv: 'RNKV',
             title : 'Rank - Veteran',
             desc : "<p><i>Combat Phase</i></p><p>Unit may <i>re-roll</i> <b>1 ATK</b> and <b>1 DEF</b> <i>per-turn</i>.</p>",
             func : (rowId) => {
@@ -1226,6 +1287,7 @@ const tagInfo = {
             eqt:'<i>Unit base total COST</i> * 40%'
         },
         {
+            abrv: 'RNKE',
             title : 'Rank - Elite',
             desc : "<p><i>Initiative Phase</i></p><p>Player gains <b>+1</b> to their initiative roll per-Unit with this tag.</p><p><i>Combat Phase</i></p><p>Unit may <i>re-roll</i> <b>2 ATK</b> and <b>2 DEF</b> <i>per-turn</i>.</p>",
             func : (rowId) => {
@@ -1244,6 +1306,7 @@ const tagInfo = {
             eqt:'<i>Unit base total COST</i> * 60%'
         },
         {
+            abrv: 'RCN',
             title : 'Recon',
             desc : "<p><i>Initiative Phase</i></p><p><b>Unit cannot be Panicked.</b></p><p>Player may <b>+2</b> to their <i>Initiative</i> roll total <b>IF</b> this Unit has <i>Line of Sight</i> on <b>at least 2</b> target models in <b>Effective Range</b> during the <i>Initiative Phase</i>.</p><p>Unit suffers <b>-3 ATK</b> this <i>Combat Phase</i> to use the tag.</p>",
             func : (rowId) => {
@@ -1274,6 +1337,7 @@ const tagInfo = {
             eqt:'<i>Average</i> of (<b>Range</b> / 2) + (<b>Move</b> / 2), then add (<b>Armor</b> / 2)'
         },
         {
+            abrv: 'ROLLSTP',
             title : 'Rolling Stop',
             desc : '<p><i>Movement Phase</i></p><p><b>If</b> Unit is declared <i>Stationary</i> and they moved the <i>previous Turn</i>, Unit <b>must</b> move a distance of <b>25% <i>Move</i></b>, minimum <b>2\"</b>. <b>If</b> Unit enters melee range of an enemy, this <b>does not</b> count for <i>Danger Close</i> or any other melee, ramming effects.</p>',
             func : (rowId) => {
@@ -1294,6 +1358,7 @@ const tagInfo = {
             eqt:'<i>subtract</i>  15% of <b>Move COST</b>'
         },
         {
+            abrv: 'SCNDTUR',
             title : 'Secondary Turrets',
             desc : "<p><i>Combat Phase</i>.</p><p>Unit <b>may</b> make a <i>Ranged Attack</i> <b>outside</b> its fire arc, but <i>damage</i> of attack is only <b>33% rounded up, Min 1</b> of the total.</p>",
             func : (rowId) => {
@@ -1330,6 +1395,7 @@ const tagInfo = {
             eqt:'(20% of <b>Damage-Range COST</b>) + (20% of <b>Range COST</b>)'
         },
         {
+            abrv: 'HEAL',
             title : 'Self-Healing',
             desc : "<p><i>Movement Phase</i></p><p>Player declares using this tag, Unit's <i>Move Value</i> is <b>reduced by half round down.</b>. Unit <b>may not make any attacks this turn</b>.</p><p>Unit may <b>regain</b> a number of <i>Armor</i> equal to <i>Size</i> value.</p>",
             func : (rowId) => {
@@ -1347,6 +1413,7 @@ const tagInfo = {
             eqt:'(+20% of <b>Armor COST</b>) + (<b>Move</b> / 2) + (<b>Size</b> * 1.25)'
         },
         {
+            abrv: 'SHRPS',
             title : 'Sharpshooter',
             desc : "<p><i>Combat Phase</i></p></p>Unit may <b>subtract 1</b> from <i>Stress Penalty</i> to ranged attacks at non-closest target.</p>",
             func : (rowId) => {
@@ -1370,11 +1437,18 @@ const tagInfo = {
                 if(ub_tags_checkByName('Fearless')){
                     warn = warn + '<p>Unit <i>already has</i> [Fearless] tag.</p>';
                 }
+                if(ub_tags_checkByName('Optimal Range - Short')){
+                    warn = warn + '<p>Unit already has the <b>[Optimal Range - Short]</b> tag.</p>';
+                }
+                if(ub_tags_checkByName('Optimal Range - Long')){
+                    warn = warn + '<p>Unit already has the <b>[Optimal Range - Long]</b> tag.</p>';
+                }
                 return warn;
             },
             eqt:'(<b>Damage-Range</b> / 2) + (<b>Range</b> / 2) + (<b>Move</b> / 4) - <b>Size</b>'
         },
         {
+            abrv: 'STABLE',
             title : 'Stable Fire Platform',
             desc : "<p><i>Combat Phase</i></p><p>Unit may <b>reroll</b> up to <b>2</b> ATK dice when <b>Stationary</b> during the <i>Movement Phase</i>. Cost less for slower units.</p>",
             func : (rowId) => {
@@ -1403,6 +1477,7 @@ const tagInfo = {
             eqt:'(<b>Move</b> / <b>Size</b>) * <b>Size</b> | min cost 5pts.'
         },
         {
+            abrv: 'STLLSPD',
             title : 'Stall Speed',
             desc : "<p><i>Movement Phase</i></p><p>Unit now has a Minimum Move distance of 1/3 normal move. It must always move AT LEAST this far in its Movement Phase. IF unit cannot complete this minimum move, it is destroyed in the Resolution Phase. This model cannot take <i>[Stable Firing Platform]</i> along with this.</p>",
             func : (rowId) => {
@@ -1420,6 +1495,7 @@ const tagInfo = {
             eqt:'<i>subtract</i> (<b>Move</b> / 2)'
         },
         {
+            abrv: 'SPRCHRGR',
             title : 'Supercharger',
             desc : "<p><i>Movement Phase</i></p><p>If Unit moved in the <i>Movement Phase</i>, Unit may move up to 25% its total <b>Move</b> immediately after this Turn's <i>Attack Phase</i>.</p>",
             func : (rowId) => {
@@ -1444,6 +1520,7 @@ const tagInfo = {
             eqt:'(<b>Size</b> / <b>Move</b>) * <b>Move</b>'
         },
         {
+            abrv: 'TRFFY',
             title : 'Terrifying',
             desc : '<p><i>Movement Phase</i></p><p>When Unit has finished its move, <b>all</b> Enemy Units within 6" <b>immediately</b> suffer <b>1 Stress Point</b></p>',
             func : (rowId) => {
@@ -1472,6 +1549,7 @@ const tagInfo = {
             eqt:'((1 / <b>Size</b>^2) * <b>Move</b>) * 25'
         },
         {
+            abrv: 'THNDR',
             title : 'Thunderous Report',
             desc : '<p><i>Combat Phase</i></p><p>Target of this Unit suffers <b>+1 Stress</b> from <i>Ranged Attacks.</i></p>',
             func : (rowId) => {
@@ -1487,6 +1565,7 @@ const tagInfo = {
             eqt:'(<b>Move</b> / 2) + (<b>Range</b> * 1.25) - (<b>Range Damage</b>)'
         },
         {
+            abrv: 'TRNSP',
             title : 'Transport',
             desc : "<p><i>Movement Phase</i></p><p>Unit can carry a number of <i>Friendly Units</i> whose <b>Sizes</b> when totaled are equal to or less than half this Unit's Size. \nSize 0 becomes Size 1 for this.</p>",
             func : (rowId) => {
@@ -1502,6 +1581,7 @@ const tagInfo = {
             eqt:'(<b>Size</b> * 2) + (<b>Move</b> / 2) + (<b>Armor</b> / 3)'
         },
         {
+            abrv: 'WKARM',
             title : 'Weak Rear Armor',
             desc : "<p><i>Combat Phase</i></p><p><b>If</b> Unit takes <i>any</i> <b>DMG</b> and the source of the damage is in the Unit's <i>Rear Facing Arc</i>, then Unit suffers <i>extra</i> <b>50% DMG</b> (<i>round up</i>) of the current attack.</p>",
             func : (rowId) => {
@@ -1527,6 +1607,7 @@ const tagInfo = {
             eqt:'(<b>Move</b> / 2) - (40% of <b>Armor COST</b>)'
         },
         {
+            abrv: 'COORDFR',
             title : 'Coordinated Fire',
             desc : '<p><i>Combat Phase</i></p><p><b>Once per Turn</b>, when this Unit makes a <i>Ranged Attack</i>; <b>before</b> rolling, Player may declare <b>up to 2</b> other Friendly Units within <b>8”</b>. All selected units <b>must</b> fire at the same target, but each unit gains <b>+1 ATK</b>.</p><p>Ranged Attacks are resolved as normal but affected Units <b>cannot</b> use any <i>TAG</i> that would split their <i>Ranged Damage</i>,but <b>+1 Stress</b> for missed attacks. Secondary Units can only be selected <b>once</b> per Turn for this <i>TAG</i>.</p>',
             func : (rowId) => {
@@ -1550,29 +1631,31 @@ const tagInfo = {
             },
             eqt:'(<b>Move</b> / 1.5) + (<b>Armor</b> / 3) + (<b>Range</b> / 1.5) + (<b>DMG-R</b> / 2)'
         },
-        // moved to advanced rules.
-        {
-            title : 'Composite Unit',
-            disabled : true,
-            // desc : '<p>Player may use <b>1</b> model to represent <i>multiple</i> Unit Info cards. Each Unit Card must have <b>matching</b> <i>Size, Move</i> stats. Attacking players may <b>choose</b> which Unit Info Card to target whenever the <i>model</i> is the target of an attack. Unit is destroyed when the <b>last</b> Unit Info Card is destroyed, but each specific Unit Card is disabled when its Armor reached 0.</p>',
-            desc : '',
-            func : (rowId) => {
-                return 0;
-            },
-            reqs : (rowId) => {
-                // let warn = '';
-                // let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
+        // // moved to advanced rules.
+        // {
+        //     abrv: 'CMPUNIT',
+        //     title : 'Composite Unit',
+        //     disabled : true,
+        //     // desc : '<p>Player may use <b>1</b> model to represent <i>multiple</i> Unit Info cards. Each Unit Card must have <b>matching</b> <i>Size, Move</i> stats. Attacking players may <b>choose</b> which Unit Info Card to target whenever the <i>model</i> is the target of an attack. Unit is destroyed when the <b>last</b> Unit Info Card is destroyed, but each specific Unit Card is disabled when its Armor reached 0.</p>',
+        //     desc : '',
+        //     func : (rowId) => {
+        //         return 0;
+        //     },
+        //     reqs : (rowId) => {
+        //         // let warn = '';
+        //         // let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 
-                // if(sizeVal <= 0){
-                //     warn = warn + '<p>Unit must have a <b>[Size]</b> greater than 0.</p>';
-                // }
+        //         // if(sizeVal <= 0){
+        //         //     warn = warn + '<p>Unit must have a <b>[Size]</b> greater than 0.</p>';
+        //         // }
 
-                // return warn;
-                return '';
-            },
-            eqt:'<i>none</i> '
-        },
+        //         // return warn;
+        //         return '';
+        //     },
+        //     eqt:'<i>none</i> '
+        // },
         {
+            abrv: 'FLDART',
             title : 'Field Artillery',
             desc : '<p><i>Combat Phase</i>.</p><p>Unit may select targets <b>outside</b> <i>Line of Sight</i> when making <i>Ranged Attacks</i>. Target <b>cannot</b> be at <i>Long Range</i> of the attacking Unit.</p>',
             func : (rowId) => {
@@ -1603,6 +1686,87 @@ const tagInfo = {
                 return warn;
             },
             eqt:'(<b>Damage-Range</b> / 3) + (65% of <b>Range Cost</b>)'
+        },
+        {
+            abrv: 'RNGOPTSH',
+            title : 'Optimal Range - Short',
+            desc : '<p><i>Combat Phase</i>.</p><p>Unit may extend <i>Close Range</i> bonus to <b>10"</b>. <b>Additional -1 ATK</b> at <i>Long Range</i>, and <i>Ranged Damage</i> reduce by <b>50% rounded down</b> for all attacks outside of <b>10"</b>.</p>',
+            func : (rowId) => {
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+                let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
+                let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
+                
+                let rangeCost = uc_calc_Range(moveVal, rangeVal, rangeDamageVal);
+
+                let rangeDiscount = (0 - (rangeCost * 0.67));
+
+                return rangeDiscount + rangeDamageVal/2;
+            },
+            reqs : (rowId) => {
+                let warn = '';
+                let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
+                if(rangeVal <= 0){
+                    warn = warn + '<p>Unit must have a <b>[Range]</b> greater than 0.</p>';
+                }
+                let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
+                if(rangeDamageVal <= 0){
+                    warn = warn + '<p>Unit must have a <b>[Range Damage]</b> greater than 0.</p>';
+                }
+                if(ub_tags_checkByName('Minimum Range')){
+                    warn = warn + '<p>Unit already has the <i>[Minimum Range]</i> tag.</p>';
+                }
+                if(ub_tags_checkByName('Advanced Gun Sights')){
+                    warn = warn + '<p>Unit already has the <i>[Advanced Gun Sights]</i> tag.</p>';
+                }
+                if(ub_tags_checkByName('Sharpshooter')){
+                    warn = warn + '<p>Unit already has the <i>[Sharpshooter]</i> tag.</p>';
+                }
+                if(ub_tags_checkByName('Optimal Range - Long')){
+                    warn = warn + '<p>Unit already has the <i>[Optimal Range - Long]</i> tag.</p>';
+                }
+                return warn;
+            },
+            eqt:'(subtract 67% of <i>Ranged Cost</i>) then <b>add</b> <i>Ranged Attack</i> / 2 '
+        },
+        {
+            abrv: 'RNGOPTLN',
+            title : 'Optimal Range - Long',
+            desc : '<p><i>Combat Phase</i>.</p><p><b>-1 ATK</b> and <b>50%</b> <i>Ranged Damage</i> to any Target <b>at or under 16"</b> of range.</p>',
+            func : (rowId) => {
+                let moveVal = parseInt(document.getElementById(rowId + '_move').value);
+                let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
+                let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
+                
+                let rangeCost = uc_calc_Range(moveVal, rangeVal, rangeDamageVal);
+                let rangeDiscount = rangeCost * 0.5;
+
+                return (0 - (rangeDiscount + (rangeDamageVal / 2)));
+            },
+            reqs : (rowId) => {
+                let warn = '';
+                let rangeVal = parseInt(document.getElementById(rowId + '_range').value);
+                if(rangeVal <= 0){
+                    warn = warn + '<p>Unit must have a <b>[Range]</b> greater than 0.</p>';
+                }
+                let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
+                if(rangeDamageVal <= 0){
+                    warn = warn + '<p>Unit must have a <b>[Range Damage]</b> greater than 0.</p>';
+                }
+                if(ub_tags_checkByName('Minimum Range')){
+                    warn = warn + '<p>Unit already has the <i>[Minimum Range]</i> tag.</p>';
+                }
+                if(ub_tags_checkByName('Sharpshooter')){
+                    warn = warn + '<p>Unit already has the <i>[Sharpshooter]</i> tag.</p>';
+                }
+                if(ub_tags_checkByName('Brawler')){
+                    warn = warn + '<p>Unit already has the <i>[Brawler]</i> tag.</p>';
+                }
+                if(ub_tags_checkByName('Optimal Range - Short')){
+                    warn = warn + '<p>Unit already has the <i>[Optimal Range - Short]</i> tag.</p>';
+                }
+                return warn;
+            },
+            eqt:'subtract ((50% of <i>Ranged Cost</i>) + (<i>Ranged Attack</i> / 2))'
         }
    ]
 };
@@ -1623,7 +1787,7 @@ function tagInfo_hasTag(tagName){
 
 
 function isTag(element, index, array){
-    if(element.id == this){
+    if(element.abrv == this){
         return element;
     }
     return undefined;
@@ -1634,13 +1798,9 @@ function initializeSortedTagList(){
     let tagCount = 0;
     for(let tagId in tagInfo.data){
         let tag = tagInfo.data[tagId];
-
-        // if(tag === null || tag === undefined || Object.keys(tag).length <= 0 || tag["disabled"]){
-        //     continue;
-        // }
-
         tagCount++;
         tag.id = tagCount;
+        console.log(tag.id + ":" + tag.title + " | " + tag.abrv);
         sortedTags.push(tag);
     }
     sortedTags = sortedTags.sort((a, b) => a.title.localeCompare(b.title));
