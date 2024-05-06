@@ -43,7 +43,7 @@ function tl_buildTable(){
         let button =  cel.children[0];
 
         button.innerHTML = tagItem.title
-        button.id = tagItem.id;
+        button.id = tagItem.abrv;
         button.addEventListener('click', ()=>{
             tl_showTag(cel.children[0].id);
         });
@@ -55,7 +55,7 @@ function tl_buildTable(){
 
 function tl_showTag(celData){
     let tagId = celData;
-    let tagViewModal = $('#tagLibModal')[0];
+    let tagViewModal = document.querySelector('#tagLibModal');
 
     let tagData = sortedTags.find(isTag, tagId);
     if(tagData === null || tagData === undefined || Object.keys(tagData).length <= 0 || tagData["disabled"]){

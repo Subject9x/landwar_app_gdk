@@ -55,10 +55,6 @@ function rb_scenarios_open_core(){
     window.api.send('rb-open-rules', 'rulebook_scenarios_basic');
 }
 
-function rb_rules_pdf_core(){
-    window.api.send('rb-save-rules-core', dialogSavePDFOptions, pdfSaveOptions);
-}
-
 function rb_rules_pdf_quick(){
     window.api.send('rb-save-rules-quick', dialogSavePDFOptions, pdfSaveOptions);
 }
@@ -71,24 +67,28 @@ function rb_unit_cost_save(){
     window.api.send('rb-save-unit-cost', dialogSavePDFOptions, pdfSaveOptions);
 }
 
+function rb_rules_pdf_core(){
+    window.api.send('rb-save-rules', dialogSavePDFOptions, pdfSaveOptions, 'rulebook_core');
+}
+
 
 function rb_modules_open_compositeUnit(){
     window.api.send('rb-open-rules', '/modules/module_composite_unit');
 }
-function rb_modules_save_compositeUnit(){
-    window.api.send('rb-save-unit-cost', dialogSavePDFOptions, pdfSaveOptions);
-}
 function rb_modules_open_multiModeUnit(){
     window.api.send('rb-open-rules', '/modules/module_multi_mode_unit');
-}
-function rb_modules_save_multiModeUnit(){
-    window.api.send('rb-save-unit-cost', dialogSavePDFOptions, pdfSaveOptions);
 }
 function rb_modules_open_limitUseWeap(){
     window.api.send('rb-open-rules', '/modules/module_limited_use_item');
 }
+function rb_modules_save_compositeUnit(){
+    window.api.send('rb-save-rules', dialogSavePDFOptions, pdfSaveOptions, '/modules/module_composite_unit');
+}
+function rb_modules_save_multiModeUnit(){
+    window.api.send('rb-save-rules', dialogSavePDFOptions, pdfSaveOptions, '/modules/module_multi_mode_unit');
+}
 function rb_modules_save_limitUseWeap(){
-    window.api.send('rb-save-unit-cost', dialogSavePDFOptions, pdfSaveOptions);
+    window.api.send('rb-save-rules', dialogSavePDFOptions, pdfSaveOptions, '/modules/module_limited_use_item');
 }
 
 /*

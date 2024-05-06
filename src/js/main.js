@@ -235,7 +235,7 @@ ipcMain.handle('rb-open-rules', (event, htmlFile)=>{
 /**
  * SIGNAL - SAVE RULES TO PDF
  */
-ipcMain.handle('rb-save-rules-core', (event, pdfSavedialog, pdfOptionSave)=>{
+ipcMain.handle('rb-save-rules', (event, pdfSavedialog, pdfOptionSave, html)=>{
 
   if(rulesWindow != null){
     if(isAppWindowOpen(rulesWindow)){
@@ -255,7 +255,7 @@ ipcMain.handle('rb-save-rules-core', (event, pdfSavedialog, pdfOptionSave)=>{
       frame : false
     }
   });
-  rulesWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_core.html');
+  rulesWindow.loadFile('src/html/layout/pages/rulebooks/'+ html +'.html');
   rulesWindow.focus();
   rulesWindow.on('ready-to-show', ()=>{
     pdfSavedialog.defaultPath = lastFilePathUsed;
@@ -282,8 +282,6 @@ ipcMain.handle('rb-save-rules-core', (event, pdfSavedialog, pdfOptionSave)=>{
       }
     });
   });
-
-
 })
 
 ipcMain.handle('rb-save-rules-quick', (event, pdfSavedialog, pdfOptionSave)=>{
