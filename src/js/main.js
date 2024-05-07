@@ -30,6 +30,15 @@ function isAppWindowOpen(windowObj){
   return true;
 }
 
+function setAppVer(targetWindow){
+  targetWindow.webContents.on('did-finish-load', ()=>{
+    let name = require('../../package.json').name;
+    let ver = require('../../package.json').version;
+    let title = name + " v" + ver;
+    targetWindow.setTitle(title);
+  });
+}
+
 //custom func to make a new 'default' window.
 function createWindow () {
   mainWindow = new BrowserWindow({
@@ -51,6 +60,7 @@ function createWindow () {
   mainWindow.on('close', (event) => {
     app.quit();
   });
+  setAppVer(mainWindow);
 }
 
 function setLastWindow(prevWindow){
@@ -223,6 +233,7 @@ ipcMain.handle('rb-open-rules', (event, htmlFile)=>{
       frame : false
     }
   });
+  setAppVer(rulesWindow);
   
   setLastWindow(BrowserWindow.fromId(event.sender.id));
 
@@ -255,6 +266,7 @@ ipcMain.handle('rb-save-rules', (event, pdfSavedialog, pdfOptionSave, html)=>{
       frame : false
     }
   });
+  setAppVer(rulesWindow);
   rulesWindow.loadFile('src/html/layout/pages/rulebooks/'+ html +'.html');
   rulesWindow.focus();
   rulesWindow.on('ready-to-show', ()=>{
@@ -304,6 +316,7 @@ ipcMain.handle('rb-save-rules-quick', (event, pdfSavedialog, pdfOptionSave)=>{
       frame : false
     }
   });
+  setAppVer(rulesWindow);
   rulesWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_quickplay.html');
   rulesWindow.focus();
 
@@ -352,6 +365,7 @@ ipcMain.handle('rb-save-scenario', (event, pdfSavedialog, pdfOptionSave)=>{
       frame : false
     }
   });
+  setAppVer(rulesWindow);
   rulesWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_scenarios_basic.html');
   rulesWindow.focus();
 
@@ -401,6 +415,7 @@ ipcMain.handle('tag-save-core', (event, pdfSavedialog, pdfOptionSave)=>{
       frame : false
     }
   });
+  setAppVer(tagCoreWindow);
   tagCoreWindow.loadFile('src/html/layout/pages/tagLibrary/tagLibPrintCore.html');
   tagCoreWindow.focus();
 
@@ -450,6 +465,7 @@ ipcMain.handle('rb-save-unit-cost', (event, pdfSavedialog, pdfOptionSave)=>{
       frame : false
     }
   });
+  setAppVer(tagCoreWindow);
   tagCoreWindow.loadFile('src/html/layout/pages/rulebooks/rulebook_core_unit_cost.html');
   tagCoreWindow.focus();
 
@@ -493,6 +509,7 @@ function createWindowUnitSheet(){
       frame : false
     }
   });
+  setAppVer(ubSheetNew);
 
   ubSheetNew.loadFile('src/html/layout/pages/unitBuilder/unitbuilderSheet.html');
   return ubSheetNew;
@@ -502,9 +519,7 @@ ipcMain.handle('ub-open-sheet-new', (event)=>{
   let ubSheetNew = createWindowUnitSheet();
   
   setLastWindow(BrowserWindow.fromId(event.sender.id));
-  //ubSheetNew.focus();
 
-  
   ubSheetNew.once('ready-to-show', () => {
     ubSheetNew.show();
     ubSheetNew.focus();
@@ -572,6 +587,7 @@ function createWindowUnitCard(){
       frame : false
     }
   });  
+  setAppVer(ubSheetNew);
   
   ubSheetNew.loadFile('src/html/layout/pages/unitCardGen/unitCardSheet.html');
 
@@ -599,7 +615,7 @@ ipcMain.handle('ub-dialog-send-cardgen', (event, unitData) => {
 });
 
 
- ipcMain.handle('uic-open-sheet-new', (event)=>{
+ipcMain.handle('uic-open-sheet-new', (event)=>{
   let ubSheetNew = createWindowUnitCard();
 
   setLastWindow(BrowserWindow.fromId(event.sender.id));
@@ -687,6 +703,7 @@ ipcMain.handle('uic-save-sheet', (event, pdfSavedialog, pdfOptionSave, unitCardD
       frame : false
     }
   });
+  setAppVer(abSheetNew);
 
   abSheetNew.loadFile('src/html/layout/pages/armyBuilder/armyBuilderSheet.html');
 
@@ -821,6 +838,7 @@ function createWindowArmyBuildTagList() {
       frame : false
     }
   });
+  setAppVer(abTagList);
   
   abTagList.loadFile('src/html/layout/pages/armyBuilder/armyListTagPrintable.html');
   
