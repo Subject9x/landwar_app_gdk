@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>LANDWAR GDK v0.4.0</title>
+    <title id="">${landwarVersion}</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
     <!-- <link rel="stylesheet" href="../../../../css/base_responsive.css"/> -->
     <link rel="stylesheet" href="../../../../../node_modules/furtive/css/furtive.min.css">
@@ -618,17 +618,10 @@
                         <div class="grd-row-col-6 rulePanel">
                             <label class="ruleTitle"><u>Line of Sight</u></label>
                             <p>Primary method to determine if a Unit can see other Units, usually for Attacks.</p>
-                            <p><b>Basic Method</b></p>
                             <ul class="sectionOrderList">
                                 <li>Draw a line from the <i>center</i> of the model of the Unit.</li>
                                 <li>to the <i>center</i> of the model of any target Units.</li>
                                 <li><b>If</b> the line is <b>not</b> obstructed by <b>enemy</b> models <b>or</b> <i>Terrain Objects</i>, then <u>Line of Sight</u> is achieved.</li>
-                            </ul>
-                            <p><b>Advanced Methods</b><i>(OPTIONAL)</i></p>
-                            <ul class="sectionOrderList">
-                                <li><b>Compare</b> the <i>[Size]</i> values of <b>all</b> models that are between the Unit and a target.</li>
-                                <li><i>If</i> the Unit's <i>[Size]</i> value is <b>greater than</b> the blocking model, then <u>Line of Sight</u> is achieved.</li>
-                                <li><i>If</i> the <b>Target's</b> <i>[Size]</i> value is <b>greater than</b> the blocking model, then <u>Line of Sight</u> is achieved.</li>
                             </ul>
                         </div>
                     </div>
@@ -645,29 +638,6 @@
                                         <li>Can Units move <i>into and out of</i> the object?</li>
                                     </ul>
                                 </li>
-                            </ul>
-                            <p><b>Advanced Rules</b><i>(OPTIONAL)</i></p>
-                            <ul class="sectionOrderList">
-                                <li><b>For each</b> <i>Terrain Object</i> Players <b>must assign</b> properties:
-                                    <ul>
-                                        <li><i>[Size]</i> value, used with <u>Line of Sight</u> <i>advanced method</i>.</li>
-                                        <li><i>[Armor]</i> value <i>(OPTIONAL)</i>, allows <i>Terrain Object</i> to be attacked like a normal Unit and <b>destroyed</b>.</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="grd-row">
-                        <div class="grd-row-col-6 rulePanel">
-                            <label class="ruleTitle"><u>Overwatch</u></label>
-                            <p><b>Advanced Rules!</b><i>(OPTIONAL)</i></p>
-                            <p>This is very optional rule, it provides an 'interrupt' that players can cause during the movement phase.</p>
-                            <p>Enemy Unit can make an <b>immediate</b> <i>Ranged Attack</i> at <b>-2 ATK</b> and <b>Damage 50% rounded down</b> with the following conditions:</p>
-                            <ul>
-                                <li><i>Panicked</i> Units <b>cannot</b> make Overwatch attacks.</li>
-                                <li>When a Unit moves from the <i>Forward</i> arc to the <i>Rear</i> arc of an Enemy Unit.</li>
-                                <li><b>IF</b> the Unit was in Target's <i>Line of Sight</i> at the <b>start and end</b> of the move.</li>
-                                <li><b>IF</b> the Unit <b>ends</b> their Move 8" <b>or less</b> from the Target Unit.</li>
                             </ul>
                         </div>
                     </div>
