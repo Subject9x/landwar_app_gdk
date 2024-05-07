@@ -71,7 +71,9 @@ function rb_rules_pdf_core(){
     window.api.send('rb-save-rules', dialogSavePDFOptions, pdfSaveOptions, 'rulebook_core');
 }
 
-
+function rb_modules_open_advRules(){
+    window.api.send('rb-open-rules', '/modules/module_advanced_rules');
+}
 function rb_modules_open_compositeUnit(){
     window.api.send('rb-open-rules', '/modules/module_composite_unit');
 }
@@ -80,6 +82,9 @@ function rb_modules_open_multiModeUnit(){
 }
 function rb_modules_open_limitUseWeap(){
     window.api.send('rb-open-rules', '/modules/module_limited_use_item');
+}
+function rb_modules_save_advRules(){
+    window.api.send('rb-save-rules', dialogSavePDFOptions, pdfSaveOptions, '/modules/module_advanced_rules');
 }
 function rb_modules_save_compositeUnit(){
     window.api.send('rb-save-rules', dialogSavePDFOptions, pdfSaveOptions, '/modules/module_composite_unit');
