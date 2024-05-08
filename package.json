@@ -1,7 +1,7 @@
 {
-  "name": "landwar-gdk",
+  "name": "LANDWAR-GDK",
   "version": "1.0.0",
-  "description": "testApp",
+  "description": "official Game Dev Kit for the LANDWAR tabletop wargame rules.",
   "main": "src/js/main.js",
   "scripts": {
     "start": "electron-forge start",
@@ -13,7 +13,7 @@
     "distx64": "electron-builder --windows",
     "publish" : "electron-forge publish"
   },
-  "author": "OrbitalYards",
+  "author": "Peter Roohr",
   "license": "ISC",
   "devDependencies": {
     "@electron-forge/cli": "6.2.1",

@@ -8,22 +8,6 @@ let shapeshiftArr = [];
 function ab_util_hasShifter(unitName){
     return shapeshiftArr.findIndex((element) => element == unitName);
 }
-/*
-    
-    //shapeshiftArray
-    let unitName =  $("#" + unitRowId + '_name')[0].value;
-    let shapeshiftId = shapeshiftArray.findIndex((element) => element == unitName);
-
-    if(ub_tags_checkByName('Shapeshifter')){
-        if(!shapeshiftArray.includes(unitName)){
-            shapeshiftArray.push(unitName);
-        }
-    }
-    else{
-        shapeshiftArray.splice(shapeshiftId, 1);
-        console.log("spliced array at " + shapeshiftId);    //debug
-    }
-*/
 
 let tagHover;
 
@@ -32,15 +16,12 @@ function ab_tags_checkByName(tagName, tagArr){
         return false;
     }
     for(let tagIdx in tagArr){
-        let tagId = tagArr[parseInt(tagIdx)];
-        if(!Number.isNaN(tagId)){
-
-            let tag = sortedTags.find(isTag, tagId);
-            if(tag !== null && tag !== undefined && Object.keys(tag).length > 0){
-                if(!tag["disabled"]){
-                    if(tag.title === tagName){
-                        return true;
-                    }
+        let tagId = tagArr[tagIdx];
+        let tag = sortedTags.find(isTag, tagId);
+        if(tag !== null && tag !== undefined && Object.keys(tag).length > 0){
+            if(!tag["disabled"]){
+                if(tag.title === tagName){
+                    return true;
                 }
             }
         }
@@ -55,7 +36,7 @@ function ab_util_string_to_arr(rowTags, tagArr){
             for(let rowTagIdx in rowTagsArr){
                 let tagStr = rowTagsArr[rowTagIdx];
                 if(tagStr != " " && tagStr != ""){
-                    tag = parseInt(tagStr);
+                    tag = tagStr;
                     let add = true;
                     for(let i in tagArr){
                         let tagId = tagArr[i];
@@ -244,12 +225,6 @@ function ab_unitInfo_addData(parsedData){
                     //Shapeshifter meta check
                     let checkTags = [];
                     ab_util_string_to_arr(objData.tags, checkTags);
-
-                    if(ab_tags_checkByName("Shapeshifter", checkTags)){
-                        if(!ab_util_hasShifter(unitName)){
-                            shapeshiftArr.push(row.querySelector("#name").innerHTML);
-                        }
-                    }
                 }       
 
                 let addBtn = row.querySelector('button');
@@ -316,12 +291,6 @@ function ab_armyList_parseData(parsedData){
                     
                     let checkTags = [];
                     ab_util_string_to_arr(objData.tags, checkTags);
-
-                    if(ab_tags_checkByName("Shapeshifter", checkTags)){
-                        if(!ab_util_hasShifter(unitName)){
-                            shapeshiftArr.push(row.querySelector("#name").innerHTML);
-                        }
-                    }
                 } 
 
                 let btnRemove = newListRow.querySelector('button');
@@ -391,12 +360,7 @@ function ab_unitInfo_addToList(unitRowId){
         };
 
         let checkTags = [];
-        ab_util_string_to_arr(newListRow.querySelector('#tags').innerText, checkTags);
-
-        if(ab_tags_checkByName("Shapeshifter", checkTags)){
-            //TODO - shapeshifter
-        }
-      
+        ab_util_string_to_arr(newListRow.querySelector('#tags').innerText, checkTags);  
     } 
 
     let btnRemove = newListRow.querySelector('button');

@@ -44,23 +44,13 @@ function uic_card_row_add(objData, newRowId){
     cardDiv.innerHTML = unitRowTemplate;
 
     cardDiv.querySelector("#ucName").innerHTML = objData.unitName;
-
     cardDiv.querySelector("#ucSize").innerHTML = objData.size;
-    
     cardDiv.querySelector("#ucMove").innerHTML = objData.move;
-    
     cardDiv.querySelector("#ucEvade").innerHTML = objData.evade;
-    
     cardDiv.querySelector("#ucMel").innerHTML = objData.dmgMelee;
-    
     cardDiv.querySelector("#ucRange").innerHTML = objData.dmgRange;
-    
     cardDiv.querySelector("#ucDist").innerHTML = objData.range + '"';
-    
     cardDiv.querySelector("#ucArmor").innerHTML = objData.armor;
-    
-    //cardDiv.querySelector("#ucStruc").innerHTML = objData.structure;
-    
     cardDiv.querySelector("#ucPoints").innerHTML = '<b>' + objData.completeTotal + '</b>';
 
     let tagArr = row_tagArrays[newRowId];

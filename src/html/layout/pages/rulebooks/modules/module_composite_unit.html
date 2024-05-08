@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>LANDWAR GDK v0.4.0</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <link rel="stylesheet" href="../../../../../../node_modules/jquery-ui/dist/themes/base/jquery-ui.min.css" />
+    <link rel="stylesheet" href="../../../../../../node_modules/furtive/css/furtive.min.css" />
+    <link rel="stylesheet" href="../../../../../css/base_responsive.css"/>
+    <link rel="stylesheet" href="../../../../../css/styles.css"/>
+    <link rel="stylesheet" href="../../../../../css/pages/rulebook/rulebook.css"/>
+    <script>
+        
+    </script>
+</head>
+<body>
+<div class="grd">
+    <div class="grd-row">
+        <div class="grd-row-col-6 txt--center">
+            <h3><i>LANDWAR</i></h3> <h4>Module</h4>
+        </div>
+    </div>
+    <div class="grd-row">
+        <div class="grd-row-col-6 txt--center">
+            <h4><i>Composite Unit</i></h4>
+        </div>
+    </div>
+    <div class="grd-row">
+        <div class="grd-row-col-6 txt--left thinPanel ">
+            <p><i>Composite Units</i> allow players to pack multiple <i>Unit Info Cards</i> into a single model on the table.
+                This module is best used to represent massive units with multiple sub-systems such as battleships, massive mecha,
+                or AI-drive landships. To bind unit cards together, use the following contstruction rules, tag modifications,
+                and gameplay changes. Like all modules, all players must agree to use this module before beginning play.
+            </p>
+        </div>
+    </div>
+    <div class="grd-row">
+        <div class="grd-row-col-6 rulePanel">
+            <label class="ruleTitle"><u>Construction</u></label>
+            <p>Begin by building each component as a standard unit.</p>
+            <ul>
+                <li>1 unit stat line is the 'base hull'.</li>
+                <li>The <i>Size</i> stats of other sub-components must <b>add up</b> to the <i>Size</i> of the base hull.</li>
+                <li>all components may have their own speed value, entire unit may make <i>Standard</i> moves using the <b>highest</b> <i>Speed</i> value.</li>
+                <li><i>Evasion</i> <b>cannot be used at all</b>, this unit is massive!</li>
+            </ul>
+        </div>
+    </div>
+    <div class="grd-row">
+        <div class="grd-row-col-6 rulePanel">
+            <label class="ruleTitle"><u>Gameplay</u></label>
+            <p></p>
+            <ul>
+                <li>
+                    <b>Line of Sight</b>
+                    <ul>
+                        <li>When targeting this unit, draw <i>LoS</i> to the model as normal, Attacker may then choose <b>any</b> unit card to resolve attacks against.</li>
+                        <li>Making attacks with the <i>Composite Unit</i>, <b>all</b> components have the same <i>LoS</i> from the model to various targets and may resolve attacks separately.</li>        
+                    </ul>
+                </li>
+                <li>
+                    <b>Damage</b>
+                    <ul>
+                        <li>Each component can be destroyed as normal, however entire Unit is not destroyed until <b>all</b> components have their armor reduced to 0.</li>
+                        <li>Whenever a component is destroyed, Unit's <i>Move</i> becomes the remaining <b>highest</b> <i>Move Value</i>. If Unit is  reduced to 0 Move, it is immobilized.</li>
+                    </ul>
+                </li>
+                <li>
+                    <b>Stress</b>
+                    <ul>
+                        <li>Components track their own stress as normal.</li>
+                        <li>Whenever a component panicks, <b>each other component suffers +1 Stress.</b></li>
+                        <li>If 75% or more components panic, the entire unit panicks.</li>
+                    </ul>
+                </li>
+                <li>
+                    <b>Objective Scoring</b>
+                    <ul>
+                        <li>Only take the <b>highest</b> <i>Armor</i> value when determining <i>Objective Secured</i>.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

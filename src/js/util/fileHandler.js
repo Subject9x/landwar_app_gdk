@@ -134,7 +134,7 @@ function file_unitBuild_import(fileDataArray){
                 let txtArray = objData.tags.split(' ');
                 for(let i in txtArray){
                     if(txtArray[i].length > 0){
-                        newArray.push(parseInt(txtArray[i]));
+                        newArray.push(txtArray[i]);
                     }
                 }
             }
@@ -180,7 +180,8 @@ function file_unitinfo_import(fileDataArray){
                 let txtArray = objData.tags.split(' ');
                 for(let i in txtArray){
                     if(txtArray[i].length > 0){
-                        newArray.push(parseInt(txtArray[i]));
+                        //newArray.push(parseInt(txtArray[i]));
+                        newArray.push(txtArray[i]);
                     }
                 }
             }

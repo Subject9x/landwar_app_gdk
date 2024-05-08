@@ -1,6 +1,7 @@
 // preload.js
 
 const {contextBridge, ipcRenderer} = require('electron');
+const {app} = require('electron/main');
 const { on } = require('events');
 const fs = require('fs');
 const path = require('path');
@@ -62,7 +63,6 @@ contextBridge.exposeInMainWorld(
 )
 // All of the Node.js APIs are available in the preload process.
 // It has the same sandbox as a Chrome extension.
-/*
-window.addEventListener('DOMContentLoaded', () => {
 
+/*window.addEventListener('DOMContentLoaded', () => {
 })*/

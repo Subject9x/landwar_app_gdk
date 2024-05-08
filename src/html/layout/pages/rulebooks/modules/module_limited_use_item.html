@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>LANDWAR GDK v0.4.0</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <link rel="stylesheet" href="../../../../../../node_modules/jquery-ui/dist/themes/base/jquery-ui.min.css" />
+    <link rel="stylesheet" href="../../../../../../node_modules/furtive/css/furtive.min.css" />
+    <link rel="stylesheet" href="../../../../../css/base_responsive.css"/>
+    <link rel="stylesheet" href="../../../../../css/styles.css"/>
+    <link rel="stylesheet" href="../../../../../css/pages/rulebook/rulebook.css"/>
+    <script>
+        
+    </script>
+</head>
+<body>
+<div class="grd">
+    <div class="grd-row">
+        <div class="grd-row-col-6 txt--center">
+            <h3><i>LANDWAR</i></h3> <h4>Module</h4>
+        </div>
+    </div>
+    <div class="grd-row">
+        <div class="grd-row-col-6 txt--center">
+            <h4><i>Limited-Use Items</i></h4>
+        </div>
+    </div>
+    <div class="grd-row">
+        <div class="grd-row-col-6 txt--left thinPanel ">
+            <p>Rules allow players to simulate special one-off abilities or weapons that a Unit might possess.
+                These could be weapons with limited ammo, or single-shot abilities. <i>LANDWAR</i> mechanically isn't fully written to handle
+                this kind of gameplay.
+            </p>
+        </div>
+    </div>
+    <div class="grd-row">
+        <div class="grd-row-col-6 rulePanel">
+            <label class="ruleTitle"><u>Construction</u></label>
+            <p>Each 'item' or 'weapon' will be its own Unit entry stat line.</p>
+            <ul>
+                <li>Tags may be applied but must follow their normal requirements for mounting.</li>
+                <li>Each item/weapon must have a <i>Size</i> of <b>1 or higher.</b> </li>
+                <li>Item info cards must then be declared applied to specific Units.</li>
+                <li><b>Total</b> <i>Size</i> of <b>all</b> Items <b>cannot</b> exceed the Unit's <i>Size</i> value.</li>
+                <li>Each item info card represents a single 'use' of the item, attach multiple copies to a Unit to provide multiple uses, paying the costs accodingly.</li>
+                <li>The following tags <b>cannot</b> be placed on an Limited-Use Item:
+                    <table class="txt--center">
+                        <tbody>
+                            <tr>
+                                <td><i>Cargo</i></td>
+                                <td><i>Courage-I</i></td>
+                                <td><i>Courage-II</i></td>
+                                <td><i>Crew-I</i></td>
+                                <td><i>Crew-II</i></td>
+                                <td><i>Fearless</i></td>
+                            </tr>
+                            <tr>
+                                <td><i>Fly</i></td>
+                                <td><i>Hero</i></td>
+                                <td><i>Mobile HQ</i></td>
+                                <td><i>Pack/Deploy</i></td>
+                                <td><i>Rank-Green</i></td>
+                                <td><i>Rank-Veteran</i></td>
+                            </tr>
+                            <tr>
+                                <td><i>Rank-Elite</i></td>
+                                <td><i>Stall Speed</i></td>
+                                <td><i>Transport</i></td>
+                                <td><i>Weak Rear Armor</i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="grd-row">
+        <div class="grd-row-col-6 rulePanel">
+            <label class="ruleTitle"><u>Gameplay</u></label>
+            <p></p>
+            <ul>
+                <li>Items with tags that effect the <i>Initiative Phase</i> must be activated and spent <b>before</b> the <i>Initiative Roll.</i></li>
+                <li>
+                    <b>Tag Interactions</b>
+                    <ul>
+                        <li><i>Heavy Armor</i>: can be used to reduce damage, but if damage in the <i>Resolution Phase</i> would exceed Unit's <i>Armor</i>, Unit is destroyed.</li>
+                        <li><i>Self-Healing</i>: Max <i>Armor</i> regained is limited to the <b>item's</b> <i>Size</i> value.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

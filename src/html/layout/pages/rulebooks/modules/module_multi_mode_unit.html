@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>LANDWAR GDK v0.4.0</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <link rel="stylesheet" href="../../../../../../node_modules/jquery-ui/dist/themes/base/jquery-ui.min.css" />
+    <link rel="stylesheet" href="../../../../../../node_modules/furtive/css/furtive.min.css" />
+    <link rel="stylesheet" href="../../../../../css/base_responsive.css"/>
+    <link rel="stylesheet" href="../../../../../css/styles.css"/>
+    <link rel="stylesheet" href="../../../../../css/pages/rulebook/rulebook.css"/>
+    <script>
+        
+    </script>
+</head>
+<body>
+<div class="grd">
+    <div class="grd-row">
+        <div class="grd-row-col-6 txt--center">
+            <h3><i>LANDWAR</i></h3> <h4>Module</h4>
+        </div>
+    </div>
+    <div class="grd-row">
+        <div class="grd-row-col-6 txt--center">
+            <h4><i>Multi-Mode / Alt-Mode Units</i></h4>
+        </div>
+    </div>
+    <div class="grd-row">
+        <div class="grd-row-col-6 txt--left thinPanel ">
+            <p><i>Multi-mode</i> rule allows players to take several different Unit cards and combine them into different <i>modes</i>. An Example unit 
+                would be a mech that could transform into a flying type of Unit.
+            </p>
+        </div>
+    </div>
+    <div class="grd-row">
+        <div class="grd-row-col-6 rulePanel">
+            <label class="ruleTitle"><u>Construction</u></label>
+            <p>Begin by building each mode as a standard unit.</p>
+            <ul>
+                <li>Each mode is a separate Unit entry, and tags are not shared by default (see exceptions).</li>
+                <li>Unit's total cost is the cost of the <b>highest</b> mode's points cost including tags.</li>
+                <li>Unit modes <b>may</b> have <b>different</b> <i>Armor</i> values, but see below for caveats.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="grd-row">
+        <div class="grd-row-col-6 rulePanel">
+            <label class="ruleTitle"><u>Gameplay</u></label>
+            <p></p>
+            <ul>
+                <li>
+                    <b>Initiative Phase</b>
+                    <ul>
+                        <li><b>Before</b> all players roll <i>initiative</i>, Players must declare if Unit is switching from one mode to another.</li>
+                        <li>IF Unit transforms, Unit cannot use any <i>initiative</i> tags this phase.</li>
+                        <li><b>Panicked</b> Units <b>cannot</b> transform.</li>
+                        <li>IF a Unit tranforms to a mode <b>with less total Armor than it currently has, unit is destroyed.</b></li>
+                    </ul>
+                </li>
+                <li>
+                    <b>Damage</b>
+                    <ul>
+                        <li>Unit takes damage as normal, when total damage exceeds any given mode, the Unit cannot switch to that mode without being <b>destroyed.</b></li>
+                    </ul>
+                </li>
+                <li>
+                    <b>Stress</b>
+                    <ul>
+                        <li>Stress is tracked <b>once</b> for <b>all</b> modes.</li>
+                        <li>Only the <b>active</b> Unit mode's tags may affect the Unit's <i>Stress</i> value and checks.</li>
+                    </ul>
+                </li>
+                <li>
+                    <b>Tag Interactions</b>
+                    <p>if tag is not listed here, assume the tag is applied as normal.</p>
+                    <ul>
+                        <li><i>[Area Denial]:</i> Place once on any 1 mode, applies to <b>all</b> modes.</li>
+                        <li>The following can only applied to the <b>highest</b> costed mode.
+                            <ul>
+                                <li><i>[Courage-I], [Courage-II], [Crew-I], [Crew-II]</i></li>
+                                <li><i>[Hero], [Mobile HQ], [Rank-Green], [Rank-Veteran], [Rank-Elite]</i></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>
