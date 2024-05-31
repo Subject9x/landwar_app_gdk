@@ -56,29 +56,7 @@ const tagInfo = {
                 return warn;
             },
             eqt:'(<b>Move</b> / 2) + (<b>Armor</b> / 2)'
-        },        
-        // {
-        //     abrv: 'ALTMDE',
-        //     title : 'Alt-Mode',
-        //     disabled : true,
-        //     // desc : "<p>Pick a Unit with <i>[Multi-Mode]</i> at <b>equal or greater</b> points cost. <i>This</i> Unit becomes a <i>mode</i> for the <i>[Multi-Mode]</i> Unit to transform into during the game. <b>Only</b> the mode with the <b>highest</> <i>Total points cost</i> is paid for and becomes the <i>[Multi-Mode]</i> unit.</p>",
-        //     desc : "",
-        //     func : (rowId) => {
-        //         return 0;/*TODO*/
-        //     },
-        //     reqs : (rowId) => {
-        //         // let warn = '';
-
-        //         // let unitName = document.getElementById(rowId + '_name').value;
-        //         // if( unitName === undefined || unitName.length == 0){
-        //         //     warn = warn + '<p>Unit <b>must have</b> a <i>Unit Name</i> value for keyword matching.</p>';
-        //         // }
-
-        //         // return warn;
-        //         return '';
-        //     },
-        //     // eqt:'Use the <b>highest</b> single Unit Cost from all shapes.'
-        // },
+        },
         {
             abrv: 'ARDNEL',
             title : 'Area Denial',
@@ -834,18 +812,6 @@ const tagInfo = {
             },
             eqt:'((((<b>Move</b> / 2) + (<b>Size</b> * 1.25) / 2) + (<b>Armor</b> * 0.7)) * 2'
         },
-        // {
-        //     disabled : true,
-        //     title : 'Hole where your house was',
-        //     //desc : '<p><i>Combat Phase</i>.<p>Once per game, once per this tag, <i>Player</i> may <b>remove 1</b> piece of Terrain when this unit is activated. For the next <b>2</b> <i>Turns</i>, Unit may only move as normal, and suffers <b>+2</b> Stress.</p>',
-        //     func : (rowId) => {
-        //         return 0;  /*TODO */
-        //     },
-        //     reqs : (rowId) => {
-        //         return '';
-        //     },
-        //     //eqt:''
-        // },
         {
             abrv: 'HLGUN1',
             title : 'Hull Gun - I',
@@ -1069,18 +1035,6 @@ const tagInfo = {
             },
             eqt:'<i>Subtract</i> (<b>Damage-Range<b> <i>COST</i> * 45%)'
         },
-        // {
-        //     disabled : true,
-        //     title : 'Limited Use Weapon',
-        //     // desc : '<p><i>Combat Phase</i></p><p>Unit has an extra weapon and use at specificed ATK and specified range in place of its normal attack. Discard after use.</p>',
-        //     func : (rowId) => {
-        //         return 0; /*TODO*/
-        //     },
-        //     reqs : (rowId) => {
-        //         return '';
-        //     },
-        //     // eqt:'TODO'
-        // },
         {
             abrv: 'RNGMIN',
             title : 'Minimum Range',
@@ -1140,26 +1094,6 @@ const tagInfo = {
             },
             eqt:'<i>Unit base total COST</i> * 33%'
         },
-        // {
-        //     title : 'Multi-Mode',
-        //     // desc : "<p>Pick a Unit with <i>[Alt-Mode]</i> at <b>equal or lesser</b> points cost. Instead of moving, you can replace this Unit with the selected <i>[Alt-Mode]</i> Unit. Replacement Unit <b>retains all damage and tokens</b>.</p><p><b>If</b> the damage exceeds that Unit's <b>Armor</b>, it is <b>destroyed</b>.</p>",
-        //     disabled : true,
-        //     func : (rowId) => {
-        //         return 0;/*TODO*/
-        //     },
-        //     reqs : (rowId) => {
-        //         // let warn = '';
-
-        //         // let unitName = document.getElementById(rowId + '_name').value;
-        //         // if( unitName === undefined || unitName.length == 0){
-        //         //     warn = warn + '<p>Unit <b>must have</b> a <i>Unit Name</i> value for keyword matching.</p>';
-        //         // }
-
-        //         // return warn;
-        //         return '';
-        //     },
-        //     // eqt:'Use the <b>highest</b> single Unit Cost from all shapes.'
-        // },
         {
             abrv: 'ARC-NAR',
             title : 'Narrow Fire Arc',
@@ -1631,29 +1565,6 @@ const tagInfo = {
             },
             eqt:'(<b>Move</b> / 1.5) + (<b>Armor</b> / 3) + (<b>Range</b> / 1.5) + (<b>DMG-R</b> / 2)'
         },
-        // // moved to advanced rules.
-        // {
-        //     abrv: 'CMPUNIT',
-        //     title : 'Composite Unit',
-        //     disabled : true,
-        //     // desc : '<p>Player may use <b>1</b> model to represent <i>multiple</i> Unit Info cards. Each Unit Card must have <b>matching</b> <i>Size, Move</i> stats. Attacking players may <b>choose</b> which Unit Info Card to target whenever the <i>model</i> is the target of an attack. Unit is destroyed when the <b>last</b> Unit Info Card is destroyed, but each specific Unit Card is disabled when its Armor reached 0.</p>',
-        //     desc : '',
-        //     func : (rowId) => {
-        //         return 0;
-        //     },
-        //     reqs : (rowId) => {
-        //         // let warn = '';
-        //         // let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
-                
-        //         // if(sizeVal <= 0){
-        //         //     warn = warn + '<p>Unit must have a <b>[Size]</b> greater than 0.</p>';
-        //         // }
-
-        //         // return warn;
-        //         return '';
-        //     },
-        //     eqt:'<i>none</i> '
-        // },
         {
             abrv: 'FLDART',
             title : 'Field Artillery',

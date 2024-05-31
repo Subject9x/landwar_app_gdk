@@ -138,12 +138,12 @@
                         <div class="grd-row-col-3-6 rulePanel">
                             <label class="ruleTitle"><u>Danger Close</u></label>
                             <ul>
-                                <li>When a Unit <b>starts</b> their Move 2" <b>or less</b> from at least 1 Enemy Unit that has <i>Melee</i> <b>greater than 0</b>
+                                <li>When a Unit <b>starts</b> their Move <b>2" or less</b> from at least 1 Enemy Unit that has <i>Melee</i> <b>greater than 0</b>
                                     <ul>
-                                        <li>Unit may only move <b>half</b> their current <i>Move</i> value.</li>
+                                        <li>Unit may only move <b>half</b> their current <i>Move</i> value rounded up.</li>
                                         <li>Unit suffers <b>+1 Stress</b>.</li>
                                         <li>Unit suffers <b>-1 ATK</b> for <i>Ranged Attacks</i> this turn.</li>
-                                        <li>When targeting any Unit that was in <i>Melee Range</i> before Unit's move, Unit suffers additional <b>-1 ATK</b> for <i>Ranged Attacks</i>.</li>
+                                        <li>Targeting any Unit that was in <i>Melee Range</i> <b>before</b> Unit's move, Unit suffers <b>additional -1 ATK</b> for <i>Ranged Attacks</i>.</li>
                                     </ul>
                                 </li>
                             </ul>
@@ -190,6 +190,7 @@
                                         <li>See <i>Focus Fire</i> below this section.</li>
                                     </ul>
                                 </li>
+                                <li>Target <b>cannot</b> be <b>2" or less</b> from any <i>friendly</i> model.</li>
                                 <li><b>TAG rules</b> may override, add, or change these qualifications!</li>
                             </ul>
                         </div>
@@ -198,7 +199,7 @@
                             <h4>Melee Attacks</h4>
                             <ul class="sectionOrderList txt--left">
                                 <li>Unit <b>must have</b> a <i>Melee Damage</i> stat greater than 0.</li>
-                                <li>Target must be in <i>Melee Range</i> of Unit. - <i>default</i> 0-1".</li>
+                                <li>Target must be in <i>Melee Range</i> of Unit. <i>default</i> 1".</li>
                                 <li>Target <b>must</b> be in the Attacker's <i>Forward Arc</i>. </li>
                             </ul>
                         </div>
@@ -208,7 +209,7 @@
                             <label class="ruleTitle"><u>Range Brackets</u></label>
                             <p>There are only 3 main Range Brackets in the game.</p>
                             <ul class="sectionOrderList">
-                                <li><b>Melee</b> - 0" to 1".</li>
+                                <li><b>Melee</b> is 0" to 1".</li>
                                 <li><b>Effective Range</b>, <i>default</i> is 16".
                                     <ul>
                                         <li >Units can have their <i>own</i> Effective Range using the <i>Range</i> stat on their Info Card.</li>
@@ -264,7 +265,7 @@
                                 <div class="grd-row">
                                     <div class="grd-row-col-6 rulePanel">
                                         <label class="ruleTitle"><u>Short Range Attack</u></label>
-                                        <p><i>When</i> the Target is <b>1" to 4" away.</b></p>
+                                        <p><i>When</i> the Target is <b>2" to 4" away.</b></p>
                                         <ul class="sectionOrderList">
                                             <li><i>Attacker</i> gains <b>+1 ATK.</b></li>
                                         </ul>
