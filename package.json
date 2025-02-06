@@ -11,7 +11,7 @@
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
     "distx64": "electron-builder --windows",
-    "publish" : "electron-forge publish"
+    "publish": "electron-forge publish"
   },
   "author": "Peter Roohr",
   "license": "ISC",
@@ -33,7 +33,8 @@
     "furtive": "2.4.0",
     "jquery": "3.6.0",
     "jquery-ui": "1.13.2",
-    "node-csv": "0.1.2"
+    "node-csv": "0.1.2",
+    "pagedjs": "^0.4.3"
   },
   "build": {
     "appId": "landwar-gdk",

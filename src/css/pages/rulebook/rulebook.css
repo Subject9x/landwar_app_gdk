@@ -1,4 +1,26 @@
 
+@page {
+    size: A4;
+    margin: 10mm 10mm;
+    /*bleed: 6mm;*/
+    /*marks: crop cross;*/
+
+    @bottom-center {
+      content: counter(page);
+      text-transform: none;
+      font-weight: bold;
+      font-size: large;
+    }
+}
+@page:left {
+    margin-left: 15mm;
+    margin-right: 15mm;
+}
+@page:right {
+    margin-left: 15mm;
+    margin-right: 15mm;
+}
+
 .thinPanel{
     border-style: solid;
     border-width: 2px;
@@ -57,12 +79,26 @@
     margin-left: 4px;
 }
 
+.rulePanel>ul{
+    margin-top: -10px;
+}
+
 .rulePanel>tbody>tr>td{
     text-align: center;
+    font-size: x-small;
 }
 
 .infoSmall{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: small;
     font-weight: 400;
+}
+
+.tableOfContents>div{
+    margin-bottom: 20px;
+}
+.tableOfContents>div>div{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: large;
+    font-weight: normal;
 }
