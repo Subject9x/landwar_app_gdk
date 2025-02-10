@@ -63,9 +63,7 @@ function uc_calc_Armor(armorVal, sizeVal){
     armorVal = armorVal * 4;
 
     armorVal = armorVal + armorFrac;
-
-
-
+    
     return Math.max(0, (armorVal - sizeVal / 2));
 }
 
