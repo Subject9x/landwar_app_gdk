@@ -33,7 +33,8 @@ function uc_calc_Damage_Melee(meleeDamageVal, moveVal){
     if(meleeDamageVal === 0){
         return 0;
     }
-    return (meleeDamageVal * 2) + (moveVal / 4) ;
+    // return (meleeDamageVal * 2) + (moveVal / 4) ;
+    return meleeDamageVal / 2 + (moveVal / 4) ;
 }
 
 function uc_calc_Damage_Range(rangeDamageVal){
@@ -62,9 +63,7 @@ function uc_calc_Armor(armorVal, sizeVal){
     armorVal = armorVal * 4;
 
     armorVal = armorVal + armorFrac;
-
-
-
+    
     return Math.max(0, (armorVal - sizeVal / 2));
 }
 

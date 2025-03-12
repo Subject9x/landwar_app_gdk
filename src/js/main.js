@@ -229,7 +229,7 @@ ipcMain.handle('rb-open-rules', (event, htmlFile)=>{
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: true,
-      devTools : false,
+      devTools : true,
       frame : false
     }
   });

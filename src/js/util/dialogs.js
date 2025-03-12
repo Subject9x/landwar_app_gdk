@@ -25,7 +25,8 @@ const dialogSavePDFOptions ={
 }
 
 const pdfSaveOptions = {
-    marginsType: 0,
+    marginsType: 1, //1 - no margins
+    
     pageSize: 'A4',
     printBackground: false,
     printSelectionOnly: false,

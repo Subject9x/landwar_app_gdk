@@ -56,29 +56,7 @@ const tagInfo = {
                 return warn;
             },
             eqt:'(<b>Move</b> / 2) + (<b>Armor</b> / 2)'
-        },        
-        // {
-        //     abrv: 'ALTMDE',
-        //     title : 'Alt-Mode',
-        //     disabled : true,
-        //     // desc : "<p>Pick a Unit with <i>[Multi-Mode]</i> at <b>equal or greater</b> points cost. <i>This</i> Unit becomes a <i>mode</i> for the <i>[Multi-Mode]</i> Unit to transform into during the game. <b>Only</b> the mode with the <b>highest</> <i>Total points cost</i> is paid for and becomes the <i>[Multi-Mode]</i> unit.</p>",
-        //     desc : "",
-        //     func : (rowId) => {
-        //         return 0;/*TODO*/
-        //     },
-        //     reqs : (rowId) => {
-        //         // let warn = '';
-
-        //         // let unitName = document.getElementById(rowId + '_name').value;
-        //         // if( unitName === undefined || unitName.length == 0){
-        //         //     warn = warn + '<p>Unit <b>must have</b> a <i>Unit Name</i> value for keyword matching.</p>';
-        //         // }
-
-        //         // return warn;
-        //         return '';
-        //     },
-        //     // eqt:'Use the <b>highest</b> single Unit Cost from all shapes.'
-        // },
+        },
         {
             abrv: 'ARDNEL',
             title : 'Area Denial',
@@ -116,7 +94,7 @@ const tagInfo = {
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
-                return (uc_calc_Damage_Melee(meleeDamageVal, moveVal) * 0.8);
+                return (uc_calc_Damage_Melee(meleeDamageVal, moveVal) * 0.6);
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -126,12 +104,12 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'<i>Melee Damage COST</i> * 80%'
+            eqt:'<i>Melee Damage COST</i> * 60%'
         },
         {
             abrv: 'AP-RNG',
             title : 'Armor Piercing - Ranged',
-            desc : "<p><i>Combat Phase</i></p><p>When applying Damage from this unit's <i>Ranged</i> attack; <b>If</b> Target has the <i>[Heavy Armor]</b> tag, <b>ignore it</b>. If Target does not have this tag, Target suffers <b>+2 Stress</b> along with the damage of the attack.</p>",
+            desc : "<p><i>Combat Phase</i></p><p>When applying Damage from this unit's <i>Ranged</i> attack; <b>If</b> Target has the <i>[Heavy Armor]</i> tag, <b>ignore it</b>. If Target <b>does not</b> have <i>[Heavy Armor]</i>, Target suffers <b>+2 Stress</b> along with the damage of the attack. <i>DMG</i> value of this attack must <b>always be 4+</b>.</p>",
             func : (rowId) => {
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
                 return (uc_calc_Damage_Range(rangeDamageVal) * 0.8);
@@ -377,7 +355,7 @@ const tagInfo = {
                     sizeVal = 1;
                 }
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
-                return (sizeVal *2) + (moveVal / 2);
+                return (sizeVal * 1.5) + (moveVal / 2);
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -390,7 +368,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'(<b>Size</b> * 2) + (<b>Move</b> / 2)'
+            eqt:'(<b>Size</b> * 1.5) + (<b>Move</b> / 2)'
         },
         {
             abrv: 'CLOAK',
@@ -737,7 +715,7 @@ const tagInfo = {
                     moveVal = 4;
                 }
 
-                return sizeVal + (moveCost * 0.25);
+                return (0 - (sizeVal * 0.5)) + (moveCost * 0.25);
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -751,7 +729,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'<b>Size</b> + (<i>Move Cost</i> * 0.25)'
+            eqt:'(0 - (<b>Size</b> * %50)) + (<i>Move Cost</i> * 0.25)'
         },
         {
             abrv: 'HVYARM',
@@ -834,18 +812,6 @@ const tagInfo = {
             },
             eqt:'((((<b>Move</b> / 2) + (<b>Size</b> * 1.25) / 2) + (<b>Armor</b> * 0.7)) * 2'
         },
-        // {
-        //     disabled : true,
-        //     title : 'Hole where your house was',
-        //     //desc : '<p><i>Combat Phase</i>.<p>Once per game, once per this tag, <i>Player</i> may <b>remove 1</b> piece of Terrain when this unit is activated. For the next <b>2</b> <i>Turns</i>, Unit may only move as normal, and suffers <b>+2</b> Stress.</p>',
-        //     func : (rowId) => {
-        //         return 0;  /*TODO */
-        //     },
-        //     reqs : (rowId) => {
-        //         return '';
-        //     },
-        //     //eqt:''
-        // },
         {
             abrv: 'HLGUN1',
             title : 'Hull Gun - I',
@@ -932,7 +898,7 @@ const tagInfo = {
         {
             abrv: 'INERTIAL',
             title : 'Inertial Dampers',
-            desc : '<p><i>Movemnt Phase</i></p><p>"When Move is greater than 12", treat this Unit as having moved only 11" in the Combat Phase.</p>',
+            desc : '<p><i>Combat Phase</i></p><p>If Unit completes move that was <i>High Speed Move</i> (14+"), ignore the <b>-2 ATK</b> effect. </p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 if(sizeVal == 0){
@@ -975,13 +941,13 @@ const tagInfo = {
         {
             abrv: 'JGRNAT',
             title : 'Juggernaut',
-            desc : '<p><i>Movement Phase</i><p/><p>Units <i>Ranged Attacks</i> suffer <b>-1 ATK</b>.</p><p>Any time Unit enters <i>Melee Range</i> after moving <b>1/2 or more</b> of their current <i>Move Value</i>, <b>+Size/2</b> to Units next <i>Melee Attack</i>.</p>',
+            desc : '<p><i>Movement Phase</i><p/><p>Units <i>Ranged Attacks</i> suffer <b>-1 ATK</b>.</p><p>Any time Unit enters <i>Melee Range</i> after moving <b>1/2 or more</b> of their current <i>Move Value</i>, <b>+Size / 2</b> to Units next <i>Melee Attack</i>.</p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let meleeDamageVal = parseInt(document.getElementById(rowId + '_DMGM').value);
 
-                return ((sizeVal * 3) + (moveVal + (moveVal * 0.5)) + meleeDamageVal) / 2;
+                return (sizeVal * 0.5) + (moveVal * 0.5) + (meleeDamageVal * 0.25);
             },
             reqs : (rowId) => {
                 let warn = '';
@@ -999,7 +965,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'<i>average</i> (<b>Size</b> * 3) + (<b>Move</b> + 50%) + <b>DMG-M</b>'
+            eqt:'(50% <b>Size</b> round down) + (50% <b>Move</b> round down) + (<b>Damage-Melee</b> 25% round up)'
         },
         {
             abrv: 'JJ',
@@ -1069,18 +1035,6 @@ const tagInfo = {
             },
             eqt:'<i>Subtract</i> (<b>Damage-Range<b> <i>COST</i> * 45%)'
         },
-        // {
-        //     disabled : true,
-        //     title : 'Limited Use Weapon',
-        //     // desc : '<p><i>Combat Phase</i></p><p>Unit has an extra weapon and use at specificed ATK and specified range in place of its normal attack. Discard after use.</p>',
-        //     func : (rowId) => {
-        //         return 0; /*TODO*/
-        //     },
-        //     reqs : (rowId) => {
-        //         return '';
-        //     },
-        //     // eqt:'TODO'
-        // },
         {
             abrv: 'RNGMIN',
             title : 'Minimum Range',
@@ -1140,26 +1094,6 @@ const tagInfo = {
             },
             eqt:'<i>Unit base total COST</i> * 33%'
         },
-        // {
-        //     title : 'Multi-Mode',
-        //     // desc : "<p>Pick a Unit with <i>[Alt-Mode]</i> at <b>equal or lesser</b> points cost. Instead of moving, you can replace this Unit with the selected <i>[Alt-Mode]</i> Unit. Replacement Unit <b>retains all damage and tokens</b>.</p><p><b>If</b> the damage exceeds that Unit's <b>Armor</b>, it is <b>destroyed</b>.</p>",
-        //     disabled : true,
-        //     func : (rowId) => {
-        //         return 0;/*TODO*/
-        //     },
-        //     reqs : (rowId) => {
-        //         // let warn = '';
-
-        //         // let unitName = document.getElementById(rowId + '_name').value;
-        //         // if( unitName === undefined || unitName.length == 0){
-        //         //     warn = warn + '<p>Unit <b>must have</b> a <i>Unit Name</i> value for keyword matching.</p>';
-        //         // }
-
-        //         // return warn;
-        //         return '';
-        //     },
-        //     // eqt:'Use the <b>highest</b> single Unit Cost from all shapes.'
-        // },
         {
             abrv: 'ARC-NAR',
             title : 'Narrow Fire Arc',
@@ -1497,12 +1431,12 @@ const tagInfo = {
         {
             abrv: 'SPRCHRGR',
             title : 'Supercharger',
-            desc : "<p><i>Movement Phase</i></p><p>If Unit moved in the <i>Movement Phase</i>, Unit may move up to 25% its total <b>Move</b> immediately after this Turn's <i>Attack Phase</i>.</p>",
+            desc : "<p><i>Movement Phase</i></p><p>If Unit moved in the <i>Movement Phase</i>, Unit may move up to 33% its total <b>Move</b> immediately after this Turn's <i>Attack Phase</i>.</p>",
             func : (rowId) => {
                 let moveVal = parseInt(document.getElementById(rowId + '_move').value);
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 
-                let cost = sizeVal / moveVal * moveVal;
+                let cost =((sizeVal / moveVal) * (moveVal * 0.4));
 
                 return cost;
             },
@@ -1517,7 +1451,7 @@ const tagInfo = {
                 }
                 return warn;
             },
-            eqt:'(<b>Size</b> / <b>Move</b>) * <b>Move</b>'
+            eqt:'(<b>Size</b> / <b>Move</b>) * (40% <b>Move</b> )'
         },
         {
             abrv: 'TRFFY',
@@ -1631,29 +1565,6 @@ const tagInfo = {
             },
             eqt:'(<b>Move</b> / 1.5) + (<b>Armor</b> / 3) + (<b>Range</b> / 1.5) + (<b>DMG-R</b> / 2)'
         },
-        // // moved to advanced rules.
-        // {
-        //     abrv: 'CMPUNIT',
-        //     title : 'Composite Unit',
-        //     disabled : true,
-        //     // desc : '<p>Player may use <b>1</b> model to represent <i>multiple</i> Unit Info cards. Each Unit Card must have <b>matching</b> <i>Size, Move</i> stats. Attacking players may <b>choose</b> which Unit Info Card to target whenever the <i>model</i> is the target of an attack. Unit is destroyed when the <b>last</b> Unit Info Card is destroyed, but each specific Unit Card is disabled when its Armor reached 0.</p>',
-        //     desc : '',
-        //     func : (rowId) => {
-        //         return 0;
-        //     },
-        //     reqs : (rowId) => {
-        //         // let warn = '';
-        //         // let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
-                
-        //         // if(sizeVal <= 0){
-        //         //     warn = warn + '<p>Unit must have a <b>[Size]</b> greater than 0.</p>';
-        //         // }
-
-        //         // return warn;
-        //         return '';
-        //     },
-        //     eqt:'<i>none</i> '
-        // },
         {
             abrv: 'FLDART',
             title : 'Field Artillery',
