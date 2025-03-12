@@ -109,7 +109,7 @@ const tagInfo = {
         {
             abrv: 'AP-RNG',
             title : 'Armor Piercing - Ranged',
-            desc : "<p><i>Combat Phase</i></p><p>When applying Damage from this unit's <i>Ranged</i> attack; <b>If</b> Target has the <i>[Heavy Armor]</b> tag, <b>ignore it</b>. If Target does not have this tag, Target suffers <b>+2 Stress</b> along with the damage of the attack.</p>",
+            desc : "<p><i>Combat Phase</i></p><p>When applying Damage from this unit's <i>Ranged</i> attack; <b>If</b> Target has the <i>[Heavy Armor]</i> tag, <b>ignore it</b>. If Target <b>does not</b> have <i>[Heavy Armor]</i>, Target suffers <b>+2 Stress</b> along with the damage of the attack. <i>DMG</i> value of this attack must <b>always be 4+</b>.</p>",
             func : (rowId) => {
                 let rangeDamageVal = parseInt(document.getElementById(rowId + '_DMGR').value);
                 return (uc_calc_Damage_Range(rangeDamageVal) * 0.8);
@@ -898,7 +898,7 @@ const tagInfo = {
         {
             abrv: 'INERTIAL',
             title : 'Inertial Dampers',
-            desc : '<p><i>Movemnt Phase</i></p><p>"When Move is greater than 12", treat this Unit as having moved only 11" in the Combat Phase.</p>',
+            desc : '<p><i>Combat Phase</i></p><p>If Unit completes move that was <i>High Speed Move</i> (14+"), ignore the <b>-2 ATK</b> effect. </p>',
             func : (rowId) => {
                 let sizeVal = parseInt(document.getElementById(rowId + '_size').value);
                 if(sizeVal == 0){
